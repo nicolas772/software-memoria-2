@@ -19,8 +19,8 @@ module.exports = function(app) {
   );
 
   app.get(
-    "/api/test/testinguser",
-    [authJwt.verifyToken, authJwt.isTestingUser],
-    controller.testingUserBoard
+    "/api/test/user",
+    [authJwt.verifyToken, authJwt.isUser],
+    controller.userBoard
   );
 };

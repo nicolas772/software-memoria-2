@@ -41,18 +41,18 @@ isTester = (req, res, next) => { //isAdmin ahora es isTester
   });
 };
 
-isTestingUser = (req, res, next) => { //isModerator ahora es isTestingUser
+isUser = (req, res, next) => { //isModerator ahora es isTestingUser
   User.findByPk(req.userId).then(user => {
     user.getRoles().then(roles => {
       for (let i = 0; i < roles.length; i++) {
-        if (roles[i].name === "testingUser") {
+        if (roles[i].name === "user") {
           next();
           return;
         }
       }
 
       res.status(403).send({
-        message: "Require Testing User Role!"
+        message: "Require User Role!"
       });
     });
   });
@@ -61,6 +61,6 @@ isTestingUser = (req, res, next) => { //isModerator ahora es isTestingUser
 const authJwt = {
   verifyToken: verifyToken,
   isTester: isTester,
-  isTestingUser: isTestingUser
+  isUser: isUser
 };
 module.exports = authJwt;
