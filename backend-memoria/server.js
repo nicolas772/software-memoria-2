@@ -24,9 +24,9 @@ app.get("/", (req, res) => {
 });
 
 //synchronizing the database and forcing it to false so we dont lose data
-db.sequelize.sync({force: true}).then(() => {
+db.sequelize.sync({force: false}).then(() => {
     console.log('Drop and Resync Db');
-    initial();
+    //initial();
 });
 
 // routes
@@ -39,7 +39,7 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
 
-function initial() {
+/*function initial() {
     Role.create({
       id: 1,
       name: "user"
@@ -49,4 +49,4 @@ function initial() {
       id: 2,
       name: "tester"
     });
-}
+}*/
