@@ -108,6 +108,12 @@ const Register = () => {
   return (
     <div className="col-md-12">
       <div className="card card-container">
+        <img
+          src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+          alt="profile-img"
+          className="profile-img-card"
+        />
+
         <Form onSubmit={handleRegister} ref={form}>
           {!successful && (
             <div>
@@ -156,14 +162,12 @@ const Register = () => {
                     name="isTester"
                     onChange={onChangeIsTester}
                   />
-
                   Quiero registrarme como Tester
-
                 </div>
               </div>
 
               <div className="form-group">
-                <button className="btn btn-primary btn-block">Registrarse</button>
+                <button className="btn btn-primary btn-block">Registrarme</button>
               </div>
             </div>
           )}
@@ -171,7 +175,7 @@ const Register = () => {
           {message && (
             <div className="form-group">
               <div
-                className={successful ? "alert alert-success" : "alert alert-danger"}
+                className={ successful ? "alert alert-success" : "alert alert-danger" }
                 role="alert"
               >
                 {message}
@@ -186,3 +190,4 @@ const Register = () => {
 }
 
 export default Register;
+
