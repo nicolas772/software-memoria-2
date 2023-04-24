@@ -15,6 +15,7 @@ import BoardTester from "./components/BoardTester";
 
 const App = () => {
   const [showTesterBoard, setShowTesterBoard] = useState(false);
+  const [showUserBoard, setShowUserBoard] = useState(false);
   const [currentUser, setCurrentUser] = useState(undefined);
 
   useEffect(() => {
@@ -22,6 +23,7 @@ const App = () => {
 
     if (user) {
       setCurrentUser(user);
+      setShowUserBoard(user.roles.includes("ROLE_USER"));
       setShowTesterBoard(user.roles.includes("ROLE_TESTER"));
     }
   }, []);
@@ -39,7 +41,7 @@ const App = () => {
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
             <Link to={"/home"} className="nav-link">
-              Home
+              Inicio
             </Link>
           </li>
 
@@ -51,10 +53,10 @@ const App = () => {
             </li>
           )}
 
-          {currentUser && (
+          {showUserBoard && (
             <li className="nav-item">
               <Link to={"/user"} className="nav-link">
-                User
+                User Board
               </Link>
             </li>
           )}
@@ -64,12 +66,12 @@ const App = () => {
           <div className="navbar-nav ml-auto">
             <li className="nav-item">
               <Link to={"/profile"} className="nav-link">
-                {currentUser.username}
+                @{currentUser.username}
               </Link>
             </li>
             <li className="nav-item">
               <a href="/login" className="nav-link" onClick={logOut}>
-                LogOut
+                Cerrar Sesión
               </a>
             </li>
           </div>
@@ -77,13 +79,13 @@ const App = () => {
           <div className="navbar-nav ml-auto">
             <li className="nav-item">
               <Link to={"/login"} className="nav-link">
-                Login
+                Iniciar Sesión
               </Link>
             </li>
 
             <li className="nav-item">
               <Link to={"/register"} className="nav-link">
-                Sign Up
+                Registrarse
               </Link>
             </li>
           </div>

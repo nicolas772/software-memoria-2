@@ -53,6 +53,7 @@ const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isTester, setIsTester] = useState(false)
   const [successful, setSuccessful] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -71,6 +72,10 @@ const Register = () => {
     setPassword(password);
   };
 
+  const onChangeIsTester = (e) => {
+    setIsTester(e.target.checked);
+  };
+
   const handleRegister = (e) => {
     e.preventDefault();
 
@@ -80,7 +85,7 @@ const Register = () => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      AuthService.register(username, email, password).then(
+      AuthService.register(username, email, password, isTester).then(
         (response) => {
           setMessage(response.data.message);
           setSuccessful(true);
@@ -143,6 +148,21 @@ const Register = () => {
               </div>
 
               <div className="form-group">
+                <div className="form-check">
+                  <label className="form-check-label" htmlFor="isTester"></label>
+                  <Input
+                    className="form-check-input"
+                    type="checkbox"
+                    name="isTester"
+                    onChange={onChangeIsTester}
+                  />
+
+                  Quiero registrarme como Tester
+
+                </div>
+              </div>
+
+              <div className="form-group">
                 <button className="btn btn-primary btn-block">Registrarse</button>
               </div>
             </div>
@@ -151,7 +171,7 @@ const Register = () => {
           {message && (
             <div className="form-group">
               <div
-                className={ successful ? "alert alert-success" : "alert alert-danger" }
+                className={successful ? "alert alert-success" : "alert alert-danger"}
                 role="alert"
               >
                 {message}
