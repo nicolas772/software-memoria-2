@@ -1,0 +1,28 @@
+module.exports = (sequelize, Sequelize) => {
+  const Study = sequelize.define("studies", {
+    id: {
+      type: Sequelize.INTEGER,
+      primaryKey: true
+    },
+    software_name: {
+      type: Sequelize.STRING
+    },
+    software_tipe: {
+      type: Sequelize.STRING
+    },
+    url: {
+      type: Sequelize.STRING
+    },
+    start_date: {
+      type: Sequelize.DATE
+    },
+    end_date: {
+      type: Sequelize.DATE
+    },
+    iteration_qty: {
+      type: Sequelize.INTEGER,
+    }
+  });
+
+  return Study;
+};

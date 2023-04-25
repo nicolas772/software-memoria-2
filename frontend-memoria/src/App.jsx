@@ -11,6 +11,8 @@ import Home from "./components/Home";
 import Profile from "./components/Profile";
 import BoardUser from "./components/BoardUser";
 import BoardTester from "./components/BoardTester";
+import Studies from "./components/Studies";
+import FormStudy from "./components/FormStudy";
 
 
 const App = () => {
@@ -46,11 +48,18 @@ const App = () => {
           </li>
 
           {showTesterBoard && (
+            <>
             <li className="nav-item">
               <Link to={"/tester"} className="nav-link">
                 Tester Board
               </Link>
             </li>
+            <li className="nav-item">
+            <Link to={"/studies"} className="nav-link">
+              Estudios
+            </Link>
+          </li>
+          </>
           )}
 
           {showUserBoard && (
@@ -101,6 +110,8 @@ const App = () => {
           <Route path="/profile" element={<Profile/>} />
           <Route path="/user" element={<BoardUser/>} />
           <Route path="/tester" element={<BoardTester/>} />
+          <Route path="/studies" element={<Studies/>} />
+          <Route path="/studies/new-study" element={<FormStudy/>} />
         </Routes>
       </div>
     </div>
