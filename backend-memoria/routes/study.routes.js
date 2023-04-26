@@ -1,5 +1,5 @@
 const controller = require("../controllers/study.controller");
-const { verifyStudy } = require("../middleware");
+const { authJwt, verifyStudy } = require("../middleware");
 
 module.exports = function(app) {
   app.use(function(req, res, next) {
@@ -11,4 +11,11 @@ module.exports = function(app) {
   });
 
   app.post("/api/study/create", [verifyStudy.checkDuplicateStudyName], controller.create);
+  
+  app.get(
+    "/api/test/studies",
+    [authJwt.verifyToken, authJwt.isTester],
+    controller.getStudies
+  );
 };
+

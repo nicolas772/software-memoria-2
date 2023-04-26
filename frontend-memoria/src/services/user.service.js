@@ -15,10 +15,15 @@ const getTesterBoard = () => {
   return axios.get(API_URL + "tester", { headers: authHeader() });
 };
 
+const getStudies = () => {
+  return axios.get(API_URL + "studies", { headers: authHeader() });
+}
+
 const UserService = {
   getPublicContent,
   getUserBoard,
-  getTesterBoard
+  getTesterBoard,
+  getStudies,
 };
 
 export default UserService;

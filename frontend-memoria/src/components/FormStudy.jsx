@@ -7,9 +7,10 @@ import AuthService from "../services/auth.service";
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
-import { registerLocale, setDefaultLocale } from "react-datepicker";
+import { registerLocale } from "react-datepicker";
 import es from 'date-fns/locale/es';
 registerLocale('es', es)
+import { isURL } from "validator";
 
 const required = (value) => {
   if (!value) {
@@ -20,6 +21,16 @@ const required = (value) => {
     )
   }
 }
+
+const validURL = (value) => {
+  if (!isURL(value, { allow_protocol_relative_urls: true })) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        Este no es una URL válida.
+      </div>
+    );
+  }
+};
 
 const vsoftwarename = (value) => {
   if (value.length < 3 || value.length > 20) {
@@ -42,8 +53,9 @@ const FormStudy = () => {
   const [successful, setSuccessful] = useState(false);
   const [message, setMessage] = useState("");
   const [currentUser, setCurrentUser] = useState(undefined);
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [badEndDate, setBadEndDate] = useState(false)
 
   const onChangeSoftwareName = (e) => {
     const softwareName = e.target.value;
@@ -57,6 +69,24 @@ const FormStudy = () => {
     const softwareUrl = e.target.value;
     setSoftwareUrl(softwareUrl);
   };
+
+  const handleStartCalendar = (date) => {
+    setStartDate(date)
+    if(date>endDate && endDate !== null){
+      setBadEndDate(true)
+    }else{
+      setBadEndDate(false)
+    }
+  }
+
+  const handleEndCalendar = (date) => {
+    setEndDate(date)
+    if (date < startDate) {
+      setBadEndDate(true)
+    } else {
+      setBadEndDate(false)
+    }
+  }
 
   useEffect(() => {
     const user = AuthService.getCurrentUser();
@@ -130,6 +160,7 @@ const FormStudy = () => {
                   name="softwareurl"
                   value={softwareUrl}
                   onChange={onChangeSoftwareUrl}
+                  validations={[validURL]}
                 />
               </div>
 
@@ -138,7 +169,10 @@ const FormStudy = () => {
                 <DatePicker
                   locale="es"
                   selected={startDate}
-                  onChange={(date) => setStartDate(date)}
+                  onChange={handleStartCalendar}
+                  minDate={new Date()}
+                  showDisabledMonthNavigation
+                  placeholderText="mm/dd/aaaa"
                 />
               </div>
 
@@ -147,8 +181,16 @@ const FormStudy = () => {
                 <DatePicker
                   locale="es"
                   selected={endDate}
-                  onChange={(date) => setEndDate(date)}
+                  onChange={handleEndCalendar}
+                  minDate={new Date()}
+                  showDisabledMonthNavigation
+                  placeholderText="mm/dd/aaaa"
                 />
+                {badEndDate && (
+                  <div className="alert alert-danger" role="alert">
+                    La fecha de término de estudio debe ser posterior a la fecha de inicio.
+                  </div>
+                )}
               </div>
 
               <div className="form-group">

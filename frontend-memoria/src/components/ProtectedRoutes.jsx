@@ -1,6 +1,5 @@
 import { Outlet, Navigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
-import Home from "./Home";
 
 const ProtectedRoutes = () => {
   const user = AuthService.getCurrentUser();
