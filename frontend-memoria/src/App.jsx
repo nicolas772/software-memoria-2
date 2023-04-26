@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-
 import AuthService from "./services/auth.service";
 
 import Login from "./components/Login";
@@ -13,6 +12,7 @@ import BoardUser from "./components/BoardUser";
 import BoardTester from "./components/BoardTester";
 import Studies from "./components/Studies";
 import FormStudy from "./components/FormStudy";
+import ProtectedRoutes from "./components/ProtectedRoutes";
 
 
 const App = () => {
@@ -37,7 +37,7 @@ const App = () => {
   return (
     <div>
       <nav className="navbar navbar-expand navbar-dark bg-dark">
-        <Link to={"/"} className="navbar-brand">
+        <Link to={"/home"} className="navbar-brand">
           Proyecto Memoria
         </Link>
         <div className="navbar-nav mr-auto">
@@ -49,17 +49,17 @@ const App = () => {
 
           {showTesterBoard && (
             <>
-            <li className="nav-item">
-              <Link to={"/tester"} className="nav-link">
-                Tester Board
-              </Link>
-            </li>
-            <li className="nav-item">
-            <Link to={"/studies"} className="nav-link">
-              Estudios
-            </Link>
-          </li>
-          </>
+              <li className="nav-item">
+                <Link to={"/tester"} className="nav-link">
+                  Tester Board
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to={"/studies"} className="nav-link">
+                  Estudios
+                </Link>
+              </li>
+            </>
           )}
 
           {showUserBoard && (
@@ -103,15 +103,16 @@ const App = () => {
 
       <div className="container mt-3">
         <Routes>
-          <Route path="/" element={<Home/>} />
-          <Route path="/home" element={<Home/>} />
-          <Route path="/login" element={<Login/>} />
-          <Route path="/register" element={<Register/>} />
-          <Route path="/profile" element={<Profile/>} />
-          <Route path="/user" element={<BoardUser/>} />
-          <Route path="/tester" element={<BoardTester/>} />
-          <Route path="/studies" element={<Studies/>} />
-          <Route path="/studies/new-study" element={<FormStudy/>} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/" element={<ProtectedRoutes />}>
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/user" element={<BoardUser />} />
+            <Route path="/tester" element={<BoardTester />} />
+            <Route path="/studies" element={<Studies />} />
+            <Route path="/studies/new-study" element={<FormStudy />} />
+          </Route>
         </Routes>
       </div>
     </div>

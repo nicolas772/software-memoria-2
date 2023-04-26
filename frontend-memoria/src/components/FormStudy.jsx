@@ -7,7 +7,7 @@ import AuthService from "../services/auth.service";
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
-import { registerLocale, setDefaultLocale } from  "react-datepicker";
+import { registerLocale, setDefaultLocale } from "react-datepicker";
 import es from 'date-fns/locale/es';
 registerLocale('es', es)
 
@@ -37,7 +37,7 @@ const FormStudy = () => {
   const checkBtn = useRef();
 
   const [softwareName, setSoftwareName] = useState("");
-  const [softwareType, setSoftwareType] = useState("");
+  const [softwareType, setSoftwareType] = useState("App Desktop");
   const [softwareUrl, setSoftwareUrl] = useState("");
   const [successful, setSuccessful] = useState(false);
   const [message, setMessage] = useState("");
@@ -48,17 +48,14 @@ const FormStudy = () => {
   const onChangeSoftwareName = (e) => {
     const softwareName = e.target.value;
     setSoftwareName(softwareName);
-    console.log(softwareName)
   };
   const onChangeSoftwareType = (e) => {
     const softwareType = e.target.value;
     setSoftwareType(softwareType);
-    console.log(softwareType)
   };
   const onChangeSoftwareUrl = (e) => {
     const softwareUrl = e.target.value;
     setSoftwareUrl(softwareUrl);
-    console.log(softwareUrl)
   };
 
   useEffect(() => {
@@ -77,7 +74,7 @@ const FormStudy = () => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      StudyService.create(currentUser.id, softwareName, softwareType, softwareUrl).then(
+      StudyService.create(currentUser.id, softwareName, softwareType, softwareUrl, startDate, endDate).then(
         (response) => {
           setMessage(response.data.message);
           setSuccessful(true);
@@ -144,7 +141,7 @@ const FormStudy = () => {
                   onChange={(date) => setStartDate(date)}
                 />
               </div>
-                
+
               <div className="form-group">
                 <label htmlFor="enddate">Fecha Término de Estudio</label>
                 <DatePicker
