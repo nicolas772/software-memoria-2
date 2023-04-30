@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import UserService from "../services/user.service";
+import ModalForm from "./ModalForm";
 
 const Study = () => {
   const { idstudy } = useParams();
   const [content, setContent] = useState({});
   const [loading, setLoading] = useState(true)
+  const [showModal, setShowModal] = useState(false);
+
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
 
   useEffect(() => {
     UserService.getStudy(idstudy).then(
@@ -49,9 +54,10 @@ const Study = () => {
           <li type="disc">URL: {content.url}</li>
         </ul>
       </div>
-      <button onClick={handleBtnNuevaIteracion} type="button" className="btn btn-primary">
+      <button onClick={handleShowModal} type="button" className="btn btn-primary">
         Nueva iteracion
       </button>
+      <ModalForm show={showModal} handleClose={handleCloseModal} />
     </>
   )
 }
