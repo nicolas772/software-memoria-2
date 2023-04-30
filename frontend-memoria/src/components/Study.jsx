@@ -39,14 +39,14 @@ const Study = () => {
     <>
       <div className="container">
         <header className="jumbotron">
-          <h3>Estudio {idstudy}</h3>
+          <h3>Estudio {content.software_name}</h3>
         </header>
       </div>
       <div>
         <ul>
-          <li type="disc">Nombre: {JSON.stringify(content.software_name)}</li>
-          <li type="disc">Tipo de software: {JSON.stringify(content.software_tipe)}</li>
-          <li type="disc">URL: {JSON.stringify(content.url)}</li>
+          <li type="disc">Nombre: {content.software_name}</li>
+          <li type="disc">Tipo de software: {content.software_tipe}</li>
+          <li type="disc">URL: {content.url}</li>
         </ul>
       </div>
       <button onClick={handleBtnNuevaIteracion} type="button" className="btn btn-primary">
