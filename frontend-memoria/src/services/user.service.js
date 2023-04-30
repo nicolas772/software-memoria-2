@@ -19,11 +19,16 @@ const getStudies = () => {
   return axios.get(API_URL + "studies", { headers: authHeader() });
 }
 
+const getStudy = (id) => {
+  return axios.get(API_URL + "study", { headers: authHeader(), params: { id: id } });
+}
+
 const UserService = {
   getPublicContent,
   getUserBoard,
   getTesterBoard,
   getStudies,
+  getStudy,
 };
 
 export default UserService;

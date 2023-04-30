@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Table } from 'react-bootstrap';
 import UserService from "../services/user.service";
+import { Link } from "react-router-dom";
 
 const fechaConPalabras = (miFecha) => {
   const fecha = new Date(miFecha);
@@ -15,7 +16,6 @@ const TableStudies = () => {
   useEffect(() => {
     UserService.getStudies().then(
       (response) => {
-        console.log(response.data)
         setContent(response.data);
       },
       (error) => {
@@ -47,8 +47,10 @@ const TableStudies = () => {
       </thead>
       <tbody>
         {content.map((fila, index) => (
-          <tr key={fila.id}>
-            <td>{fila.software_name}</td>
+          <tr key={index}>
+            <td>
+              <Link to={fila.id.toString()}>{fila.software_name}</Link>
+            </td>
             <td>{fila.software_tipe}</td>
             <td>{fila.url}</td>
             <td>{fechaConPalabras(fila.start_date)}</td>

@@ -35,3 +35,19 @@ exports.getStudies = (req, res) => {
     res.status(500).send('Error interno del servidor'); // Enviar una respuesta de error si ocurre algún problema en la consulta
   });
 };
+
+exports.getStudy = (req, res) => {
+  const studyId= req.query.id; // Obtener el valor de la cabecera user-id
+  Study.findOne({
+    where:{
+      id: studyId
+    }
+  })
+  .then(study => {
+    res.status(200).json(study)
+  })
+  .catch(err => {
+    console.error(err);
+    res.status(500).send('Error interno del servidor'); // Enviar una respuesta de error si ocurre algún problema en la consulta
+  })
+};

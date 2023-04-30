@@ -13,6 +13,7 @@ import BoardTester from "./components/BoardTester";
 import Studies from "./components/Studies";
 import FormStudy from "./components/FormStudy";
 import ProtectedRoutes from "./components/ProtectedRoutes";
+import Study from "./components/Study"
 
 
 const App = () => {
@@ -111,6 +112,7 @@ const App = () => {
             <Route path="/user" element={<BoardUser />} />
             <Route path="/tester" element={<BoardTester />} />
             <Route path="/studies" element={<Studies />} />
+            <Route path="/studies/:idstudy" element={<Study />} />
             <Route path="/studies/new-study" element={<FormStudy />} />
           </Route>
         </Routes>

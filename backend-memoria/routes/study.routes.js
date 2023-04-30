@@ -10,12 +10,20 @@ module.exports = function(app) {
     next();
   });
 
-  app.post("/api/study/create", [verifyStudy.checkDuplicateStudyName], controller.create);
+  app.post("/api/study/create", 
+  [verifyStudy.checkDuplicateStudyName], 
+  controller.create);
   
   app.get(
     "/api/test/studies",
     [authJwt.verifyToken, authJwt.isTester],
     controller.getStudies
+  );
+
+  app.get(
+    "/api/test/study",
+    [authJwt.verifyToken, authJwt.isTester],
+    controller.getStudy
   );
 };
 
