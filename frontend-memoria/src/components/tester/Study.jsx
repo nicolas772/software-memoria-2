@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import UserService from "../../services/user.service";
 import ModalForm from "./ModalForm";
+import TableIterations from "./TableIterations";
 
 const Study = () => {
   const { idstudy } = useParams();
@@ -10,7 +11,10 @@ const Study = () => {
   const [showModal, setShowModal] = useState(false);
 
   const handleShowModal = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false);
+  const handleCloseModal = () => {
+    setShowModal(false)
+    window.location.reload();
+  };
 
   useEffect(() => {
     UserService.getStudy(idstudy).then(
@@ -31,11 +35,6 @@ const Study = () => {
     );
   }, []);
 
-
-  const handleBtnNuevaIteracion = () => {
-    console.log('nueva iteracion')
-  }
-
   if(loading){
     return <div>Cargando...</div>
   }
@@ -54,9 +53,12 @@ const Study = () => {
           <li type="disc">URL: {content.url}</li>
         </ul>
       </div>
+      <TableIterations idstudy={idstudy}></TableIterations>
       <button onClick={handleShowModal} type="button" className="btn btn-primary">
         Nueva iteracion
       </button>
+      <div style={{margin: 50}}>
+      </div>
       <ModalForm show={showModal} handleClose={handleCloseModal} idstudy={idstudy}/>
     </>
   )

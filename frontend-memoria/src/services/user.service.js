@@ -19,8 +19,13 @@ const getStudies = () => {
   return axios.get(API_URL + "studies", { headers: authHeader() });
 }
 
+
 const getStudy = (id) => {
   return axios.get(API_URL + "study", { headers: authHeader(), params: { id: id } });
+}
+
+const getIterations = (idStudy) => {
+  return axios.get(API_URL + "iterations", { headers: authHeader(), params: { idStudy: idStudy }  });
 }
 
 const UserService = {
@@ -29,6 +34,7 @@ const UserService = {
   getTesterBoard,
   getStudies,
   getStudy,
+  getIterations,
 };
 
 export default UserService;

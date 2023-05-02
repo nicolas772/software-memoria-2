@@ -10,11 +10,12 @@ const fechaConPalabras = (miFecha) => {
   return(fechaConPalabras); 
 }
 
-const TableStudies = () => {
+const TableIterations = (props) => {
+  const { idstudy } = props;
   const [content, setContent] = useState([]);
 
   useEffect(() => {
-    UserService.getStudies().then(
+    UserService.getIterations(idstudy).then(
       (response) => {
         setContent(response.data);
       },
@@ -37,25 +38,25 @@ const TableStudies = () => {
     <Table striped bordered hover>
       <thead>
         <tr>
-          <th>Nombre del Software</th>
-          <th>Tipo de Software</th>
-          <th>URL</th>
-          <th>Fecha Inicio Estudio</th>
-          <th>Fecha Término Estudio</th>
-          <th>Iteraciones</th>
+          <th>Iteración</th>
+          <th>Estado</th>
+          <th>Fecha Inicio Iteración</th>
+          <th>Cantidad de Tareas</th>
+          <th>Cantidad de Usuarios</th>
+          <th>Objetivo</th>
         </tr>
       </thead>
       <tbody>
         {content.map((fila, index) => (
           <tr key={fila.id}>
             <td>
-              <Link to={fila.id.toString()}>{fila.software_name}</Link>
+              <Link to={fila.id.toString()}>Iteración {fila.iteration_number}</Link>
             </td>
-            <td>{fila.software_tipe}</td>
-            <td>{fila.url}</td>
+            <td>{fila.state}</td>
             <td>{fechaConPalabras(fila.start_date)}</td>
-            <td>{fechaConPalabras(fila.end_date)}</td>
-            <td>{fila.iteration_qty}</td>
+            <td>{fila.task_qty}</td>
+            <td>{fila.users_qty}</td>
+            <td>{fila.goal}</td>
           </tr>
         ))}
       </tbody>
@@ -63,4 +64,4 @@ const TableStudies = () => {
   )
 }
 
-export default TableStudies
+export default TableIterations

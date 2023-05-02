@@ -1,5 +1,5 @@
 const controller = require("../controllers/iteration.controller");
-//const { authJwt } = require("../middleware");
+const { authJwt } = require("../middleware");
 
 module.exports = function(app) {
   app.use(function(req, res, next) {
@@ -13,13 +13,13 @@ module.exports = function(app) {
   app.post("/api/iteration/create",
   controller.create);
   
-  /*app.get(
-    "/api/test/studies",
+  app.get(
+    "/api/test/iterations",
     [authJwt.verifyToken, authJwt.isTester],
-    controller.getStudies
+    controller.getIterations
   );
 
-  app.get(
+  /*app.get(
     "/api/test/study",
     [authJwt.verifyToken, authJwt.isTester],
     controller.getStudy
