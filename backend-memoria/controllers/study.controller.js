@@ -10,7 +10,6 @@ exports.create = (req, res) => {
     userId: req.body.testerId,
     start_date: req.body.startDate,
     end_date: req.body.endDate,
-    iteration_qty: 0,
   })
     .then(() => {
       res.send({ message: "El estudio ha sido creado con éxito!" });

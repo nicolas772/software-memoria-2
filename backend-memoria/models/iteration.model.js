@@ -1,10 +1,12 @@
 module.exports = (sequelize, Sequelize) => {
   const Iteration = sequelize.define("iterations", {
     state: {//En progreso - Finalizada
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+      defaultValue: "En proceso",
     },
     iteration_number: {
-      type: Sequelize.STRING
+      type: Sequelize.INTEGER,
+      defaultValue: 0,
     },
     start_date: {
       type: Sequelize.DATE
@@ -14,9 +16,14 @@ module.exports = (sequelize, Sequelize) => {
     },
     task_qty: {
       type: Sequelize.INTEGER,
+      defaultValue: 0,
     },
     users_qty: {
       type: Sequelize.INTEGER,
+      defaultValue: 0,
+    },
+    goal: {
+      type: Sequelize.TEXT,
     }
   });
 

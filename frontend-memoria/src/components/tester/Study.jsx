@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
-import UserService from "../services/user.service";
+import UserService from "../../services/user.service";
 import ModalForm from "./ModalForm";
 
 const Study = () => {
@@ -57,7 +57,7 @@ const Study = () => {
       <button onClick={handleShowModal} type="button" className="btn btn-primary">
         Nueva iteracion
       </button>
-      <ModalForm show={showModal} handleClose={handleCloseModal} />
+      <ModalForm show={showModal} handleClose={handleCloseModal} idstudy={idstudy}/>
     </>
   )
 }

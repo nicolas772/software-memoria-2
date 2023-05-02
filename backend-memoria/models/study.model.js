@@ -17,6 +17,7 @@ module.exports = (sequelize, Sequelize) => {
     },
     iteration_qty: {
       type: Sequelize.INTEGER,
+      defaultValue: 0,
     }
   });
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Table } from 'react-bootstrap';
-import UserService from "../services/user.service";
+import UserService from "../../services/user.service";
 import { Link } from "react-router-dom";
 
 const fechaConPalabras = (miFecha) => {

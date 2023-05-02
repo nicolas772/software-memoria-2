@@ -52,6 +52,14 @@ db.study.hasMany(db.iteration, {
 
 db.iteration.belongsTo(db.study);
 
+db.iteration.afterCreate(async (iteration, options) => {
+  const study = await db.study.findByPk(iteration.studyId)
+  study.iteration_qty += 1
+  iteration.iteration_number = study.iteration_qty
+  await iteration.save()
+  await study.save()
+})
+
 db.ROLES = ["user", "tester"];
 
 module.exports = db;

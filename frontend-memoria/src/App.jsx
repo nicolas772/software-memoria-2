@@ -8,12 +8,12 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Home from "./components/Home";
 import Profile from "./components/Profile";
-import BoardUser from "./components/BoardUser";
-import BoardTester from "./components/BoardTester";
-import Studies from "./components/Studies";
-import FormStudy from "./components/FormStudy";
+import BoardUser from "./components/user/BoardUser";
+import BoardTester from "./components/tester/BoardTester";
+import Studies from "./components/tester/Studies";
+import FormStudy from "./components/tester/FormStudy";
 import ProtectedRoutes from "./components/ProtectedRoutes";
-import Study from "./components/Study"
+import Study from "./components/tester/Study"
 
 
 const App = () => {

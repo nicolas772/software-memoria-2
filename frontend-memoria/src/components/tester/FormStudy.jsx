@@ -2,8 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-import StudyService from "../services/study.service";
-import AuthService from "../services/auth.service";
+import StudyService from "../../services/study.service";
+import AuthService from "../../services/auth.service";
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
