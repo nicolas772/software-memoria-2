@@ -8,7 +8,7 @@ import { registerLocale } from "react-datepicker";
 import es from 'date-fns/locale/es';
 registerLocale('es', es)
 
-function ModalForm(props) {
+function ModalFormIteration(props) {
   const { show, handleClose, idstudy } = props;
   const [objetivo, setObjetivo] = useState("");
   const [startDate, setStartDate] = useState(null);
@@ -48,6 +48,7 @@ function ModalForm(props) {
         setEndDate()
         setBadEndDate(false)
         handleClose();
+        window.location.reload();
       },
       (error) => {
         const resMessage =
@@ -118,4 +119,4 @@ function ModalForm(props) {
   );
 }
 
-export default ModalForm;
+export default ModalFormIteration;
