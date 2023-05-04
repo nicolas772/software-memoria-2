@@ -19,9 +19,9 @@ module.exports = function(app) {
     controller.getIterations
   );
 
-  /*app.get(
-    "/api/test/study",
+  app.get(
+    "/api/test/iteration",
     [authJwt.verifyToken, authJwt.isTester],
-    controller.getStudy
-  );*/
+    controller.getIteration
+  );
 };

@@ -32,3 +32,19 @@ exports.getIterations = (req, res) => {
     res.status(500).send('Error interno del servidor'); // Enviar una respuesta de error si ocurre algún problema en la consulta
   });
 };
+
+exports.getIteration = (req, res) => {
+  const iterationId= req.query.idIteration; // Obtener el valor de la cabecera user-id
+  Iteration.findOne({
+    where:{
+      id: iterationId
+    }
+  })
+  .then(iteration => {
+    res.status(200).json(iteration)
+  })
+  .catch(err => {
+    console.error(err);
+    res.status(500).send('Error interno del servidor'); // Enviar una respuesta de error si ocurre algún problema en la consulta
+  })
+};

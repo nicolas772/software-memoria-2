@@ -28,6 +28,10 @@ const getIterations = (idStudy) => {
   return axios.get(API_URL + "iterations", { headers: authHeader(), params: { idStudy: idStudy }  });
 }
 
+const getIteration = (idIteration) => {
+  return axios.get(API_URL + "iteration", { headers: authHeader(), params: { idIteration: idIteration }  });
+}
+
 const UserService = {
   getPublicContent,
   getUserBoard,
@@ -35,6 +39,7 @@ const UserService = {
   getStudies,
   getStudy,
   getIterations,
+  getIteration,
 };
 
 export default UserService;
