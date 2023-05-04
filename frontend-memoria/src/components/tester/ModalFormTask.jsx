@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { Button, Modal, Form } from "react-bootstrap";
-import IterationService from "../../services/iteration.service";
+import TaskService from "../../services/task.service";
 
 function TimeInput(props) {
   return (
@@ -48,22 +48,14 @@ function ModalFormTask(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(titulo)
-    console.log(descripcion)
-    console.log(dificulty)
-    console.log(minutes)
-    console.log(seconds)
-    setTitulo("")
-    setDescripcion("")
-    setDificulty("Fácil")
-    handleClose();
     // Aquí se puede realizar la lógica para enviar los datos del formulario
-    /*IterationService.create(idstudy, objetivo, startDate, endDate).then(
+    TaskService.create(iditeration, titulo, descripcion, dificulty, minutes, seconds).then(
       (response) => {
-        setObjetivo("")
-        setStartDate()
-        setEndDate()
-        setBadEndDate(false)
+        setTitulo("")
+        setDescripcion("")
+        setDificulty("Fácil")
+        setMinutes(0)
+        setSeconds(0)
         handleClose();
         window.location.reload();
       },
@@ -75,7 +67,7 @@ function ModalFormTask(props) {
           error.message ||
           error.toString();
       }
-    );*/
+    );
   };
 
   return (

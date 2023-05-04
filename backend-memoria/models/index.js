@@ -28,6 +28,7 @@ db.user = require("../models/user.model.js")(sequelize, Sequelize);
 db.role = require("../models/role.model.js")(sequelize, Sequelize);
 db.study = require("../models/study.model.js")(sequelize, Sequelize);
 db.iteration = require("../models/iteration.model.js")(sequelize, Sequelize);
+db.task = require("../models/task.model.js")(sequelize, Sequelize)
 
 db.role.belongsToMany(db.user, {
   through: "user_roles",
@@ -58,6 +59,18 @@ db.iteration.afterCreate(async (iteration, options) => {
   iteration.iteration_number = study.iteration_qty
   await iteration.save()
   await study.save()
+})
+
+db.iteration.hasMany(db.task, {
+  foreignKey: 'iterationId'
+});
+
+db.task.belongsTo(db.iteration);
+
+db.task.afterCreate(async (task, options) => {
+  const iteration = await db.iteration.findByPk(task.iterationId)
+  iteration.task_qty += 1
+  await iteration.save()
 })
 
 db.ROLES = ["user", "tester"];
