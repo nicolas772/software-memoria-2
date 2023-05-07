@@ -12,6 +12,9 @@ module.exports = function(app) {
 
   app.post("/api/task/create",
   controller.create);
+
+  app.put("/api/task/update",
+  controller.updateTask);
   
   app.get(
     "/api/test/tasks",

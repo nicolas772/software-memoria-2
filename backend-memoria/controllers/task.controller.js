@@ -19,6 +19,25 @@ exports.create = (req, res) => {
     });
 };
 
+exports.updateTask = (req, res) => {
+  // Save new Study to Database
+  Task.update({
+    title: req.body.titulo,
+    description: req.body.descripcion,
+    dificulty: req.body.dificulty,
+    minutes_optimal: req.body.minutes,
+    seconds_optimal: req.body.seconds,
+  },
+  { where: { id: req.body.idtask } } 
+  )
+    .then(() => {
+      res.send({ message: "La tarea ha sido modificada con éxito!" });
+    })
+    .catch(err => {
+      res.status(500).send({ message: err.message });
+    });
+};
+
 exports.getTasks = (req, res) => {
   const iterationId= req.query.idIteration;
   Task.findAll({

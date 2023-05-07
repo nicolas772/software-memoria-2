@@ -13,8 +13,20 @@ const create = (iditeration, titulo, descripcion, dificulty, minutes, seconds) =
   });
 }
 
+const update = (idtask, titulo, descripcion, dificulty, minutes, seconds) => {
+  return axios.put(API_URL + "update", {
+    idtask,
+    titulo,
+    descripcion,
+    dificulty,
+    minutes,
+    seconds,
+  });
+}
+
 const TaskService = {
   create,
+  update,
 };
 
 export default TaskService;

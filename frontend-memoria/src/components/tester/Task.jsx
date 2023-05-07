@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import UserService from "../../services/user.service";
+import ModalEditTask from './ModalEditTask';
 
 const Task = () => {
   const { idtask } = useParams();
   const [content, setContent] = useState({});
   const [loading, setLoading] = useState(true)
+  const [showModal, setShowModal] = useState(false);
 
-  const handleShowModal = () => {
-    console.log('editar tarea')
-  }
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false)
 
   useEffect(() => {
     UserService.getTask(idtask).then(
@@ -53,6 +54,7 @@ const Task = () => {
         Editar Tarea
       </button>
       <div style={{margin: 50}}></div>
+      <ModalEditTask show={showModal} handleClose={handleCloseModal} idtask={idtask} content={content}/>
     </>
   )
 }
