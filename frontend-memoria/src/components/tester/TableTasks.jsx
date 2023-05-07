@@ -42,7 +42,9 @@ const TableTasks = (props) => {
         {content.map((fila, index) => (
           <tr key={fila.id}>
             <td>{fila.id}</td>
-            <td>{fila.title}</td>
+            <td>
+              <Link to={fila.id.toString()}>{fila.title}</Link>
+            </td>
             <td>{fila.description}</td>
             <td>{fila.dificulty}</td>
             <td>{fila.minutes_optimal}:{fila.seconds_optimal}</td>

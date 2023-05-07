@@ -26,11 +26,27 @@ exports.getTasks = (req, res) => {
       iterationId: iterationId,
     }
   })
-  .then(iterations => {
-    res.status(200).json(iterations); // Enviar una respuesta JSON con los estudios encontrados
+  .then(tasks => {
+    res.status(200).json(tasks); // Enviar una respuesta JSON con los estudios encontrados
   })
   .catch(err => {
     console.error(err);
     res.status(500).send('Error interno del servidor'); // Enviar una respuesta de error si ocurre algún problema en la consulta
   });
+};
+
+exports.getTask = (req, res) => {
+  const taskId= req.query.idTask; // Obtener el valor de la cabecera user-id
+  Task.findOne({
+    where:{
+      id: taskId
+    }
+  })
+  .then(task => {
+    res.status(200).json(task)
+  })
+  .catch(err => {
+    console.error(err);
+    res.status(500).send('Error interno del servidor'); // Enviar una respuesta de error si ocurre algún problema en la consulta
+  })
 };

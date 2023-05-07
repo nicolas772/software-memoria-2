@@ -19,9 +19,9 @@ module.exports = function(app) {
     controller.getTasks
   );
 
-  /*app.get(
-    "/api/test/study",
+  app.get(
+    "/api/test/task",
     [authJwt.verifyToken, authJwt.isTester],
-    controller.getStudy
-  );*/
+    controller.getTask
+  );
 };

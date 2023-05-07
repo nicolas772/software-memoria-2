@@ -15,6 +15,7 @@ import FormStudy from "./components/tester/FormStudy";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import Study from "./components/tester/Study"
 import Iteration from "./components/tester/Iteration";
+import Task from "./components/tester/Task";
 
 
 const App = () => {
@@ -116,6 +117,7 @@ const App = () => {
             <Route path="/studies/:idstudy" element={<Study />} />
             <Route path="/studies/new-study" element={<FormStudy />} />
             <Route path="/studies/:idstudy/:iditeration" element={<Iteration />} />
+            <Route path="/studies/:idstudy/:iditeration/:idtask" element={<Task />} />
           </Route>
         </Routes>
       </div>
