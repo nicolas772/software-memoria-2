@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ModalFormTask from './ModalFormTask';
 import UserService from "../../services/user.service";
+import TableTasks from './TableTasks';
 
 const Iteration = () => {
   const { iditeration } = useParams();
@@ -50,6 +51,9 @@ const Iteration = () => {
           <li type="disc">Cantidad de usuarios tester de la iteracion: {content.users_qty}</li>
         </ul>
       </div>
+
+      <TableTasks iditeration={iditeration}></TableTasks>
+
       <button onClick={handleShowModal} type="button" className="btn btn-primary">
         Agregar Tarea
       </button>

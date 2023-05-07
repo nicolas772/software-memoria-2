@@ -19,11 +19,11 @@ exports.create = (req, res) => {
     });
 };
 
-/*exports.getIterations = (req, res) => {
-  const studyId= req.query.idStudy;
-  Iteration.findAll({
+exports.getTasks = (req, res) => {
+  const iterationId= req.query.idIteration;
+  Task.findAll({
     where:{
-      studyId: studyId,
+      iterationId: iterationId,
     }
   })
   .then(iterations => {
@@ -33,4 +33,4 @@ exports.create = (req, res) => {
     console.error(err);
     res.status(500).send('Error interno del servidor'); // Enviar una respuesta de error si ocurre algún problema en la consulta
   });
-};*/
+};

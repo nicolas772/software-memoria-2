@@ -13,11 +13,11 @@ module.exports = function(app) {
   app.post("/api/task/create",
   controller.create);
   
-  /*app.get(
-    "/api/test/iterations",
+  app.get(
+    "/api/test/tasks",
     [authJwt.verifyToken, authJwt.isTester],
-    controller.getIterations
-  );*/
+    controller.getTasks
+  );
 
   /*app.get(
     "/api/test/study",
