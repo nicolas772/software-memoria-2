@@ -1,5 +1,6 @@
 const db = require("../models");
 const Task = db.task;
+const Iteration = db.iteration
 
 exports.create = (req, res) => {
   // Save new Study to Database
@@ -28,7 +29,7 @@ exports.updateTask = (req, res) => {
     minutes_optimal: req.body.minutes,
     seconds_optimal: req.body.seconds,
   },
-  { where: { id: req.body.idtask } } 
+    { where: { id: req.body.idtask } }
   )
     .then(() => {
       res.send({ message: "La tarea ha sido modificada con éxito!" });
@@ -39,33 +40,54 @@ exports.updateTask = (req, res) => {
 };
 
 exports.getTasks = (req, res) => {
-  const iterationId= req.query.idIteration;
+  const iterationId = req.query.idIteration;
   Task.findAll({
-    where:{
+    where: {
       iterationId: iterationId,
     }
   })
-  .then(tasks => {
-    res.status(200).json(tasks); // Enviar una respuesta JSON con los estudios encontrados
-  })
-  .catch(err => {
-    console.error(err);
-    res.status(500).send('Error interno del servidor'); // Enviar una respuesta de error si ocurre algún problema en la consulta
-  });
+    .then(tasks => {
+      res.status(200).json(tasks); // Enviar una respuesta JSON con los estudios encontrados
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send('Error interno del servidor'); // Enviar una respuesta de error si ocurre algún problema en la consulta
+    });
 };
 
 exports.getTask = (req, res) => {
-  const taskId= req.query.idTask; // Obtener el valor de la cabecera user-id
+  const taskId = req.query.idTask; // Obtener el valor de la cabecera user-id
   Task.findOne({
-    where:{
+    where: {
       id: taskId
     }
   })
-  .then(task => {
-    res.status(200).json(task)
-  })
-  .catch(err => {
-    console.error(err);
-    res.status(500).send('Error interno del servidor'); // Enviar una respuesta de error si ocurre algún problema en la consulta
-  })
+    .then(task => {
+      res.status(200).json(task)
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send('Error interno del servidor'); // Enviar una respuesta de error si ocurre algún problema en la consulta
+    })
 };
+
+exports.deleteTask = (req, res) => {
+  const taskId = req.query.idTask
+  const iterationId = req.query.idIteration
+  Task.destroy({
+    where: {
+      id: taskId
+    }
+  })
+    .then(async (task) => {
+      //disminuir task qty
+      const iteration = await Iteration.findByPk(iterationId)
+      iteration.task_qty -= 1
+      await iteration.save()
+      res.status(200).json(task)
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send('Error interno del servidor'); // Enviar una respuesta de error si ocurre algún problema en la consulta
+    })
+}

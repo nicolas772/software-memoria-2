@@ -15,6 +15,9 @@ module.exports = function(app) {
 
   app.put("/api/task/update",
   controller.updateTask);
+
+  app.delete("/api/task/delete",
+  controller.deleteTask);
   
   app.get(
     "/api/test/tasks",

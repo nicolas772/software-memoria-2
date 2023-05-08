@@ -1,16 +1,42 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import UserService from "../../services/user.service";
+import TaskService from '../../services/task.service';
 import ModalEditTask from './ModalEditTask';
+import DeleteConfirmationModal from '../DeleteConfirmationModal';
 
 const Task = () => {
   const { idtask } = useParams();
   const [content, setContent] = useState({});
   const [loading, setLoading] = useState(true)
   const [showModal, setShowModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const navigate = useNavigate()
 
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false)
+
+  const handleShowDeleteModal = () => {
+    setShowDeleteModal(true);
+  };
+
+  const handleCloseDeleteModal = () => {
+    setShowDeleteModal(false);
+  };
+
+  const handleDelete = () => {
+    // Lógica para eliminar el elemento
+    TaskService.deleteTask(idtask, content.iterationId).then(
+      (response) => {
+        setShowDeleteModal(false);
+        //window.history.back();
+        navigate(-1) //hace lo mismo que la linea de arriba
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  };
 
   useEffect(() => {
     UserService.getTask(idtask).then(
@@ -31,7 +57,7 @@ const Task = () => {
     );
   }, []);
 
-  if(loading){
+  if (loading) {
     return <div>Cargando...</div>
   }
 
@@ -50,11 +76,22 @@ const Task = () => {
         </ul>
       </div>
 
-      <button onClick={handleShowModal} type="button" className="btn btn-primary">
-        Editar Tarea
-      </button>
-      <div style={{margin: 50}}></div>
-      <ModalEditTask show={showModal} handleClose={handleCloseModal} idtask={idtask} content={content}/>
+      <div style={{ display: 'flex' }}>
+        <button onClick={handleShowModal} type="button" className="btn btn-primary" style={{ marginRight: '10px' }}>
+          Editar Tarea
+        </button>
+        <button onClick={handleShowDeleteModal} type="button" className="btn btn-danger">
+          Eliminar Tarea
+        </button>
+      </div>
+      <div style={{ margin: 50 }}></div>
+      <ModalEditTask show={showModal} handleClose={handleCloseModal} idtask={idtask} content={content} />
+      <DeleteConfirmationModal
+        show={showDeleteModal}
+        handleClose={handleCloseDeleteModal}
+        handleDelete={handleDelete}
+        element={content.title}
+      />
     </>
   )
 }

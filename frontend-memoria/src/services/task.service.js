@@ -24,9 +24,14 @@ const update = (idtask, titulo, descripcion, dificulty, minutes, seconds) => {
   });
 }
 
+const deleteTask = (idTask, idIteration) => {
+  return axios.delete(API_URL + "delete", { params: { idTask: idTask, idIteration: idIteration }  })
+}
+
 const TaskService = {
   create,
   update,
+  deleteTask,
 };
 
 export default TaskService;
