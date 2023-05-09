@@ -12,6 +12,9 @@ module.exports = function(app) {
 
   app.post("/api/iteration/create",
   controller.create);
+
+  app.put("/api/iteration/update",
+  controller.updateIteration);
   
   app.get(
     "/api/test/iterations",

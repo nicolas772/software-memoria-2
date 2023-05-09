@@ -41,6 +41,7 @@ const TableIterations = (props) => {
           <th>Iteración</th>
           <th>Estado</th>
           <th>Fecha Inicio Iteración</th>
+          <th>Fecha Término Iteración</th>
           <th>Cantidad de Tareas</th>
           <th>Cantidad de Usuarios</th>
           <th>Objetivo</th>
@@ -54,6 +55,7 @@ const TableIterations = (props) => {
             </td>
             <td>{fila.state}</td>
             <td>{fechaConPalabras(fila.start_date)}</td>
+            <td>{fechaConPalabras(fila.end_date)}</td>
             <td>{fila.task_qty}</td>
             <td>{fila.users_qty}</td>
             <td>{fila.goal}</td>

@@ -3,15 +3,24 @@ import { useParams } from 'react-router-dom';
 import ModalFormTask from './ModalFormTask';
 import UserService from "../../services/user.service";
 import TableTasks from './TableTasks';
+import ModalEditIteration from './ModalEditIteration';
 
 const Iteration = () => {
   const { iditeration } = useParams();
   const [content, setContent] = useState({});
   const [loading, setLoading] = useState(true)
   const [showModal, setShowModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false)
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
 
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false)
+
+  const handleShowEditModal = () => setShowEditModal(true)
+  const handleCloseEditModal = () => setShowEditModal(false)
+  
+  const handleShowDeleteModal = () => setShowDeleteModal(true)
+  const handleCloseDeleteModal = () => setShowDeleteModal(false)
 
   useEffect(() => {
     UserService.getIteration(iditeration).then(
@@ -32,7 +41,7 @@ const Iteration = () => {
     );
   }, []);
 
-  if(loading){
+  if (loading) {
     return <div>Cargando...</div>
   }
 
@@ -54,11 +63,21 @@ const Iteration = () => {
 
       <TableTasks iditeration={iditeration}></TableTasks>
 
-      <button onClick={handleShowModal} type="button" className="btn btn-primary">
-        Agregar Tarea
-      </button>
-      <div style={{margin: 50}}></div>
-      <ModalFormTask show={showModal} handleClose={handleCloseModal} iditeration={iditeration}/>
+
+      <div style={{ display: 'flex' }}>
+        <button onClick={handleShowModal} type="button" className="btn btn-primary" style={{ marginRight: '10px' }}>
+          Agregar Tarea
+        </button>
+        <button onClick={handleShowEditModal} type="button" className="btn btn-primary" style={{ marginRight: '10px' }}>
+          Editar Iteración
+        </button>
+        <button onClick={handleShowDeleteModal} type="button" className="btn btn-danger">
+          Eliminar Iteración
+        </button>
+      </div>
+      <div style={{ margin: 50 }}></div>
+      <ModalFormTask show={showModal} handleClose={handleCloseModal} iditeration={iditeration} />
+      <ModalEditIteration show={showEditModal} handleClose={handleCloseEditModal} iditeration={iditeration} content={content} />
     </>
   )
 }

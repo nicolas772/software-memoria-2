@@ -11,8 +11,18 @@ const create = (idstudy, objetivo, startDate, endDate) => {
   });
 }
 
+const update = (iditeration, objetivo, startDate, endDate) => {
+  return axios.put(API_URL + "update", {
+    iditeration,
+    objetivo,
+    startDate,
+    endDate,
+  })
+}
+
 const IterationService = {
   create,
+  update,
 };
 
 export default IterationService;
