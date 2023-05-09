@@ -1,5 +1,7 @@
 const db = require("../models");
 const Iteration = db.iteration;
+const Study = db.study;
+const Task = db.task
 
 exports.create = (req, res) => {
   // Save new Study to Database
@@ -65,3 +67,32 @@ exports.getIteration = (req, res) => {
     res.status(500).send('Error interno del servidor'); // Enviar una respuesta de error si ocurre algún problema en la consulta
   })
 };
+
+exports.deleteIteration = (req, res) => {
+  const studyId = req.query.idStudy
+  const iterationId = req.query.idIteration
+  //eliminar tareas de la iteracion
+  Task.destroy({
+    where: {
+      iterationId: iterationId
+    }
+  })
+    .then(async (iteration) => {
+      //disminuir iteration qty
+      const study = await Study.findByPk(studyId)
+      study.iteration_qty -= 1
+      await study.save()
+
+      //eliminar iteracion
+      await Iteration.destroy({
+        where: {
+          id: iterationId
+        }
+      })
+      res.status(200).json(iteration)
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send('Error interno del servidor'); // Enviar una respuesta de error si ocurre algún problema en la consulta
+    })
+}

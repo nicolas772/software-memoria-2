@@ -20,9 +20,14 @@ const update = (iditeration, objetivo, startDate, endDate) => {
   })
 }
 
+const deleteIteration = (idIteration, idStudy) => {
+  return axios.delete(API_URL + "delete", { params: { idIteration: idIteration, idStudy: idStudy }  })
+}
+
 const IterationService = {
   create,
   update,
+  deleteIteration,
 };
 
 export default IterationService;

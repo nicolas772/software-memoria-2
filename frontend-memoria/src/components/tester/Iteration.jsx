@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import ModalFormTask from './ModalFormTask';
 import UserService from "../../services/user.service";
+import IterationService from '../../services/iteration.service';
 import TableTasks from './TableTasks';
 import ModalEditIteration from './ModalEditIteration';
+import DeleteConfirmationModal from '../DeleteConfirmationModal';
 
 const Iteration = () => {
   const { iditeration } = useParams();
@@ -12,6 +14,8 @@ const Iteration = () => {
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [title, setTitle] = useState("")
+  const navigate = useNavigate()
 
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false)
@@ -21,6 +25,24 @@ const Iteration = () => {
   
   const handleShowDeleteModal = () => setShowDeleteModal(true)
   const handleCloseDeleteModal = () => setShowDeleteModal(false)
+
+  const handleDelete = () => {
+    // Lógica para eliminar el elemento
+    IterationService.deleteIteration(iditeration, content.studyId).then(
+      (response) => {
+        setShowDeleteModal(false);
+        //window.history.back();
+        navigate(-1) //hace lo mismo que la linea de arriba
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  };
+
+  useEffect(() => {
+    setTitle('Iteración ' + content.iteration_number)
+  }, [content])
 
   useEffect(() => {
     UserService.getIteration(iditeration).then(
@@ -78,6 +100,12 @@ const Iteration = () => {
       <div style={{ margin: 50 }}></div>
       <ModalFormTask show={showModal} handleClose={handleCloseModal} iditeration={iditeration} />
       <ModalEditIteration show={showEditModal} handleClose={handleCloseEditModal} iditeration={iditeration} content={content} />
+      <DeleteConfirmationModal
+        show={showDeleteModal}
+        handleClose={handleCloseDeleteModal}
+        handleDelete={handleDelete}
+        element={title}
+      />
     </>
   )
 }
