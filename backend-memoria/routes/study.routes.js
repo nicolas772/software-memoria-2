@@ -13,6 +13,12 @@ module.exports = function(app) {
   app.post("/api/study/create", 
   [verifyStudy.checkDuplicateStudyName], 
   controller.create);
+
+  app.put("/api/study/update",
+  controller.updateStudy);
+
+  app.delete("/api/study/delete",
+  controller.deleteStudy);
   
   app.get(
     "/api/test/studies",

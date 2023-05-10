@@ -14,8 +14,25 @@ const create = (testerId, softwareName, softwareType, softwareUrl, startDate, en
   });
 };
 
+const update = (idstudy, softwareName, softwareType, softwareUrl, startDate, endDate) => {
+  return axios.put(API_URL + "update", {
+    idstudy,
+    softwareName,
+    softwareType,
+    softwareUrl,
+    startDate,
+    endDate,
+  })
+}
+
+const deleteStudy = (idStudy) => {
+  return axios.delete(API_URL + "delete", { params: { idStudy: idStudy }  })
+}
+
 const StudyService = {
   create,
+  update,
+  deleteStudy,
 };
 
 export default StudyService;
