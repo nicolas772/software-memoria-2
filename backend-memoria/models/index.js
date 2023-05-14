@@ -48,7 +48,9 @@ db.user.hasMany(db.study, {
 db.study.belongsTo(db.user);
 
 db.study.hasMany(db.iteration, {
-  foreignKey: 'studyId'
+  foreignKey: 'studyId',
+  onDelete: 'cascade', 
+  hooks: true
 });
 
 db.iteration.belongsTo(db.study);
@@ -62,7 +64,9 @@ db.iteration.afterCreate(async (iteration, options) => {
 })
 
 db.iteration.hasMany(db.task, {
-  foreignKey: 'iterationId'
+  foreignKey: 'iterationId',
+  onDelete: 'cascade', 
+  hooks: true
 });
 
 db.task.belongsTo(db.iteration);

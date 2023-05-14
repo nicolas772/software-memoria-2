@@ -76,9 +76,7 @@ exports.deleteStudy = (req, res) => {
   const studyId = req.query.idStudy
   //eliminar tareas de la iteracion
   Study.destroy({
-    where: { id: studyId },
-    cascade: true, // Esto eliminará todas las iteraciones y tareas asociadas
-    include: [{ model: Iteration, include: [Task] }] // Incluye los modelos relacionados para eliminarlos también
+    where: { id: studyId }
   })
   .then((study) => {
     res.status(200).json(study)

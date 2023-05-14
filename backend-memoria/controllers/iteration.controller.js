@@ -68,7 +68,7 @@ exports.getIteration = (req, res) => {
   })
 };
 
-exports.deleteIteration = (req, res) => {
+exports.deleteIteration2 = (req, res) => {
   const studyId = req.query.idStudy
   const iterationId = req.query.idIteration
   //eliminar tareas de la iteracion
@@ -89,6 +89,28 @@ exports.deleteIteration = (req, res) => {
           id: iterationId
         }
       })
+      res.status(200).json(iteration)
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send('Error interno del servidor'); // Enviar una respuesta de error si ocurre algún problema en la consulta
+    })
+}
+
+exports.deleteIteration = (req, res) => {
+  const studyId = req.query.idStudy
+  const iterationId = req.query.idIteration
+  //eliminar tareas de la iteracion
+  Iteration.destroy({
+    where: {
+      id: iterationId
+    }
+  })
+    .then(async (iteration) => {
+      //disminuir iteration qty
+      const study = await Study.findByPk(studyId)
+      study.iteration_qty -= 1
+      await study.save()
       res.status(200).json(iteration)
     })
     .catch(err => {

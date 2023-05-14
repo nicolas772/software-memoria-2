@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import UserService from "../../services/user.service";
 import StudyService from "../../services/study.service";
 import ModalFormIteration from "./ModalFormIteration";
@@ -15,6 +15,7 @@ const Study = () => {
   const [showEditModal, setShowEditModal] = useState(false)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [title, setTitle] = useState("")
+  const navigate = useNavigate()
 
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false)
@@ -31,7 +32,7 @@ const Study = () => {
       (response) => {
         setShowDeleteModal(false);
         //window.history.back();
-        //navigate(-1) //hace lo mismo que la linea de arriba
+        navigate(-1) //hace lo mismo que la linea de arriba
       },
       (error) => {
         console.log(error)
