@@ -36,6 +36,21 @@ exports.updateIteration = (req, res) => {
     });
 };
 
+exports.setStateIteration = (req, res) => {
+  // Save new Study to Database
+  Iteration.update({
+    state: req.body.state,
+  },
+    { where: { id: req.body.iditeration } }
+  )
+    .then(() => {
+      res.send({ message: "La iteracion ha sido modificada con éxito!" });
+    })
+    .catch(err => {
+      res.status(500).send({ message: err.message });
+    });
+};
+
 exports.getIterations = (req, res) => {
   const studyId= req.query.idStudy;
   Iteration.findAll({

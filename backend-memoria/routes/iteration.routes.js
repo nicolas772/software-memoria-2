@@ -16,6 +16,9 @@ module.exports = function(app) {
   app.put("/api/iteration/update",
   controller.updateIteration);
 
+  app.put("/api/iteration/setState",
+  controller.setStateIteration);
+
   app.delete("/api/iteration/delete",
   controller.deleteIteration);
   

@@ -6,6 +6,8 @@ import IterationService from '../../services/iteration.service';
 import TableTasks from './TableTasks';
 import ModalEditIteration from './ModalEditIteration';
 import DeleteConfirmationModal from '../DeleteConfirmationModal';
+import ActivateIterationModal from './ActivateIterationModal';
+import FinalizarIterationModal from './FinalizarIterationModal';
 
 const Iteration = () => {
   const { iditeration } = useParams();
@@ -14,6 +16,8 @@ const Iteration = () => {
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [showActivateModal, setShowActivateModal] = useState(false)
+  const [showFinalizarModal, setShowFinalizarModal] = useState(false)
   const [title, setTitle] = useState("")
   const navigate = useNavigate()
 
@@ -22,9 +26,41 @@ const Iteration = () => {
 
   const handleShowEditModal = () => setShowEditModal(true)
   const handleCloseEditModal = () => setShowEditModal(false)
-  
+
   const handleShowDeleteModal = () => setShowDeleteModal(true)
   const handleCloseDeleteModal = () => setShowDeleteModal(false)
+
+  const handleShowActivateModal = () => setShowActivateModal(true)
+  const handleCloseActivateModal = () => setShowActivateModal(false)
+
+  const handleShowFinalizarModal = () => setShowFinalizarModal(true)
+  const handleCloseFinalizarModal = () => setShowFinalizarModal(false)
+
+  const handleActivate = () => {
+    const state = "Activa"
+    IterationService.setStateIteration(iditeration, state).then(
+      (response) => {
+        setShowActivateModal(false);
+        window.location.reload()
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
+
+  const handleFinalizar = () => {
+    const state = "Finalizada"
+    IterationService.setStateIteration(iditeration, state).then(
+      (response) => {
+        setShowActivateModal(false);
+        window.location.reload()
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
 
   const handleDelete = () => {
     // Lógica para eliminar el elemento
@@ -93,6 +129,15 @@ const Iteration = () => {
         <button onClick={handleShowEditModal} type="button" className="btn btn-primary" style={{ marginRight: '10px' }}>
           Editar Iteración
         </button>
+        {content.state === 'Activa' ? (
+          <button onClick={handleShowFinalizarModal} type="button" className="btn btn-danger" style={{ marginRight: '10px' }}>
+            Finalizar Iteración
+          </button>
+        ) : (
+          <button onClick={handleShowActivateModal} type="button" className="btn btn-primary" style={{ marginRight: '10px' }}>
+            Activar Iteración
+          </button>
+        )}
         <button onClick={handleShowDeleteModal} type="button" className="btn btn-danger">
           Eliminar Iteración
         </button>
@@ -104,6 +149,19 @@ const Iteration = () => {
         show={showDeleteModal}
         handleClose={handleCloseDeleteModal}
         handleDelete={handleDelete}
+        element={title}
+      />
+      <ActivateIterationModal
+        show={showActivateModal}
+        handleClose={handleCloseActivateModal}
+        handleActivate={handleActivate}
+        element={title}
+        ntareas={content.task_qty}
+      />
+      <FinalizarIterationModal
+        show={showFinalizarModal}
+        handleClose={handleCloseFinalizarModal}
+        handleFinalizar={handleFinalizar}
         element={title}
       />
     </>
