@@ -9,6 +9,19 @@ import DeleteConfirmationModal from '../DeleteConfirmationModal';
 import ActivateIterationModal from './ActivateIterationModal';
 import FinalizarIterationModal from './FinalizarIterationModal';
 
+function agregarCeros(numero) {
+  const longitudDeseada = 6;
+  const numeroString = String(numero);
+
+  if (numeroString.length >= longitudDeseada) {
+    return numeroString;
+  } else {
+    const cerosFaltantes = longitudDeseada - numeroString.length;
+    const ceros = '0'.repeat(cerosFaltantes);
+    return ceros + numeroString;
+  }
+}
+
 const Iteration = () => {
   const { iditeration } = useParams();
   const [content, setContent] = useState({});
@@ -113,6 +126,7 @@ const Iteration = () => {
       <div>
         <ul>
           <li type="disc">Estado: {content.state}</li>
+          <li type="disc">Codigo iteracion: {agregarCeros(iditeration)}</li>
           <li type="disc">Objetivo: {content.goal}</li>
           <li type="disc">Cantidad de tareas asociadas: {content.task_qty}</li>
           <li type="disc">Cantidad de usuarios tester de la iteracion: {content.users_qty}</li>

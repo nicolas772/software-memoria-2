@@ -9,7 +9,7 @@ const ActivateIterationModal = ({ show, handleClose, handleActivate, element, nt
           <Modal.Title>No es posible activar la {element}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>Agrega una tarea para poder activar el elemento.</p>
+          <p>Agrega una tarea para poder activar la {element}.</p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>

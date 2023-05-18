@@ -30,7 +30,6 @@ module.exports = function(app) {
 
   app.get(
     "/api/test/iteration",
-    [authJwt.verifyToken, authJwt.isTester],
     controller.getIteration
   );
 };

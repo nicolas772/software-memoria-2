@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 
 import UserService from "../../services/user.service";
+import CodigoForm from "./CodigoForm";
+import InfoModal from "./InfoModal";
 
 const BoardUser = () => {
   const [content, setContent] = useState("");
-
   useEffect(() => {
     UserService.getUserBoard().then(
       (response) => {
@@ -28,6 +29,7 @@ const BoardUser = () => {
       <header className="jumbotron">
         <h3>{content}</h3>
       </header>
+      <CodigoForm></CodigoForm>
     </div>
   );
 };
