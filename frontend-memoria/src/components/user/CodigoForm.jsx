@@ -22,13 +22,13 @@ function CodigoForm() {
   const handleSubmit = (event) => {
     event.preventDefault();
     // Aquí puedes realizar la acción de enviar el código
-    const codigo_int = parseInt(codigo, 10)
-    UserService.getIteration(codigo_int).then(
+    const codigo_iteracion_int = parseInt(codigo, 10)
+    UserService.getIteration(codigo_iteracion_int).then(
       (response) => {
         const data = response.data
         if (data) {
           if (data.state === 'Activa') {
-            navigate(`/user/doiteration/${codigo_int}`)
+            navigate(`/user/doiteration/${codigo_iteracion_int}`)
           } else {
             setTitleModal('Información')
             setBodyModal('La iteracion ingresada tiene el siguiente estado: '+data.state)

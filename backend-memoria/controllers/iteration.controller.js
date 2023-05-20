@@ -75,6 +75,7 @@ exports.getIteration = (req, res) => {
     }
   })
   .then(iteration => {
+    console.log(iteration.studyId)
     res.status(200).json(iteration)
   })
   .catch(err => {
@@ -82,6 +83,26 @@ exports.getIteration = (req, res) => {
     res.status(500).send('Error interno del servidor'); // Enviar una respuesta de error si ocurre algún problema en la consulta
   })
 };
+
+exports.getIterationWithDataStudy = async (req, res) => {
+  try {
+    const iterationId = req.query.idIteration;
+    const iteration = await Iteration.findOne({ where: { id: iterationId } });
+    const studyId = iteration.studyId;
+    const study = await Study.findByPk(studyId);
+    
+    const responseData = {
+      iteration: iteration,
+      study: study
+    };
+
+    res.status(200).json(responseData);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error interno del servidor');
+  }
+};
+
 
 exports.deleteIteration2 = (req, res) => {
   const studyId = req.query.idStudy

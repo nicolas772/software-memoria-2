@@ -1,9 +1,15 @@
 import { useParams } from "react-router-dom";
 
 const TaskUser = () => {
-  const { iditeration } = useParams();
+  const { iditeration, idtask } = useParams();
   return (
-    <h3>Tareas de iteracion {iditeration}</h3>
+    <>
+      <div className="container">
+        <header className="jumbotron">
+          <h3>Tarea {idtask}</h3>
+        </header>
+      </div>
+    </>
   )
 }
 

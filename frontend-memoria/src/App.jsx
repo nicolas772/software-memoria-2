@@ -16,6 +16,7 @@ import ProtectedRoutes from "./components/ProtectedRoutes";
 import Study from "./components/tester/Study"
 import Iteration from "./components/tester/Iteration";
 import Task from "./components/tester/Task";
+import IterationUser from "./components/user/IterationUser";
 import TaskUser from "./components/user/TaskUser";
 
 
@@ -113,13 +114,13 @@ const App = () => {
           <Route path="/" element={<ProtectedRoutes />}>
             <Route path="/profile" element={<Profile />} />
             <Route path="/user" element={<BoardUser />} />
-            <Route path="/user/doiteration/:iditeration" element={<TaskUser />} />
             <Route path="/tester" element={<BoardTester />} />
             <Route path="/studies" element={<Studies />} />
             <Route path="/studies/:idstudy" element={<Study />} />
             <Route path="/studies/new-study" element={<FormStudy />} />
             <Route path="/studies/:idstudy/:iditeration" element={<Iteration />} />
-            <Route path="/user/doiteration/:iditeration" element={<TaskUser />} />
+            <Route path="/user/doiteration/:iditeration" element={<IterationUser />} />
+            <Route path="/user/doiteration/:iditeration/:idtask" element={<TaskUser />} />
             <Route path="/studies/:idstudy/:iditeration/:idtask" element={<Task />} />
           </Route>
         </Routes>

@@ -32,4 +32,8 @@ module.exports = function(app) {
     "/api/test/iteration",
     controller.getIteration
   );
+  app.get(
+    "/api/test/iteration-user",
+    controller.getIterationWithDataStudy
+  );
 };
