@@ -1,5 +1,6 @@
 const { authJwt } = require("../middleware");
 const controller = require("../controllers/user.controller");
+const iterationstate_controller = require("../controllers/iterationstate.controller");
 
 module.exports = function(app) {
   app.use(function(req, res, next) {
@@ -22,5 +23,11 @@ module.exports = function(app) {
     "/api/test/user",
     [authJwt.verifyToken, authJwt.isUser],
     controller.userBoard
+  );
+
+  app.get(
+    "/api/test/next-task",
+    [authJwt.verifyToken, authJwt.isUser],
+    iterationstate_controller.getNextTaskForStudy
   );
 };

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import UserService from "../../services/user.service";
+import AuthService from "../../services/auth.service";
 
 const IterationUser = () => {
   const { iditeration } = useParams();
@@ -12,8 +13,17 @@ const IterationUser = () => {
     //aqui se debe crear un registro en la tabla iteration_state
     //se debe tambien leer, para reanudar el estudio desde la ultima tarea en la que quedo
     //se debe actualizar +1 user_qty en la iteration
-    const idtask = 1
-    navigate(`/user/doiteration/${iditeration}/${idtask}`)
+    const user = AuthService.getCurrentUser();
+    UserService.getNextTaskForStudy(iditeration, user.id).then(
+      (response) => {
+        //console.log(response)
+        const nextTask = response.data.nextTask
+        navigate(`/user/doiteration/${iditeration}/${nextTask}`)
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
   }
 
   useEffect(() => {
