@@ -27,7 +27,6 @@ module.exports = function(app) {
 
   app.get(
     "/api/test/task",
-    [authJwt.verifyToken, authJwt.isTester],
     controller.getTask
   );
 };

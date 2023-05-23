@@ -18,7 +18,6 @@ const IterationUser = () => {
       (response) => {
         const nextTask = response.data.nextTask
         const newIterationState = response.data.newIterationState
-        console.log(newIterationState)
         navigate(`/user/doiteration/${iditeration}/${nextTask}`)
       },
       (error) => {
