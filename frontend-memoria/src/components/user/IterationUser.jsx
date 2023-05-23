@@ -16,8 +16,9 @@ const IterationUser = () => {
     const user = AuthService.getCurrentUser();
     UserService.getNextTaskForStudy(iditeration, user.id).then(
       (response) => {
-        //console.log(response)
         const nextTask = response.data.nextTask
+        const newIterationState = response.data.newIterationState
+        console.log(newIterationState)
         navigate(`/user/doiteration/${iditeration}/${nextTask}`)
       },
       (error) => {

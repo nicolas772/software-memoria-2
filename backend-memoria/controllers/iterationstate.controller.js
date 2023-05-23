@@ -1,5 +1,6 @@
 const db = require("../models");
 const IterationState = db.iterationstate;
+const Iteration = db.iteration
 const Task = db.task
 
 exports.getNextTaskForStudy = async (req, res) => {
@@ -7,26 +8,33 @@ exports.getNextTaskForStudy = async (req, res) => {
     const iterationId = req.query.idIteration
     const userId = req.query.idUser
     const iterationState = await IterationState.findOne({ where: { iterationId: iterationId, userId: userId } })
-    let LastTaskId = 1000000
+    let LastTaskId, newIterationState
     if (!iterationState) {
       // Si no se encuentra, crea un nuevo registro
+      newIterationState = true
       LastTaskId = await Task.min('id', {
         where: {
           iterationId: iterationId
         }
       });
-      const iterationState2 = await IterationState.create({
+      await IterationState.create({
         iterationId: iterationId,
         userId: userId,
         taskId: LastTaskId
       });
-      //se debe actualizar +1 user_qty en la iteration
-    }else {
+      //actualizar +1 user_qty en la iteration
+      const iteration = await Iteration.findOne({ where: { id: iterationId } })
+      iteration.users_qty += 1
+      await iteration.save()
+
+    } else {
+      newIterationState = false
       LastTaskId = iterationState.taskId
     }
 
     const responseData = {
-      nextTask: LastTaskId
+      nextTask: LastTaskId,
+      newIterationState: newIterationState,
     };
 
     res.status(200).json(responseData);
@@ -35,7 +43,3 @@ exports.getNextTaskForStudy = async (req, res) => {
     res.status(500).send('Error interno del servidor');
   }
 };
-
-/*const iteration = await Iteration.findOne({ where: { id: iterationId } });
-    const studyId = iteration.studyId;
-    const study = await Study.findByPk(studyId);*/
