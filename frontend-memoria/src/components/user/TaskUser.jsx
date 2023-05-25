@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import UserService from "../../services/user.service";
+import TaskService from "../../services/task.service";
+import AuthService from "../../services/auth.service";
 
 const TaskUser = () => {
   const { iditeration, idtask } = useParams();
@@ -8,6 +10,7 @@ const TaskUser = () => {
   const [loading, setLoading] = useState(true)
   const [tareaIniciada, setTareaIniciada] = useState(false);
   const [tiempoInicio, setTiempoInicio] = useState();
+  const [duration, setDuration] = useState()
   const [mostrarBotones, setMostrarBotones] = useState(true);
 
   const handleIniciarTarea = () => {
@@ -21,17 +24,21 @@ const TaskUser = () => {
       const finalizacion = new Date()
       const tiempoDiferencia = finalizacion.getTime() - tiempoInicio.getTime();
       console.log(`La diferencia de tiempo es ${tiempoDiferencia} milisegundos.`);
+      setDuration(tiempoDiferencia)
       setMostrarBotones(false);
     }
   }
 
-  const handleTareaCompletada = (tareaCompletada) => {
-    if (tareaCompletada){
-      console.log('tarea completada')
-    } else{
-      console.log('tarea NO completada')
-    }
-    //aqui enviar los datos a la tabla task_info, y redirigir a la nueva tarea
+  const handleTareaCompletada = (complete) => {
+    const user = AuthService.getCurrentUser();
+    TaskService.createTaskInfo(user.id, iditeration, idtask, complete, duration).then(
+      (response) => {
+        console.log(response)
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
   };
 
   useEffect(() => {

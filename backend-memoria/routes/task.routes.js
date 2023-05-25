@@ -1,4 +1,5 @@
 const controller = require("../controllers/task.controller");
+const infotaskController = require("../controllers/infotask.controller");
 const { authJwt } = require("../middleware");
 
 module.exports = function(app) {
@@ -12,6 +13,9 @@ module.exports = function(app) {
 
   app.post("/api/task/create",
   controller.create);
+
+  app.post("/api/task/info/create",
+  infotaskController.create);
 
   app.put("/api/task/update",
   controller.updateTask);

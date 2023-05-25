@@ -30,6 +30,7 @@ db.study = require("../models/study.model.js")(sequelize, Sequelize);
 db.iteration = require("../models/iteration.model.js")(sequelize, Sequelize);
 db.task = require("../models/task.model.js")(sequelize, Sequelize)
 db.iterationstate = require("../models/iterationstate.model.js")(sequelize, Sequelize)
+db.infotask = require("../models/infotask.model.js")(sequelize, Sequelize)
 
 db.role.belongsToMany(db.user, {
   through: "user_roles",
@@ -94,6 +95,24 @@ db.iteration.hasMany(db.iterationstate, {
 db.iterationstate.belongsTo(db.user);
 db.iterationstate.belongsTo(db.task);
 db.iterationstate.belongsTo(db.iteration);
+
+db.user.hasMany(db.infotask, {
+  foreignKey: 'userId'
+});
+
+db.task.hasMany(db.infotask, {
+  foreignKey: 'taskId'
+});
+
+db.iteration.hasMany(db.infotask, {
+  foreignKey: 'iterationId'
+});
+
+
+db.infotask.belongsTo(db.user);
+db.infotask.belongsTo(db.task);
+db.infotask.belongsTo(db.iteration);
+
 
 db.ROLES = ["user", "tester"];
 

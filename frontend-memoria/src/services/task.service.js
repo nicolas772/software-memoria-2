@@ -28,10 +28,21 @@ const deleteTask = (idTask, idIteration) => {
   return axios.delete(API_URL + "delete", { params: { idTask: idTask, idIteration: idIteration }  })
 }
 
+const createTaskInfo = (iduser, iditeration, idtask, complete, duration) => {
+  return axios.post(API_URL + "info/create", {
+    iduser,
+    iditeration,
+    idtask,
+    complete,
+    duration
+  });
+}
+
 const TaskService = {
   create,
   update,
   deleteTask,
+  createTaskInfo,
 };
 
 export default TaskService;
