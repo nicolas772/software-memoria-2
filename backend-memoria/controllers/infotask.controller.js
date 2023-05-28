@@ -1,5 +1,8 @@
 const db = require("../models");
+const { Op } = require('sequelize');
 const InfoTask = db.infotask;
+const Task = db.task
+const IterationState = db.iterationstate
 
 exports.create = (req, res) => {
   // Save new Study to Database
@@ -10,8 +13,32 @@ exports.create = (req, res) => {
     taskId: req.body.idtask,
     iterationId: req.body.iditeration
   })
-    .then(() => {
-      res.send({ message: "La informacion de la tarea ha sido creada con éxito!" });
+    .then(async () => {
+      //aqui puedo setear la siguiente tarea en iterationstate
+      let finish, nextTask
+      const LastTaskId = await Task.min('id', {
+        where: {
+          iterationId: req.body.iditeration,
+          id: { [Op.gt]: req.body.idtask }
+        }
+      });
+      const iterationState = await IterationState.findOne({ where: { iterationId: req.body.iditeration, userId: req.body.iduser } })
+      if (LastTaskId){
+        iterationState.taskId = LastTaskId
+        await iterationState.save()
+        finish = false
+        nextTask = LastTaskId
+      }else {
+        iterationState.inTask = false
+        iterationState.inCSUQ = true
+        await iterationState.save()
+        finish = true
+        nextTask = 0
+      }
+      res.send({ 
+        finish: finish,
+        nextTask: nextTask
+      });
     })
     .catch(err => {
       res.status(500).send({ message: err.message });

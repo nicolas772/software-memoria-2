@@ -18,6 +18,8 @@ import Iteration from "./components/tester/Iteration";
 import Task from "./components/tester/Task";
 import IterationUser from "./components/user/IterationUser";
 import TaskUser from "./components/user/TaskUser";
+import FormCSUQ from "./components/user/FormCSUQ";
+import FormSentimentAnalisis from "./components/user/FormSentimentAnalisis";
 
 
 const App = () => {
@@ -121,6 +123,8 @@ const App = () => {
             <Route path="/studies/:idstudy/:iditeration" element={<Iteration />} />
             <Route path="/user/doiteration/:iditeration" element={<IterationUser />} />
             <Route path="/user/doiteration/:iditeration/:idtask" element={<TaskUser />} />
+            <Route path="/user/doCSUQ/:iditeration" element={<FormCSUQ />} />
+            <Route path="/user/doQuestion/:iditeration" element={<FormSentimentAnalisis />} />
             <Route path="/studies/:idstudy/:iditeration/:idtask" element={<Task />} />
           </Route>
         </Routes>

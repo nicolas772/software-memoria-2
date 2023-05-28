@@ -1,8 +1,16 @@
 module.exports = (sequelize, Sequelize) => {
   const IterationState = sequelize.define("iterationstates", {
-    state: {//En progreso - Finalizada
-      type: Sequelize.STRING,
-      defaultValue: "En progreso",
+    inTask: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: true,
+    },
+    inCSUQ: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false,
+    },
+    inQuestion: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false,
     }
   });
 

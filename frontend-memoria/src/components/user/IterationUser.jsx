@@ -10,15 +10,23 @@ const IterationUser = () => {
   const navigate = useNavigate()
 
   const handleIniciarEstudio = () => {
-    //aqui se debe crear un registro en la tabla iteration_state
-    //se debe tambien leer, para reanudar el estudio desde la ultima tarea en la que quedo
-    //se debe actualizar +1 user_qty en la iteration
     const user = AuthService.getCurrentUser();
     UserService.getNextTaskForStudy(iditeration, user.id).then(
       (response) => {
         const nextTask = response.data.nextTask
-        const newIterationState = response.data.newIterationState
-        navigate(`/user/doiteration/${iditeration}/${nextTask}`)
+        const userInTask = response.data.inTask
+        const userInCSUQ = response.data.inCSUQ
+        const userInQuestion = response.data.inQuestion
+        if (userInTask){
+          navigate(`/user/doiteration/${iditeration}/${nextTask}`)
+        }else if (userInCSUQ){
+          navigate(`/user/doCSUQ/${iditeration}`)
+        }else if (userInQuestion){
+          navigate(`/user/doQuestion/${iditeration}`)
+        }else{
+          console.log('ya hiciste esta iteracion')
+        }
+        
       },
       (error) => {
         console.log(error)

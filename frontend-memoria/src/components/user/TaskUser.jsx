@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import UserService from "../../services/user.service";
 import TaskService from "../../services/task.service";
 import AuthService from "../../services/auth.service";
 
 const TaskUser = () => {
   const { iditeration, idtask } = useParams();
+  const [actualTask, setActualTask] = useState(idtask)
   const [content, setContent] = useState({});
   const [loading, setLoading] = useState(true)
   const [tareaIniciada, setTareaIniciada] = useState(false);
   const [tiempoInicio, setTiempoInicio] = useState();
   const [duration, setDuration] = useState()
   const [mostrarBotones, setMostrarBotones] = useState(true);
+  const navigate = useNavigate()
 
   const handleIniciarTarea = () => {
     setTareaIniciada(true);
@@ -23,7 +25,6 @@ const TaskUser = () => {
       setTareaIniciada(false);
       const finalizacion = new Date()
       const tiempoDiferencia = finalizacion.getTime() - tiempoInicio.getTime();
-      console.log(`La diferencia de tiempo es ${tiempoDiferencia} milisegundos.`);
       setDuration(tiempoDiferencia)
       setMostrarBotones(false);
     }
@@ -31,9 +32,15 @@ const TaskUser = () => {
 
   const handleTareaCompletada = (complete) => {
     const user = AuthService.getCurrentUser();
-    TaskService.createTaskInfo(user.id, iditeration, idtask, complete, duration).then(
+    TaskService.createTaskInfo(user.id, iditeration, actualTask, complete, duration).then(
       (response) => {
-        console.log(response)
+        console.log(response.data.nextTask)
+        if (response.data.finish){
+          navigate(`/user/doCSUQ/${iditeration}`)
+        }else {
+          setActualTask(response.data.nextTask)
+          setMostrarBotones(true)
+        }
       },
       (error) => {
         console.log(error)
@@ -42,7 +49,7 @@ const TaskUser = () => {
   };
 
   useEffect(() => {
-    UserService.getTask(idtask).then(
+    UserService.getTask(actualTask).then(
       (response) => {
         setContent(response.data);
         setLoading(false)
@@ -58,7 +65,7 @@ const TaskUser = () => {
         setContent(_content);
       }
     );
-  }, []);
+  }, [actualTask]);
 
   if (loading) {
     return <div>Cargando...</div>
