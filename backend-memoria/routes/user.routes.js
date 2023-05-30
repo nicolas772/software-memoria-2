@@ -1,6 +1,7 @@
 const { authJwt } = require("../middleware");
 const controller = require("../controllers/user.controller");
 const iterationstate_controller = require("../controllers/iterationstate.controller");
+const csuqanswers_controller = require("../controllers/csuqanswers.controller");
 
 module.exports = function(app) {
   app.use(function(req, res, next) {
@@ -29,5 +30,9 @@ module.exports = function(app) {
     "/api/test/next-task",
     [authJwt.verifyToken, authJwt.isUser],
     iterationstate_controller.getNextTaskForStudy
+  );
+
+  app.post("/api/test/csuq-answers",
+  csuqanswers_controller.create
   );
 };

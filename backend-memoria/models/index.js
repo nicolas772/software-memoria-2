@@ -31,6 +31,7 @@ db.iteration = require("../models/iteration.model.js")(sequelize, Sequelize);
 db.task = require("../models/task.model.js")(sequelize, Sequelize)
 db.iterationstate = require("../models/iterationstate.model.js")(sequelize, Sequelize)
 db.infotask = require("../models/infotask.model.js")(sequelize, Sequelize)
+db.csuqanswers = require("./csuqanswers.model.js")(sequelize, Sequelize)
 
 db.role.belongsToMany(db.user, {
   through: "user_roles",
@@ -112,6 +113,17 @@ db.iteration.hasMany(db.infotask, {
 db.infotask.belongsTo(db.user);
 db.infotask.belongsTo(db.task);
 db.infotask.belongsTo(db.iteration);
+
+db.user.hasMany(db.csuqanswers, {
+  foreignKey: 'userId'
+});
+
+db.iteration.hasMany(db.csuqanswers, {
+  foreignKey: 'iterationId'
+});
+
+db.csuqanswers.belongsTo(db.user);
+db.csuqanswers.belongsTo(db.iteration);
 
 
 db.ROLES = ["user", "tester"];
