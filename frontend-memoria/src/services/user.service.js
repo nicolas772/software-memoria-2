@@ -48,6 +48,15 @@ const getNextTaskForStudy = (idIteration, idUser) => {
   return axios.get(API_URL + "next-task", { headers: authHeader(), params: { idIteration: idIteration, idUser: idUser }  });
 }
 
+const postCSUQAnswers = (idIteration, idUser, respuestas) => {
+  return axios.post(API_URL + "csuq-answers", {
+    idUser: idUser,
+    idIteration: idIteration,
+    respuestas: respuestas
+  });
+}
+
+
 const UserService = {
   getPublicContent,
   getUserBoard,
@@ -60,6 +69,7 @@ const UserService = {
   getTask,
   getIterationWithDataStudy,
   getNextTaskForStudy,
+  postCSUQAnswers,
 };
 
 export default UserService;

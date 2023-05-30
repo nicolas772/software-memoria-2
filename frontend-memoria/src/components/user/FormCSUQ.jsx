@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import UserService from '../../services/user.service';
+import AuthService from '../../services/auth.service';
 
-function FormCSUQ() {
+const FormCSUQ = () => {
   const preguntas = [
     'En general, estoy satisfecho con lo facil que es utilizar este software.',
     'Fue simple utilizar este software.',
@@ -22,10 +25,11 @@ function FormCSUQ() {
     'Me gustó utilizar el software.',
     'El software tuvo todas las herramientas que esperaba que tuviera.',
     'En general, estuve satisfecho con el software.'
-    // Agrega más preguntas aquí
   ];
 
   const [respuestas, setRespuestas] = useState(Array(preguntas.length).fill(null));
+  const { iditeration } = useParams();
+  const navigate = useNavigate()
 
   const handleRespuestaChange = (index, valor) => {
     const nuevasRespuestas = [...respuestas];
@@ -35,7 +39,16 @@ function FormCSUQ() {
 
   const handleEnviarCuestionario = () => {
     // Aquí puedes realizar la lógica para enviar las respuestas
-    console.log(respuestas);
+    const respuestasInt = respuestas.map(str => parseInt(str));
+    const user = AuthService.getCurrentUser();
+    UserService.postCSUQAnswers(iditeration, user.id, respuestasInt).then(
+      (response) => {
+        navigate(`/user/doQuestion/${iditeration}`)
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
   };
 
   return (
