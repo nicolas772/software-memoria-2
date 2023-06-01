@@ -17,10 +17,13 @@ function promediosCSUQ(respuestas_array){
   const sumaIntQual = porcionIntQual.reduce((acc, num) => acc + num, 0);
   const promedioIntQual = sumaIntQual / porcionIntQual.length;
 
-  return [promedioTotal, promedioSysUse, promedioInfoQual, promedioIntQual]
+  const sus_score = (promedioTotal-1) * (100/6)
+
+  return [promedioTotal, promedioSysUse, promedioInfoQual, promedioIntQual, sus_score]
 }
 
 exports.create = (req, res) => {
+  const [promedioTotal, promedioSysUse, promedioInfoQual, promedioIntQual, sus_score] = promediosCSUQ(req.body.respuestas)
   CsuqAnswers.create({
     userId: req.body.idUser,
     iterationId: req.body.idIteration,
@@ -39,7 +42,12 @@ exports.create = (req, res) => {
     answer13: req.body.respuestas[12],
     answer14: req.body.respuestas[13],
     answer15: req.body.respuestas[14],
-    answer16: req.body.respuestas[15]
+    answer16: req.body.respuestas[15],
+    avgtotal: promedioTotal,
+    avgsysuse: promedioSysUse,
+    avginfoqual: promedioInfoQual,
+    avgintqual: promedioIntQual,
+    scoresus: sus_score
   })
     .then(() => {
       res.send({ message: "Las respuestas CSUQ han sido enviadas con éxito!" });
