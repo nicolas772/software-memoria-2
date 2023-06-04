@@ -56,6 +56,17 @@ const postCSUQAnswers = (idIteration, idUser, respuestas) => {
   });
 }
 
+const postOpenAnswer = (idIteration, idUser, opinion1, opinion2, prefieroNoOpinar1, prefieroNoOpinar2) => {
+  return axios.post(API_URL + "open-answer", {
+    idUser: idUser,
+    idIteration: idIteration,
+    opinion1: opinion1,
+    opinion2: opinion2,
+    prefieroNoOpinar1: prefieroNoOpinar1,
+    prefieroNoOpinar2: prefieroNoOpinar2,
+  });
+}
+
 
 const UserService = {
   getPublicContent,
@@ -70,6 +81,7 @@ const UserService = {
   getIterationWithDataStudy,
   getNextTaskForStudy,
   postCSUQAnswers,
+  postOpenAnswer,
 };
 
 export default UserService;
