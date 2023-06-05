@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Form, Button } from 'react-bootstrap';
 import UserService from '../../services/user.service';
 import AuthService from '../../services/auth.service';
 
@@ -11,6 +11,7 @@ function FormSentimentAnalisis() {
   const [prefieroNoOpinar1, setPrefieroNoOpinar1] = useState(false);
   const [prefieroNoOpinar2, setPrefieroNoOpinar2] = useState(false);
   const [submitDisabled, setSubmitDisabled] = useState(true);
+  const navigate = useNavigate()
 
   const handleChangeOpinion1 = (event) => {
     setOpinion1(event.target.value);
@@ -49,8 +50,8 @@ function FormSentimentAnalisis() {
     const user = AuthService.getCurrentUser();
     UserService.postOpenAnswer(iditeration, user.id, opinion1, opinion2, prefieroNoOpinar1, prefieroNoOpinar2).then(
       (response) => {
-        console.log(response)
         //redireccionar a inicio
+        navigate('/user')
       },
       (error) => {
         console.log(error)

@@ -2,6 +2,7 @@ const { SentimentManager } = require('node-nlp');
 const db = require("../models");
 const GeneralSentiment = db.generalsentiment;
 const InterfazSentiment = db.interfazsentiment;
+const IterationState = db.iterationstate;
 
 async function analizarSentimiento(texto) {
   const sentiment = new SentimentManager();
@@ -20,7 +21,7 @@ exports.create = async (req, res) => {
     }else{
       let analisis1, analisis2
       if (prefieroNoOpinar1){
-        analisis1 = 'no se opina sobre interfaz'
+        analisis2 = await analizarSentimiento(opinion2);
         await GeneralSentiment.create({
           userId: req.body.idUser,
           iterationId: req.body.idIteration,
@@ -67,8 +68,15 @@ exports.create = async (req, res) => {
           vote: analisis2.vote
         });
       }
-      res.status(200).send('Analisis de sentimiento realizado exitosamente'); // Enviar el resultado del análisis como respuesta en formato JSON 
     }
+    const iterationState = await IterationState.findOne({
+      where: { iterationId: req.body.idIteration, userId: req.body.idUser }
+    });
+    iterationState.inTask = false
+    iterationState.inCSUQ = false
+    iterationState.inQuestion = false
+    await iterationState.save()
+    res.status(200).send('Analisis de sentimiento realizado exitosamente'); // Enviar el resultado del análisis como respuesta en formato JSON 
   } catch (error) {
     res.status(500).send('Error en el análisis de sentimiento'); // Enviar un mensaje de error en caso de excepción
   }

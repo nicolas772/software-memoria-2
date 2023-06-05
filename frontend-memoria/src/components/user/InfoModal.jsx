@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 
 const InfoModal = ({ show, handleClose, title, body}) => {

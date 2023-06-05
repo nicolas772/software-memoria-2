@@ -2,12 +2,19 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import UserService from "../../services/user.service";
 import AuthService from "../../services/auth.service";
+import InfoModal from './InfoModal';
 
 const IterationUser = () => {
   const { iditeration } = useParams();
   const [content, setContent] = useState({});
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
+  const [titleModal, setTitleModal] = useState('')
+  const [bodyModal, setBodyModal] = useState('')
+  const [showInfoModal, setShowInfoModal] = useState(false)
   const navigate = useNavigate()
+
+  const handleShowInfoModal = () => setShowInfoModal(true)
+  const handleCloseInfoModal = () => setShowInfoModal(false)
 
   const handleIniciarEstudio = () => {
     const user = AuthService.getCurrentUser();
@@ -24,7 +31,9 @@ const IterationUser = () => {
         }else if (userInQuestion){
           navigate(`/user/doQuestion/${iditeration}`)
         }else{
-          console.log('ya hiciste esta iteracion')
+          setTitleModal('Información')
+          setBodyModal('Ya completaste todas las etapas de esta iteración.')
+          handleShowInfoModal()
         }
         
       },
@@ -78,6 +87,12 @@ const IterationUser = () => {
           Iniciar Estudio
         </button>
       </div>
+      <InfoModal
+        show={showInfoModal}
+        handleClose={handleCloseInfoModal}
+        title={titleModal}
+        body={bodyModal}
+      />
     </>
   )
 }

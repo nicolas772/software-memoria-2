@@ -34,7 +34,6 @@ const TaskUser = () => {
     const user = AuthService.getCurrentUser();
     TaskService.createTaskInfo(user.id, iditeration, actualTask, complete, duration).then(
       (response) => {
-        console.log(response.data.nextTask)
         if (response.data.finish){
           navigate(`/user/doCSUQ/${iditeration}`)
         }else {
