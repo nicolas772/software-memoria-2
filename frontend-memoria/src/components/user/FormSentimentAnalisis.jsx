@@ -50,6 +50,7 @@ function FormSentimentAnalisis() {
     UserService.postOpenAnswer(iditeration, user.id, opinion1, opinion2, prefieroNoOpinar1, prefieroNoOpinar2).then(
       (response) => {
         console.log(response)
+        //redireccionar a inicio
       },
       (error) => {
         console.log(error)
