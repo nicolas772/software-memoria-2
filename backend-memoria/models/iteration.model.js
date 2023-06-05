@@ -22,6 +22,10 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.INTEGER,
       defaultValue: 0,
     },
+    users_qty_complete: {
+      type: Sequelize.INTEGER,
+      defaultValue: 0,
+    },
     goal: {
       type: Sequelize.TEXT,
     }

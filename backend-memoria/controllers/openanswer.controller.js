@@ -3,6 +3,7 @@ const db = require("../models");
 const GeneralSentiment = db.generalsentiment;
 const InterfazSentiment = db.interfazsentiment;
 const IterationState = db.iterationstate;
+const Iteration = db.iteration
 
 async function analizarSentimiento(texto) {
   const sentiment = new SentimentManager();
@@ -76,6 +77,13 @@ exports.create = async (req, res) => {
     iterationState.inCSUQ = false
     iterationState.inQuestion = false
     await iterationState.save()
+    //lo que sigue, es para disminuir en 1 la cantidad de usuarios activos completando la iteracion
+    //y aumentar en 1 la cantidad de usuarios que completaron la iteracion
+    const iteration = await Iteration.findByPk(req.body.idIteration)
+    iteration.users_qty -= 1
+    iteration.users_qty_complete += 1
+    await iteration.save()
+
     res.status(200).send('Analisis de sentimiento realizado exitosamente'); // Enviar el resultado del análisis como respuesta en formato JSON 
   } catch (error) {
     res.status(500).send('Error en el análisis de sentimiento'); // Enviar un mensaje de error en caso de excepción

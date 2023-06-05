@@ -32,7 +32,7 @@ const IterationUser = () => {
           navigate(`/user/doQuestion/${iditeration}`)
         }else{
           setTitleModal('Información')
-          setBodyModal('Ya completaste todas las etapas de esta iteración.')
+          setBodyModal('Ya completaste todas las etapas de esta iteración')
           handleShowInfoModal()
         }
         
