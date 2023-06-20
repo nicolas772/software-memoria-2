@@ -37,7 +37,7 @@ exports.getNextTaskForStudy = async (req, res) => {
       nextTask: LastTaskId,
       inTask: inTask,
       inCSUQ: inCSUQ,
-      inQuestion: inQuestion
+      inQuestion: inQuestion,
     };
 
     res.status(200).json(responseData);

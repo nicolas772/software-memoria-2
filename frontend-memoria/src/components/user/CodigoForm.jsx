@@ -21,7 +21,6 @@ function CodigoForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Aquí puedes realizar la acción de enviar el código
     const codigo_iteracion_int = parseInt(codigo, 10)
     UserService.getIteration(codigo_iteracion_int).then(
       (response) => {
@@ -41,7 +40,9 @@ function CodigoForm() {
         }
       },
       (error) => {
-        console.log(error)
+        setTitleModal('Advertencia')
+        setBodyModal('No hay registro de esta iteracion')
+        handleShowInfoModal()
       }
     )
   };

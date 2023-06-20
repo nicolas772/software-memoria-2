@@ -18,6 +18,7 @@ const TableIterations = (props) => {
     UserService.getIterations(idstudy).then(
       (response) => {
         setContent(response.data);
+        console.log(response.data)
       },
       (error) => {
         const _content =
@@ -43,7 +44,8 @@ const TableIterations = (props) => {
           <th>Fecha Inicio Iteración</th>
           <th>Fecha Término Iteración</th>
           <th>Cantidad de Tareas</th>
-          <th>Cantidad de Usuarios</th>
+          <th>Cantidad de Usuarios Activos</th>
+          <th>Cantidad de Usuarios Finalizados</th>
           <th>Objetivo</th>
         </tr>
       </thead>
@@ -58,6 +60,7 @@ const TableIterations = (props) => {
             <td>{fechaConPalabras(fila.end_date)}</td>
             <td>{fila.task_qty}</td>
             <td>{fila.users_qty}</td>
+            <td>{fila.users_qty_complete}</td>
             <td>{fila.goal}</td>
           </tr>
         ))}

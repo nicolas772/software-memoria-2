@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import UserService from "../../services/user.service";
 import AuthService from "../../services/auth.service";
 import InfoModal from './InfoModal';
+import RedirectModal from "./RedirectModal";
 
 const IterationUser = () => {
   const { iditeration } = useParams();
@@ -11,10 +12,17 @@ const IterationUser = () => {
   const [titleModal, setTitleModal] = useState('')
   const [bodyModal, setBodyModal] = useState('')
   const [showInfoModal, setShowInfoModal] = useState(false)
+  const [showRedirectModal, setShowRedirectModal] = useState(false)
+  const [url, setUrl] = useState('')
   const navigate = useNavigate()
 
   const handleShowInfoModal = () => setShowInfoModal(true)
   const handleCloseInfoModal = () => setShowInfoModal(false)
+  const handleShowRedirectModal = () => setShowRedirectModal(true)
+  const handleCloseRedirectModal = () => setShowRedirectModal(false)
+  const handleRedirect = () => {
+    navigate(url)
+  }
 
   const handleIniciarEstudio = () => {
     const user = AuthService.getCurrentUser();
@@ -25,11 +33,23 @@ const IterationUser = () => {
         const userInCSUQ = response.data.inCSUQ
         const userInQuestion = response.data.inQuestion
         if (userInTask){
-          navigate(`/user/doiteration/${iditeration}/${nextTask}`)
+          setTitleModal('Información')
+          setBodyModal('¿Deseas continuar con el estudio? Si ya lo iniciaste, serás redirigido a la última tarea pendiente.')
+          setUrl(`/user/doiteration/${iditeration}/${nextTask}`)
+          handleShowRedirectModal()
+          //navigate(`/user/doiteration/${iditeration}/${nextTask}`)
         }else if (userInCSUQ){
-          navigate(`/user/doCSUQ/${iditeration}`)
+          setTitleModal('Información')
+          setBodyModal('¿Deseas continuar con el estudio? Serás redirigido al cuestionario CSUQ.')
+          setUrl(`/user/doCSUQ/${iditeration}`)
+          handleShowRedirectModal()
+          //navigate(`/user/doCSUQ/${iditeration}`)
         }else if (userInQuestion){
-          navigate(`/user/doQuestion/${iditeration}`)
+          setTitleModal('Información')
+          setBodyModal('¿Deseas continuar con el estudio? Serás redirigido a las preguntas abiertas. ')
+          setUrl(`/user/doQuestion/${iditeration}`)
+          handleShowRedirectModal()
+          //navigate(`/user/doQuestion/${iditeration}`)
         }else{
           setTitleModal('Información')
           setBodyModal('Ya completaste todas las etapas de esta iteración')
@@ -90,6 +110,13 @@ const IterationUser = () => {
       <InfoModal
         show={showInfoModal}
         handleClose={handleCloseInfoModal}
+        title={titleModal}
+        body={bodyModal}
+      />
+      <RedirectModal
+        show={showRedirectModal}
+        handleClose={handleCloseRedirectModal}
+        handleRedirect={handleRedirect}
         title={titleModal}
         body={bodyModal}
       />
