@@ -27,6 +27,10 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
+  const handleRegister = () => {
+    navigate("/register")
+  };
+
   const onChangeUsername = (e) => {
     const username = e.target.value;
     setUsername(username);
@@ -108,6 +112,15 @@ const Login = () => {
                 <span className="spinner-border spinner-border-sm"></span>
               )}
               <span>Iniciar Sesión</span>
+            </button>
+          </div>
+
+          <div className="form-group">
+            <button className="btn btn-secondary btn-block" disabled={loading} onClick={handleRegister}>
+              {loading && (
+                <span className="spinner-border spinner-border-sm"></span>
+              )}
+              <span>Registrarse</span>
             </button>
           </div>
 

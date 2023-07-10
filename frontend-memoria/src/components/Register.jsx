@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { useNavigate } from 'react-router-dom';
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
@@ -56,6 +57,10 @@ const Register = () => {
   const [isTester, setIsTester] = useState(false)
   const [successful, setSuccessful] = useState(false);
   const [message, setMessage] = useState("");
+  let navigate = useNavigate()
+  const handleButton = () => {
+    navigate("/login")
+  };
 
   const onChangeUsername = (e) => {
     const username = e.target.value;
@@ -175,10 +180,15 @@ const Register = () => {
           {message && (
             <div className="form-group">
               <div
-                className={ successful ? "alert alert-success" : "alert alert-danger" }
+                className={successful ? "alert alert-success" : "alert alert-danger"}
                 role="alert"
               >
                 {message}
+              </div>
+              <div className="form-group">
+                <button className="btn btn-primary btn-block" onClick={handleButton}>
+                  <span>Ir a Iniciar Sesión</span>
+                </button>
               </div>
             </div>
           )}

@@ -23,42 +23,41 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="navbar navbar-expand navbar-dark bg-dark">
-        <Link to={"/home"} className="navbar-brand">
-          Proyecto Memoria
-        </Link>
-        <div className="navbar-nav mr-auto">
-          <li className="nav-item">
-            <Link to={"/home"} className="nav-link">
-              Inicio
-            </Link>
-          </li>
-
-          {showTesterBoard && (
-            <>
-              <li className="nav-item">
-                <Link to={"/tester"} className="nav-link">
-                  Tester Board
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to={"/studies"} className="nav-link">
-                  Estudios
-                </Link>
-              </li>
-            </>
-          )}
-
-          {showUserBoard && (
+      {currentUser ? (
+        <nav className="navbar navbar-expand navbar-dark bg-dark">
+          <Link to={"/home"} className="navbar-brand">
+            Feel UX
+          </Link>
+          <div className="navbar-nav mr-auto">
             <li className="nav-item">
-              <Link to={"/user"} className="nav-link">
-                User Board
+              <Link to={"/home"} className="nav-link">
+                Inicio
               </Link>
             </li>
-          )}
-        </div>
 
-        {currentUser ? (
+            {showTesterBoard && (
+              <>
+                <li className="nav-item">
+                  <Link to={"/tester"} className="nav-link">
+                    Tester Board
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to={"/studies"} className="nav-link">
+                    Estudios
+                  </Link>
+                </li>
+              </>
+            )}
+
+            {showUserBoard && (
+              <li className="nav-item">
+                <Link to={"/user"} className="nav-link">
+                  User Board
+                </Link>
+              </li>
+            )}
+          </div>
           <div className="navbar-nav ml-auto">
             <li className="nav-item">
               <Link to={"/profile"} className="nav-link">
@@ -71,22 +70,10 @@ const Navbar = () => {
               </a>
             </li>
           </div>
-        ) : (
-          <div className="navbar-nav ml-auto">
-            <li className="nav-item">
-              <Link to={"/login"} className="nav-link">
-                Iniciar Sesión
-              </Link>
-            </li>
-
-            <li className="nav-item">
-              <Link to={"/register"} className="nav-link">
-                Registrarse
-              </Link>
-            </li>
-          </div>
-        )}
-      </nav>
+        </nav>
+      ) : (
+        <div></div>
+      )}
     </>
   )
 
