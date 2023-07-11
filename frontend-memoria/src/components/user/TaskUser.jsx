@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import UserService from "../../services/user.service";
 import TaskService from "../../services/task.service";
 import AuthService from "../../services/auth.service";
+import Navbar from "../Navbar";
 
 const TaskUser = () => {
   const { iditeration, idtask } = useParams();
@@ -71,6 +72,7 @@ const TaskUser = () => {
   }
   return (
     <>
+      <Navbar></Navbar>
       <div className="container">
         <header className="jumbotron">
           <h3>{content.title}</h3>

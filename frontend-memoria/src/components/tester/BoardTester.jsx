@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import UserService from "../../services/user.service";
+import Navbar from "../Navbar";
 
 const BoardTester = () => {
   const [content, setContent] = useState("");
@@ -24,11 +25,14 @@ const BoardTester = () => {
   }, []);
 
   return (
+    <>
+    <Navbar></Navbar>
     <div className="container">
       <header className="jumbotron">
         <h3>{content}</h3>
       </header>
     </div>
+    </>
   );
 };
 

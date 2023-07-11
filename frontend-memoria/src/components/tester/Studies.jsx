@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import TableStudies from "./TableStudies"
+import Navbar from "../Navbar";
 const Studies = () => {
   const navigate = useNavigate()
 
@@ -9,6 +10,7 @@ const Studies = () => {
 
   return (
     <>
+      <Navbar></Navbar>
       <div className="container">
         <header className="jumbotron">
           <h3>Lista de estudios</h3>

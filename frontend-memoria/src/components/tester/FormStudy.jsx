@@ -11,6 +11,7 @@ import { registerLocale } from "react-datepicker";
 import es from 'date-fns/locale/es';
 registerLocale('es', es)
 import { isURL } from "validator";
+import Navbar from "../Navbar";
 
 const required = (value) => {
   if (!value) {
@@ -125,94 +126,97 @@ const FormStudy = () => {
   };
 
   return (
-    <div className="col-md-12">
-      <div className="card card-container">
-        <Form onSubmit={handleRegister} ref={form}>
-          {!successful && (
-            <div>
-              <div className="form-group">
-                <label htmlFor="softwarename">Nombre del Software</label>
-                <Input
-                  type="text"
-                  className="form-control"
-                  name="softwarename"
-                  value={softwareName}
-                  onChange={onChangeSoftwareName}
-                  validations={[required, vsoftwarename]}
-                />
-              </div>
+    <>
+      <Navbar></Navbar>
+      <div className="col-md-12">
+        <div className="card card-container">
+          <Form onSubmit={handleRegister} ref={form}>
+            {!successful && (
+              <div>
+                <div className="form-group">
+                  <label htmlFor="softwarename">Nombre del Software</label>
+                  <Input
+                    type="text"
+                    className="form-control"
+                    name="softwarename"
+                    value={softwareName}
+                    onChange={onChangeSoftwareName}
+                    validations={[required, vsoftwarename]}
+                  />
+                </div>
 
-              <div className="form-group">
-                <label htmlFor="inputSoftwareType">Tipo de software</label>
-                <select onChange={onChangeSoftwareType} value={softwareType} id="inputSoftwareType" className="form-control">
-                  <option>App Desktop</option>
-                  <option>App Móvil</option>
-                  <option>App Web</option>
-                  <option>Otro</option>
-                </select>
-              </div>
+                <div className="form-group">
+                  <label htmlFor="inputSoftwareType">Tipo de software</label>
+                  <select onChange={onChangeSoftwareType} value={softwareType} id="inputSoftwareType" className="form-control">
+                    <option>App Desktop</option>
+                    <option>App Móvil</option>
+                    <option>App Web</option>
+                    <option>Otro</option>
+                  </select>
+                </div>
 
-              <div className="form-group">
-                <label htmlFor="softwareurl">Sitio web Software</label>
-                <Input
-                  type="text"
-                  className="form-control"
-                  name="softwareurl"
-                  value={softwareUrl}
-                  onChange={onChangeSoftwareUrl}
-                  validations={[validURL]}
-                />
-              </div>
+                <div className="form-group">
+                  <label htmlFor="softwareurl">Sitio web Software</label>
+                  <Input
+                    type="text"
+                    className="form-control"
+                    name="softwareurl"
+                    value={softwareUrl}
+                    onChange={onChangeSoftwareUrl}
+                    validations={[validURL]}
+                  />
+                </div>
 
-              <div className="form-group">
-                <label htmlFor="initdate">Fecha Inicio de Estudio</label>
-                <DatePicker
-                  locale="es"
-                  selected={startDate}
-                  onChange={handleStartCalendar}
-                  minDate={new Date()}
-                  showDisabledMonthNavigation
-                  placeholderText="mm/dd/aaaa"
-                />
-              </div>
+                <div className="form-group">
+                  <label htmlFor="initdate">Fecha Inicio de Estudio</label>
+                  <DatePicker
+                    locale="es"
+                    selected={startDate}
+                    onChange={handleStartCalendar}
+                    minDate={new Date()}
+                    showDisabledMonthNavigation
+                    placeholderText="mm/dd/aaaa"
+                  />
+                </div>
 
-              <div className="form-group">
-                <label htmlFor="enddate">Fecha Término de Estudio</label>
-                <DatePicker
-                  locale="es"
-                  selected={endDate}
-                  onChange={handleEndCalendar}
-                  minDate={new Date()}
-                  showDisabledMonthNavigation
-                  placeholderText="mm/dd/aaaa"
-                />
-                {badEndDate && (
-                  <div className="alert alert-danger" role="alert">
-                    La fecha de término de estudio debe ser posterior a la fecha de inicio.
-                  </div>
-                )}
-              </div>
+                <div className="form-group">
+                  <label htmlFor="enddate">Fecha Término de Estudio</label>
+                  <DatePicker
+                    locale="es"
+                    selected={endDate}
+                    onChange={handleEndCalendar}
+                    minDate={new Date()}
+                    showDisabledMonthNavigation
+                    placeholderText="mm/dd/aaaa"
+                  />
+                  {badEndDate && (
+                    <div className="alert alert-danger" role="alert">
+                      La fecha de término de estudio debe ser posterior a la fecha de inicio.
+                    </div>
+                  )}
+                </div>
 
-              <div className="form-group">
-                <button className="btn btn-primary btn-block">Crear Estudio</button>
+                <div className="form-group">
+                  <button className="btn btn-primary btn-block">Crear Estudio</button>
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {message && (
-            <div className="form-group">
-              <div
-                className={successful ? "alert alert-success" : "alert alert-danger"}
-                role="alert"
-              >
-                {message}
+            {message && (
+              <div className="form-group">
+                <div
+                  className={successful ? "alert alert-success" : "alert alert-danger"}
+                  role="alert"
+                >
+                  {message}
+                </div>
               </div>
-            </div>
-          )}
-          <CheckButton style={{ display: "none" }} ref={checkBtn} />
-        </Form>
+            )}
+            <CheckButton style={{ display: "none" }} ref={checkBtn} />
+          </Form>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

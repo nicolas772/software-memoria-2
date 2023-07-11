@@ -25,18 +25,19 @@ const Navbar = () => {
     <>
       {currentUser ? (
         <nav className="navbar navbar-expand navbar-dark bg-dark">
-          <Link to={"/home"} className="navbar-brand">
-            Feel UX
-          </Link>
-          <div className="navbar-nav mr-auto">
-            <li className="nav-item">
-              <Link to={"/home"} className="nav-link">
-                Inicio
-              </Link>
-            </li>
 
-            {showTesterBoard && (
-              <>
+
+          {showTesterBoard && (
+            <>
+              <Link to={"/homeTester"} className="navbar-brand">
+                Feel UX
+              </Link>
+              <div className="navbar-nav mr-auto">
+                <li className="nav-item">
+                  <Link to={"/homeTester"} className="nav-link">
+                    Inicio
+                  </Link>
+                </li>
                 <li className="nav-item">
                   <Link to={"/tester"} className="nav-link">
                     Tester Board
@@ -47,17 +48,29 @@ const Navbar = () => {
                     Estudios
                   </Link>
                 </li>
-              </>
-            )}
+              </div>
+            </>
+          )}
 
-            {showUserBoard && (
-              <li className="nav-item">
-                <Link to={"/user"} className="nav-link">
-                  User Board
-                </Link>
-              </li>
-            )}
-          </div>
+          {showUserBoard && (
+            <>
+              <Link to={"/homeUser"} className="navbar-brand">
+                Feel UX
+              </Link>
+              <div className="navbar-nav mr-auto">
+                <li className="nav-item">
+                  <Link to={"/homeUser"} className="nav-link">
+                    Inicio
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to={"/user"} className="nav-link">
+                    User Board
+                  </Link>
+                </li>
+              </div>
+            </>
+          )}
           <div className="navbar-nav ml-auto">
             <li className="nav-item">
               <Link to={"/profile"} className="nav-link">

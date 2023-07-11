@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Nav } from 'react-bootstrap';
 import UserService from '../../services/user.service';
 import AuthService from '../../services/auth.service';
+import Navbar from "../Navbar";
 
 function FormSentimentAnalisis() {
   const { iditeration } = useParams();
@@ -60,35 +61,38 @@ function FormSentimentAnalisis() {
   };
 
   return (
-    <div className="my-4">
-      <Form.Group className="mb-3">
-        <Form.Label>Escribe tu opinión respecto a la Interfaz del software:</Form.Label>
-        <Form.Control as="textarea" rows={3} value={opinion1} onChange={handleChangeOpinion1} disabled={prefieroNoOpinar1}/>
-      </Form.Group>
-      <Form.Group className="mb-3">
-        <Form.Check
-          type="checkbox"
-          label="Prefiero no opinar"
-          checked={prefieroNoOpinar1}
-          onChange={handleChangePrefieroNoOpinar1}
-        />
-      </Form.Group>
-      <Form.Group className="mb-3">
-        <Form.Label>Escribe tu opinión general respecto al software:</Form.Label>
-        <Form.Control as="textarea" rows={3} value={opinion2} onChange={handleChangeOpinion2} disabled={prefieroNoOpinar2}/>
-      </Form.Group>
-      <Form.Group className="mb-3">
-        <Form.Check
-          type="checkbox"
-          label="Prefiero no opinar"
-          checked={prefieroNoOpinar2}
-          onChange={handleChangePrefieroNoOpinar2}
-        />
-      </Form.Group>
-      <Button variant="primary" disabled={submitDisabled} onClick={handleSubmit}>
-        Enviar
-      </Button>
-    </div>
+    <>
+      <Navbar></Navbar>
+      <div className="my-4">
+        <Form.Group className="mb-3">
+          <Form.Label>Escribe tu opinión respecto a la Interfaz del software:</Form.Label>
+          <Form.Control as="textarea" rows={3} value={opinion1} onChange={handleChangeOpinion1} disabled={prefieroNoOpinar1}/>
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Check
+            type="checkbox"
+            label="Prefiero no opinar"
+            checked={prefieroNoOpinar1}
+            onChange={handleChangePrefieroNoOpinar1}
+          />
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Escribe tu opinión general respecto al software:</Form.Label>
+          <Form.Control as="textarea" rows={3} value={opinion2} onChange={handleChangeOpinion2} disabled={prefieroNoOpinar2}/>
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Check
+            type="checkbox"
+            label="Prefiero no opinar"
+            checked={prefieroNoOpinar2}
+            onChange={handleChangePrefieroNoOpinar2}
+          />
+        </Form.Group>
+        <Button variant="primary" disabled={submitDisabled} onClick={handleSubmit}>
+          Enviar
+        </Button>
+      </div>
+    </>
   );
 }
 

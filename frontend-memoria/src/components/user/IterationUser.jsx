@@ -4,6 +4,7 @@ import UserService from "../../services/user.service";
 import AuthService from "../../services/auth.service";
 import InfoModal from './InfoModal';
 import RedirectModal from "./RedirectModal";
+import Navbar from "../Navbar";
 
 const IterationUser = () => {
   const { iditeration } = useParams();
@@ -88,6 +89,7 @@ const IterationUser = () => {
 
   return (
     <>
+      <Navbar></Navbar>
       <div className="container">
         <header className="jumbotron">
           <h3>Iteracion {content.iteration.iteration_number}</h3>

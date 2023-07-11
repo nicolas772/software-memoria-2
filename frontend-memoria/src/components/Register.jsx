@@ -113,12 +113,6 @@ const Register = () => {
   return (
     <div className="col-md-12">
       <div className="card card-container">
-        <img
-          src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-          alt="profile-img"
-          className="profile-img-card"
-        />
-
         <Form onSubmit={handleRegister} ref={form}>
           {!successful && (
             <div>
@@ -173,6 +167,11 @@ const Register = () => {
 
               <div className="form-group">
                 <button className="btn btn-primary btn-block">Registrarme</button>
+              </div>
+              <div className="form-group">
+                <button className="btn btn-secondary btn-block" onClick={handleButton}>
+                  <span>Ir a Iniciar Sesión</span>
+                </button>
               </div>
             </div>
           )}

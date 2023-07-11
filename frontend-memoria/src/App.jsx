@@ -5,7 +5,8 @@ import "./App.css";
 
 import Login from "./components/Login";
 import Register from "./components/Register";
-import Home from "./components/Home";
+import HomeTester from "./components/HomeTester";
+import HomeUser from "./components/HomeUser";
 import Profile from "./components/Profile";
 import BoardUser from "./components/user/BoardUser";
 import BoardTester from "./components/tester/BoardTester";
@@ -24,13 +25,12 @@ import Navbar from "./components/Navbar";
 const App = () => {
   return (
     <div>
-      <Navbar></Navbar>
-      <div className="container mt-3">
         <Routes>
-          <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<ProtectedRoutes />}>
+            <Route path="/homeTester" element={<HomeTester />} />
+            <Route path="/homeUser" element={<HomeUser />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/user" element={<BoardUser />} />
             <Route path="/tester" element={<BoardTester />} />
@@ -45,7 +45,6 @@ const App = () => {
             <Route path="/studies/:idstudy/:iditeration/:idtask" element={<Task />} />
           </Route>
         </Routes>
-      </div>
     </div>
   );
 };

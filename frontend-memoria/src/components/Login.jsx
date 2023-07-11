@@ -51,9 +51,12 @@ const Login = () => {
 
     if (checkBtn.current.context._errors.length === 0) {
       AuthService.login(username, password).then(
-        () => {
-          navigate("/profile");
-          window.location.reload();
+        (response) => {
+          if (response.roles.includes("ROLE_USER")){
+            navigate("/homeUser");
+          }else {
+            navigate("/homeTester");
+          }
         },
         (error) => {
           const resMessage =
@@ -75,12 +78,6 @@ const Login = () => {
   return (
     <div className="col-md-12">
       <div className="card card-container">
-        <img
-          src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-          alt="profile-img"
-          className="profile-img-card"
-        />
-
         <Form onSubmit={handleLogin} ref={form}>
           <div className="form-group">
             <label htmlFor="username">Usuario</label>
