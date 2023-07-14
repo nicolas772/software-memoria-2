@@ -76,70 +76,71 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      <div className="col-md-6">
-        <div className="left-content">
-            <h1>Feel UX</h1>
-            <h6>Feel UX te ayudará a realizar de manera sencilla tus pruebas de usabilidad, utilizando Inteligencia 
+    <div class="gradient-background">
+      <div className="login-container">
+        <div className="col-md-6">
+          <div className="left-content">
+            <h1 style={{ color: "#435F7A" }}>Feel UX</h1>
+            <h6>Feel UX te ayudará a realizar de manera sencilla tus pruebas de usabilidad, utilizando Inteligencia
               Artificial para el análisis de sentimiento de tus usuarios.
             </h6>
+          </div>
         </div>
-      </div>
-      <div className="col-md-6">
-      
-        <div className="card card-container">
-          <Form onSubmit={handleLogin} ref={form}>
-            <div className="form-groups">
-              <label htmlFor="username">Usuario</label>
-              <Input
-                type="text"
-                className="form-control"
-                name="username"
-                value={username}
-                onChange={onChangeUsername}
-                validations={[required]}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="password">Contraseña</label>
-              <Input
-                type="password"
-                className="form-control"
-                name="password"
-                value={password}
-                onChange={onChangePassword}
-                validations={[required]}
-              />
-            </div>
-
-            <div className="form-group">
-              <button className="btn btn-primary btn-block" disabled={loading}>
-                {loading && (
-                  <span className="spinner-border spinner-border-sm"></span>
-                )}
-                <span>Iniciar Sesión</span>
-              </button>
-            </div>
-
-            <div className="form-group">
-              <button className="btn btn-secondary btn-block" disabled={loading} onClick={handleRegister}>
-                {loading && (
-                  <span className="spinner-border spinner-border-sm"></span>
-                )}
-                <span>Registrarse</span>
-              </button>
-            </div>
-
-            {message && (
-              <div className="form-group">
-                <div className="alert alert-danger" role="alert">
-                  {message}
-                </div>
+        <div className="col-md-6">
+          <div className="card card-container">
+            <Form onSubmit={handleLogin} ref={form}>
+              <div className="form-groups">
+                <label htmlFor="username">Usuario</label>
+                <Input
+                  type="text"
+                  className="form-control"
+                  name="username"
+                  value={username}
+                  onChange={onChangeUsername}
+                  validations={[required]}
+                />
               </div>
-            )}
-            <CheckButton style={{ display: "none" }} ref={checkBtn} />
-          </Form>
+
+              <div className="form-group">
+                <label htmlFor="password">Contraseña</label>
+                <Input
+                  type="password"
+                  className="form-control"
+                  name="password"
+                  value={password}
+                  onChange={onChangePassword}
+                  validations={[required]}
+                />
+              </div>
+
+              <div className="form-group">
+                <button className="btn btn-primary btn-block" disabled={loading}>
+                  {loading && (
+                    <span className="spinner-border spinner-border-sm"></span>
+                  )}
+                  <span>Iniciar Sesión</span>
+                </button>
+              </div>
+
+              <div className="form-group">
+                <button className="btn btn-secondary btn-block" disabled={loading} onClick={handleRegister}>
+                  {loading && (
+                    <span className="spinner-border spinner-border-sm"></span>
+                  )}
+                  <span>Registrarse</span>
+                </button>
+              </div>
+
+              {message && (
+                <div className="form-group">
+                  <div className="alert alert-danger" role="alert">
+                    {message}
+                  </div>
+                </div>
+              )}
+              <CheckButton style={{ display: "none" }} ref={checkBtn} />
+            </Form>
+          </div>
         </div>
       </div>
     </div>

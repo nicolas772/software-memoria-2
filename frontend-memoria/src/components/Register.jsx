@@ -111,88 +111,93 @@ const Register = () => {
   };
 
   return (
-    <div className="col-md-12">
-      <div className="card card-container">
-        <Form onSubmit={handleRegister} ref={form}>
-          {!successful && (
-            <div>
-              <div className="form-group">
-                <label htmlFor="username">Usuario</label>
-                <Input
-                  type="text"
-                  className="form-control"
-                  name="username"
-                  value={username}
-                  onChange={onChangeUsername}
-                  validations={[required, vusername]}
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="email">Email</label>
-                <Input
-                  type="text"
-                  className="form-control"
-                  name="email"
-                  value={email}
-                  onChange={onChangeEmail}
-                  validations={[required, validEmail]}
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="password">Contraseña</label>
-                <Input
-                  type="password"
-                  className="form-control"
-                  name="password"
-                  value={password}
-                  onChange={onChangePassword}
-                  validations={[required, vpassword]}
-                />
-              </div>
-
-              <div className="form-group">
-                <div className="form-check">
-                  <label className="form-check-label" htmlFor="isTester"></label>
+    <div className="gradient-background">
+      <div className="container"></div>
+      <div className="col-md-12">
+        <h1 style={{ color: "#435F7A" }}>Feel UX</h1>
+        <div className="card card-container-register">
+          <h4>Registrate</h4>
+          <Form onSubmit={handleRegister} ref={form}>
+            {!successful && (
+              <div>
+                <div className="form-group">
+                  <label htmlFor="username">Usuario</label>
                   <Input
-                    className="form-check-input"
-                    type="checkbox"
-                    name="isTester"
-                    onChange={onChangeIsTester}
+                    type="text"
+                    className="form-control"
+                    name="username"
+                    value={username}
+                    onChange={onChangeUsername}
+                    validations={[required, vusername]}
                   />
-                  Quiero registrarme como Tester
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="email">Email</label>
+                  <Input
+                    type="text"
+                    className="form-control"
+                    name="email"
+                    value={email}
+                    onChange={onChangeEmail}
+                    validations={[required, validEmail]}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="password">Contraseña</label>
+                  <Input
+                    type="password"
+                    className="form-control"
+                    name="password"
+                    value={password}
+                    onChange={onChangePassword}
+                    validations={[required, vpassword]}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <div className="form-check">
+                    <label className="form-check-label" htmlFor="isTester"></label>
+                    <Input
+                      className="form-check-input"
+                      type="checkbox"
+                      name="isTester"
+                      onChange={onChangeIsTester}
+                    />
+                    Quiero registrarme como Tester
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <button className="btn btn-primary btn-block">Registrarme</button>
+                </div>
+                <div className="form-group">
+                  <button className="btn btn-secondary btn-block" onClick={handleButton}>
+                    <span>Ir a Iniciar Sesión</span>
+                  </button>
                 </div>
               </div>
+            )}
 
+            {message && (
               <div className="form-group">
-                <button className="btn btn-primary btn-block">Registrarme</button>
+                <div
+                  className={successful ? "alert alert-success" : "alert alert-danger"}
+                  role="alert"
+                >
+                  {message}
+                </div>
+                <div className="form-group">
+                  <button className="btn btn-primary btn-block" onClick={handleButton}>
+                    <span>Ir a Iniciar Sesión</span>
+                  </button>
+                </div>
               </div>
-              <div className="form-group">
-                <button className="btn btn-secondary btn-block" onClick={handleButton}>
-                  <span>Ir a Iniciar Sesión</span>
-                </button>
-              </div>
-            </div>
-          )}
-
-          {message && (
-            <div className="form-group">
-              <div
-                className={successful ? "alert alert-success" : "alert alert-danger"}
-                role="alert"
-              >
-                {message}
-              </div>
-              <div className="form-group">
-                <button className="btn btn-primary btn-block" onClick={handleButton}>
-                  <span>Ir a Iniciar Sesión</span>
-                </button>
-              </div>
-            </div>
-          )}
-          <CheckButton style={{ display: "none" }} ref={checkBtn} />
-        </Form>
+            )}
+            <CheckButton style={{ display: "none" }} ref={checkBtn} />
+          </Form>
+        </div>
       </div>
     </div>
   )
