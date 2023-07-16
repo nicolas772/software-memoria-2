@@ -54,8 +54,10 @@ const Login = () => {
         (response) => {
           if (response.roles.includes("ROLE_USER")) {
             navigate("/homeUser");
+            window.location.reload();
           } else {
             navigate("/homeTester");
+            window.location.reload();
           }
         },
         (error) => {
@@ -76,7 +78,7 @@ const Login = () => {
   };
 
   return (
-    <div class="gradient-background">
+    <div className="gradient-background">
       <div className="login-container">
         <div className="col-md-6">
           <div className="left-content">
