@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
+//import './styles.scss';
 
 import Login from "./components/Login";
 import Register from "./components/Register";
@@ -20,7 +21,6 @@ import IterationUser from "./components/user/IterationUser";
 import TaskUser from "./components/user/TaskUser";
 import FormCSUQ from "./components/user/FormCSUQ";
 import FormSentimentAnalisis from "./components/user/FormSentimentAnalisis";
-import Sidebar from "./components/Sidebar";
 
 const App = () => {
   return (
@@ -29,7 +29,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<ProtectedRoutes />}>
-            <Route path="/homeTester" element={<Sidebar />} />
+            <Route path="/homeTester" element={<HomeTester />} />
             <Route path="/homeUser" element={<HomeUser />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/user" element={<BoardUser />} />

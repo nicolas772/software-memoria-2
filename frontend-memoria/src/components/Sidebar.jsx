@@ -1,125 +1,125 @@
-import React from 'react';
-import AuthService from "../services/auth.service";
-import "../assets/Sidebar_assets/css/jquery.mCustomScrollbar.min.css"
-import "../assets/Sidebar_assets/css/media-queries.css"
-import "../assets/Sidebar_assets/css/style.css"
-import "../assets/Sidebar_assets/css/animate.css"
-import "../assets/Sidebar_assets/js/jquery-3.3.1.min.js"
-import "../assets/Sidebar_assets/js/jquery-migrate-3.0.0.min.js"
-import "../assets/Sidebar_assets/js/jquery.backstretch.min.js"
-import "../assets/Sidebar_assets/js/jquery.waypoints.min.js"
-import "../assets/Sidebar_assets/js/jquery.mCustomScrollbar.concat.min.js"
-import "../assets/Sidebar_assets/js/scripts.js"
+import { Link, NavLink } from 'react-router-dom';
+import {
+  ProSidebar,
+  Menu,
+  MenuItem,
+  SubMenu,
+  SidebarHeader,
+  SidebarFooter,
+  SidebarContent
+} from 'react-pro-sidebar';
+import {
+  FaUser,
+  FaAngleDoubleLeft,
+  FaAngleDoubleRight,
+  FaTachometerAlt,
+  FaGem,
+  FaList,
+  FaRegLaughWink,
+  FaHeart
+} from 'react-icons/fa';
+import sidebarBg from '../assets/bg1.jpg';
+import '../css/styles.scss'
 
-const logOut = () => {
-  AuthService.logout();
-};
-
-const Sidebar = () => {
+const Sidebar = ({
+  image,
+  collapsed,
+  toggled,
+  handleToggleSidebar,
+  handleCollapsedChange
+}) => {
   return (
-    <div>
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500&display=swap"
-      />
-      <link
-        rel="stylesheet"
-        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-        crossOrigin="anonymous"
-      />
-      <link
-        rel="stylesheet"
-        href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
-        crossOrigin="anonymous"
-      />
-
-      <div className="wrapper">
-        <nav className="sidebar">
-          <div className="dismiss">
-            <i className="fas fa-arrow-left"></i>
-          </div>
-          <div className="logo">
-            <h3>
-              <a href="./homeTester">Feel UX</a>
-            </h3>
-          </div>
-          <ul className="list-unstyled menu-elements">
-            <li className="active">
-              <a href="./homeTester">
-                <i className="fas fa-home"></i> Home
-              </a>
-            </li>
-            <li>
-              <a href="./tester">
-                <i className="fas fa-tachometer-alt"></i> Dashboards
-              </a>
-            </li>
-            <li>
-              <a href="./studies">
-                <i class="fa fa-laptop" aria-hidden="true"></i> Estudios
-              </a>
-            </li>
-            <li>
-              <a href="/login" onClick={logOut}>
-                <i className="fas fa-sign-out-alt"></i> Cerrar Sesión
-              </a>
-            </li>
-            <li>
-              <a
-                href="#otherSections"
-                data-toggle="collapse"
-                aria-expanded="false"
-                className="dropdown-toggle"
-                role="button"
-                aria-controls="otherSections"
+    <ProSidebar
+      image={image ? sidebarBg : false}
+      collapsed={collapsed}
+      toggled={toggled}
+      onToggle={handleToggleSidebar}
+      breakPoint="md"
+    >
+      {/* Header */}
+      <SidebarHeader>
+        <Menu iconShape="circle">
+          {collapsed ? (
+            <MenuItem
+              icon={<FaAngleDoubleRight />}
+              onClick={handleCollapsedChange}
+            ></MenuItem>
+          ) : (
+            <MenuItem
+              suffix={<FaAngleDoubleLeft />}
+              onClick={handleCollapsedChange}
+            >
+              <div
+                style={{
+                  padding: '9px',
+                  textTransform: 'uppercase',
+                  fontWeight: 'bold',
+                  fontSize: 15,
+                  letterSpacing: '1px'
+                }}
               >
-                <i className="fas fa-sync"></i>Other sections
-              </a>
-              <ul className="collapse list-unstyled" id="otherSections">
-                <li>
-                  <a className="scroll-link" href="#section-3">
-                    Our projects
-                  </a>
-                </li>
-                <li>
-                  <a className="scroll-link" href="#section-4">
-                    We think that...
-                  </a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-          <div className="dark-light-buttons">
-            <a className="btn btn-primary btn-customized-4 btn-customized-dark" href="#" role="button">
-              Dark
-            </a>
-            <a className="btn btn-primary btn-customized-4 btn-customized-light" href="#" role="button">
-              Light
-            </a>
-          </div>
-        </nav>
-        <div className="overlay"></div>
-        <div className="content">
-          <a className="btn btn-primary btn-customized open-menu" href="./homeTester" role="button">
-            <i className="fas fa-align-left"></i> <span>Menu</span>
-          </a>
+                Pro Sidebar
+              </div>
+            </MenuItem>
+          )}
+        </Menu>
+      </SidebarHeader>
+      {/* Content */}
+      <SidebarContent>
+        <Menu iconShape="circle">
+          <MenuItem
+            icon={<FaTachometerAlt />}
+            suffix={<span className="badge red">NEW</span>}
+          >
+            Dashboard
+            <NavLink to="/" />
+          </MenuItem>
+          {/* <MenuItem icon={<FaGem />}>Components </MenuItem> */}
+          <MenuItem icon={<FaGem />}>
+            Components <Link to="/components" />
+          </MenuItem>
+          <SubMenu
+            suffix={<span className="badge yellow">3</span>}
+            title={'With Suffix'}
+            icon={<FaRegLaughWink />}
+          >
+            <MenuItem>Submenu 1</MenuItem>
+            <MenuItem>Submenu 2</MenuItem>
+            <MenuItem>Submenu 3</MenuItem>
+          </SubMenu>
+          <SubMenu
+            prefix={<span className="badge gray">3</span>}
+            title={'With Prefix'}
+            icon={<FaHeart />}
+          >
+            <MenuItem>Submenu 1</MenuItem>
+            <MenuItem>Submenu 2</MenuItem>
+            <MenuItem>Submenu 3</MenuItem>
+          </SubMenu>
+          <SubMenu title={'Multi Level'} icon={<FaList />}>
+            <MenuItem>Submenu 1 </MenuItem>
+            <MenuItem>Submenu 2 </MenuItem>
+            <SubMenu title={'Submenu 3'}>
+              <MenuItem>Submenu 3.1 </MenuItem>
+              <MenuItem>Submenu 3.2 </MenuItem>
+            </SubMenu>
+          </SubMenu>
+        </Menu>
+      </SidebarContent>
+      {/* Footer */}
+      <SidebarFooter style={{ textAlign: 'center' }}>
+        <div className="sidebar-btn-wrapper" style={{ padding: '16px' }}>
+          <Link
+            className="sidebar-btn"
+            style={{ cursor: 'pointer' }}
+            to="/profile"
+          >
+            <FaUser />
+            <span>My Account</span>
+          </Link>
         </div>
-      </div>
-
-      
-      <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossOrigin="anonymous"
-      ></script>
-      <script
-        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossOrigin="anonymous"
-      ></script>
-    </div>
+      </SidebarFooter>
+    </ProSidebar>
   );
 };
 

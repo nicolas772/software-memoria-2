@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import UserService from "../services/user.service";
 import Navbar from "./Navbar";
+import { FaBars } from 'react-icons/fa';
+import Sidebar from './Sidebar';
+import Footer from './Footer';
+
 const HomeTester = () => {
   const [content, setContent] = useState("");
 
@@ -20,15 +24,40 @@ const HomeTester = () => {
     );
   }, []);
 
+  const [collapsed, setCollapsed] = useState(false);
+  const [image, setImage] = useState(false);
+  const [toggled, setToggled] = useState(false);
+
+  const handleCollapsedChange = () => {
+    setCollapsed(!collapsed);
+  };
+
+  const handleImageChange = (checked) => {
+    setImage(checked);
+  };
+
+  const handleToggleSidebar = (value) => {
+    setToggled(value);
+  };
+
+
+
   return (
-    <>
-      <Navbar></Navbar>
-      <div className="container">
-        <header className="jumbotron">
-          <h3>{content} Tester</h3>
-        </header>
-      </div>
-    </>
+    <div className={`app ${toggled ? 'toggled' : ''}`}>
+      <Sidebar
+        image={image}
+        collapsed={collapsed}
+        toggled={toggled}
+        handleToggleSidebar={handleToggleSidebar}
+        handleCollapsedChange={handleCollapsedChange}
+      />
+      <main>
+        <div className="btn-toggle" onClick={() => handleToggleSidebar(true)}>
+          <FaBars />
+        </div>
+        <Footer />
+      </main>
+    </div>
   )
 }
 

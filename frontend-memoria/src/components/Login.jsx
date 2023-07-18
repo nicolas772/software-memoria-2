@@ -54,10 +54,8 @@ const Login = () => {
         (response) => {
           if (response.roles.includes("ROLE_USER")) {
             navigate("/homeUser");
-            window.location.reload();
           } else {
             navigate("/homeTester");
-            window.location.reload();
           }
         },
         (error) => {
