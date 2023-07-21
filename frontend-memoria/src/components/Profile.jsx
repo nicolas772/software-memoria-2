@@ -1,12 +1,10 @@
 import React from "react";
 import AuthService from "../services/auth.service";
-import Navbar from "./Navbar";
 
 const Profile = () => {
   const currentUser = AuthService.getCurrentUser();
   return (
     <>
-      <Navbar></Navbar>
       <div className="container">
         <header className="jumbotron">
           <h3>

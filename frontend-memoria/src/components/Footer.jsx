@@ -5,14 +5,13 @@ function Footer() {
   return (
     <footer>
       <small>
-        &copy; {new Date().getFullYear()} made with{' '}
-        <FaHeart style={{ color: 'red' }} /> by -{' '}
+        &copy; {new Date().getFullYear()} made by -{' '}
         <a
           target="_blank"
           rel="noopener noreferrer"
-          href="https://granada.com.gt/es/"
+          href="https://www.linkedin.com/in/narayaurrutia/"
         >
-          Fábrica Granada
+          Nicolás Araya Urrutia
         </a>
       </small>
     </footer>

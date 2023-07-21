@@ -26,7 +26,6 @@ const BoardTester = () => {
 
   return (
     <>
-    <Navbar></Navbar>
     <div className="container">
       <header className="jumbotron">
         <h3>{content}</h3>

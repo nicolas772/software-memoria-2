@@ -16,7 +16,9 @@ import {
   FaGem,
   FaList,
   FaRegLaughWink,
-  FaHeart
+  FaHeart,
+  FaHome,
+  FaSignOutAlt,
 } from 'react-icons/fa';
 import sidebarBg from '../assets/bg1.jpg';
 import '../css/styles.scss'
@@ -58,7 +60,7 @@ const Sidebar = ({
                   letterSpacing: '1px'
                 }}
               >
-                Pro Sidebar
+                Feel UX
               </div>
             </MenuItem>
           )}
@@ -67,43 +69,22 @@ const Sidebar = ({
       {/* Content */}
       <SidebarContent>
         <Menu iconShape="circle">
+          <MenuItem icon={<FaHome />}>
+            Home <Link to="/homeTester" />
+          </MenuItem>
           <MenuItem
             icon={<FaTachometerAlt />}
-            suffix={<span className="badge red">NEW</span>}
           >
             Dashboard
-            <NavLink to="/" />
+            <NavLink to="/boardTester" />
           </MenuItem>
           {/* <MenuItem icon={<FaGem />}>Components </MenuItem> */}
-          <MenuItem icon={<FaGem />}>
-            Components <Link to="/components" />
+          <MenuItem icon={<FaList />}>
+            Mis Estudios <Link to="/studies" />
           </MenuItem>
-          <SubMenu
-            suffix={<span className="badge yellow">3</span>}
-            title={'With Suffix'}
-            icon={<FaRegLaughWink />}
-          >
-            <MenuItem>Submenu 1</MenuItem>
-            <MenuItem>Submenu 2</MenuItem>
-            <MenuItem>Submenu 3</MenuItem>
-          </SubMenu>
-          <SubMenu
-            prefix={<span className="badge gray">3</span>}
-            title={'With Prefix'}
-            icon={<FaHeart />}
-          >
-            <MenuItem>Submenu 1</MenuItem>
-            <MenuItem>Submenu 2</MenuItem>
-            <MenuItem>Submenu 3</MenuItem>
-          </SubMenu>
-          <SubMenu title={'Multi Level'} icon={<FaList />}>
-            <MenuItem>Submenu 1 </MenuItem>
-            <MenuItem>Submenu 2 </MenuItem>
-            <SubMenu title={'Submenu 3'}>
-              <MenuItem>Submenu 3.1 </MenuItem>
-              <MenuItem>Submenu 3.2 </MenuItem>
-            </SubMenu>
-          </SubMenu>
+          <MenuItem icon={<FaSignOutAlt />}>
+            Cerrar Sesión <Link to="/homeTester" />
+          </MenuItem>
         </Menu>
       </SidebarContent>
       {/* Footer */}
@@ -115,7 +96,7 @@ const Sidebar = ({
             to="/profile"
           >
             <FaUser />
-            <span>My Account</span>
+            <span>Perfil</span>
           </Link>
         </div>
       </SidebarFooter>

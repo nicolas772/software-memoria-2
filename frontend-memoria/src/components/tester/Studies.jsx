@@ -10,12 +10,12 @@ const Studies = () => {
 
   return (
     <>
-      <Navbar></Navbar>
       <div className="container">
-        <header className="jumbotron">
+        <header>
           <h3>Lista de estudios</h3>
         </header>
       </div>
+      <div style={{margin: 20}}></div>
       <TableStudies></TableStudies>
       <button onClick={handleBtnNuevoEstudio} type="button" className="btn btn-primary">
         Nuevo Estudio
