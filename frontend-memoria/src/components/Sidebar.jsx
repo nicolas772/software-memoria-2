@@ -1,4 +1,4 @@
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import {
   ProSidebar,
   Menu,
@@ -20,6 +20,7 @@ import {
   FaHome,
   FaSignOutAlt,
 } from 'react-icons/fa';
+import AuthService from '../services/auth.service';
 import sidebarBg from '../assets/bg1.jpg';
 import '../css/styles.scss'
 
@@ -29,6 +30,13 @@ const Sidebar = ({
   handleToggleSidebar,
   handleCollapsedChange
 }) => {
+
+  let navigate = useNavigate()
+  const logOut = () => {
+    AuthService.logout();
+    navigate("/login")
+  };
+
   return (
     <ProSidebar
       image={sidebarBg}
@@ -81,8 +89,8 @@ const Sidebar = ({
           <MenuItem icon={<FaList />}>
             Mis Estudios <Link to="/studies" />
           </MenuItem>
-          <MenuItem icon={<FaSignOutAlt />}>
-            Cerrar Sesión <Link to="/homeTester" />
+          <MenuItem icon={<FaSignOutAlt />} onClick={logOut}>
+            Cerrar Sesión
           </MenuItem>
         </Menu>
       </SidebarContent>

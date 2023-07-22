@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { FaBars } from 'react-icons/fa';
 import Sidebar from './components/Sidebar';
@@ -9,51 +9,40 @@ import Studies from './components/tester/Studies';
 import BoardTester from './components/tester/BoardTester';
 import Login from "./components/Login";
 import Register from "./components/Register";
+import Home from "./components/Home";
+import AuthService from "./services/auth.service";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 function App() {
-  const [collapsed, setCollapsed] = useState(false);
-  const [toggled, setToggled] = useState(false);
+  const [currentUser, setCurrentUser] = useState(undefined);
 
-  const handleCollapsedChange = () => {
-    setCollapsed(!collapsed);
-  };
+  useEffect(() => {
+    const user = AuthService.getCurrentUser();
 
-  const handleToggleSidebar = (value) => {
-    setToggled(value);
-  };
+    if (user) {
+      setCurrentUser(user);
+      //setShowUserBoard(user.roles.includes("ROLE_USER"));
+      //setShowTesterBoard(user.roles.includes("ROLE_TESTER"));
+    }
+  }, []);
 
   return (
     <>
-      { /* El Sidebar se mostrará solo si no estamos en las rutas /login y /register */}
-      {window.location.pathname !== '/login' && window.location.pathname !== '/register' && (
-        <div className={`app ${toggled ? 'toggled' : ''}`}>
-          <Sidebar
-            collapsed={collapsed}
-            toggled={toggled}
-            handleToggleSidebar={handleToggleSidebar}
-            handleCollapsedChange={handleCollapsedChange}
-          />
-
-          <main>
-            <div className="btn-toggle" onClick={() => handleToggleSidebar(true)}>
-              <FaBars />
-            </div>
-            <Routes>
-              <Route path="/homeTester" element={<HomeTester />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/boardTester" element={<BoardTester />} />
-              <Route path="/studies" element={<Studies />} />
-            </Routes>
-            <Footer />
-          </main>
-        </div>
+      {currentUser ? (
+      <Home></Home>
+      )  : (
+        <div></div>
       )}
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/homeTester" element={<HomeTester />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/boardTester" element={<BoardTester />} />
+        <Route path="/studies" element={<Studies />} />
       </Routes>
+      <Footer></Footer>
     </>
   );
 }
