@@ -16,6 +16,7 @@ const ProtectedRoutes = () => {
   const user = AuthService.getCurrentUser();
   const [collapsed, setCollapsed] = useState(false);
   const [toggled, setToggled] = useState(false);
+  const [currentUser, setCurrentUser] = useState(undefined)
 
   const handleCollapsedChange = () => {
     setCollapsed(!collapsed);
@@ -33,6 +34,7 @@ const ProtectedRoutes = () => {
           toggled={toggled}
           handleToggleSidebar={handleToggleSidebar}
           handleCollapsedChange={handleCollapsedChange}
+          user={user}
         />
         <main>
           <div className="btn-toggle" onClick={() => handleToggleSidebar(true)}>

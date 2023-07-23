@@ -27,12 +27,10 @@ const BoardUser = () => {
 
   return (
     <>
-      <Navbar></Navbar>
       <div className="container">
         <header className="jumbotron">
-          <h3>{content}</h3>
+          <h3>BOARD USER {content}</h3>
         </header>
-        <CodigoForm></CodigoForm>
       </div>
     </>
   );
