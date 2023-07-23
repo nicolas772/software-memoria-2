@@ -8,7 +8,6 @@ import ModalEditIteration from './ModalEditIteration';
 import DeleteConfirmationModal from '../DeleteConfirmationModal';
 import ActivateIterationModal from './ActivateIterationModal';
 import FinalizarIterationModal from './FinalizarIterationModal';
-import Navbar from "../Navbar";
 
 function agregarCeros(numero) {
   const longitudDeseada = 6;
@@ -119,9 +118,8 @@ const Iteration = () => {
 
   return (
     <>
-      <Navbar></Navbar>
-      <div className="container">
-        <header className="jumbotron">
+      <div>
+        <header>
           <h3>Iteracion {content.iteration_number}</h3>
         </header>
       </div>

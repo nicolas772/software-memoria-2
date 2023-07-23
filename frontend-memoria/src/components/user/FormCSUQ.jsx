@@ -54,7 +54,6 @@ const FormCSUQ = () => {
 
   return (
     <>
-      <Navbar></Navbar>
       <div>
         <h1>Cuestionario CSUQ</h1>
         <Form>

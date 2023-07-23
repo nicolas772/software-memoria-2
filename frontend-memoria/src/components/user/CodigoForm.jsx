@@ -27,7 +27,7 @@ function CodigoForm() {
         const data = response.data
         if (data) {
           if (data.state === 'Activa') {
-            navigate(`/user/doiteration/${codigo_iteracion_int}`)
+            navigate(`/doiteration/${codigo_iteracion_int}`)
           } else {
             setTitleModal('Información')
             setBodyModal('La iteracion ingresada tiene el siguiente estado: '+data.state)

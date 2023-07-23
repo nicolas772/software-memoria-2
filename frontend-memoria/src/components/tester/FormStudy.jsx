@@ -127,7 +127,6 @@ const FormStudy = () => {
 
   return (
     <>
-      <Navbar></Navbar>
       <div className="col-md-12">
         <div className="card card-container">
           <Form onSubmit={handleRegister} ref={form}>

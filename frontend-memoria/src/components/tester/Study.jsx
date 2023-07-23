@@ -6,7 +6,6 @@ import ModalFormIteration from "./ModalFormIteration";
 import TableIterations from "./TableIterations";
 import ModalEditStudy from "./ModalEditStudy";
 import DeleteConfirmationModal from "../DeleteConfirmationModal";
-import Navbar from "../Navbar";
 
 const Study = () => {
   const { idstudy } = useParams();
@@ -70,9 +69,8 @@ const Study = () => {
 
   return (
     <>
-      <Navbar></Navbar>
-      <div className="container">
-        <header className="jumbotron">
+      <div>
+        <header>
           <h3>Estudio {content.software_name}</h3>
         </header>
       </div>

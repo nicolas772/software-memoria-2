@@ -14,7 +14,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/*" element={<ProtectedRoutes />} />
-      <Route path="/wsb/*" element={<ProtectedRoutesWithoutSidebar />} />
+      <Route path="/user/*" element={<ProtectedRoutesWithoutSidebar />} />
     </Routes>
   );
 }

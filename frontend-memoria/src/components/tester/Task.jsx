@@ -64,9 +64,8 @@ const Task = () => {
 
   return (
     <>
-      <Navbar></Navbar>
-      <div className="container">
-        <header className="jumbotron">
+      <div>
+        <header>
           <h3>{content.title}</h3>
         </header>
       </div>

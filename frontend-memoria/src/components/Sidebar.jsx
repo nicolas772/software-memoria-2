@@ -20,6 +20,7 @@ import {
   FaHeart,
   FaHome,
   FaSignOutAlt,
+  FaBell,
 } from 'react-icons/fa';
 import AuthService from '../services/auth.service';
 import sidebarBg from '../assets/bg1.jpg';
@@ -105,10 +106,18 @@ const Sidebar = ({ collapsed, toggled, handleToggleSidebar, handleCollapsedChang
               <MenuItem icon={<FaHome />}>
                 Home User <Link to="/homeUser" />
               </MenuItem>
-              <MenuItem
-                icon={<FaTachometerAlt />}
+              <SubMenu
+                title={'Estudios'}
+                icon={<FaList />}
               >
-                Dashboard User
+                <MenuItem>Activos</MenuItem>
+                <MenuItem>Finalizados</MenuItem>
+              </SubMenu>
+              <MenuItem
+                icon={<FaBell />}
+                prefix={<span className="badge yellow">3</span>}
+              >
+                Invitaciones
                 <NavLink to="/boardUser" />
               </MenuItem>
               <MenuItem icon={<FaSignOutAlt />} onClick={logOut}>

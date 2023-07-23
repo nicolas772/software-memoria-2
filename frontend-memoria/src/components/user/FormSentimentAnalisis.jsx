@@ -52,7 +52,7 @@ function FormSentimentAnalisis() {
     UserService.postOpenAnswer(iditeration, user.id, opinion1, opinion2, prefieroNoOpinar1, prefieroNoOpinar2).then(
       (response) => {
         //redireccionar a inicio
-        navigate('/user')
+        navigate('/homeUser')
       },
       (error) => {
         console.log(error)
@@ -62,7 +62,6 @@ function FormSentimentAnalisis() {
 
   return (
     <>
-      <Navbar></Navbar>
       <div className="my-4">
         <Form.Group className="mb-3">
           <Form.Label>Escribe tu opinión respecto a la Interfaz del software:</Form.Label>
