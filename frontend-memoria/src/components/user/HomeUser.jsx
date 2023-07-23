@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import UserService from "../services/user.service";
-
-const HomeTester = () => {
+import UserService from "../../services/user.service";
+import Navbar from "../Navbar";
+const HomeUser = () => {
   const [content, setContent] = useState("");
 
   useEffect(() => {
@@ -21,10 +21,15 @@ const HomeTester = () => {
   }, []);
 
   return (
-    <header>
-      <h1>Home Tester</h1>
-    </header>
+    <>
+      <Navbar></Navbar>
+      <div className="container">
+        <header className="jumbotron">
+          <h3>{content} User</h3>
+        </header>
+      </div>
+    </>
   )
 }
 
-export default HomeTester
+export default HomeUser
