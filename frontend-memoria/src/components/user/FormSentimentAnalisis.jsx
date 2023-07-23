@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Form, Button, Nav } from 'react-bootstrap';
 import UserService from '../../services/user.service';
 import AuthService from '../../services/auth.service';
-import Navbar from "../Navbar";
 
 function FormSentimentAnalisis() {
   const { iditeration } = useParams();

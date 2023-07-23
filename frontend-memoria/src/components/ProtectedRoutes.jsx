@@ -9,7 +9,6 @@ import Sidebar from "./Sidebar";
 import HomeUser from "./user/HomeUser"
 import BoardUser from "./user/BoardUser";
 import Study from "./tester/Study";
-import FormStudy from "./tester/FormStudy";
 import Iteration from "./tester/Iteration";
 import IterationUser from "./user/IterationUser";
 import Task from "./tester/Task";
@@ -21,7 +20,6 @@ const ProtectedRoutes = () => {
   const user = AuthService.getCurrentUser();
   const [collapsed, setCollapsed] = useState(false);
   const [toggled, setToggled] = useState(false);
-  const [currentUser, setCurrentUser] = useState(undefined)
 
   const handleCollapsedChange = () => {
     setCollapsed(!collapsed);
@@ -51,9 +49,8 @@ const ProtectedRoutes = () => {
             <Route path="/profile" element={<Profile />} />
             <Route path="/boardTester" element={<BoardTester />} />
             <Route path="/boardUser" element={<BoardUser />} />
-            <Route path="/studies" element={<Studies />} />
+            <Route path="/studies" element={<Studies user={user}/>} />
             <Route path="/studies/:idstudy" element={<Study />} />
-            <Route path="/studies/new-study" element={<FormStudy />} />
             <Route path="/studies/:idstudy/:iditeration" element={<Iteration />} />
             <Route path="/doiteration/:iditeration" element={<IterationUser />} />
             <Route path="/studies/:idstudy/:iditeration/:idtask" element={<Task />} />

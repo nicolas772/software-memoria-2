@@ -6,7 +6,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import UserService from '../../services/user.service';
 import AuthService from '../../services/auth.service';
-import Navbar from "../Navbar";
 
 const FormCSUQ = () => {
   const preguntas = [

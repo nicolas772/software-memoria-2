@@ -84,7 +84,7 @@ const Sidebar = ({ collapsed, toggled, handleToggleSidebar, handleCollapsedChang
           {showTesterBoard && (
             <Menu iconShape="circle">
               <MenuItem icon={<FaHome />}>
-                Home <Link to="/homeTester" />
+                Home Tester<Link to="/homeTester" />
               </MenuItem>
               <MenuItem
                 icon={<FaTachometerAlt />}

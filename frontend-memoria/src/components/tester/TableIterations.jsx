@@ -18,7 +18,6 @@ const TableIterations = (props) => {
     UserService.getIterations(idstudy).then(
       (response) => {
         setContent(response.data);
-        console.log(response.data)
       },
       (error) => {
         const _content =

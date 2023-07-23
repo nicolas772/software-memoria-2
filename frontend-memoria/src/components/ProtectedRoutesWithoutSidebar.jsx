@@ -1,7 +1,6 @@
 import { Outlet, Navigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import AuthService from "../services/auth.service";
-import Prueba from "./Prueba"
 import TaskUser from "./user/TaskUser";
 import FormCSUQ from "./user/FormCSUQ";
 import FormSentimentAnalisis from "./user/FormSentimentAnalisis";
@@ -17,7 +16,6 @@ const ProtectedRoutesWithoutSidebar = () => {
       <div>
         <main>
           <Routes>
-            <Route path="/prueba" element={<Prueba />} />
             <Route path="/doiteration/:iditeration/:idtask" element={<TaskUser />} />
             <Route path="/doCSUQ/:iditeration" element={<FormCSUQ />} />
             <Route path="/doQuestion/:iditeration" element={<FormSentimentAnalisis />} />

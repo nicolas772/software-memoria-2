@@ -1,11 +1,10 @@
 import React from 'react';
-import { FaHeart } from 'react-icons/fa';
 
 function Footer() {
   return (
     <footer>
       <small>
-        &copy; {new Date().getFullYear()} made by -{' '}
+        &copy; {new Date().getFullYear()} Feel UX -{' '}
         <a
           target="_blank"
           rel="noopener noreferrer"

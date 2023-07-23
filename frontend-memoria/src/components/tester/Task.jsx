@@ -4,7 +4,6 @@ import UserService from "../../services/user.service";
 import TaskService from '../../services/task.service';
 import ModalEditTask from './ModalEditTask';
 import DeleteConfirmationModal from '../DeleteConfirmationModal';
-import Navbar from "../Navbar";
 
 const Task = () => {
   const { idtask } = useParams();

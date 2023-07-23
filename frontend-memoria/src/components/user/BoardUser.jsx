@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import UserService from "../../services/user.service";
 import CodigoForm from "./CodigoForm";
 import InfoModal from "./InfoModal";
-import Navbar from "../Navbar";
 
 const BoardUser = () => {
   const [content, setContent] = useState("");

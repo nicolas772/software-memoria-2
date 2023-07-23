@@ -1,13 +1,11 @@
-import { useNavigate } from "react-router-dom"
+import { useState } from "react"
 import TableStudies from "./TableStudies"
-import Navbar from "../Navbar";
-const Studies = () => {
-  const navigate = useNavigate()
+import ModalFormStudy from "./ModalFormStudy";
 
-  const handleBtnNuevoEstudio = () => {
-    navigate('/studies/new-study')
-  }
-
+const Studies = ({ user }) => {
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const handleShowCreateModal = () => setShowCreateModal(true);
+  const handleCloseCreateModal = () => setShowCreateModal(false)
   return (
     <>
       <div className="container">
@@ -15,12 +13,13 @@ const Studies = () => {
           <h3>Lista de estudios</h3>
         </header>
       </div>
-      <div style={{margin: 20}}></div>
+      <div style={{ margin: 20 }}></div>
       <TableStudies></TableStudies>
-      <button onClick={handleBtnNuevoEstudio} type="button" className="btn btn-primary">
+      <button onClick={handleShowCreateModal} type="button" className="btn btn-primary" style={{ width: '20%' }}>
         Nuevo Estudio
       </button>
-      <div style={{margin: 20}}>
+      <div style={{ margin: 20 }}>
+        <ModalFormStudy show={showCreateModal} handleClose={handleCloseCreateModal} userId={user.id} />
       </div>
     </>
   )
