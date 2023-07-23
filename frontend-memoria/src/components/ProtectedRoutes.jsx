@@ -6,6 +6,8 @@ import Profile from "./Profile";
 import BoardTester from "./tester/BoardTester";
 import Studies from "./tester/Studies";
 import Sidebar from "./Sidebar";
+import HomeUser from "./user/HomeUser"
+import BoardUser from "./user/BoardUser";
 import { FaBars } from "react-icons/fa";
 import { Routes, Route } from "react-router-dom";
 import Footer from "./Footer";
@@ -38,8 +40,10 @@ const ProtectedRoutes = () => {
           </div>
           <Routes>
             <Route path="/homeTester" element={<HomeTester />} />
+            <Route path="/homeUser" element={<HomeUser />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/boardTester" element={<BoardTester />} />
+            <Route path="/boardUser" element={<BoardUser />} />
             <Route path="/studies" element={<Studies />} />
           </Routes>
           <Footer />
