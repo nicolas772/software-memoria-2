@@ -11,7 +11,7 @@ registerLocale('es', es)
 function ModalFormStudy(props) {
   const { show, handleClose, userId } = props;
   const [softwareName, setSoftwareName] = useState("");
-  const [softwareType, setSoftwareType] = useState("");
+  const [softwareType, setSoftwareType] = useState("App Desktop");
   const [softwareUrl, setSoftwareUrl] = useState("");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -60,7 +60,6 @@ function ModalFormStudy(props) {
         setEndDate()
         setBadEndDate(false)
         handleClose();
-        window.location.reload();
       },
       (error) => {
         const resMessage =

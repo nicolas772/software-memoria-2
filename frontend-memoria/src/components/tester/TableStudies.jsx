@@ -10,26 +10,9 @@ const fechaConPalabras = (miFecha) => {
   return(fechaConPalabras); 
 }
 
-const TableStudies = () => {
-  const [content, setContent] = useState([]);
-
-  useEffect(() => {
-    UserService.getStudies().then(
-      (response) => {
-        setContent(response.data);
-      },
-      (error) => {
-        const _content =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-
-        setContent(_content);
-      }
-    );
-  }, []);
+const TableStudies = (props) => {
+  const { content } = props;
+  
   if (content.length === 0) {
     return <p>No hay datos disponibles.</p>;
   }
