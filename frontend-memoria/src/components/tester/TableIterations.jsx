@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Table } from 'react-bootstrap';
-import UserService from "../../services/user.service";
 import { Link } from "react-router-dom";
 
 const fechaConPalabras = (miFecha) => {
@@ -11,26 +10,8 @@ const fechaConPalabras = (miFecha) => {
 }
 
 const TableIterations = (props) => {
-  const { idstudy } = props;
-  const [content, setContent] = useState([]);
+  const { content } = props;
 
-  useEffect(() => {
-    UserService.getIterations(idstudy).then(
-      (response) => {
-        setContent(response.data);
-      },
-      (error) => {
-        const _content =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-
-        setContent(_content);
-      }
-    );
-  }, []);
   if (content.length === 0) {
     return <p>No hay datos disponibles.</p>;
   }

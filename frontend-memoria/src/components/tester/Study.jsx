@@ -15,10 +15,14 @@ const Study = () => {
   const [showEditModal, setShowEditModal] = useState(false)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [title, setTitle] = useState("")
+  const [reloadStudy, setReloadStudy] = useState(false); // Variable para forzar la recarga del componente
   const navigate = useNavigate()
 
   const handleShowModal = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false)
+  const handleCloseModal = () => {
+    setShowModal(false)
+    setReloadStudy(!reloadStudy)
+  }
 
   const handleShowEditModal = () => setShowEditModal(true)
   const handleCloseEditModal = () => setShowEditModal(false)
@@ -69,6 +73,26 @@ const Study = () => {
     handleCloseEditModal();
   };
 
+  const [contentTable, setContentTable] = useState([]);
+
+  useEffect(() => {
+    UserService.getIterations(idstudy).then(
+      (response) => {
+        setContentTable(response.data);
+      },
+      (error) => {
+        const _content =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        setContentTable(_content);
+      }
+    );
+  }, [reloadStudy]);
+
   if(loading){
     return <div>Cargando...</div>
   }
@@ -87,7 +111,7 @@ const Study = () => {
           <li type="disc">URL: {content.url}</li>
         </ul>
       </div>
-      <TableIterations idstudy={idstudy}></TableIterations>
+      <TableIterations content={contentTable}></TableIterations>
       <div style={{ display: 'flex' }}>
         <button onClick={handleShowModal} type="button" className="btn btn-primary" style={{ marginRight: '10px' }}>
           Nueva Iteración

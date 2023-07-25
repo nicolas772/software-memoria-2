@@ -48,7 +48,6 @@ function ModalFormIteration(props) {
         setEndDate()
         setBadEndDate(false)
         handleClose();
-        window.location.reload();
       },
       (error) => {
         const resMessage =

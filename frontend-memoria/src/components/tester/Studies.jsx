@@ -5,14 +5,13 @@ import UserService from "../../services/user.service";
 
 const Studies = ({ user }) => {
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [content, setContent] = useState([]);
+  const [reloadStudy, setReloadStudy] = useState(false); // Variable para forzar la recarga del componente
   const handleShowCreateModal = () => setShowCreateModal(true);
   const handleCloseCreateModal = () => {
     setShowCreateModal(false)
     setReloadStudy(!reloadStudy);
   }
-  const [content, setContent] = useState([]);
-  const [reloadStudy, setReloadStudy] = useState(false); // Variable para forzar la recarga del componente
-
   useEffect(() => {
     UserService.getStudies().then(
       (response) => {
