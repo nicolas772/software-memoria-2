@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button, Modal, Form } from "react-bootstrap";
 import StudyService from "../../services/study.service";
 import DatePicker from "react-datepicker"
@@ -9,13 +10,14 @@ import es from 'date-fns/locale/es';
 registerLocale('es', es)
 
 function ModalEditStudy(props) {
-  const { show, handleClose, idstudy, content } = props;
+  const { show, handleClose, idstudy, content, onEditSuccess } = props;
   const [softwareName, setSoftwareName] = useState(content.software_name);
   const [softwareType, setSoftwareType] = useState(content.software_tipe);
   const [softwareUrl, setSoftwareUrl] = useState(content.url);
   const [startDate, setStartDate] = useState(new Date(content.start_date));
   const [endDate, setEndDate] = useState(new Date(content.end_date));
   const [badEndDate, setBadEndDate] = useState(false)
+  const navigate = useNavigate()
 
   const onChangeSoftwareName = (e) => {
     const softwareName = e.target.value;
@@ -53,14 +55,16 @@ function ModalEditStudy(props) {
     // Aquí se puede realizar la lógica para enviar los datos del formulario
     StudyService.update(idstudy, softwareName, softwareType, softwareUrl, startDate, endDate).then(
       (response) => {
-        setSoftwareName("")
-        setSoftwareType("")
-        setSoftwareUrl("")
-        setStartDate()
-        setEndDate()
-        setBadEndDate(false)
-        handleClose();
-        window.location.reload();
+        // ... éxito al editar el estudio ...
+        const editedContent = {
+          ...content,
+          software_name: softwareName,
+          software_tipe: softwareType,
+          url: softwareUrl,
+          start_date: startDate.toISOString(),
+          end_date: endDate.toISOString()
+        };
+        onEditSuccess(editedContent); // Llamamos a la función de edición exitosa y pasamos el contenido editado
       },
       (error) => {
         const resMessage =

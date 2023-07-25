@@ -61,7 +61,13 @@ const Study = () => {
         setContent(_content);
       }
     );
-  }, []);
+  }, [idstudy]);
+
+  // Función para manejar la edición exitosa
+  const handleEditSuccess = (editedContent) => {
+    setContent(editedContent);
+    handleCloseEditModal();
+  };
 
   if(loading){
     return <div>Cargando...</div>
@@ -95,7 +101,7 @@ const Study = () => {
       </div>
       <div style={{ margin: 50 }}></div>
       <ModalFormIteration show={showModal} handleClose={handleCloseModal} idstudy={idstudy}/>
-      <ModalEditStudy show={showEditModal} handleClose={handleCloseEditModal} idstudy={idstudy} content={content} />
+      <ModalEditStudy show={showEditModal} handleClose={handleCloseEditModal} onEditSuccess={handleEditSuccess} idstudy={idstudy} content={content} />
       <DeleteConfirmationModal
         show={showDeleteModal}
         handleClose={handleCloseDeleteModal}
