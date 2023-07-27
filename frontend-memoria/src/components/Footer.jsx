@@ -10,7 +10,7 @@ function Footer() {
           rel="noopener noreferrer"
           href="https://www.linkedin.com/in/narayaurrutia/"
         >
-          Nicolás Araya Urrutia
+          Nicolás Araya
         </a>
       </small>
     </footer>
