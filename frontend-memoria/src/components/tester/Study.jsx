@@ -44,6 +44,10 @@ const Study = () => {
     )
   };
 
+  const handleBack = () => {
+    window.history.back();
+  }
+
   useEffect(() => {
     setTitle('Estudio de ' + content.software_name)
   }, [content])
@@ -119,8 +123,11 @@ const Study = () => {
         <button onClick={handleShowEditModal} type="button" className="btn btn-primary" style={{ marginRight: '10px' }}>
           Editar Estudio
         </button>
-        <button onClick={handleShowDeleteModal} type="button" className="btn btn-danger">
+        <button onClick={handleShowDeleteModal} type="button" className="btn btn-danger" style={{ marginRight: '10px' }}>
           Eliminar Estudio
+        </button>
+        <button onClick={handleBack} type="button" className="btn btn-primary">
+          Volver a Estudios
         </button>
       </div>
       <div style={{ margin: 50 }}></div>

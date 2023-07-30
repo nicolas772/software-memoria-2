@@ -101,6 +101,10 @@ const Iteration = () => {
     )
   };
 
+  const handleBack = () => {
+    window.history.back();
+  }
+
   useEffect(() => {
     setTitle('Iteración ' + content.iteration_number)
   }, [content])
@@ -182,8 +186,11 @@ const Iteration = () => {
             Activar Iteración
           </button>
         )}
-        <button onClick={handleShowDeleteModal} type="button" className="btn btn-danger">
+        <button onClick={handleShowDeleteModal} type="button" className="btn btn-danger" style={{ marginRight: '10px' }}>
           Eliminar Iteración
+        </button>
+        <button onClick={handleBack} type="button" className="btn btn-primary">
+          Volver a Estudio
         </button>
       </div>
       <div style={{ margin: 50 }}></div>

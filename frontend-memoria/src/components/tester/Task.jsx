@@ -42,6 +42,11 @@ const Task = () => {
     )
   };
 
+  const handleBack = () => {
+    window.history.back();
+  }
+
+
   useEffect(() => {
     UserService.getTask(idtask).then(
       (response) => {
@@ -84,8 +89,11 @@ const Task = () => {
         <button onClick={handleShowModal} type="button" className="btn btn-primary" style={{ marginRight: '10px' }}>
           Editar Tarea
         </button>
-        <button onClick={handleShowDeleteModal} type="button" className="btn btn-danger">
+        <button onClick={handleShowDeleteModal} type="button" className="btn btn-danger" style={{ marginRight: '10px' }}>
           Eliminar Tarea
+        </button>
+        <button onClick={handleBack} type="button" className="btn btn-primary">
+          Volver a Iteración
         </button>
       </div>
       <div style={{ margin: 50 }}></div>
