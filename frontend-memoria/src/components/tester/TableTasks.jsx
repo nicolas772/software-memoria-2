@@ -4,26 +4,9 @@ import UserService from "../../services/user.service";
 import { Link } from "react-router-dom";
 
 const TableTasks = (props) => {
-  const { iditeration } = props;
-  const [content, setContent] = useState([]);
+  const { content } = props;
 
-  useEffect(() => {
-    UserService.getTasks(iditeration).then(
-      (response) => {
-        setContent(response.data);
-      },
-      (error) => {
-        const _content =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-
-        setContent(_content);
-      }
-    );
-  }, []);
+  
   if (content.length === 0) {
     return <p>No hay datos disponibles.</p>;
   }

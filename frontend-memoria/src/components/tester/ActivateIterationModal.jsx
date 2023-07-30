@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 
 const ActivateIterationModal = ({ show, handleClose, handleActivate, element, ntareas }) => {

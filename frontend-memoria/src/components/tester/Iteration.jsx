@@ -31,14 +31,24 @@ const Iteration = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [showActivateModal, setShowActivateModal] = useState(false)
   const [showFinalizarModal, setShowFinalizarModal] = useState(false)
+  const [reloadTask, setReloadTask] = useState(false);
+  const [reloadIteration, setReloadIteration] = useState(false);
   const [title, setTitle] = useState("")
+  const [contentTable, setContentTable] = useState([]);
   const navigate = useNavigate()
 
   const handleShowModal = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false)
+  const handleCloseModal = () => {
+    setShowModal(false)
+    setReloadTask(!reloadTask)
+  }
 
   const handleShowEditModal = () => setShowEditModal(true)
-  const handleCloseEditModal = () => setShowEditModal(false)
+  const handleCloseEditModal = () => {
+    setShowEditModal(false)
+    setReloadIteration(!reloadIteration)
+
+  }
 
   const handleShowDeleteModal = () => setShowDeleteModal(true)
   const handleCloseDeleteModal = () => setShowDeleteModal(false)
@@ -54,7 +64,8 @@ const Iteration = () => {
     IterationService.setStateIteration(iditeration, state).then(
       (response) => {
         setShowActivateModal(false);
-        window.location.reload()
+        //window.location.reload()
+        setReloadIteration(!reloadIteration)
       },
       (error) => {
         console.log(error)
@@ -66,8 +77,9 @@ const Iteration = () => {
     const state = "Finalizada"
     IterationService.setStateIteration(iditeration, state).then(
       (response) => {
-        setShowActivateModal(false);
-        window.location.reload()
+        setShowFinalizarModal(false);
+        //window.location.reload()
+        setReloadIteration(!reloadIteration)
       },
       (error) => {
         console.log(error)
@@ -110,7 +122,25 @@ const Iteration = () => {
         setContent(_content);
       }
     );
-  }, []);
+  }, [reloadTask, reloadIteration]);
+
+  useEffect(() => {
+    UserService.getTasks(iditeration).then(
+      (response) => {
+        setContentTable(response.data);
+      },
+      (error) => {
+        const _content =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        setContentTable(_content);
+      }
+    );
+  }, [reloadTask]);
 
   if (loading) {
     return <div>Cargando...</div>
@@ -133,7 +163,7 @@ const Iteration = () => {
         </ul>
       </div>
 
-      <TableTasks iditeration={iditeration}></TableTasks>
+      <TableTasks content={contentTable}></TableTasks>
 
 
       <div style={{ display: 'flex' }}>

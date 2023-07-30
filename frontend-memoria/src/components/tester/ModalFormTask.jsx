@@ -57,7 +57,6 @@ function ModalFormTask(props) {
         setMinutes(0)
         setSeconds(0)
         handleClose();
-        window.location.reload();
       },
       (error) => {
         const resMessage =
