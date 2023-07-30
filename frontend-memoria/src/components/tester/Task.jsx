@@ -11,10 +11,14 @@ const Task = () => {
   const [loading, setLoading] = useState(true)
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [reloadTask, setReloadTask] = useState(false)
   const navigate = useNavigate()
 
   const handleShowModal = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false)
+  const handleCloseModal = () => {
+    setShowModal(false)
+    setReloadTask(!reloadTask)
+  }
 
   const handleShowDeleteModal = () => {
     setShowDeleteModal(true);
@@ -55,7 +59,7 @@ const Task = () => {
         setContent(_content);
       }
     );
-  }, []);
+  }, [reloadTask]);
 
   if (loading) {
     return <div>Cargando...</div>
@@ -85,7 +89,12 @@ const Task = () => {
         </button>
       </div>
       <div style={{ margin: 50 }}></div>
-      <ModalEditTask show={showModal} handleClose={handleCloseModal} idtask={idtask} content={content} />
+      <ModalEditTask 
+        show={showModal} 
+        handleClose={handleCloseModal} 
+        idtask={idtask} 
+        content={content}
+      />
       <DeleteConfirmationModal
         show={showDeleteModal}
         handleClose={handleCloseDeleteModal}

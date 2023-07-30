@@ -51,13 +51,7 @@ function ModalEditTask(props) {
     // Aquí se puede realizar la lógica para enviar los datos del formulario
     TaskService.update(idtask, titulo, descripcion, dificulty, minutes, seconds).then(
       (response) => {
-        setTitulo("")
-        setDescripcion("")
-        setDificulty("Fácil")
-        setMinutes(0)
-        setSeconds(0)
         handleClose();
-        window.location.reload();
       },
       (error) => {
         const resMessage =
