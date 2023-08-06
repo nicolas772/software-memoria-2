@@ -6,29 +6,19 @@ import { isEmail } from "validator";
 const validEmail = (value) => {
   if (!isEmail(value)) {
     return (
-      "Este no es un email válido."
+      "Ingrese un correo electrónico válido."
     );
   }
   return ("")
 };
 
-const vusername = (value) => {
-  if (value.length < 3 || value.length > 20) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        El nombre de usuario debe tener entre 3 y 20 caracteres.
-      </div>
-    );
-  }
-};
-
-const vpassword = (value) => {
-  if (value.length < 6 || value.length > 40) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        La contraseña debe tener entre 6 y 40 caracteres.
-      </div>
-    );
+const validLength = (value, isUsername) => {
+  if (value.length < 6 || value.length > 20) {
+    if (isUsername) {
+      return ("El nombre de usuario debe tener entre 6 y 20 caracteres.");
+    } else {
+      return ("La contraseña debe tener entre 6 y 20 caracteres.");
+    }
   }
 };
 
@@ -36,9 +26,10 @@ const Register2 = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
   const [isTester, setIsTester] = useState(false)
   const [emailError, setEmailError] = useState("")
+  const [usernameError, setUsernameError] = useState("")
+  const [passwordError, setPasswordError] = useState("")
   const [successful, setSuccessful] = useState(false);
   const [message, setMessage] = useState("");
   const navigate = useNavigate()
@@ -46,7 +37,23 @@ const Register2 = () => {
   const onChangeUsername = (e) => {
     const username = e.target.value;
     setUsername(username);
+    if (username) {
+      const error = validLength(username, true);
+      if (!error) {
+        setUsernameError("");
+      }
+    } else {
+      setUsernameError("");
+    }
   };
+  const onBlurUsername = () => {
+    if (username) {
+      const error = validLength(username, true);
+      setUsernameError(error);
+    } else {
+      setUsernameError("");
+    }
+  }
 
   const onChangeEmail = (e) => {
     const email = e.target.value;
@@ -73,12 +80,23 @@ const Register2 = () => {
   const onChangePassword = (e) => {
     const password = e.target.value;
     setPassword(password);
+    if (password) {
+      const error = validLength(password, false);
+      if (!error) {
+        setPasswordError("");
+      }
+    } else {
+      setPasswordError("");
+    }
   };
-
-  const onChangePasswordConfirm = (e) => {
-    const passwordConfirm = e.target.value;
-    setPasswordConfirm(passwordConfirm);
-  };
+  const onBlurPassword = () => {
+    if (password) {
+      const error = validLength(password, false);
+      setPasswordError(error);
+    } else {
+      setPasswordError("");
+    }
+  }
 
   const onChangeIsTester = (e) => {
     setIsTester(e.target.checked);
@@ -91,8 +109,9 @@ const Register2 = () => {
     console.log(username)
     console.log(email)
     console.log(password)
-    console.log(passwordConfirm)
     console.log(isTester)
+    setSuccessful(true);
+    setMessage("Usuario registrado exitosamente");
     /*AuthService.register(username, email, password, isTester).then(
       (response) => {
         setMessage(response.data.message);
@@ -116,39 +135,56 @@ const Register2 = () => {
     <div className='gradient-background'>
       <div className="box">
         <h2>Feel<span style={{ color: 'hsl(218, 81%, 75%)' }}>UX</span></h2>
-        <form action="" onSubmit={handleRegister}>
-          <div className="inputBox">
-            <input type="text" onChange={onChangeUsername} required />
-            <label>Usuario</label>
-          </div>
-          <div className="inputBox">
-            <input type="text" onChange={onChangeEmail} onBlur={onBlurEmail} required />
-            <label>Email</label>
-          </div>
-          {emailError && (
-            <div className="alert alert-danger" role="alert">
-              {emailError}
+        {!successful && (
+          <>
+            <form action="" onSubmit={handleRegister}>
+              <div className="inputBox">
+                <input type="text" onChange={onChangeUsername} onBlur={onBlurUsername} required />
+                <label>Usuario</label>
+              </div>
+              {usernameError && (
+                <div className="alert alert-danger" role="alert">
+                  {usernameError}
+                </div>
+              )}
+              <div className="inputBox">
+                <input type="text" onChange={onChangeEmail} onBlur={onBlurEmail} required />
+                <label>Email</label>
+              </div>
+              {emailError && (
+                <div className="alert alert-danger" role="alert">
+                  {emailError}
+                </div>
+              )}
+              <div className="inputBox">
+                <input type="password" onChange={onChangePassword} onBlur={onBlurPassword} required />
+                <label>Contraseña</label>
+              </div>
+              {passwordError && (
+                <div className="alert alert-danger" role="alert">
+                  {passwordError}
+                </div>
+              )}
+              <div className="inputBoxCheckbox">
+                <input type="checkbox" onChange={onChangeIsTester} />
+                <label>Quiero registrarme como Tester</label>
+              </div>
+              <div className="button-container">
+                <input type="submit" value="Registrarse" />
+              </div>
+            </form>
+            <div className='button-container'>
+              <p>¿Ya tienes una cuenta? <a href="/login"> Iniciar Sesión</a></p>
             </div>
-          )}
-          <div className="inputBox">
-            <input type="password" onChange={onChangePassword} required />
-            <label>Contraseña</label>
-          </div>
-          <div className="inputBox">
-            <input type="password" onChange={onChangePasswordConfirm} required />
-            <label>Confirme Contraseña</label>
-          </div>
-          <div className="inputBoxCheckbox">
-            <input type="checkbox" onChange={onChangeIsTester} />
-            <label>Quiero registrarme como Tester</label>
-          </div>
-          <div className="button-container">
-            <input type="submit" value="Registrarse" />
-          </div>
-        </form>
-        <div className='button-container'>
-          <p>¿Ya tienes una cuenta? <a href="/login"> Iniciar Sesión</a></p>
-        </div>
+          </>
+        )}
+        {message && (
+          <>
+            <div className="inputBoxConfirmation">
+              {message}. <a href="/login">Iniciar Sesión</a>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

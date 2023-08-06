@@ -18,7 +18,7 @@
 	left: 50%;
 	transform: translate(-50%, -50%);
 	width: 400px;
-	padding: 40px;
+	padding: 32px;
 	background: rgba(0, 0, 0, .8);
 	box-sizing: border-box;
 	box-shadow: 0 15px 25px rgba(0, 0, 0, .5);
@@ -44,6 +44,15 @@
 
 .box .inputBoxCheckbox {
 	position: relative;
+}
+
+.box .inputBoxConfirmation {
+	position: relative;
+	margin: 20px 0 15px;
+	font-size: 16px;
+	color: #FFF;
+	transition: .5s;
+	animation: LabelOnLoad 1s forwards 0s ease;
 }
 
 .box .inputBox input {
