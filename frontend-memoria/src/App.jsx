@@ -1,14 +1,15 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Login from "./components/Login";
+//import Login from "./components/Login";
 import Register from "./components/Register";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import ProtectedRoutesWithoutSidebar from "./components/ProtectedRoutesWithoutSidebar"
 import Login2 from "./components/Login2";
 import Register2 from "./components/Register2";
 import "bootstrap/dist/css/bootstrap.min.css";
-//import "./App.css";
 import "./css/styleLogin.css"
+import "./App.css";
+
 
 function App() {
 
