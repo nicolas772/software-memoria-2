@@ -106,13 +106,7 @@ const Register2 = () => {
     e.preventDefault();
     setMessage("");
     setSuccessful(false);
-    console.log(username)
-    console.log(email)
-    console.log(password)
-    console.log(isTester)
-    setSuccessful(true);
-    setMessage("Usuario registrado exitosamente");
-    /*AuthService.register(username, email, password, isTester).then(
+    AuthService.register(username, email, password, isTester).then(
       (response) => {
         setMessage(response.data.message);
         setSuccessful(true);
@@ -128,7 +122,7 @@ const Register2 = () => {
         setMessage(resMessage);
         setSuccessful(false);
       }
-    );*/
+    );
   };
 
   return (
@@ -180,8 +174,11 @@ const Register2 = () => {
         )}
         {message && (
           <>
-            <div className="inputBoxConfirmation">
-              {message}. <a href="/login">Iniciar Sesión</a>
+            <div className={successful ? "inputBoxConfirmation" : "alert alert-danger"}>
+              {message}
+              {successful && (
+                <a href="/login"> Iniciar Sesión</a>
+              )}
             </div>
           </>
         )}
