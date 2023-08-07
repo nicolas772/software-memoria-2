@@ -24,6 +24,8 @@ import {
 } from 'react-icons/fa';
 import AuthService from '../services/auth.service';
 import sidebarBg from '../assets/bg1.jpg';
+import sidebarBgTester from '../assets/bg3.jpg'
+import sidebarBgUser from '../assets/bg5.jpg'
 import '../css/styles.scss'
 
 const Sidebar = ({ collapsed, toggled, handleToggleSidebar, handleCollapsedChange, user }) => {
@@ -45,7 +47,7 @@ const Sidebar = ({ collapsed, toggled, handleToggleSidebar, handleCollapsedChang
   return (
     <>
       <ProSidebar
-        image={sidebarBg}
+        image={sidebarBgTester}
         collapsed={collapsed}
         toggled={toggled}
         onToggle={handleToggleSidebar}
