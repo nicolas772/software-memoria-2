@@ -55,7 +55,7 @@ const ProtectedRoutes = () => {
             <Route path="/doiteration/:iditeration" element={<IterationUser />} />
             <Route path="/studies/:idstudy/:iditeration/:idtask" element={<Task />} />
           </Routes>
-          <Footer />
+          
         </main>
       </div>
     );

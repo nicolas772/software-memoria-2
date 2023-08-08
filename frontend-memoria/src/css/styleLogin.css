@@ -130,7 +130,7 @@
 	border: none;
 	outline: none;
 	color: #FFF;
-	background: #03A9F4;
+	background: rgba(3, 169, 244, 0.7);
 	padding: 10px 20px;
 	cursor: pointer;
 	border-radius: 5px;
@@ -138,7 +138,7 @@
 }
 
 .box input[type='submit']:hover {
-	background-color: rgba(3, 169, 244, 0.7);
+	background-color: #6B96C2;
 }
 
 @media(max-width: 720px) {

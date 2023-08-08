@@ -3,70 +3,115 @@ html, body {
 	height:100%;
 }
 
-/*label {
-  display: block;
-  margin-top: 10px;
+.gradient-background-pages {
+	font-family: sans-serif;
+	/* 	background: url(bg.jpg); */
+	background-image: linear-gradient(to right top, #edf4fb, #e9eff4);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	height: 100vh;
+	/* O ajusta la altura según tus necesidades */
+	display: flex;
 }
 
-.gradient-background {
-  background: linear-gradient(to bottom, #D5E8FB, #a5b8c9);
+
+.welcome-div {
+  position: relative;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 600px;
+	padding-top: 7%;
 }
 
-.container {
-  height: 25px;
+.welcome-div h1 {
+	margin: 0 0 30px;
+	padding: 0;
+	color: #435F7A;
+	text-align: center;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  transition: .5s;
+	animation: LabelOnLoad 1s forwards 0s ease;
 }
 
-.col-md-12 {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+.welcome-div p {
+	margin: 0 0 30px;
+	padding: 0;
+	color: #435F7A;
+	text-align: center;
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  transition: .5s;
+	animation: LabelOnLoad 1s forwards 0s ease;
 }
 
-.login-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+.box-code-study {
+	position: relative;
+	top: 15%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 400px;
+	padding: 20px;
+	background: #435F7A;
+	box-sizing: border-box;
+	box-shadow: 0 3px 5px rgba(0, 0, 0, .5);
+	border-radius: 10px;
 }
 
-.login-container .col-md-6 {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+.box-code-study .inputBox {
+	display: flex;
+	justify-content: center;
+  margin-bottom: 20px;
 }
 
-.left-content {
-  margin-left: 80px;
-  text-align: justify;
-}
-
-.card {
-  background-color: #f7f7f7;
-  padding: 20px 25px 17px;
-  margin: 0 auto 25px;
-  margin-top: 50px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  border-radius: 2px;
-  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-}
-
-.card-container.card {
-  width: 300px;
-}
-
-.card-container-register.card {
-  width: 300px;
-  margin-top: 15px;
-}
-
-.card-container-register > h4 {
+.box-code-study .inputBox label {
+	position: relative;
   text-align: center;
-  color: #343a40;
-}*/
+  line-height: 2;
+	font-size: 16px;
+	color: #D5E8FB;
+	pointer-events: none;
+	transition: .5s;
+	animation: LabelOnLoad 1s forwards 0s ease;
+  margin-right: 10px;
+}
 
+.centered-input {
+  text-align: center;
+}
 
+.box-code-study .inputBox input:focus~label,
+.box-code-study .inputBox input:valid~label {
+	top: -19px;
+	left: 0;
+	color: #03A9F4;
+	font-size: 11px;
+}
+
+.button-container {
+	display: flex;
+	justify-content: center;
+}
+
+.box-code-study input[type='submit'] {
+	background: transparent;
+	border: none;
+	outline: none;
+	color: #FFF;
+	background: #6B96C2;
+	padding: 10px 20px;
+	cursor: pointer;
+	border-radius: 5px;
+	font-size: 15px;
+  font-weight: 520;
+}
+
+.box-code-study input[type='submit']:hover {
+	background-color: rgba(3, 169, 244, 0.7);
+}
+
+.form-control[type="tel"] {
+  width: 100px;
+}

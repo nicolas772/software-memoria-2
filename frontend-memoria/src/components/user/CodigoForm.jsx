@@ -30,7 +30,7 @@ function CodigoForm() {
             navigate(`/doiteration/${codigo_iteracion_int}`)
           } else {
             setTitleModal('Información')
-            setBodyModal('La iteracion ingresada tiene el siguiente estado: '+data.state)
+            setBodyModal('La iteracion ingresada tiene el siguiente estado: ' + data.state)
             handleShowInfoModal()
           }
         } else {
@@ -48,21 +48,25 @@ function CodigoForm() {
   };
 
   return (
-    <div>
+    <div className='box-code-study '>
       <form onSubmit={handleSubmit}>
-        <label>
-          Ingrese el código de 6 dígitos:
+        <div className='inputBox'>
+          <label>
+            Ingresa el Código del Estudio:
+          </label>
           <input
-            type="text"
+            type="tel"
             value={codigo}
             onChange={handleChange}
-            maxLength={6}
-            pattern="[0-9]*" // Añadir el atributo pattern para dispositivos móviles
-          />
-        </label>
-        <button type="submit" className="btn btn-primary">
-          Enviar
-        </button>
+            maxlength="6"
+            pattern="[0-9]*"
+            className="form-control">
+          </input>
+        </div>
+
+        <div className='button-container'>
+          <input type="submit" value="Ingresar" />
+        </div>
       </form>
 
       <InfoModal
