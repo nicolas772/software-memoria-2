@@ -1,6 +1,7 @@
-html, body {
-	width:100%;
-	height:100%;
+html,
+body {
+	width: 100%;
+	height: 100%;
 }
 
 .gradient-background-pages {
@@ -10,14 +11,14 @@ html, body {
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
-	height: 100vh;
+	height: 500vh;
 	/* O ajusta la altura según tus necesidades */
 	display: flex;
 }
 
 
 .welcome-div {
-  position: relative;
+	position: relative;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
@@ -30,9 +31,9 @@ html, body {
 	padding: 0;
 	color: #435F7A;
 	text-align: center;
-  font-family: "Poppins", sans-serif;
-  font-weight: 600;
-  transition: .5s;
+	font-family: "Poppins", sans-serif;
+	font-weight: 600;
+	transition: .5s;
 	animation: LabelOnLoad 1s forwards 0s ease;
 }
 
@@ -41,9 +42,9 @@ html, body {
 	padding: 0;
 	color: #435F7A;
 	text-align: center;
-  font-family: "Poppins", sans-serif;
-  font-weight: 300;
-  transition: .5s;
+	font-family: "Poppins", sans-serif;
+	font-weight: 300;
+	transition: .5s;
 	animation: LabelOnLoad 1s forwards 0s ease;
 }
 
@@ -60,26 +61,59 @@ html, body {
 	border-radius: 10px;
 }
 
+.box-code-iteration {
+	position: relative;
+	left: 15%;
+	width: 450px;
+	padding: 20px;
+	background: #435F7A;
+	box-sizing: border-box;
+	box-shadow: 0 3px 5px rgba(0, 0, 0, .5);
+	border-radius: 10px;
+}
+
+.box-code-iteration h3 {
+	/*margin: 0 0 30px;*/
+	padding: 0;
+	color: #D5E8FB;
+	text-align: left;
+	font-family: "Poppins", sans-serif;
+	font-weight: 600;
+	transition: .5s;
+	animation: LabelOnLoad 1s forwards 0s ease;
+}
+
+.box-code-iteration li {
+	margin: 0 0 10px;
+	padding: 0;
+	color: #D5E8FB;
+	text-align: left;
+	font-family: "Poppins", sans-serif;
+	font-weight: 400;
+	transition: .5s;
+	animation: LabelOnLoad 1s forwards 0s ease;
+}
+
 .box-code-study .inputBox {
 	display: flex;
 	justify-content: center;
-  margin-bottom: 20px;
+	margin-bottom: 20px;
 }
 
 .box-code-study .inputBox label {
 	position: relative;
-  text-align: center;
-  line-height: 2;
+	text-align: center;
+	line-height: 2;
 	font-size: 16px;
 	color: #D5E8FB;
 	pointer-events: none;
 	transition: .5s;
 	animation: LabelOnLoad 1s forwards 0s ease;
-  margin-right: 10px;
+	margin-right: 10px;
 }
 
 .centered-input {
-  text-align: center;
+	text-align: center;
 }
 
 .box-code-study .inputBox input:focus~label,
@@ -105,7 +139,7 @@ html, body {
 	cursor: pointer;
 	border-radius: 5px;
 	font-size: 15px;
-  font-weight: 520;
+	font-weight: 520;
 }
 
 .box-code-study input[type='submit']:hover {
@@ -113,5 +147,5 @@ html, body {
 }
 
 .form-control[type="tel"] {
-  width: 100px;
+	width: 100px;
 }

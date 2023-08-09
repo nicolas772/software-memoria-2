@@ -5,8 +5,9 @@ import AuthService from "../../services/auth.service";
 import InfoModal from './InfoModal';
 import RedirectModal from "./RedirectModal";
 
-const IterationUser = () => {
-  const { iditeration } = useParams();
+const IterationUser = (props) => {
+  //const { iditeration } = useParams();
+  const { iditeration, handleBack } = props
   const [content, setContent] = useState({});
   const [loading, setLoading] = useState(true);
   const [titleModal, setTitleModal] = useState('')
@@ -24,6 +25,10 @@ const IterationUser = () => {
     navigate(url)
   }
 
+  const handleButtonBack = () => {
+    handleBack()
+  }
+
   const handleIniciarEstudio = () => {
     const user = AuthService.getCurrentUser();
     UserService.getNextTaskForStudy(iditeration, user.id).then(
@@ -32,30 +37,30 @@ const IterationUser = () => {
         const userInTask = response.data.inTask
         const userInCSUQ = response.data.inCSUQ
         const userInQuestion = response.data.inQuestion
-        if (userInTask){
+        if (userInTask) {
           setTitleModal('Información')
           setBodyModal('¿Deseas continuar con el estudio? Si ya lo iniciaste, serás redirigido a la última tarea pendiente.')
           setUrl(`/user/doiteration/${iditeration}/${nextTask}`)
           handleShowRedirectModal()
           //navigate(`/user/doiteration/${iditeration}/${nextTask}`)
-        }else if (userInCSUQ){
+        } else if (userInCSUQ) {
           setTitleModal('Información')
           setBodyModal('¿Deseas continuar con el estudio? Serás redirigido al cuestionario CSUQ.')
           setUrl(`/user/doCSUQ/${iditeration}`)
           handleShowRedirectModal()
           //navigate(`/user/doCSUQ/${iditeration}`)
-        }else if (userInQuestion){
+        } else if (userInQuestion) {
           setTitleModal('Información')
           setBodyModal('¿Deseas continuar con el estudio? Serás redirigido a las preguntas abiertas. ')
           setUrl(`/user/doQuestion/${iditeration}`)
           handleShowRedirectModal()
           //navigate(`/user/doQuestion/${iditeration}`)
-        }else{
+        } else {
           setTitleModal('Información')
           setBodyModal('Ya completaste todas las etapas de esta iteración')
           handleShowInfoModal()
         }
-        
+
       },
       (error) => {
         console.log(error)
@@ -90,21 +95,26 @@ const IterationUser = () => {
     <>
       <div>
         <header>
-          <h3>Iteracion {content.iteration.iteration_number}</h3>
+          <h3>Estudio: {content.study.software_name}</h3>
         </header>
       </div>
       <div>
         <ul>
-          <li type="disc">Estudio: {content.study.software_name}</li>
+          <li type="disc">Iteracion n° {content.iteration.iteration_number}</li>
           <li type="disc">Tipo de software: {content.study.software_tipe}</li>
-          <li type="disc">Url software: {content.study.url}</li>
+          <li type="disc">Url software:
+            <a href={content.study.url}> {content.study.url}</a>
+          </li>
           <li type="disc">Objetivo: {content.iteration.goal}</li>
           <li type="disc">Cantidad de tareas asociadas: {content.iteration.task_qty}</li>
         </ul>
       </div>
-      <div style={{ display: 'flex' }}>
+      <div className="button-container">
         <button onClick={handleIniciarEstudio} type="button" className="btn btn-primary" style={{ marginRight: '10px' }}>
           Iniciar Estudio
+        </button>
+        <button onClick={handleButtonBack} type="button" className="btn btn-primary" style={{ marginRight: '10px' }}>
+          Volver
         </button>
       </div>
       <InfoModal
