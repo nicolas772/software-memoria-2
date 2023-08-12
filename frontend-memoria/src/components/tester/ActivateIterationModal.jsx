@@ -4,18 +4,15 @@ const ActivateIterationModal = ({ show, handleClose, handleActivate, element, nt
   if (ntareas === 0) {
     return (
       <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>No es posible activar la {element}</Modal.Title>
+        <Modal.Header>
+          <Modal.Title>Información</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <p>Agrega una tarea para poder activar la {element}.</p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Cancelar
-          </Button>
-          <Button variant="primary" disabled>
-            Activar
+            Cerrar
           </Button>
         </Modal.Footer>
       </Modal>
@@ -25,8 +22,11 @@ const ActivateIterationModal = ({ show, handleClose, handleActivate, element, nt
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>¿Está seguro que desea activar la {element}?</Modal.Title>
+        <Modal.Title>Confirmación</Modal.Title>
       </Modal.Header>
+      <Modal.Body>
+          <p>¿Estás seguro que deseas activar la {element}?</p>
+        </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
           Cancelar

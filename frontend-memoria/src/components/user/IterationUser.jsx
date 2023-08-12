@@ -38,19 +38,19 @@ const IterationUser = (props) => {
         const userInCSUQ = response.data.inCSUQ
         const userInQuestion = response.data.inQuestion
         if (userInTask) {
-          setTitleModal('Información')
-          setBodyModal('¿Deseas continuar con el estudio? Si ya lo iniciaste, serás redirigido a la última tarea pendiente.')
+          setTitleModal('Confirmación')
+          setBodyModal('¿Deseas ir al estudio? Si ya lo iniciaste, serás redirigido a la última tarea pendiente.')
           setUrl(`/user/doiteration/${iditeration}/${nextTask}`)
           handleShowRedirectModal()
           //navigate(`/user/doiteration/${iditeration}/${nextTask}`)
         } else if (userInCSUQ) {
-          setTitleModal('Información')
+          setTitleModal('Confirmación')
           setBodyModal('¿Deseas continuar con el estudio? Serás redirigido al cuestionario CSUQ.')
           setUrl(`/user/doCSUQ/${iditeration}`)
           handleShowRedirectModal()
           //navigate(`/user/doCSUQ/${iditeration}`)
         } else if (userInQuestion) {
-          setTitleModal('Información')
+          setTitleModal('Confirmación')
           setBodyModal('¿Deseas continuar con el estudio? Serás redirigido a las preguntas abiertas. ')
           setUrl(`/user/doQuestion/${iditeration}`)
           handleShowRedirectModal()
@@ -102,8 +102,8 @@ const IterationUser = (props) => {
         <ul>
           <li type="disc">Iteracion n° {content.iteration.iteration_number}</li>
           <li type="disc">Tipo de software: {content.study.software_tipe}</li>
-          <li type="disc">Url software:
-            <a href={content.study.url}> {content.study.url}</a>
+          <li type="disc">Url software:&nbsp;
+            <a href={content.study.url}>{content.study.url}</a>
           </li>
           <li type="disc">Objetivo: {content.iteration.goal}</li>
           <li type="disc">Cantidad de tareas asociadas: {content.iteration.task_qty}</li>

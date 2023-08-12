@@ -1,10 +1,10 @@
 import { Modal, Button } from 'react-bootstrap';
 
-const RedirectModal = ({ show, handleClose, handleRedirect, body }) => {
+const RedirectModal = ({ show, handleClose, handleRedirect, body, title }) => {
   return (
     <Modal show={show} onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>Información</Modal.Title>
+      <Modal.Header>
+        <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
           <p>{body}</p>
@@ -14,7 +14,7 @@ const RedirectModal = ({ show, handleClose, handleRedirect, body }) => {
           Cancelar
         </Button>
         <Button variant="primary" onClick={handleRedirect}>
-          Ir
+          Ir a Estudio
         </Button>
       </Modal.Footer>
     </Modal>

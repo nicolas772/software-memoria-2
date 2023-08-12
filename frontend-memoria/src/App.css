@@ -4,6 +4,10 @@ body {
 	height: 100%;
 }
 
+a {
+	color: #03A9F4;
+}
+
 .gradient-background-pages {
 	font-family: sans-serif;
 	/* 	background: url(bg.jpg); */
@@ -143,6 +147,23 @@ body {
 }
 
 .box-code-study input[type='submit']:hover {
+	background-color: rgba(3, 169, 244, 0.7);
+}
+
+.box-code-iteration button[type='button'] {
+	background: transparent;
+	border: none;
+	outline: none;
+	color: #FFF;
+	background: #6B96C2;
+	padding: 10px 20px;
+	cursor: pointer;
+	border-radius: 5px;
+	font-size: 15px;
+	font-weight: 520;
+}
+
+.box-code-iteration button[type='button']:hover {
 	background-color: rgba(3, 169, 244, 0.7);
 }
 
