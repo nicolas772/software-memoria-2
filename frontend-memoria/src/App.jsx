@@ -6,6 +6,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./css/styleLogin.css"
+import "./css/styleTasks.css"
 import "./App.css";
 
 

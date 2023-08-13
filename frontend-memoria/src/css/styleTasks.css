@@ -1,0 +1,11 @@
+.gradient-background-tasks {
+	font-family: sans-serif;
+	/* 	background: url(bg.jpg); */
+	background-image: linear-gradient(to right top, #D5E8FB, #a0bcd1);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	height: 100vh;
+	/* O ajusta la altura según tus necesidades */
+	display: flex;
+}

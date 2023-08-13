@@ -70,11 +70,40 @@ const TaskUser = () => {
     return <div>Cargando...</div>
   }
   return (
-    <div className="gradient-background-tasks">
+    <>
       <div>
+        <header>
+          <h3>{content.title}</h3>
+        </header>
+      </div>
+      <div>
+        <ul>
+          <li type="disc">Descripción: {content.description}</li>
+        </ul>
       </div>
 
-    </div>
+
+      {mostrarBotones ? (
+        <div style={{ display: 'flex' }}>
+          <button onClick={handleIniciarTarea} type="button" className="btn btn-primary" disabled={tareaIniciada} style={{ marginRight: '10px' }}>
+            Iniciar Tarea
+          </button>
+          <button onClick={handleFinalizarTarea} type="button" disabled={!tareaIniciada} className="btn btn-primary">
+            Finalizar Tarea
+          </button>
+        </div>
+      ) : (
+        <div style={{ display: 'flex' }}>
+          <button onClick={() => handleTareaCompletada(true)} type="button" className="btn btn-primary" style={{ marginRight: '10px' }}>
+            Tarea completada
+          </button>
+          <button onClick={() => handleTareaCompletada(false)} type="button" className="btn btn-secondary">
+            Tarea no completada
+          </button>
+        </div>
+      )}
+
+    </>
   )
 }
 
