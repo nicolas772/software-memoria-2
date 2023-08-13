@@ -1,5 +1,6 @@
 .gradient-background-tasks {
-	position: relative; /* Importante para los estilos absolutos */
+	position: relative;
+	/* Importante para los estilos absolutos */
 	/* 	background: url(bg.jpg); */
 	background-image: linear-gradient(to right top, #D5E8FB, #a0bcd1);
 	background-position: center;
@@ -11,7 +12,8 @@
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: center;
-	font-family: 'Roboto Condensed', sans-serif; /* Agrega la fuente Roboto Condensed */
+	font-family: 'Roboto Condensed', sans-serif;
+	/* Agrega la fuente Roboto Condensed */
 }
 
 .home-link {
@@ -70,7 +72,7 @@
 	animation: LabelOnLoad 1s forwards 0s ease;
 }
 
-.box-task .buttons-div{
+.box-task .buttons-div {
 	margin-top: 20px;
 }
 
@@ -79,7 +81,8 @@
 	border: none;
 	outline: none;
 	color: #FFF;
-	background: #486682;
+	background: #263746;
+	/*background: #486682; este es para disabled*/
 	padding: 10px 20px;
 	cursor: pointer;
 	border-radius: 5px;
@@ -90,14 +93,21 @@
 }
 
 .box-task button[type='button']:hover {
-	background-color: #395067;
+	background-color: #1b2833;
+}
+
+.box-task button[type='button']:disabled {
+	/* Estilos para botones con la propiedad disabled */
+	background-color: #4a6a87;
 }
 
 .page-indicator {
 	position: absolute;
-	bottom: 3%; /* Se coloca al borde inferior */
+	bottom: 3%;
+	/* Se coloca al borde inferior */
 	left: 50%;
-	transform: translateX(-50%); /* Centra horizontalmente */
+	transform: translateX(-50%);
+	/* Centra horizontalmente */
 	font-size: 16px;
 	color: #6f8495;
-  }
+}
