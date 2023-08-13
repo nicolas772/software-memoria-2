@@ -1,5 +1,5 @@
 .gradient-background-tasks {
-	font-family: sans-serif;
+	position: relative; /* Importante para los estilos absolutos */
 	/* 	background: url(bg.jpg); */
 	background-image: linear-gradient(to right top, #D5E8FB, #a0bcd1);
 	background-position: center;
@@ -8,4 +8,92 @@
 	height: 100vh;
 	/* O ajusta la altura según tus necesidades */
 	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+	font-family: 'Roboto Condensed', sans-serif; /* Agrega la fuente Roboto Condensed */
 }
+
+.home-link {
+	position: absolute;
+	top: 20px;
+	left: 30px;
+	text-decoration: none;
+	color: #333;
+}
+
+.home-icon {
+	font-size: 24px;
+	margin-right: 5px;
+}
+
+.home-text {
+	font-size: 16px;
+}
+
+.title-container {
+	text-align: center;
+	margin-top: 100px;
+	/* Espacio entre enlace y título */
+}
+
+.component-title {
+	font-weight: bold;
+	font-size: 32px;
+	margin-bottom: 10px;
+}
+
+.component-subtitle {
+	font-size: 24px;
+}
+
+.box-task {
+	margin-top: 30px;
+	/* Espacio entre subtítulo y box */
+	width: 600px;
+	padding: 20px;
+	background: #6a97c2;
+	box-sizing: border-box;
+	box-shadow: 0 3px 5px rgba(0, 0, 0, .5);
+	border-radius: 10px;
+	text-align: center;
+}
+
+.box-task p {
+	margin: 5px 0 40px;
+	padding: 0;
+	color: #ffffff;
+	text-align: center;
+	font-size: 16px;
+	font-weight: 200;
+	transition: .5s;
+	animation: LabelOnLoad 1s forwards 0s ease;
+}
+
+.box-task button[type='button'] {
+	background: transparent;
+	border: none;
+	outline: none;
+	color: #FFF;
+	background: #486682;
+	padding: 10px 20px;
+	cursor: pointer;
+	border-radius: 5px;
+	font-size: 16px;
+	font-weight: 400;
+	margin: 10px;
+	/* Espacio entre botones */
+}
+
+.box-task button[type='button']:hover {
+	background-color: #395067;
+}
+
+.page-indicator {
+	position: absolute;
+	bottom: 3%; /* Se coloca al borde inferior */
+	left: 50%;
+	transform: translateX(-50%); /* Centra horizontalmente */
+	font-size: 16px;
+	color: #6f8495;
+  }

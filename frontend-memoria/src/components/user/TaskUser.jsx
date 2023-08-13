@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import UserService from "../../services/user.service";
 import TaskService from "../../services/task.service";
 import AuthService from "../../services/auth.service";
+import { FaHome } from 'react-icons/fa'; // Importa el ícono de Home de Font Awesome
 
 const TaskUser = () => {
   const { iditeration, idtask } = useParams();
@@ -34,9 +35,9 @@ const TaskUser = () => {
     const user = AuthService.getCurrentUser();
     TaskService.createTaskInfo(user.id, iditeration, actualTask, complete, duration).then(
       (response) => {
-        if (response.data.finish){
+        if (response.data.finish) {
           navigate(`/user/doCSUQ/${iditeration}`)
-        }else {
+        } else {
           setActualTask(response.data.nextTask)
           setMostrarBotones(true)
         }
@@ -71,9 +72,28 @@ const TaskUser = () => {
   }
   return (
     <div className="gradient-background-tasks">
-      <div>
+      <a href="/homeUser" className="home-link">
+        <FaHome className="home-icon" />
+        <span className="home-text">Volver a Inicio</span>
+      </a>
+      <div className="title-container">
+        <h1 className="component-title">Tarea 1</h1>
+        <h2 className="component-subtitle">Crear una nueva publicación</h2>
       </div>
-
+      <div className="box-task">
+        <p>
+          Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500,
+        </p>
+        <button onClick={() => handleTareaCompletada(true)} type="button">
+            Tarea completada
+          </button>
+          <button onClick={() => handleTareaCompletada(false)} type="button">
+            Tarea no completada
+          </button>
+      </div>
+      <div className="page-indicator">
+        1 de 3
+      </div>
     </div>
   )
 }
