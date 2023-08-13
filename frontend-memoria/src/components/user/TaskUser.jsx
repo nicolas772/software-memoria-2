@@ -53,6 +53,7 @@ const TaskUser = () => {
       (response) => {
         setContent(response.data);
         setLoading(false)
+        console.log(response.data)
       },
       (error) => {
         const _content =
@@ -78,18 +79,31 @@ const TaskUser = () => {
       </a>
       <div className="title-container">
         <h1 className="component-title">Tarea 1</h1>
-        <h2 className="component-subtitle">Crear una nueva publicación</h2>
+        <h2 className="component-subtitle">{content.title}</h2>
       </div>
       <div className="box-task">
-        <p>
-          Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500,
-        </p>
-        <button onClick={() => handleTareaCompletada(true)} type="button">
-            Tarea completada
-          </button>
-          <button onClick={() => handleTareaCompletada(false)} type="button">
-            Tarea no completada
-          </button>
+        {content.description.split('\n').map((paragraph, index) => (
+          <p key={index}>{paragraph}</p>
+        ))}
+        {mostrarBotones ? (
+          <div className="buttons-div">
+            <button onClick={handleIniciarTarea} type="button" disabled={tareaIniciada}>
+              Iniciar Tarea
+            </button>
+            <button onClick={handleFinalizarTarea} type="button" disabled={!tareaIniciada}>
+              Finalizar Tarea
+            </button>
+          </div>
+        ) : (
+          <div className="buttons-div">
+            <button onClick={() => handleTareaCompletada(true)} type="button">
+              Tarea completada
+            </button>
+            <button onClick={() => handleTareaCompletada(false)} type="button">
+              Tarea no completada
+            </button>
+          </div>
+        )}
       </div>
       <div className="page-indicator">
         1 de 3

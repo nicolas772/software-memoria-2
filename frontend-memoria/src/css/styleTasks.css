@@ -60,7 +60,7 @@
 }
 
 .box-task p {
-	margin: 5px 0 40px;
+	margin: 0px 0 10px;
 	padding: 0;
 	color: #ffffff;
 	text-align: center;
@@ -68,6 +68,10 @@
 	font-weight: 200;
 	transition: .5s;
 	animation: LabelOnLoad 1s forwards 0s ease;
+}
+
+.box-task .buttons-div{
+	margin-top: 20px;
 }
 
 .box-task button[type='button'] {
