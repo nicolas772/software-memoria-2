@@ -8,7 +8,7 @@ exports.getNextTaskForStudy = async (req, res) => {
     const iterationId = req.query.idIteration
     const userId = req.query.idUser
     const iterationState = await IterationState.findOne({ where: { iterationId: iterationId, userId: userId } })
-    let LastTaskId, inTask = false, inCSUQ = false, inQuestion = false
+    let LastTaskId, inTask = false, inCSUQ = false, inQuestion = false, lastTaskForCont = 1
     if (!iterationState) {
       // Si no se encuentra, crea un nuevo registro
       inTask = true
@@ -20,7 +20,8 @@ exports.getNextTaskForStudy = async (req, res) => {
       await IterationState.create({
         iterationId: iterationId,
         userId: userId,
-        taskId: LastTaskId
+        taskId: LastTaskId,
+        lastTaskForContador: lastTaskForCont
       });
       //actualizar +1 user_qty en la iteration
       const iteration = await Iteration.findOne({ where: { id: iterationId } })
@@ -31,6 +32,7 @@ exports.getNextTaskForStudy = async (req, res) => {
       inTask = iterationState.inTask
       inCSUQ = iterationState.inCSUQ
       inQuestion = iterationState.inQuestion
+      lastTaskForCont = iterationState.lastTaskForContador
     }
 
     const responseData = {
@@ -38,6 +40,7 @@ exports.getNextTaskForStudy = async (req, res) => {
       inTask: inTask,
       inCSUQ: inCSUQ,
       inQuestion: inQuestion,
+      lastTaskForCont : lastTaskForCont,
     };
 
     res.status(200).json(responseData);

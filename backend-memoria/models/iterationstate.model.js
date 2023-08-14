@@ -11,6 +11,10 @@ module.exports = (sequelize, Sequelize) => {
     inQuestion: {
       type: Sequelize.BOOLEAN,
       defaultValue: false,
+    },
+    lastTaskForContador: {
+      type: Sequelize.INTEGER,
+      defaultValue: 1,
     }
   });
 

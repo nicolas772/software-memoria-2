@@ -17,10 +17,12 @@ exports.create = async (req, res) => {
     const opinion2 = req.body.opinion2;
     const prefieroNoOpinar1 = req.body.prefieroNoOpinar1;
     const prefieroNoOpinar2 = req.body.prefieroNoOpinar2;
+    let responseText
     if (prefieroNoOpinar1 && prefieroNoOpinar2){
-      res.send('no se opina sobre interfaz ni general'); // Enviar el resultado del análisis como respuesta en formato JSON
+      responseText = 'no se opina sobre interfaz ni general'; // Enviar el resultado del análisis como respuesta en formato JSON
     }else{
       let analisis1, analisis2
+      responseText = 'Analisis de sentimiento realizado exitosamente'
       if (prefieroNoOpinar1){
         analisis2 = await analizarSentimiento(opinion2);
         await GeneralSentiment.create({
@@ -84,7 +86,7 @@ exports.create = async (req, res) => {
     iteration.users_qty_complete += 1
     await iteration.save()
 
-    res.status(200).send('Analisis de sentimiento realizado exitosamente'); // Enviar el resultado del análisis como respuesta en formato JSON 
+    res.status(200).send(responseText); // Enviar el resultado del análisis como respuesta en formato JSON 
   } catch (error) {
     res.status(500).send('Error en el análisis de sentimiento'); // Enviar un mensaje de error en caso de excepción
   }

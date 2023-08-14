@@ -175,7 +175,7 @@ const Register2 = () => {
         {message && (
           <>
             <div className={successful ? "inputBoxConfirmation" : "alert alert-danger"}>
-              {message} 
+              {message}&nbsp;
               {successful && (
                 <a href="/login">Iniciar Sesión</a>
               )}

@@ -14,6 +14,8 @@ const TaskUser = () => {
   const [tiempoInicio, setTiempoInicio] = useState();
   const [duration, setDuration] = useState()
   const [mostrarBotones, setMostrarBotones] = useState(true);
+  const [taskQty, setTaskQty] = useState(0)
+  const [taskForCont, setTaskForCont] = useState(0)
   const navigate = useNavigate()
 
   const handleIniciarTarea = () => {
@@ -38,6 +40,7 @@ const TaskUser = () => {
         if (response.data.finish) {
           navigate(`/user/doCSUQ/${iditeration}`)
         } else {
+          setTaskForCont(response.data.nextTaskForCont)
           setActualTask(response.data.nextTask)
           setMostrarBotones(true)
         }
@@ -53,7 +56,6 @@ const TaskUser = () => {
       (response) => {
         setContent(response.data);
         setLoading(false)
-        console.log(response.data)
       },
       (error) => {
         const _content =
@@ -68,6 +70,38 @@ const TaskUser = () => {
     );
   }, [actualTask]);
 
+  useEffect(() => {
+    UserService.getIterationWithDataStudy(iditeration).then(
+      (response) => {
+        setTaskQty(response.data.iteration.task_qty)
+        setLoading(false)
+      },
+      (error) => {
+        const _content =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        setContent(_content);
+      }
+    );
+  }, []);
+
+  useEffect(() => {
+    const user = AuthService.getCurrentUser();
+    UserService.getNextTaskForStudy(iditeration, user.id).then(
+      (response) => {
+        setTaskForCont(response.data.lastTaskForCont)
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }, []);
+
+
   if (loading) {
     return <div>Cargando...</div>
   }
@@ -78,13 +112,11 @@ const TaskUser = () => {
         <span className="home-text">Volver a Inicio</span>
       </a>
       <div className="title-container">
-        <h1 className="component-title">Tarea 1</h1>
+        <h1 className="component-title">Tarea {taskForCont}</h1>
         <h2 className="component-subtitle">{content.title}</h2>
       </div>
       <div className="box-task">
-        {content.description.split('\n').map((paragraph, index) => (
-          <p key={index}>{paragraph}</p>
-        ))}
+        <p>{content.description}</p>
         {mostrarBotones ? (
           <div className="buttons-div">
             <button onClick={handleIniciarTarea} type="button" disabled={tareaIniciada}>
@@ -106,7 +138,7 @@ const TaskUser = () => {
         )}
       </div>
       <div className="page-indicator">
-        1 de 3
+        {taskForCont} de {taskQty}
       </div>
     </div>
   )
