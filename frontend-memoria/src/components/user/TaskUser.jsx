@@ -8,7 +8,7 @@ import { FaHome } from 'react-icons/fa'; // Importa el ícono de Home de Font Aw
 const TaskUser = () => {
   const { iditeration, idtask } = useParams();
   const [actualTask, setActualTask] = useState(idtask)
-  const [content, setContent] = useState({});
+  const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true)
   const [tareaIniciada, setTareaIniciada] = useState(false);
   const [tiempoInicio, setTiempoInicio] = useState();
@@ -116,7 +116,9 @@ const TaskUser = () => {
         <h2 className="component-subtitle">{content.title}</h2>
       </div>
       <div className="box-task">
-        <p>{content.description}</p>
+        {content.description.split('\n').map((line, index) => (
+          <p key={index}>{line}</p>
+        ))}
         {mostrarBotones ? (
           <div className="buttons-div">
             <button onClick={handleIniciarTarea} type="button" disabled={tareaIniciada}>
