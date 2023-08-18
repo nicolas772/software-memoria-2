@@ -6,8 +6,24 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import UserService from '../../services/user.service';
 import AuthService from '../../services/auth.service';
+import { FaHome } from 'react-icons/fa'; // Importa el ícono de Home de Font Awesome
 
 const FormCSUQ = () => {
+  const likertScale = [
+    "Totalmente en desacuerdo",
+    "Bastante en desacuerdo",
+    "En desacuerdo",
+    "Indiferente",
+    "De acuerdo",
+    "Bastante de acuerdo",
+    "Totalmente de acuerdo"
+  ];
+  const [selectedValue, setSelectedValue] = useState(null);
+
+  const handleRadioClick = (event) => {
+    setSelectedValue(event.target.value);
+  };
+
   const preguntas = [
     'En general, estoy satisfecho con lo facil que es utilizar este software.',
     'Fue simple utilizar este software.',
@@ -26,7 +42,7 @@ const FormCSUQ = () => {
     'El software tuvo todas las herramientas que esperaba que tuviera.',
     'En general, estuve satisfecho con el software.'
   ];
-
+  const subtitulo = 'El siguiente cuestionario consta de 16 preguntas diseñadas para evaluar tu satisfacción como usuario del software. Cada pregunta te presenta una escala de respuestas del 1 al 7, donde 1 significa "Totalmente en desacuerdo" y 7 significa "Totalmente de acuerdo".'
   const [respuestas, setRespuestas] = useState(Array(preguntas.length).fill(null));
   const { iditeration } = useParams();
   const navigate = useNavigate()
@@ -52,74 +68,47 @@ const FormCSUQ = () => {
   };
 
   return (
-    <>
-      <div>
-        <h1>Cuestionario CSUQ</h1>
-        <Form>
-          {preguntas.map((pregunta, index) => (
-            <Form.Group key={index} as={Row}>
-              <Form.Label column sm="6">{pregunta}</Form.Label>
-              <Col sm="6">
-                <div>
-                  <Form.Check
-                    type="radio"
-                    id={`${index}-1`}
-                    label="1 - Totalmente en desacuerdo"
-                    checked={respuestas[index] === '1'}
-                    onChange={() => handleRespuestaChange(index, '1')}
-                  />
-                  <Form.Check
-                    type="radio"
-                    id={`${index}-2`}
-                    label="2 - En desacuerdo"
-                    checked={respuestas[index] === '2'}
-                    onChange={() => handleRespuestaChange(index, '2')}
-                  />
-                  <Form.Check
-                    type="radio"
-                    id={`${index}-3`}
-                    label="3 - Moderadamente en desacuerdo"
-                    checked={respuestas[index] === '3'}
-                    onChange={() => handleRespuestaChange(index, '3')}
-                  />
-                  <Form.Check
-                    type="radio"
-                    id={`${index}-4`}
-                    label="4 - Neutral"
-                    checked={respuestas[index] === '4'}
-                    onChange={() => handleRespuestaChange(index, '4')}
-                  />
-                  <Form.Check
-                    type="radio"
-                    id={`${index}-5`}
-                    label="5 - Moderadamente de acuerdo"
-                    checked={respuestas[index] === '5'}
-                    onChange={() => handleRespuestaChange(index, '5')}
-                  />
-                  <Form.Check
-                    type="radio"
-                    id={`${index}-6`}
-                    label="6 - De acuerdo"
-                    checked={respuestas[index] === '6'}
-                    onChange={() => handleRespuestaChange(index, '6')}
-                  />
-                  <Form.Check
-                    type="radio"
-                    id={`${index}-7`}
-                    label="7 - Totalmente de acuerdo"
-                    checked={respuestas[index] === '7'}
-                    onChange={() => handleRespuestaChange(index, '7')}
-                  />
-                </div>
-              </Col>
-            </Form.Group>
-          ))}
-          <Button onClick={handleEnviarCuestionario} disabled={respuestas.includes(null)}>
-            Enviar
-          </Button>
-        </Form>
+    <div className="gradient-background-csuq">
+      <a href="/homeUser" className="home-link">
+        <FaHome className="home-icon" />
+        <span className="home-text">Volver a Inicio</span>
+      </a>
+      <div className="title-container-csuq">
+        <h1 className="component-title">Cuestionario CSUQ</h1>
+        <h2 className="component-subtitle-csuq">{subtitulo}</h2>
       </div>
-    </>
+      <div className="box-csuq">
+        <p>1. {preguntas[0]}</p>
+        <div className="range">
+          {likertScale.map((value) => (
+            <div className="range__level" key={value}>
+              <input
+                id={value}
+                type="radio"
+                name="range"
+                value={value}
+                checked={selectedValue === value.toString()}
+                onChange={handleRadioClick}
+              />
+              <label htmlFor={value} className={`range__radio ${selectedValue === value.toString() ? "selected" : "unselected"}`} data-label={`${value}`}></label>
+            </div>
+          ))}
+        </div>
+
+        <div className="buttons-div">
+          <button type="button">
+            Anterior
+          </button>
+          <button type="button">
+            Siguiente
+          </button>
+        </div>
+      </div>
+      <div className="page-indicator">
+        1 de 16
+      </div>
+    </div>
+
   );
 }
 

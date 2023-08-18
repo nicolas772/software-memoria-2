@@ -1,4 +1,4 @@
-.gradient-background-tasks {
+.gradient-background-csuq {
 	position: relative;
 	/* Importante para los estilos absolutos */
 	/* 	background: url(bg.jpg); */
@@ -16,47 +16,27 @@
 	/* Agrega la fuente Roboto Condensed */
 }
 
-.home-link {
-	position: absolute;
-	display: flex;
-	align-items: center;
-	/* Alinea verticalmente ícono y texto */
-	top: 20px;
-	left: 30px;
-	text-decoration: none;
-	color: #333;
-}
-
-.home-icon {
-	font-size: 24px;
-	margin-right: 5px;
-}
-
-.home-text {
-	font-size: 16px;
-}
-
-.title-container {
+.title-container-csuq {
 	text-align: center;
-	margin-top: 100px;
+	margin-top: 70px;
 	/* Espacio entre enlace y título */
 }
 
-.component-title {
-	font-weight: bold;
-	font-size: 32px;
-	margin-bottom: 10px;
+.component-subtitle-csuq {
+	font-size: 17px;
+	margin-left: 100px;
+	margin-right: 100px;
+	margin-top: 30px;
 }
 
-.component-subtitle {
-	font-size: 24px;
-}
-
-.box-task {
+.box-csuq {
 	margin-top: 30px;
 	/* Espacio entre subtítulo y box */
 	width: 600px;
-	padding: 20px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	padding-left: 40px;
+	padding-right: 40px;
 	background: #6a97c2;
 	box-sizing: border-box;
 	box-shadow: 0 3px 5px rgba(0, 0, 0, .5);
@@ -64,8 +44,8 @@
 	text-align: center;
 }
 
-.box-task p {
-	margin: 0px 0 10px;
+.box-csuq p {
+	margin: 0px 0 30px;
 	padding: 0;
 	color: #ffffff;
 	text-align: center;
@@ -75,11 +55,11 @@
 	animation: LabelOnLoad 1s forwards 0s ease;
 }
 
-.box-task .buttons-div {
-	margin-top: 20px;
+.box-csuq .buttons-div {
+	margin-top: 60px;
 }
 
-.box-task button[type='button'] {
+.box-csuq button[type='button'] {
 	background: transparent;
 	border: none;
 	outline: none;
@@ -95,11 +75,11 @@
 	/* Espacio entre botones */
 }
 
-.box-task button[type='button']:hover {
+.box-csuq button[type='button']:hover {
 	background-color: #1b2833;
 }
 
-.box-task button[type='button']:disabled {
+.box-csuq button[type='button']:disabled {
 	/* Estilos para botones con la propiedad disabled */
 	background-color: #4a6a87;
 }

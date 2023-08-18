@@ -7,8 +7,9 @@ import Register from "./components/Register";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./css/styleLogin.css"
 import "./css/styleTasks.css"
+import "./css/styleCSUQ.css"
 import "./App.css";
-
+import "./css/styleLikert.scss"
 
 function App() {
 
