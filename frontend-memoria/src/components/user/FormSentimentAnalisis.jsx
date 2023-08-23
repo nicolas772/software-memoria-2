@@ -3,49 +3,55 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Form, Button, Nav } from 'react-bootstrap';
 import UserService from '../../services/user.service';
 import AuthService from '../../services/auth.service';
+import { FaHome } from 'react-icons/fa'; // Importa el ícono de Home de Font Awesome
+import InfoModal from './InfoModal';
+
+const enunciados = [
+  '1. Expresa tu opinión respecto a la interfaz del software.',
+  '2. Expresa tu opinión general respecto al software.'
+];
+
+
+const subtitulo = `Te invitamos a compartir tus opiniones sobre la interfaz probada 
+y tus impresiones generales del software. Tu aporte es esencial para nuestra mejora continua. 
+Juntos, podemos perfeccionar la plataforma en base a tus comentarios.`
 
 function FormSentimentAnalisis() {
   const { iditeration } = useParams();
-  const [opinion1, setOpinion1] = useState('');
-  const [opinion2, setOpinion2] = useState('');
-  const [prefieroNoOpinar1, setPrefieroNoOpinar1] = useState(false);
-  const [prefieroNoOpinar2, setPrefieroNoOpinar2] = useState(false);
-  const [submitDisabled, setSubmitDisabled] = useState(true);
+  const [respuestas, setRespuestas] = useState(Array(enunciados.length).fill(''));
+  const [prefieroNoOpinar, setPrefieroNoOpinar] = useState(Array(enunciados.length).fill(false));
+  const [actualQuestion, setActualQuestion] = useState(0)
+  const [showInfoModal, setShowInfoModal] = useState(false)
+  const [titleModal, setTitleModal] = useState('')
+  const [bodyModal, setBodyModal] = useState('')
   const navigate = useNavigate()
 
-  const handleChangeOpinion1 = (event) => {
-    setOpinion1(event.target.value);
-    checkSubmitButton(event.target.value, opinion2, prefieroNoOpinar1, prefieroNoOpinar2);
+  const handleShowInfoModal = () => setShowInfoModal(true)
+  const handleCloseInfoModal = () => setShowInfoModal(false)
+  
+  const handleChangeOpinion = (event) => {
+    const nuevasRespuestas = [...respuestas];
+    nuevasRespuestas[actualQuestion] = event.target.value;
+    setRespuestas(nuevasRespuestas);
   };
 
-  const handleChangeOpinion2 = (event) => {
-    setOpinion2(event.target.value);
-    checkSubmitButton(opinion1, event.target.value, prefieroNoOpinar1, prefieroNoOpinar2);
+  const handleChangePrefieroNoOpinar = (event) => {
+    const nuevasPreferencias = [...prefieroNoOpinar];
+    nuevasPreferencias[actualQuestion] = event.target.checked;
+    setPrefieroNoOpinar(nuevasPreferencias);
   };
 
-  const handleChangePrefieroNoOpinar1 = (event) => {
-    setPrefieroNoOpinar1(event.target.checked);
-    checkSubmitButton(opinion1, opinion2, event.target.checked, prefieroNoOpinar2);
-  };
-
-  const handleChangePrefieroNoOpinar2 = (event) => {
-    setPrefieroNoOpinar2(event.target.checked);
-    checkSubmitButton(opinion1, opinion2, prefieroNoOpinar1, event.target.checked);
-  };
-
-  const checkSubmitButton = (opinion1Value, opinion2Value, prefieroNoOpinarValue1, prefieroNoOpinarValue2) => {
-    if ((prefieroNoOpinarValue1 && prefieroNoOpinarValue2) || 
-        (opinion1Value.trim().split(' ').length > 1 && opinion2Value.trim().split(' ').length > 1) ||
-        (opinion1Value.trim().split(' ').length > 1 && prefieroNoOpinarValue2) ||
-        (opinion2Value.trim().split(' ').length > 1 && prefieroNoOpinarValue1)
-        ){
-      setSubmitDisabled(false);
+  const handleNextQuestion = () => {
+    if (!prefieroNoOpinar[actualQuestion] && (respuestas[actualQuestion].trim().split(' ').length <= 1)) {
+      setTitleModal('Información')
+      setBodyModal('Escribe una opinión más extensa, o selecciona la opción "Prefiero no opinar"')
+      handleShowInfoModal()
     } else {
-      setSubmitDisabled(true);
+      setActualQuestion(actualQuestion + 1)
     }
-  };
+  }
 
-  const handleSubmit = () => {
+  /*const handleSubmit = () => {
     // Aquí puedes realizar la lógica para enviar las opiniones
     const user = AuthService.getCurrentUser();
     UserService.postOpenAnswer(iditeration, user.id, opinion1, opinion2, prefieroNoOpinar1, prefieroNoOpinar2).then(
@@ -57,39 +63,56 @@ function FormSentimentAnalisis() {
         console.log(error)
       }
     )
-  };
+  };*/
 
   return (
     <>
-      <div className="my-4">
-        <Form.Group className="mb-3">
-          <Form.Label>Escribe tu opinión respecto a la Interfaz del software:</Form.Label>
-          <Form.Control as="textarea" rows={3} value={opinion1} onChange={handleChangeOpinion1} disabled={prefieroNoOpinar1}/>
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Check
-            type="checkbox"
-            label="Prefiero no opinar"
-            checked={prefieroNoOpinar1}
-            onChange={handleChangePrefieroNoOpinar1}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>Escribe tu opinión general respecto al software:</Form.Label>
-          <Form.Control as="textarea" rows={3} value={opinion2} onChange={handleChangeOpinion2} disabled={prefieroNoOpinar2}/>
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Check
-            type="checkbox"
-            label="Prefiero no opinar"
-            checked={prefieroNoOpinar2}
-            onChange={handleChangePrefieroNoOpinar2}
-          />
-        </Form.Group>
-        <Button variant="primary" disabled={submitDisabled} onClick={handleSubmit}>
-          Enviar
-        </Button>
+      <div className="gradient-background-tasks">
+        <a href="/homeUser" className="home-link">
+          <FaHome className="home-icon" />
+          <span className="home-text">Volver a Inicio</span>
+        </a>
+        <div className="title-container-csuq">
+          <h1 className="component-title">¡Valoramos tu opinión!</h1>
+          <h2 className="component-subtitle-sentiment">{subtitulo}</h2>
+        </div>
+        <div className="box-csuq">
+          <p>{enunciados[actualQuestion]}</p>
+          <Form.Group className="mb-3">
+            <Form.Control
+              as="textarea"
+              rows={3}
+              value={respuestas[actualQuestion]}
+              onChange={handleChangeOpinion}
+              disabled={prefieroNoOpinar[actualQuestion]}
+              className="disable-resize" // Agrega la clase aquí
+            />
+          </Form.Group>
+          <div className="buttons-div-sentiment">
+            <Form.Group className="mb-3">
+              <Form.Check
+                type="checkbox"
+                label="Prefiero no opinar"
+                checked={prefieroNoOpinar[actualQuestion]}
+                onChange={handleChangePrefieroNoOpinar}
+                className="custom-label-color"
+              />
+            </Form.Group>
+            <button type="button" onClick={handleNextQuestion}>
+              Siguiente
+            </button>
+          </div>
+        </div>
+        <div className="page-indicator">
+          {actualQuestion + 1} de 2
+        </div>
       </div>
+      <InfoModal
+        show={showInfoModal}
+        handleClose={handleCloseInfoModal}
+        title={titleModal}
+        body={bodyModal}
+      />
     </>
   );
 }

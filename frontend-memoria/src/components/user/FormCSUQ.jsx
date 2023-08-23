@@ -60,7 +60,6 @@ const FormCSUQ = () => {
     const nuevasRespuestas = [...respuestas];
     nuevasRespuestas[index] = valor;
     setRespuestas(nuevasRespuestas);
-    console.log(nuevasRespuestas)
   };
 
   const handleRadioClick = (event) => {

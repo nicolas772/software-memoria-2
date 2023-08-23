@@ -10,6 +10,7 @@ import "./css/styleTasks.css"
 import "./css/styleCSUQ.css"
 import "./App.css";
 import "./css/styleLikert.scss"
+import "./css/styleSentimentAnalisis.css"
 
 function App() {
 
