@@ -22,6 +22,7 @@ import {
   FaSignOutAlt,
   FaBell,
 } from 'react-icons/fa';
+import { IoCreateSharp } from "react-icons/io5";
 import AuthService from '../services/auth.service';
 import sidebarBg from '../assets/bg1.jpg';
 import sidebarBgTester from '../assets/bg3.jpg'
@@ -86,14 +87,16 @@ const Sidebar = ({ collapsed, toggled, handleToggleSidebar, handleCollapsedChang
           {showTesterBoard && (
             <Menu iconShape="circle">
               <MenuItem icon={<FaHome />}>
-                Home Tester<Link to="/homeTester" />
+                Inicio Tester<Link to="/homeTester" />
               </MenuItem>
-              <MenuItem
-                icon={<FaTachometerAlt />}
+              <SubMenu
+                title={'Crear'}
+                icon={<IoCreateSharp />}
               >
-                Dashboard
-                <NavLink to="/boardTester" />
-              </MenuItem>
+                <MenuItem>Nuevo Estudio</MenuItem>
+                <MenuItem>Nueva Iteración</MenuItem>
+                <MenuItem>Nueva Tarea</MenuItem>
+              </SubMenu>
               {/* <MenuItem icon={<FaGem />}>Components </MenuItem> */}
               <MenuItem icon={<FaList />}>
                 Mis Estudios <Link to="/studies" />
@@ -106,7 +109,7 @@ const Sidebar = ({ collapsed, toggled, handleToggleSidebar, handleCollapsedChang
           {showUserBoard && (
             <Menu iconShape="circle">
               <MenuItem icon={<FaHome />}>
-                Home User <Link to="/homeUser" />
+                Inicio User <Link to="/homeUser" />
               </MenuItem>
               <SubMenu
                 title={'Estudios'}
