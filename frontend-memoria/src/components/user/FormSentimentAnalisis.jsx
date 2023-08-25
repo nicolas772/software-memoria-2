@@ -22,13 +22,14 @@ function FormSentimentAnalisis() {
   const [prefieroNoOpinar, setPrefieroNoOpinar] = useState(Array(enunciados.length).fill(false));
   const [actualQuestion, setActualQuestion] = useState(0)
   const [showInfoModal, setShowInfoModal] = useState(false)
+  const [lastQuestion, setLastQuestion] = useState(false)
   const [titleModal, setTitleModal] = useState('')
   const [bodyModal, setBodyModal] = useState('')
   const navigate = useNavigate()
 
   const handleShowInfoModal = () => setShowInfoModal(true)
   const handleCloseInfoModal = () => setShowInfoModal(false)
-  
+
   const handleChangeOpinion = (event) => {
     const nuevasRespuestas = [...respuestas];
     nuevasRespuestas[actualQuestion] = event.target.value;
@@ -48,22 +49,33 @@ function FormSentimentAnalisis() {
       handleShowInfoModal()
     } else {
       setActualQuestion(actualQuestion + 1)
+      setLastQuestion(true)
     }
   }
 
-  /*const handleSubmit = () => {
-    // Aquí puedes realizar la lógica para enviar las opiniones
-    const user = AuthService.getCurrentUser();
-    UserService.postOpenAnswer(iditeration, user.id, opinion1, opinion2, prefieroNoOpinar1, prefieroNoOpinar2).then(
-      (response) => {
-        //redireccionar a inicio
-        navigate('/homeUser')
-      },
-      (error) => {
-        console.log(error)
-      }
-    )
-  };*/
+  const handlePrevQuestion = () => {
+    setLastQuestion(false)
+    setActualQuestion(actualQuestion - 1)
+  }
+
+  const handleSubmit = () => {
+    if (!prefieroNoOpinar[actualQuestion] && (respuestas[actualQuestion].trim().split(' ').length <= 1)) {
+      setTitleModal('Información')
+      setBodyModal('Escribe una opinión más extensa, o selecciona la opción "Prefiero no opinar"')
+      handleShowInfoModal()
+    } else {
+      const user = AuthService.getCurrentUser();
+      UserService.postOpenAnswer(iditeration, user.id, respuestas[0], respuestas[1], prefieroNoOpinar[0], prefieroNoOpinar[1]).then(
+        (response) => {
+          //redireccionar a inicio
+          navigate('/homeUser')
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+    }
+  }
 
   return (
     <>
@@ -98,9 +110,22 @@ function FormSentimentAnalisis() {
                 className="custom-label-color"
               />
             </Form.Group>
-            <button type="button" onClick={handleNextQuestion}>
-              Siguiente
-            </button>
+            {lastQuestion ? (
+              <>
+                <button type="button" onClick={handlePrevQuestion}>
+                  Atras
+                </button>
+                <button type="button" onClick={handleSubmit}>
+                  Terminar Estudio
+                </button>
+              </>
+            ) : (
+              <button type="button" onClick={handleNextQuestion}>
+                Siguiente
+              </button>
+            )}
+
+
           </div>
         </div>
         <div className="page-indicator">
