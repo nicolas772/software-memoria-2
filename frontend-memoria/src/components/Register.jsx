@@ -22,7 +22,7 @@ const validLength = (value, isUsername) => {
   }
 };
 
-const Register2 = () => {
+const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -126,8 +126,8 @@ const Register2 = () => {
   };
 
   return (
-    <div className='gradient-background'>
-      <div className="box">
+    <div className='gradient-background-register'>
+      <div className="box-register">
         <h2>Feel<span style={{ color: 'hsl(218, 81%, 75%)' }}>UX</span></h2>
         {!successful && (
           <>
@@ -150,6 +150,33 @@ const Register2 = () => {
                   {emailError}
                 </div>
               )}
+              <div className="inputBox">
+                <select onChange={onChangeUsername} onBlur={onBlurUsername} required>
+                  <option value="">Selecciona una opción</option>
+                  <option value="masculino">Mujer</option>
+                  <option value="femenino">Hombre</option>
+                  <option value="prefiero-no-informar">Prefiero no informar</option>
+                </select>
+                <label>Sexo</label>
+              </div>
+              <div className="inputBox">
+                <select className="custom-select" onChange={onChangeUsername} onBlur={onBlurUsername} required>
+                  <option value="">Día</option>
+                  <option value="masculino">1</option>
+                  <option value="femenino">2</option>
+                </select>
+                <select className="custom-select" onChange={onChangeUsername} onBlur={onBlurUsername} required>
+                  <option value="">Mes</option>
+                  <option value="masculino">Enero</option>
+                  <option value="femenino">Febrero</option>
+                </select>
+                <select className="custom-select" onChange={onChangeUsername} onBlur={onBlurUsername} required>
+                  <option value="">Año</option>
+                  <option value="masculino">2023</option>
+                  <option value="femenino">2024</option>
+                </select>
+                <label>Fecha de Nacimiento</label>
+              </div>
               <div className="inputBox">
                 <input type="password" onChange={onChangePassword} onBlur={onBlurPassword} required />
                 <label>Contraseña</label>
@@ -187,4 +214,4 @@ const Register2 = () => {
   );
 };
 
-export default Register2;
+export default Register;

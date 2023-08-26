@@ -11,6 +11,7 @@ import "./css/styleCSUQ.css"
 import "./App.css";
 import "./css/styleLikert.scss"
 import "./css/styleSentimentAnalisis.css"
+import "./css/styleRegister.css"
 
 function App() {
 
