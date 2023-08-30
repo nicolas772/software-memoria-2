@@ -8,10 +8,14 @@
     background-repeat: no-repeat;
     background-size: cover;
     display: flex;
-    flex-direction: column; /* Cambio a flex-direction para manejar el estiramiento vertical */
-    justify-content: center; /* Centrar verticalmente */
-    align-items: center; /* Centrar horizontalmente */
-    min-height: 100vh; /* Establecer la altura mínima para que el fondo siempre se ajuste al contenido */
+    flex-direction: column;
+    /* Cambio a flex-direction para manejar el estiramiento vertical */
+    justify-content: center;
+    /* Centrar verticalmente */
+    align-items: center;
+    /* Centrar horizontalmente */
+    min-height: 100vh;
+    /* Establecer la altura mínima para que el fondo siempre se ajuste al contenido */
 }
 
 .box-register {
@@ -21,22 +25,23 @@
     box-sizing: border-box;
     box-shadow: 0 15px 25px rgba(0, 0, 0, .5);
     border-radius: 10px;
-    margin: 20px 0; /* Espacio arriba y abajo */
+    margin: 20px 0;
+    /* Espacio arriba y abajo */
 }
 
 .box-sentiment {
-	margin-top: 30px;
-	/* Espacio entre subtítulo y box */
-	width: 600px;
-	padding-top: 20px;
-	padding-bottom: 20px;
-	padding-left: 40px;
-	padding-right: 40px;
-	background: #6a97c2;
-	box-sizing: border-box;
-	box-shadow: 0 3px 5px rgba(0, 0, 0, .5);
-	border-radius: 10px;
-	text-align: center;
+    margin-top: 30px;
+    /* Espacio entre subtítulo y box */
+    width: 600px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+    background: #6a97c2;
+    box-sizing: border-box;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, .5);
+    border-radius: 10px;
+    text-align: center;
 }
 
 .box-register h2 {
@@ -89,14 +94,38 @@
     /* Para navegadores basados en Gecko */
 }
 
-.box-register .inputBox .custom-select {
-    width: calc(33.33% - 10px); /* Distribuir igualmente y considerar espacios */
-    margin-right: 10px; /* Espacio entre campos */
-    margin-bottom: 30px;
+.box-register .inputBox .custom-select-day {
+    width: 15%;
+    /* Distribuir igualmente y considerar espacios */
+    margin-right: 10px;
+    /* Espacio entre campos */
     padding-top: 10px;
+    padding-right: 1px;
     margin-top: 20px;
-  }
+    text-align: center;
+}
 
+.box-register .inputBox .custom-select-month {
+    width: 40%;
+    /* Distribuir igualmente y considerar espacios */
+    margin-right: 10px;
+    /* Espacio entre campos */
+    padding-top: 10px;
+    padding-right: 1px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.box-register .inputBox .custom-select-year {
+    width: 30%;
+    /* Distribuir igualmente y considerar espacios */
+    margin-right: 10px;
+    /* Espacio entre campos */
+    padding-top: 10px;
+    padding-right: 1px;
+    margin-top: 20px;
+    text-align: center;
+}
 
 .box-register .inputBox select~label {
     top: -15px;

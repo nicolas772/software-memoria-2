@@ -9,7 +9,7 @@ const register = (username, email, password, isTester) => {
     username,
     email,
     password,
-    roles,
+    roles
   });
 };
 
