@@ -87,7 +87,7 @@ const Sidebar = ({ collapsed, toggled, handleToggleSidebar, handleCollapsedChang
           {showTesterBoard && (
             <Menu iconShape="circle">
               <MenuItem icon={<FaHome />}>
-                Inicio Tester<Link to="/homeTester" />
+                Home Tester<Link to="/homeTester" />
               </MenuItem>
               <SubMenu
                 title={'Crear'}
@@ -109,7 +109,7 @@ const Sidebar = ({ collapsed, toggled, handleToggleSidebar, handleCollapsedChang
           {showUserBoard && (
             <Menu iconShape="circle">
               <MenuItem icon={<FaHome />}>
-                Inicio User <Link to="/homeUser" />
+                Home User <Link to="/homeUser" />
               </MenuItem>
               <SubMenu
                 title={'Estudios'}

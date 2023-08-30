@@ -7,22 +7,36 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    height: 100vh;
-    /* O ajusta la altura según tus necesidades */
     display: flex;
+    flex-direction: column; /* Cambio a flex-direction para manejar el estiramiento vertical */
+    justify-content: center; /* Centrar verticalmente */
+    align-items: center; /* Centrar horizontalmente */
+    min-height: 100vh; /* Establecer la altura mínima para que el fondo siempre se ajuste al contenido */
 }
 
 .box-register {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     width: 450px;
     padding: 40px;
     background: rgba(0, 0, 0, .8);
     box-sizing: border-box;
     box-shadow: 0 15px 25px rgba(0, 0, 0, .5);
     border-radius: 10px;
+    margin: 20px 0; /* Espacio arriba y abajo */
+}
+
+.box-sentiment {
+	margin-top: 30px;
+	/* Espacio entre subtítulo y box */
+	width: 600px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	padding-left: 40px;
+	padding-right: 40px;
+	background: #6a97c2;
+	box-sizing: border-box;
+	box-shadow: 0 3px 5px rgba(0, 0, 0, .5);
+	border-radius: 10px;
+	text-align: center;
 }
 
 .box-register h2 {
