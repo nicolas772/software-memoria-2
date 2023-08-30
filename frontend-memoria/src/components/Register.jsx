@@ -163,7 +163,7 @@ const Register = () => {
     setSuccessful(false);
     const birthday = new Date(year, month - 1, day)
     if(!usernameError && !passwordError && !emailError && !dateError){
-      AuthService.register(username, email, password, isTester).then(
+      AuthService.register(username, email, password, isTester, sex, birthday).then(
         (response) => {
           setMessage(response.data.message);
           setSuccessful(true);
