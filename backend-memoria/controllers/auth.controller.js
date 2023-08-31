@@ -78,6 +78,8 @@ exports.signin = (req, res) => {
           id: user.id,
           username: user.username,
           email: user.email,
+          sex: user.sex,
+          birthday: user.birthday,
           roles: authorities,
           accessToken: token
         });
