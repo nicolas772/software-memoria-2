@@ -3,7 +3,6 @@ import AuthService from "../services/auth.service";
 import ProfileForm from "./ProfileForm";
 
 const Profile = () => {
-  const currentUser = AuthService.getCurrentUser();
   return (
     <>
     <div className="gradient-background-pages">
