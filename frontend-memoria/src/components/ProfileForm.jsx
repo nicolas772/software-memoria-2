@@ -50,7 +50,6 @@ function ProfileForm() {
 	const [year, setYear] = useState(birthday.getFullYear())
 	const [dateError, setDateError] = useState("")
 	const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
-	console.log(currentUser)
 
 	const onChangeUsername = (e) => {
 		const username = e.target.value;
@@ -105,32 +104,51 @@ function ProfileForm() {
 		const Day = e.target.value
 		setDay(Day)
 		if (Day && month && year) {
-		  const error = validateDate(year, month, Day)
-		  setDateError(error)
+			const error = validateDate(year, month, Day)
+			setDateError(error)
 		}
-	 }
-  
-	 const onChangeMonth = (e) => {
+	}
+
+	const onChangeMonth = (e) => {
 		const Month = e.target.value
 		setMonth(Month)
 		if (day && Month && year) {
-		  const error = validateDate(year, Month, day)
-		  setDateError(error)
+			const error = validateDate(year, Month, day)
+			setDateError(error)
 		}
-	 }
-  
-	 const onChangeYear = (e) => {
+	}
+
+	const onChangeYear = (e) => {
 		const Year = e.target.value
 		setYear(Year)
 		if (day && month && Year) {
-		  const error = validateDate(Year, month, day)
-		  setDateError(error)
+			const error = validateDate(Year, month, day)
+			setDateError(error)
 		}
-	 }
+	}
 
 	const handleEdit = () => {
 		setIsEditing(true);
 	}
+
+	const handleCancel = () => {
+		setUsername(currentUser.username)
+		setUsernameError("")
+		setEmail(currentUser.email)
+		setEmailError("")
+		setSex(currentUser.sex)
+		setYear(birthday.getFullYear())
+		setMonth(birthday.getMonth() + 1)
+		setDay(birthday.getDate())
+		setDateError("")
+		setIsEditing(false);
+	}
+
+	const handleSave = () => {
+		console.log("guardar")
+		setIsEditing(false)
+	}
+
 	return (
 		<>
 			<div className='box-profile'>
@@ -148,6 +166,11 @@ function ProfileForm() {
 				<div className="labelBox">
 					<label>Nombre de Usuario</label>
 				</div>
+				{usernameError && (
+					<div className="alert alert-danger" role="alert">
+						{usernameError}
+					</div>
+				)}
 				<div className="inputBox">
 					<input
 						type="text"
@@ -162,6 +185,11 @@ function ProfileForm() {
 				<div className="labelBox">
 					<label>Email</label>
 				</div>
+				{emailError && (
+					<div className="alert alert-danger" role="alert">
+						{emailError}
+					</div>
+				)}
 				<div className="inputBox">
 					<select value={sex} onChange={onChangeSex} disabled={!isEditing} required>
 						<option value="Femenino">Femenino</option>
@@ -201,15 +229,32 @@ function ProfileForm() {
 				<div className="labelBox">
 					<label>Fecha de Nacimiento</label>
 				</div>
-				<div className="buttons-div">
-					<button type="button">
-						Cambiar Contraseña
-					</button>
-					<button type="button" onClick={handleEdit}>
-						Editar Datos
-					</button>
+				{dateError && (
+					<div className="alert alert-danger" role="alert">
+						{dateError}
+					</div>
+				)}
+				{isEditing ? (
+					<div className="buttons-div">
+						<button type="button" onClick={handleCancel}>
+							Cancelar
+						</button>
+						<button type="button" onClick={handleSave}>
+							Guardar
+						</button>
+					</div>
+				) : (
+					<div className="buttons-div">
+						<button type="button">
+							Cambiar Contraseña
+						</button>
+						<button type="button" onClick={handleEdit}>
+							Editar Datos
+						</button>
 
-				</div>
+					</div>
+				)}
+
 			</div>
 		</>
 	)
