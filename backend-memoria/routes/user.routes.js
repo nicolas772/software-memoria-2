@@ -1,4 +1,4 @@
-const { authJwt, verifySignUp } = require("../middleware");
+const { authJwt, verifyProfile } = require("../middleware");
 
 const controller = require("../controllers/user.controller");
 const iterationstate_controller = require("../controllers/iterationstate.controller");
@@ -46,7 +46,7 @@ module.exports = function (app) {
 
   app.put(
     "/api/test/update-profile",
-    [verifySignUp.checkDuplicateUsernameOrEmail],
+    [verifyProfile.checkDuplicateUsernameOrEmail],
     controller.updateProfile
   );
 };

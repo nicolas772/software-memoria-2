@@ -13,8 +13,8 @@ $range-height: 8px;
 
 	&__level {
 		position: relative;
-		//top: $range-height/2;
-        top: -$range-height/1.4;
+        //top: -$range-height/1.4;
+		top: calc(-1 * $range-height / 1.4);
 	}
 
 	&__radio {

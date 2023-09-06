@@ -171,7 +171,6 @@ function ProfileForm() {
 					currentUser.email = email
 					currentUser.sex = sex
 					currentUser.birthday = birthdayToSend
-					console.log(currentUser)
 					localStorage.setItem("user", JSON.stringify(currentUser));
 					handleShowInfoModal()
 				},
@@ -184,7 +183,6 @@ function ProfileForm() {
 						error.toString();
 
 					setMessage(resMessage);
-					console.log(resMessage)
 					setSuccessful(false);
 					setTitleModal("Error")
 					setBodyModal(resMessage)
