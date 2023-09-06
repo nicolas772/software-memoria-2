@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import UserService from "../services/user.service"
 import AuthService from "../services/auth.service";
 import { isEmail } from "validator";
+import InfoModal from "./user/InfoModal"
 
 const validEmail = (value) => {
 	if (!isEmail(value)) {
@@ -37,8 +39,10 @@ const validateDate = (year, month, day) => {
 };
 
 function ProfileForm() {
-	const currentUser = AuthService.getCurrentUser();
+	let currentUser = AuthService.getCurrentUser();
 	const birthday = new Date(currentUser.birthday)
+	const [successful, setSuccessful] = useState(false);
+	const [message, setMessage] = useState("");
 	const [isEditing, setIsEditing] = useState(false); // Nuevo estado para habilitar/deshabilitar campos
 	const [username, setUsername] = useState(currentUser.username)
 	const [usernameError, setUsernameError] = useState("")
@@ -50,6 +54,12 @@ function ProfileForm() {
 	const [year, setYear] = useState(birthday.getFullYear())
 	const [dateError, setDateError] = useState("")
 	const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+	const [showInfoModal, setShowInfoModal] = useState(false)
+	const [titleModal, setTitleModal] = useState('')
+	const [bodyModal, setBodyModal] = useState('')
+
+	const handleShowInfoModal = () => setShowInfoModal(true)
+	const handleCloseInfoModal = () => setShowInfoModal(false)
 
 	const onChangeUsername = (e) => {
 		const username = e.target.value;
@@ -144,9 +154,44 @@ function ProfileForm() {
 		setIsEditing(false);
 	}
 
-	const handleSave = () => {
-		console.log("guardar")
-		setIsEditing(false)
+	const handleSave = (e) => {
+		e.preventDefault();
+		setMessage("");
+		setSuccessful(false);
+		const birthdayToSend = new Date(year, month - 1, day)
+		if (!usernameError && !emailError && !dateError) {
+			UserService.updateProfile(currentUser.id, username, email, sex, birthdayToSend).then(
+				(response) => {
+					setMessage(response.data.message);
+					setSuccessful(true);
+					setIsEditing(false)
+					setTitleModal("Información")
+					setBodyModal(response.data.message)
+					currentUser.username = username
+					currentUser.email = email
+					currentUser.sex = sex
+					currentUser.birthday = birthdayToSend
+					console.log(currentUser)
+					localStorage.setItem("user", JSON.stringify(currentUser));
+					handleShowInfoModal()
+				},
+				(error) => {
+					const resMessage =
+						(error.response &&
+							error.response.data &&
+							error.response.data.message) ||
+						error.message ||
+						error.toString();
+
+					setMessage(resMessage);
+					console.log(resMessage)
+					setSuccessful(false);
+					setTitleModal("Error")
+					setBodyModal(resMessage)
+					handleShowInfoModal()
+				}
+			);
+		}
 	}
 
 	return (
@@ -251,11 +296,16 @@ function ProfileForm() {
 						<button type="button" onClick={handleEdit}>
 							Editar Datos
 						</button>
-
 					</div>
 				)}
 
 			</div>
+			<InfoModal
+				show={showInfoModal}
+				handleClose={handleCloseInfoModal}
+				title={titleModal}
+				body={bodyModal}
+			/>
 		</>
 	)
 }

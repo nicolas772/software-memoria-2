@@ -67,6 +67,15 @@ const postOpenAnswer = (idIteration, idUser, opinion1, opinion2, prefieroNoOpina
   });
 }
 
+const updateProfile = (idUser, username, email, sex, birthdayToSend) => {
+  return axios.put(API_URL + "update-profile", {
+    idUser: idUser,
+    username: username,
+    email: email,
+    sex: sex,
+    birthday: birthdayToSend
+  })
+}
 
 const UserService = {
   getPublicContent,
@@ -82,6 +91,7 @@ const UserService = {
   getNextTaskForStudy,
   postCSUQAnswers,
   postOpenAnswer,
+  updateProfile,
 };
 
 export default UserService;
