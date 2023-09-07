@@ -3,6 +3,7 @@ import UserService from "../services/user.service"
 import AuthService from "../services/auth.service";
 import { isEmail } from "validator";
 import InfoModal from "./user/InfoModal"
+import ModalChangePassword from "./ModalChangePassword";
 
 const validEmail = (value) => {
 	if (!isEmail(value)) {
@@ -55,9 +56,12 @@ function ProfileForm() {
 	const [showInfoModal, setShowInfoModal] = useState(false)
 	const [titleModal, setTitleModal] = useState('')
 	const [bodyModal, setBodyModal] = useState('')
+	const [showCreateModal, setShowCreateModal] = useState(false);
 
 	const handleShowInfoModal = () => setShowInfoModal(true)
 	const handleCloseInfoModal = () => setShowInfoModal(false)
+	const handleShowCreateModal = () => setShowCreateModal(true);
+	const handleCloseCreateModal = () => setShowCreateModal(false);
 
 	const onChangeUsername = (e) => {
 		const username = e.target.value;
@@ -225,7 +229,7 @@ function ProfileForm() {
 					</div>
 				)}
 				<div className="inputBox">
-					<select className="form-control" style={{width:"60%", textAlign:"center"}} value={sex} onChange={onChangeSex} disabled={!isEditing} required>
+					<select className="form-control" style={{ width: "60%", textAlign: "center" }} value={sex} onChange={onChangeSex} disabled={!isEditing} required>
 						<option value="Femenino">Femenino</option>
 						<option value="Masculino">Masculino</option>
 						<option value="No Informado">Prefiero no informar</option>
@@ -235,14 +239,14 @@ function ProfileForm() {
 					<label>Sexo</label>
 				</div>
 				<div className="inputBox">
-					<select className="form-control" style={{width:"20%", textAlign:"center", margin:"2px"}} onChange={onChangeDay} disabled={!isEditing} value={day} required>
+					<select className="form-control" style={{ width: "20%", textAlign: "center", margin: "2px" }} onChange={onChangeDay} disabled={!isEditing} value={day} required>
 						{Array.from({ length: 31 }, (_, index) => (
 							<option key={index + 1} value={index + 1}>
 								{index + 1}
 							</option>
 						))}
 					</select>
-					<select className="form-control" style={{width:"40%", textAlign:"center", margin:"2px"}} onChange={onChangeMonth} disabled={!isEditing} value={month} required>
+					<select className="form-control" style={{ width: "40%", textAlign: "center", margin: "2px" }} onChange={onChangeMonth} disabled={!isEditing} value={month} required>
 						{[
 							"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
 							"Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
@@ -252,7 +256,7 @@ function ProfileForm() {
 							</option>
 						))}
 					</select>
-					<select className="form-control" style={{width:"20%", textAlign:"center", margin:"2px"}} onChange={onChangeYear} disabled={!isEditing} value={year} required>
+					<select className="form-control" style={{ width: "20%", textAlign: "center", margin: "2px" }} onChange={onChangeYear} disabled={!isEditing} value={year} required>
 						{Array.from({ length: 124 }, (_, index) => (
 							<option key={currentYear - index} value={currentYear - index}>
 								{currentYear - index}
@@ -279,7 +283,7 @@ function ProfileForm() {
 					</div>
 				) : (
 					<div className="buttons-div">
-						<button type="button">
+						<button type="button" onClick={handleShowCreateModal}>
 							Cambiar Contraseña
 						</button>
 						<button type="button" onClick={handleEdit}>
@@ -294,6 +298,11 @@ function ProfileForm() {
 				handleClose={handleCloseInfoModal}
 				title={titleModal}
 				body={bodyModal}
+			/>
+			<ModalChangePassword
+				show={showCreateModal}
+				handleClose={handleCloseCreateModal}
+				userId={currentUser.id}
 			/>
 		</>
 	)
