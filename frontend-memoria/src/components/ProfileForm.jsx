@@ -41,8 +41,6 @@ const validateDate = (year, month, day) => {
 function ProfileForm() {
 	let currentUser = AuthService.getCurrentUser();
 	const birthday = new Date(currentUser.birthday)
-	const [successful, setSuccessful] = useState(false);
-	const [message, setMessage] = useState("");
 	const [isEditing, setIsEditing] = useState(false); // Nuevo estado para habilitar/deshabilitar campos
 	const [username, setUsername] = useState(currentUser.username)
 	const [usernameError, setUsernameError] = useState("")
@@ -156,14 +154,10 @@ function ProfileForm() {
 
 	const handleSave = (e) => {
 		e.preventDefault();
-		setMessage("");
-		setSuccessful(false);
 		const birthdayToSend = new Date(year, month - 1, day)
 		if (!usernameError && !emailError && !dateError) {
 			UserService.updateProfile(currentUser.id, username, email, sex, birthdayToSend).then(
 				(response) => {
-					setMessage(response.data.message);
-					setSuccessful(true);
 					setIsEditing(false)
 					setTitleModal("Información")
 					setBodyModal(response.data.message)
@@ -181,9 +175,6 @@ function ProfileForm() {
 							error.response.data.message) ||
 						error.message ||
 						error.toString();
-
-					setMessage(resMessage);
-					setSuccessful(false);
 					setTitleModal("Error")
 					setBodyModal(resMessage)
 					handleShowInfoModal()
@@ -234,7 +225,7 @@ function ProfileForm() {
 					</div>
 				)}
 				<div className="inputBox">
-					<select value={sex} onChange={onChangeSex} disabled={!isEditing} required>
+					<select className="form-control" style={{width:"60%", textAlign:"center"}} value={sex} onChange={onChangeSex} disabled={!isEditing} required>
 						<option value="Femenino">Femenino</option>
 						<option value="Masculino">Masculino</option>
 						<option value="No Informado">Prefiero no informar</option>
@@ -244,14 +235,14 @@ function ProfileForm() {
 					<label>Sexo</label>
 				</div>
 				<div className="inputBox">
-					<select className="custom-select-day" onChange={onChangeDay} disabled={!isEditing} value={day} required>
+					<select className="form-control" style={{width:"20%", textAlign:"center", margin:"2px"}} onChange={onChangeDay} disabled={!isEditing} value={day} required>
 						{Array.from({ length: 31 }, (_, index) => (
 							<option key={index + 1} value={index + 1}>
 								{index + 1}
 							</option>
 						))}
 					</select>
-					<select className="custom-select-month" onChange={onChangeMonth} disabled={!isEditing} value={month} required>
+					<select className="form-control" style={{width:"40%", textAlign:"center", margin:"2px"}} onChange={onChangeMonth} disabled={!isEditing} value={month} required>
 						{[
 							"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
 							"Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
@@ -261,7 +252,7 @@ function ProfileForm() {
 							</option>
 						))}
 					</select>
-					<select className="custom-select-year" onChange={onChangeYear} disabled={!isEditing} value={year} required>
+					<select className="form-control" style={{width:"20%", textAlign:"center", margin:"2px"}} onChange={onChangeYear} disabled={!isEditing} value={year} required>
 						{Array.from({ length: 124 }, (_, index) => (
 							<option key={currentYear - index} value={currentYear - index}>
 								{currentYear - index}
