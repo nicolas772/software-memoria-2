@@ -49,4 +49,8 @@ module.exports = function (app) {
     [verifyProfile.checkDuplicateUsernameOrEmail],
     controller.updateProfile
   );
+  app.put(
+    "/api/test/update-pass",
+    controller.updatePass
+  );
 };

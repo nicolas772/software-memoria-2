@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { Button, Modal, Form } from "react-bootstrap";
+import UserService from "../services/user.service"
 
 const validLength = (value, isUsername) => {
   if (value.length < 6 || value.length > 20) {
@@ -50,9 +51,21 @@ function ModalChangePassword(props) {
     e.preventDefault();
     const isValid = validNewPassword(); // Cambia el nombre de la variable
     if (isValid) { // Usa la variable en lugar de la función
-      console.log(userId);
-      console.log("Enviar");
-      handleClose();
+      UserService.updatePassword(userId, actualPass, newPass).then(
+        (response) => {
+          console.log(response)
+          handleClose()
+        },
+        (error) => {
+          const resMessage =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+          setNewPassError(resMessage)
+        }
+      )
     }
   };
 

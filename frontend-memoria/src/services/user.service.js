@@ -77,6 +77,14 @@ const updateProfile = (idUser, username, email, sex, birthdayToSend) => {
   })
 }
 
+const updatePassword = (idUser, actualPass, newPass) => {
+  return axios.put(API_URL + "update-pass", {
+    idUser: idUser,
+    actualPass: actualPass,
+    newPass: newPass
+  })
+}
+
 const UserService = {
   getPublicContent,
   getUserBoard,
@@ -92,6 +100,7 @@ const UserService = {
   postCSUQAnswers,
   postOpenAnswer,
   updateProfile,
+  updatePassword,
 };
 
 export default UserService;
