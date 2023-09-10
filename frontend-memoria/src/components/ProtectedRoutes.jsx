@@ -12,6 +12,9 @@ import Study from "./tester/Study";
 import Iteration from "./tester/Iteration";
 import IterationUser from "./user/IterationUser";
 import Task from "./tester/Task";
+import FormStudy from "./tester/FormStudy";
+import FormIteration from "./tester/FormIteration";
+import FormTask from "./tester/FormTask";
 import { FaBars } from "react-icons/fa";
 import { Routes, Route } from "react-router-dom";
 import Footer from "./Footer";
@@ -50,6 +53,9 @@ const ProtectedRoutes = () => {
             <Route path="/boardTester" element={<BoardTester />} />
             <Route path="/boardUser" element={<BoardUser />} />
             <Route path="/studies" element={<Studies user={user}/>} />
+            <Route path="/create-study" element={<FormStudy />} />
+            <Route path="/create-iteration" element={<FormIteration />} />
+            <Route path="/create-task" element={<FormTask />} />
             <Route path="/studies/:idstudy" element={<Study />} />
             <Route path="/studies/:idstudy/:iditeration" element={<Iteration />} />
             <Route path="/doiteration/:iditeration" element={<IterationUser />} />

@@ -93,9 +93,9 @@ const Sidebar = ({ collapsed, toggled, handleToggleSidebar, handleCollapsedChang
                 title={'Crear'}
                 icon={<IoCreateSharp />}
               >
-                <MenuItem>Nuevo Estudio</MenuItem>
-                <MenuItem>Nueva Iteración</MenuItem>
-                <MenuItem>Nueva Tarea</MenuItem>
+                <MenuItem>Nuevo Estudio <Link to="/create-study" /></MenuItem>
+                <MenuItem>Nueva Iteración <Link to="/create-iteration" /></MenuItem>
+                <MenuItem>Nueva Tarea <Link to="/create-task" /></MenuItem>
               </SubMenu>
               {/* <MenuItem icon={<FaGem />}>Components </MenuItem> */}
               <MenuItem icon={<FaList />}>
