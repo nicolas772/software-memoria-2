@@ -3,21 +3,21 @@ import { Button, Modal, Form } from "react-bootstrap";
 
 function ModalChangePassword(props) {
   const { show, handleClose, userId } = props;
-  const [softwareName, setSoftwareName] = useState("");
-  const [softwareType, setSoftwareType] = useState("App Desktop");
-  const [softwareUrl, setSoftwareUrl] = useState("");
+  const [actualPass, setActualPass] = useState("");
+  const [newPass, setNewPass] = useState("");
+  const [confirmPass, setConfirmPass] = useState("");
 
-  const onChangeSoftwareName = (e) => {
-    const softwareName = e.target.value;
-    setSoftwareName(softwareName);
+  const onChangeActualPass = (e) => {
+    const actualPass = e.target.value;
+    setActualPass(actualPass);
   };
-  const onChangeSoftwareType = (e) => {
-    const softwareType = e.target.value;
-    setSoftwareType(softwareType);
+  const onChangeNewPass = (e) => {
+    const newPass = e.target.value;
+    setNewPass(newPass);
   };
-  const onChangeSoftwareUrl = (e) => {
-    const softwareUrl = e.target.value;
-    setSoftwareUrl(softwareUrl);
+  const onChangeConfirmPass = (e) => {
+    const confirmPass = e.target.value;
+    setConfirmPass(confirmPass);
   };
 
   const handleSubmit = (e) => {
@@ -29,51 +29,51 @@ function ModalChangePassword(props) {
 
   return (
     <>
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show}>
         <Modal.Header>
           <Modal.Title>Cambiar Contraseña</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="formSoftwareName">
+            <Form.Group controlId="actualPassForm">
               <Form.Label>Contraseña Actual</Form.Label>
               <Form.Control
-                type="text"
+                type="password"
                 placeholder="Ingresa Contraseña Actual"
-                name="softwareName"
-                value={softwareName}
-                onChange={onChangeSoftwareName}
+                value={actualPass}
+                onChange={onChangeActualPass}
+                className="pass-input"
               />
             </Form.Group>
 
-            <Form.Group controlId="formSoftwareName">
-              <Form.Label>Contraseña Nueva</Form.Label>
+            <Form.Group controlId="newPassForm">
+              <Form.Label>Nueva Contraseña</Form.Label>
               <Form.Control
-                type="text"
+                type="password"
                 placeholder="Ingresa Contraseña Nueva"
-                name="softwareName"
-                value={softwareName}
-                onChange={onChangeSoftwareName}
+                value={newPass}
+                onChange={onChangeNewPass}
+                className="pass-input"
               />
             </Form.Group>
 
-
-            <Form.Group controlId="formUrl">
-              <Form.Label>Contraseña Nueva</Form.Label>
+            <Form.Group controlId="confirmPassForm">
               <Form.Control
-                type="text"
+                type="password"
                 placeholder="Confirme Contraseña"
-                name="Url"
-                value={softwareUrl}
-                onChange={onChangeSoftwareUrl}
+                value={confirmPass}
+                onChange={onChangeConfirmPass}
+                className="pass-input"
               />
             </Form.Group>
-            <Button variant="secondary">
-              Cancelar
-            </Button>
-            <Button variant="primary" type="submit">
-              Cambiar Contraseña
-            </Button>
+            <div className="buttons-div">
+              <Button variant="secondary" onClick={handleClose}>
+                Cancelar
+              </Button>
+              <Button variant="primary" type="submit">
+                Cambiar Contraseña
+              </Button>
+            </div>
           </Form>
         </Modal.Body>
       </Modal>

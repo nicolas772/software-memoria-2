@@ -1,0 +1,29 @@
+.modal-content .form-control {
+    margin-bottom: 20px;
+    /* Ajusta el valor según tus necesidades */
+}
+
+.modal-content .buttons-div {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.pass-input{
+    width: 100%;
+    /* Cambia el valor según el ancho deseado */
+}
+
+/* Estilo para el contenedor del campo de contraseña y el botón */
+.password-input-container {
+  position: relative;
+}
+
+.password-toggle-button {
+  position: absolute;
+  top: 0;
+  right: 10px; /* Ajusta la posición según tu diseño */
+  background: none;
+  border: none;
+  cursor: pointer;
+}
