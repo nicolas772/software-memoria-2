@@ -17,7 +17,8 @@ function ModalChangePassword(props) {
   const [actualPass, setActualPass] = useState("");
   const [newPass, setNewPass] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
-  const [newPassError, setNewPassError] = useState("")
+  const [newPassError, setNewPassError] = useState("");
+  const [successful, setSuccessful] = useState(false)
 
   const onChangeActualPass = (e) => {
     const actualPass = e.target.value;
@@ -52,9 +53,11 @@ function ModalChangePassword(props) {
     const isValid = validNewPassword(); // Cambia el nombre de la variable
     if (isValid) { // Usa la variable en lugar de la función
       UserService.updatePassword(userId, actualPass, newPass).then(
-        (response) => {
-          console.log(response)
-          handleClose()
+        () => {
+          setActualPass("")
+          setNewPass("")
+          setConfirmPass("")
+          setSuccessful(true)
         },
         (error) => {
           const resMessage =
@@ -74,54 +77,66 @@ function ModalChangePassword(props) {
     <>
       <Modal show={show}>
         <Modal.Header>
-          <Modal.Title>Cambiar Contraseña</Modal.Title>
+          <Modal.Title>{successful ? "Información" : "Cambiar Contraseña"}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="actualPassForm">
-              <Form.Label>Contraseña Actual</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Ingresa Contraseña Actual"
-                value={actualPass}
-                onChange={onChangeActualPass}
-                className="pass-input"
-              />
-            </Form.Group>
-            <Form.Group controlId="newPassForm">
-              <Form.Label>Nueva Contraseña</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Ingresa Contraseña Nueva"
-                value={newPass}
-                onChange={onChangeNewPass}
-                className="pass-input"
-              />
-            </Form.Group>
-
-            <Form.Group controlId="confirmPassForm">
-              <Form.Control
-                type="password"
-                placeholder="Confirme Contraseña"
-                value={confirmPass}
-                onChange={onChangeConfirmPass}
-                className="pass-input"
-              />
-            </Form.Group>
-            {newPassError && (
-              <div className="alert alert-danger" role="alert">
-                {newPassError}
+          {successful ? (
+            <>
+              <p>Contraseña actualizada con éxito.</p>
+              <div className="buttons-div">
+                <Button variant="secondary" onClick={handleClose}>
+                  Cerrar
+                </Button>
               </div>
-            )}
-            <div className="buttons-div">
-              <Button variant="secondary" onClick={handleClose}>
-                Cancelar
-              </Button>
-              <Button variant="primary" type="submit">
-                Cambiar Contraseña
-              </Button>
-            </div>
-          </Form>
+            </>
+          ) : (
+            <Form onSubmit={handleSubmit}>
+              <Form.Group controlId="actualPassForm">
+                <Form.Label>Contraseña Actual</Form.Label>
+                <Form.Control
+                  type="password"
+                  placeholder="Ingresa Contraseña Actual"
+                  value={actualPass}
+                  onChange={onChangeActualPass}
+                  className="pass-input"
+                />
+              </Form.Group>
+              <Form.Group controlId="newPassForm">
+                <Form.Label>Nueva Contraseña</Form.Label>
+                <Form.Control
+                  type="password"
+                  placeholder="Ingresa Contraseña Nueva"
+                  value={newPass}
+                  onChange={onChangeNewPass}
+                  className="pass-input"
+                />
+              </Form.Group>
+
+              <Form.Group controlId="confirmPassForm">
+                <Form.Control
+                  type="password"
+                  placeholder="Confirme Contraseña"
+                  value={confirmPass}
+                  onChange={onChangeConfirmPass}
+                  className="pass-input"
+                />
+              </Form.Group>
+              {newPassError && (
+                <div className="alert alert-danger" role="alert">
+                  {newPassError}
+                </div>
+              )}
+              <div className="buttons-div">
+                <Button variant="secondary" onClick={handleClose}>
+                  Cancelar
+                </Button>
+                <Button variant="primary" type="submit">
+                  Cambiar Contraseña
+                </Button>
+              </div>
+            </Form>
+
+          )}
         </Modal.Body>
       </Modal>
     </>
