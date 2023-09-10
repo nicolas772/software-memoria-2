@@ -14,6 +14,7 @@ import "./css/styleSentimentAnalisis.css"
 import "./css/styleRegister.css"
 import "./css/styleProfile.css"
 import "./css/styleModalForm.css"
+import "./css/styleCreateForm.css"
 
 function App() {
 

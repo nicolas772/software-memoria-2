@@ -1,5 +1,4 @@
 import React from "react";
-import AuthService from "../services/auth.service";
 import ProfileForm from "./ProfileForm";
 
 const Profile = () => {
