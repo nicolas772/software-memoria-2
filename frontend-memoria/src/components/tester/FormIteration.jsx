@@ -4,7 +4,7 @@ const FormIteration = () => {
   return (
     <>
       <div className="gradient-background-pages">
-        <div className="profile-div">
+        <div className="createForm-div">
           <h1>🔃 Crear Iteración</h1>
           <p>
           Un estudio de usabilidad puede experimentar <strong>múltiples iteraciones de mejora 

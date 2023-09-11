@@ -4,7 +4,7 @@ const FormTask = () => {
   return (
     <>
       <div className="gradient-background-pages">
-        <div className="profile-div">
+        <div className="createForm-div">
           <h1>📌 Crear Tarea</h1>
           <p>
           <strong>Cada iteración</strong> de un estudio tiene <strong>variadas tareas</strong> a realizar por los 
