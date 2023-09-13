@@ -1,13 +1,17 @@
 /*Estilos para los componentes FormStudy, FormIteration y FormTask*/
-.container-create-form {
-	font-family: sans-serif;
-	/* 	background: url(bg.jpg); */
+.background-image {
 	background-image: linear-gradient(to right top, #edf4fb, #e9eff4);
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
-	height: 500vh;
-	/* O ajusta la altura según tus necesidades */
+}
+
+.container-create-form {
+	font-family: sans-serif;
+	/* Otras propiedades específicas */
+	font-family: sans-serif;
+	/* Otras propiedades específicas */
+	min-height: 110vh;
 	display: flex;
 	justify-content: space-between;
 }
@@ -118,4 +122,9 @@
 .box-createForm .react-datepicker__input-container {
 	display: flex;
 	justify-content: center;
+}
+
+#miTextarea {
+	width: 70%;
+	text-align: center;
 }

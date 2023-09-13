@@ -51,7 +51,7 @@ const FormStudy = () => {
 
   return (
     <>
-      <div className="container-create-form">
+      <div className="background-image container-create-form">
         <div className="column">
           <div className="createForm-div">
             <h1>📘 Crear Estudio</h1>
