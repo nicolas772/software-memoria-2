@@ -20,8 +20,8 @@ const FormIteration = () => {
   };
 
   const onChangeStudy = (e) => {
-    const softwareType = e.target.value;
-    setStudy(softwareType);
+    const study = e.target.value;
+    setStudy(study);
   };
 
   const handleStartCalendar = (date) => {

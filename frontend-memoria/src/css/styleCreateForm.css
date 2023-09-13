@@ -128,3 +128,31 @@
 	width: 70%;
 	text-align: center;
 }
+#miTextarea2 {
+	width: 90%;
+	text-align: left;
+}
+
+.container-duracion-optima {
+	display: flex;
+	justify-content: space-between;
+}
+
+.container-duracion-optima .column-duracion-optima {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
+.container-duracion-optima .column-dots {
+	display: flex;
+	justify-content: center;
+	width: 2%;
+	text-align: center;
+	font-weight: 600;
+	line-height: 2.3;
+	font-size: 15px;
+	color: #D5E8FB;
+	pointer-events: none;
+	transition: .5s;
+	animation: LabelOnLoad 1s forwards 0s ease;
+}
