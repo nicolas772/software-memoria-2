@@ -52,18 +52,14 @@ const FormStudy = () => {
   return (
     <>
       <div className="container-create-form">
-        <div className="column">
-          <div className="createForm-div">
-            <h1>📘 Crear Estudio</h1>
-            <p>
-              Para dar inicio a tu experiencia en la plataforma <strong>Feel UX</strong> y
-              comenzar a realizar tus estudios de usabilidad, es esencial crear un estudio,
-              <strong> completando todos los campos</strong> del formulario que se presenta a
-              continuación.
-            </p>
-          </div>
-        </div>
-        <div className="column">
+        <div className="createForm-div">
+          <h1>📘 Crear Estudio</h1>
+          <p>
+            Para dar inicio a tu experiencia en la plataforma <strong>Feel UX</strong> y
+            comenzar a realizar tus estudios de usabilidad, es esencial crear un estudio,
+            <strong> completando todos los campos</strong> del formulario que se presenta a
+            continuación.
+          </p>
           <div className='box-createForm'>
             <div className="inputBox">
               <input
@@ -133,10 +129,10 @@ const FormStudy = () => {
               <label>Fecha de Término Estudio</label>
             </div>
             {badEndDate && (
-              <div className="alert alert-danger" role="alert">
-                La fecha de término de estudio debe ser posterior a la fecha de inicio.
-              </div>
-            )}
+                <div className="alert alert-danger" role="alert">
+                  La fecha de término de estudio debe ser posterior a la fecha de inicio.
+                </div>
+              )}
             <div className="buttons-div">
               <button type="button" onClick={handleSubmit}>
                 Crear Estudio

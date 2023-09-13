@@ -1,10 +1,30 @@
 /*Estilos para los componentes FormStudy, FormIteration y FormTask*/
+.container-create-form {
+	font-family: sans-serif;
+	/* 	background: url(bg.jpg); */
+	background-image: linear-gradient(to right top, #edf4fb, #e9eff4);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	height: 500vh;
+	/* O ajusta la altura según tus necesidades */
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	width: 50%;
+	/* Ajusta el ancho de las columnas según tus preferencias */
+	padding: 5px;
+	/* Añade espaciado interior si es necesario */
+	/* Puedes agregar más estilos aquí según tus necesidades */
+}
+
 .createForm-div {
 	position: relative;
-	top: 50%;
+	top: 40%;
 	left: 50%;
 	transform: translate(-50%, -55%);
-	width: 600px;
 	padding-top: 7%;
 }
 
@@ -20,10 +40,10 @@
 }
 
 .createForm-div p {
-	margin: 0 0 30px;
+	margin: 0 30px 30px;
 	padding: 0;
 	color: #435F7A;
-	text-align: center;
+	text-align: justify;
 	font-family: "Poppins", sans-serif;
 	font-weight: 300;
 	transition: .5s;
@@ -32,10 +52,9 @@
 
 .box-createForm {
 	position: relative;
-	top: 15%;
-	left: 50%;
-	transform: translate(-50%, -22%);
-	width: 450px;
+	top: 10%;
+	left: 10%;
+	width: 400px;
 	padding: 20px;
 	background: #435F7A;
 	box-sizing: border-box;
@@ -96,8 +115,7 @@
 	background-color: #4a6a87;
 }
 
-.react-datepicker__input-container {
+.box-createForm .react-datepicker__input-container {
 	display: flex;
 	justify-content: center;
-	/* Centrar horizontalmente los elementos dentro de date-picker-container */
 }
