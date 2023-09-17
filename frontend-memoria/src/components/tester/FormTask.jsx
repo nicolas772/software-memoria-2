@@ -1,15 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TaskService from "../../services/task.service";
+import UserService from "../../services/user.service";
+import InfoModal from "../user/InfoModal"
 
 const FormTask = () => {
   const [titulo, setTitulo] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [dificulty, setDificulty] = useState("Fácil");
-  const [minutes, setMinutes] = useState(-1);
-  const [seconds, setSeconds] = useState(-1);
-  const [study, setStudy] = useState("Estudio 1");
-  const [iteration, setIteration] = useState("Iteración 1");
+  const [minutes, setMinutes] = useState();
+  const [seconds, setSeconds] = useState();
+  const [study, setStudy] = useState("");
+  const [iteration, setIteration] = useState("");
   const [inSelection, setInSelection] = useState(true)
+  const [content, setContent] = useState([]);
+  const [contentIterations, setContentIterations] = useState([]);
+  const [faltaStudyIteration, setFaltaStudyIteration] = useState(false)
+  const [warning, setWarning] = useState("")
+  const [faltanInputs, setFaltanInputs] = useState(false)
+  const [showInfoModal, setShowInfoModal] = useState(false)
+  const [titleModal, setTitleModal] = useState('')
+  const [bodyModal, setBodyModal] = useState('')
+
+  const handleShowInfoModal = () => setShowInfoModal(true)
+  const handleCloseInfoModal = () => setShowInfoModal(false)
 
   const handleMinutesChange = (event) => {
     setMinutes(event.target.value);
@@ -39,12 +52,95 @@ const FormTask = () => {
     const iteration = e.target.value;
     setIteration(iteration);
   };
-  const handleNext = () => setInSelection(false)
+  const handleNext = () => {
+    if (!study) {
+      setWarning("Por favor, selecciona un estudio.")
+      setFaltaStudyIteration(true)
+      return
+    }
+    if (!iteration) {
+      setWarning("Por favor, selecciona una iteración.")
+      setFaltaStudyIteration(true)
+      return
+    }
+    setFaltaStudyIteration(false)
+    setInSelection(false)
+  }
+  const handleBack = () => {
+    setInSelection(true)
+    setFaltanInputs(false)
+  }
 
-  const handleBack = () => setInSelection(true)
+  useEffect(() => {
+    UserService.getStudies().then(
+      (response) => {
+        setContent(response.data);
+      },
+      (error) => {
+        const _content =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        setContent(_content);
+      }
+    );
+  }, []);
 
-  const handleSubmit = () => {
-    console.log("crear estudio")
+  useEffect(() => {
+    //if para filtrar si estudio es vacio o no
+    if (study) {
+      UserService.getIterations(study).then(
+        (response) => {
+          setContentIterations(response.data);
+          setIteration("")
+        },
+        (error) => {
+          const _content =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+
+          setContentIterations(_content);
+        }
+      );
+    }
+  }, [study]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (titulo === "" || descripcion === "" || !minutes || !seconds) {
+      setFaltanInputs(true)
+      return
+    }
+    TaskService.create(iteration, titulo, descripcion, dificulty, minutes, seconds).then(
+      (response) => {
+        setTitulo("")
+        setDescripcion("")
+        setDificulty("Fácil")
+        setMinutes()
+        setSeconds()
+        setTitleModal('Información')
+        setBodyModal(response.data.message)
+        handleShowInfoModal()
+        setFaltanInputs(false)
+        setInSelection(true)
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        setTitleModal('Error')
+        setBodyModal(resMessage)
+        handleShowInfoModal()
+      }
+    );
   }
 
   return (
@@ -65,16 +161,19 @@ const FormTask = () => {
         </div>
         <div className="column">
           {inSelection ? (
-            <div className='box-createForm' style={{top:'23%'}}>
+            <div className='box-createForm' style={{ top: '23%' }}>
               <div className="inputBox">
                 <select className="form-control"
                   style={{ width: "60%", textAlign: "center" }}
                   value={study}
                   onChange={onChangeStudy}
                   required>
-                  <option>Estudio 1</option>
-                  <option>Estudio 2</option>
-                  <option>Estudio 3</option>
+                  <option value="" disabled>Opciones</option>
+                  {content.map((study, index) => (
+                    <option key={index} value={study.id}>
+                      {study.software_name}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="labelBox">
@@ -86,14 +185,22 @@ const FormTask = () => {
                   value={iteration}
                   onChange={onChangeIteration}
                   required>
-                  <option>Iteración 1</option>
-                  <option>Iteración 2</option>
-                  <option>Iteración 3</option>
+                  <option value="" disabled>Opciones</option>
+                  {contentIterations.map((iteration, index) => (
+                    <option key={index} value={iteration.id}>
+                      Iteración {iteration.iteration_number}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="labelBox">
                 <label>Selecciona una Iteración</label>
               </div>
+              {faltaStudyIteration && (
+                <div className="alert alert-danger" role="alert">
+                  {warning}
+                </div>
+              )}
               <div className="buttons-div">
                 <button type="button" onClick={handleNext}>
                   Siguiente
@@ -104,7 +211,7 @@ const FormTask = () => {
 
           ) : (
 
-            <div className='box-createForm' style={{top:'10%'}}>
+            <div className='box-createForm' style={{ top: '10%' }}>
               <div className="inputBox">
                 <input
                   type="text"
@@ -180,6 +287,11 @@ const FormTask = () => {
               <div className="labelBox">
                 <label>Duración óptima de la tarea</label>
               </div>
+              {faltanInputs && (
+                <div className="alert alert-danger" role="alert">
+                  Debes completar todos los campos para crear una tarea.
+                </div>
+              )}
               <div className="buttons-div">
                 <button type="button" onClick={handleBack}>
                   Volver
@@ -191,9 +303,14 @@ const FormTask = () => {
             </div>
 
           )}
-
         </div>
       </div>
+      <InfoModal
+        show={showInfoModal}
+        handleClose={handleCloseInfoModal}
+        title={titleModal}
+        body={bodyModal}
+      />
     </>
   )
 }
