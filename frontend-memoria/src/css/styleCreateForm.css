@@ -59,6 +59,7 @@
 	left: 10%;
 	width: 400px;
 	padding: 20px;
+	padding-top: 35px;
 	background: #435F7A;
 	box-sizing: border-box;
 	box-shadow: 0 3px 5px rgba(0, 0, 0, .5);
@@ -73,7 +74,6 @@
 .box-createForm .labelBox {
 	display: flex;
 	justify-content: center;
-	margin-bottom: 10px;
 }
 
 .box-createForm .labelBox label {
@@ -90,7 +90,6 @@
 .box-createForm .buttons-div {
 	display: flex;
 	justify-content: center;
-	margin-top: 10px;
 }
 
 .box-createForm button[type='button'] {

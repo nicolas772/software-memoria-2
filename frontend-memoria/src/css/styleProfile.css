@@ -36,6 +36,7 @@
 	transform: translate(-50%, -22%);
 	width: 450px;
 	padding: 20px;
+	padding-top: 30px;
 	background: #435F7A;
 	box-sizing: border-box;
 	box-shadow: 0 3px 5px rgba(0, 0, 0, .5);
@@ -50,7 +51,7 @@
 .box-profile .labelBox {
 	display: flex;
 	justify-content: center;
-    margin-bottom: 10px;
+    
 }
 
 .box-profile .labelBox label {
