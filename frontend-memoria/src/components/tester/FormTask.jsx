@@ -65,7 +65,7 @@ const FormTask = () => {
         </div>
         <div className="column">
           {inSelection ? (
-            <div className='box-selectForm'>
+            <div className='box-createForm' style={{top:'23%'}}>
               <div className="inputBox">
                 <select className="form-control"
                   style={{ width: "60%", textAlign: "center" }}
@@ -104,7 +104,7 @@ const FormTask = () => {
 
           ) : (
 
-            <div className='box-createForm'>
+            <div className='box-createForm' style={{top:'10%'}}>
               <div className="inputBox">
                 <input
                   type="text"

@@ -64,7 +64,7 @@ const FormStudy = () => {
           </div>
         </div>
         <div className="column">
-          <div className='box-createForm'>
+        <div className='box-createForm' style={{top:'10%'}}>
             <div className="inputBox">
               <input
                 type="text"

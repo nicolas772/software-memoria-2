@@ -13,6 +13,10 @@ const FormIteration = () => {
   const [endDate, setEndDate] = useState(null);
   const [badEndDate, setBadEndDate] = useState(false)
   const [study, setStudy] = useState("Estudio 1");
+  const [inSelection, setInSelection] = useState(true)
+
+  const handleNext = () => setInSelection(false)
+  const handleBack = () => setInSelection(true)
 
   const onChangeObjetivo = (e) => {
     const objetivo = e.target.value;
@@ -61,74 +65,88 @@ const FormIteration = () => {
           </div>
         </div>
         <div className="column">
-          <div className='box-createForm'>
-            <div className="inputBox">
-              <select className="form-control"
-                style={{ width: "60%", textAlign: "center" }}
-                value={study}
-                onChange={onChangeStudy}
-                required>
-                <option>Estudio 1</option>
-                <option>Estudio 2</option>
-                <option>Estudio 3</option>
-              </select>
-            </div>
-            <div className="labelBox">
-              <label>Selecciona un estudio</label>
-            </div>
-            <div className="inputBox">
-              <textarea
-                className="form-control"
-                id="miTextarea"
-                rows={2}
-                placeholder="Ingresa objetivo"
-                value={objetivo}
-                onChange={onChangeObjetivo}
-              >
-              </textarea>
-            </div>
-            <div className="labelBox">
-              <label>Objetivo de la Iteración</label>
-            </div>
-            <div className="inputBox">
-              <DatePicker
-                locale="es"
-                selected={startDate}
-                onChange={handleStartCalendar}
-                minDate={new Date()}
-                showDisabledMonthNavigation
-                placeholderText="mm/dd/aaaa"
-                className="form-control"
-              />
-            </div>
-            <div className="labelBox">
-              <label>Fecha de Inicio Iteración</label>
-            </div>
-            <div className="inputBox">
-              <DatePicker
-                locale="es"
-                selected={endDate}
-                onChange={handleEndCalendar}
-                minDate={new Date()}
-                showDisabledMonthNavigation
-                placeholderText="mm/dd/aaaa"
-                className="form-control"
-              />
-            </div>
-            <div className="labelBox">
-              <label>Fecha de Término Iteración</label>
-            </div>
-            {badEndDate && (
-              <div className="alert alert-danger" role="alert">
-                La fecha de término de Iteración debe ser posterior a la fecha de inicio.
+          {inSelection ? (
+            <div className='box-createForm' style={{top:'27%'}}>
+              <div className="inputBox">
+                <select className="form-control"
+                  style={{ width: "60%", textAlign: "center" }}
+                  value={study}
+                  onChange={onChangeStudy}
+                  required>
+                  <option>Estudio 1</option>
+                  <option>Estudio 2</option>
+                  <option>Estudio 3</option>
+                </select>
               </div>
-            )}
-            <div className="buttons-div">
-              <button type="button" onClick={handleSubmit}>
-                Crear Iteración
-              </button>
+              <div className="labelBox">
+                <label>Selecciona un estudio</label>
+              </div>
+              <div className="buttons-div">
+                <button type="button" onClick={handleNext}>
+                  Siguiente
+                </button>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className='box-createForm' style={{top:'15%'}}>
+              <div className="inputBox">
+                <textarea
+                  className="form-control"
+                  id="miTextarea"
+                  rows={2}
+                  placeholder="Ingresa objetivo"
+                  value={objetivo}
+                  onChange={onChangeObjetivo}
+                >
+                </textarea>
+              </div>
+              <div className="labelBox">
+                <label>Objetivo de la Iteración</label>
+              </div>
+              <div className="inputBox">
+                <DatePicker
+                  locale="es"
+                  selected={startDate}
+                  onChange={handleStartCalendar}
+                  minDate={new Date()}
+                  showDisabledMonthNavigation
+                  placeholderText="mm/dd/aaaa"
+                  className="form-control"
+                />
+              </div>
+              <div className="labelBox">
+                <label>Fecha de Inicio Iteración</label>
+              </div>
+              <div className="inputBox">
+                <DatePicker
+                  locale="es"
+                  selected={endDate}
+                  onChange={handleEndCalendar}
+                  minDate={new Date()}
+                  showDisabledMonthNavigation
+                  placeholderText="mm/dd/aaaa"
+                  className="form-control"
+                />
+              </div>
+              <div className="labelBox">
+                <label>Fecha de Término Iteración</label>
+              </div>
+              {badEndDate && (
+                <div className="alert alert-danger" role="alert">
+                  La fecha de término de Iteración debe ser posterior a la fecha de inicio.
+                </div>
+              )}
+              <div className="buttons-div">
+                <button type="button" onClick={handleBack}>
+                  Volver
+                </button>
+                <button type="button" onClick={handleSubmit}>
+                  Crear Iteración
+                </button>
+              </div>
+            </div>
+
+          )}
         </div>
       </div>
     </>
