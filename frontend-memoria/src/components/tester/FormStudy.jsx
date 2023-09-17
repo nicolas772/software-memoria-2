@@ -58,7 +58,7 @@ const FormStudy = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Aquí manejar campos vacios!!
-    if(softwareName === "" || softwareUrl === "" || !startDate || !endDate){
+    if (softwareName === "" || softwareUrl === "" || !startDate || !endDate) {
       setFaltanInputs(true)
       return
     }
@@ -82,6 +82,9 @@ const FormStudy = () => {
             error.response.data.message) ||
           error.message ||
           error.toString();
+        setTitleModal('Error')
+        setBodyModal(resMessage)
+        handleShowInfoModal()
       }
     );
   }
@@ -119,7 +122,7 @@ const FormStudy = () => {
                 style={{ width: "60%", textAlign: "center" }}
                 value={softwareType}
                 onChange={onChangeSoftwareType}
-                >
+              >
                 <option>App Desktop</option>
                 <option>App Móvil</option>
                 <option>App Web</option>
@@ -184,7 +187,7 @@ const FormStudy = () => {
                 Crear Estudio
               </button>
             </div>
-            
+
           </div>
         </div>
       </div>

@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import IterationService from "../../services/iteration.service";
+import UserService from "../../services/user.service";
+import InfoModal from "../user/InfoModal"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
@@ -12,11 +14,30 @@ const FormIteration = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [badEndDate, setBadEndDate] = useState(false)
-  const [study, setStudy] = useState("Estudio 1");
+  const [study, setStudy] = useState("");
   const [inSelection, setInSelection] = useState(true)
+  const [content, setContent] = useState([]);
+  const [faltanInputs, setFaltanInputs] = useState(false)
+  const [showInfoModal, setShowInfoModal] = useState(false)
+  const [titleModal, setTitleModal] = useState('')
+  const [bodyModal, setBodyModal] = useState('')
+  const [faltaStudy, setFaltaStudy] = useState(false)
 
-  const handleNext = () => setInSelection(false)
-  const handleBack = () => setInSelection(true)
+  const handleShowInfoModal = () => setShowInfoModal(true)
+  const handleCloseInfoModal = () => setShowInfoModal(false)
+
+  const handleNext = () => {
+    if (!study) {
+      setFaltaStudy(true)
+      return
+    }
+    setInSelection(false)
+    setFaltaStudy(false)
+  }
+  const handleBack = () => {
+    setInSelection(true)
+    setFaltanInputs(false)
+  }
 
   const onChangeObjetivo = (e) => {
     const objetivo = e.target.value;
@@ -46,8 +67,54 @@ const FormIteration = () => {
     }
   }
 
-  const handleSubmit = () => {
-    console.log("crear estudio")
+  useEffect(() => {
+    UserService.getStudies().then(
+      (response) => {
+        setContent(response.data);
+      },
+      (error) => {
+        const _content =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        setContent(_content);
+      }
+    );
+  }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (objetivo === "" || !startDate || !endDate) {
+      setFaltanInputs(true)
+      return
+    }
+    IterationService.create(study, objetivo, startDate, endDate).then(
+      (response) => {
+        setObjetivo("")
+        setStartDate(null)
+        setEndDate(null)
+        setBadEndDate(false)
+        setTitleModal('Información')
+        setBodyModal(response.data.message)
+        handleShowInfoModal()
+        setFaltanInputs(false)
+        setInSelection(true)
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        setTitleModal('Error')
+        setBodyModal(resMessage)
+        handleShowInfoModal()
+      }
+    );
   }
 
   return (
@@ -66,21 +133,29 @@ const FormIteration = () => {
         </div>
         <div className="column">
           {inSelection ? (
-            <div className='box-createForm' style={{top:'27%'}}>
+            <div className='box-createForm' style={{ top: '27%' }}>
               <div className="inputBox">
                 <select className="form-control"
                   style={{ width: "60%", textAlign: "center" }}
                   value={study}
                   onChange={onChangeStudy}
                   required>
-                  <option>Estudio 1</option>
-                  <option>Estudio 2</option>
-                  <option>Estudio 3</option>
+                  <option value="" disabled>Opciones</option>
+                  {content.map((study, index) => (
+                    <option key={index} value={study.id}>
+                      {study.software_name}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="labelBox">
                 <label>Selecciona un estudio</label>
               </div>
+              {faltaStudy && (
+                <div className="alert alert-danger" role="alert">
+                  Por favor, selecciona un estudio.
+                </div>
+              )}
               <div className="buttons-div">
                 <button type="button" onClick={handleNext}>
                   Siguiente
@@ -88,7 +163,7 @@ const FormIteration = () => {
               </div>
             </div>
           ) : (
-            <div className='box-createForm' style={{top:'15%'}}>
+            <div className='box-createForm' style={{ top: '15%' }}>
               <div className="inputBox">
                 <textarea
                   className="form-control"
@@ -136,6 +211,11 @@ const FormIteration = () => {
                   La fecha de término de Iteración debe ser posterior a la fecha de inicio.
                 </div>
               )}
+              {faltanInputs && (
+                <div className="alert alert-danger" role="alert">
+                  Debes completar todos los campos para crear una iteración.
+                </div>
+              )}
               <div className="buttons-div">
                 <button type="button" onClick={handleBack}>
                   Volver
@@ -149,6 +229,12 @@ const FormIteration = () => {
           )}
         </div>
       </div>
+      <InfoModal
+        show={showInfoModal}
+        handleClose={handleCloseInfoModal}
+        title={titleModal}
+        body={bodyModal}
+      />
     </>
   )
 }
