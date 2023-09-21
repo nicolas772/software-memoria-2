@@ -87,7 +87,7 @@ const Sidebar = ({ collapsed, toggled, handleToggleSidebar, handleCollapsedChang
                       letterSpacing: '1px'
                     }}
                   >
-                    Perfil Tester
+                    Tester
                   </div>
                 )}
                 {showUserBoard && (
@@ -99,7 +99,7 @@ const Sidebar = ({ collapsed, toggled, handleToggleSidebar, handleCollapsedChang
                       letterSpacing: '1px'
                     }}
                   >
-                    Perfil User
+                    User
                   </div>
                 )}
               </MenuItem>
