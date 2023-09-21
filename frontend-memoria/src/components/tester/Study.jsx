@@ -102,7 +102,7 @@ const Study = () => {
   }
 
   return (
-    <>
+    <div style={{margin:'20px'}}>
       <div>
         <header>
           <h3>Estudio {content.software_name}</h3>
@@ -139,7 +139,7 @@ const Study = () => {
         handleDelete={handleDelete}
         element={title}
       />
-    </>
+    </div>
   )
 }
 

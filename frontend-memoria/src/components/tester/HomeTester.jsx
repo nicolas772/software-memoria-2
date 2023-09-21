@@ -21,9 +21,11 @@ const HomeTester = () => {
   }, []);
 
   return (
-    <header>
-      <h1>Home Tester</h1>
-    </header>
+    <div style={{ margin: '20px' }}>
+      <header>
+        <h3>Dashboard Principal</h3>
+      </header>
+    </div>
   )
 }
 

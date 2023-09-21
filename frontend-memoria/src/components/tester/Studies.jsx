@@ -32,7 +32,7 @@ const Studies = ({ user }) => {
 
 
   return (
-    <>
+    <div style={{margin:'20px'}}>
       <div className="container">
         <header>
           <h3>Lista de estudios</h3>
@@ -48,7 +48,7 @@ const Studies = ({ user }) => {
         handleClose={handleCloseCreateModal} 
         userId={user.id}/>
       </div>
-    </>
+    </div>
   )
 }
 export default Studies

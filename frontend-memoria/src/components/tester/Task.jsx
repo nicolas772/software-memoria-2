@@ -71,7 +71,7 @@ const Task = () => {
   }
 
   return (
-    <>
+    <div style={{margin:'20px'}}>
       <div>
         <header>
           <h3>{content.title}</h3>
@@ -109,7 +109,7 @@ const Task = () => {
         handleDelete={handleDelete}
         element={content.title}
       />
-    </>
+    </div>
   )
 }
 

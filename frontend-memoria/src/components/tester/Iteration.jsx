@@ -151,7 +151,7 @@ const Iteration = () => {
   }
 
   return (
-    <>
+    <div style={{margin:'20px'}}>
       <div>
         <header>
           <h3>Iteracion {content.iteration_number}</h3>
@@ -163,7 +163,7 @@ const Iteration = () => {
           <li type="disc">Codigo iteracion: {agregarCeros(iditeration)}</li>
           <li type="disc">Objetivo: {content.goal}</li>
           <li type="disc">Cantidad de tareas asociadas: {content.task_qty}</li>
-          <li type="disc">Cantidad de usuarios tester de la iteracion: {content.users_qty}</li>
+          <li type="disc">Cantidad de usuarios activos en la iteracion: {content.users_qty}</li>
         </ul>
       </div>
 
@@ -215,7 +215,7 @@ const Iteration = () => {
         handleFinalizar={handleFinalizar}
         element={title}
       />
-    </>
+    </div>
   )
 }
 
