@@ -72,12 +72,36 @@ const Sidebar = ({ collapsed, toggled, handleToggleSidebar, handleCollapsedChang
                     padding: '9px',
                     textTransform: 'uppercase',
                     fontWeight: 'bold',
-                    fontSize: 15,
+                    fontSize: 18,
                     letterSpacing: '1px'
                   }}
                 >
                   Feel UX
                 </div>
+                {showTesterBoard && (
+                  <div
+                    style={{
+                      textTransform: 'uppercase',
+                      paddingLeft: '9px',
+                      fontSize: 10,
+                      letterSpacing: '1px'
+                    }}
+                  >
+                    Perfil Tester
+                  </div>
+                )}
+                {showUserBoard && (
+                  <div
+                    style={{
+                      textTransform: 'uppercase',
+                      paddingLeft: '9px',
+                      fontSize: 10,
+                      letterSpacing: '1px'
+                    }}
+                  >
+                    Perfil User
+                  </div>
+                )}
               </MenuItem>
             )}
           </Menu>
