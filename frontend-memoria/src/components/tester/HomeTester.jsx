@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import UserService from "../../services/user.service";
 import ApexChart from "../charts/ApexChart";
+import ApexChart2 from "../charts/ApexChart2";
+import ApexChart3 from "../charts/ApexChart3";
 
 const HomeTester = () => {
   const [content, setContent] = useState("");
@@ -26,7 +28,7 @@ const HomeTester = () => {
       <header>
         <h3>Dashboard Principal</h3>
       </header>
-    <ApexChart></ApexChart>
+    <ApexChart2></ApexChart2>
     </div>
   )
 }
