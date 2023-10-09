@@ -4,7 +4,6 @@ import ApexChart from "../charts/ApexChart";
 import ApexChart2 from "../charts/ApexChart2";
 import ApexChart3 from "../charts/ApexChart3";
 import Example from "../charts/Example";
-import Example2 from "../charts/Example2";
 import "../charts/css/styleDashboardPrincipal.css"
 
 const HomeTester = () => {

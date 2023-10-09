@@ -1,30 +1,30 @@
 import React from "react";
 import { Card, Metric, Text, Icon, Flex, Grid } from "@tremor/react";
-import { CashIcon, TicketIcon, UserGroupIcon } from "@heroicons/react/solid";
+import { UserGroupIcon, RefreshIcon, HeartIcon, CheckIcon } from "@heroicons/react/solid";
 
 const categories = [
   {
-    title: "Estudios Activos",
+    title: "Iteraciones Activas",
     metric: "36",
-    icon: TicketIcon,
+    icon: RefreshIcon,
     color: "indigo",
   },
   {
-    title: "Iteraciones Completadas",
+    title: "Usuarios Activos",
     metric: "14",
-    icon: CashIcon,
+    icon: UserGroupIcon,
     color: "fuchsia",
   },
   {
     title: "% Iteraciones Completadas",
-    metric: "456",
-    icon: UserGroupIcon,
+    metric: "56%",
+    icon: CheckIcon,
     color: "amber",
   },
   {
-    title: "% Usuarios Activos",
-    metric: "12%",
-    icon: UserGroupIcon,
+    title: "% Promedio Satisfacción",
+    metric: "95%",
+    icon: HeartIcon,
     color: "emerald",
   },
 ];
@@ -33,9 +33,9 @@ export default function Example() {
   return (
     <Grid numItemsSm={2} numItemsLg={4} className="gap-6">
       {categories.map((item) => (
-        <Card key={item.title} decoration="top" decorationColor={item.color} style={{paddingBottom:"0px", paddingTop:"4%", paddingLeft:"2%", paddingRight:"2%"}}>
+        <Card key={item.title} decoration="top" decorationColor={item.color} style={{paddingBottom:"0%", paddingTop:"3%", paddingLeft:"5%", paddingRight:"4%"}}>
           <Flex justifyContent="start" className="space-x-2">
-            <Icon icon={item.icon} variant="light" size="xl" color={item.color} />
+            <Icon icon={item.icon} variant="light" size="lg" color={item.color} />
             <div className="truncate">
               <Text>{item.title}</Text>
               <Metric className="truncate">{item.metric}</Metric>
