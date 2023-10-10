@@ -3,20 +3,22 @@ import UserService from "../../services/user.service";
 import ApexChart from "../charts/ApexChart";
 import ApexChart2 from "../charts/ApexChart2";
 import ApexChart3 from "../charts/ApexChart3";
-import Example from "../charts/Example";
+import Cards from "../charts/Cards";
 import "../charts/css/styleDashboardPrincipal.css"
 
 const HomeTester = () => {
   const [content, setContent] = useState("");
 
   useEffect(() => {
-    UserService.getPublicContent().then(
+    UserService.getTesterBoard().then(
       (response) => {
         setContent(response.data);
       },
       (error) => {
         const _content =
-          (error.response && error.response.data) ||
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
           error.message ||
           error.toString();
 
@@ -30,7 +32,7 @@ const HomeTester = () => {
       <header>
         <h3>Dashboard Principal</h3>
       </header>
-    <Example></Example>
+    <Cards content={content}></Cards>
     </div>
   )
 }

@@ -2,34 +2,34 @@ import React from "react";
 import { Card, Metric, Text, Icon, Flex, Grid } from "@tremor/react";
 import { UserGroupIcon, RefreshIcon, HeartIcon, CheckIcon } from "@heroicons/react/solid";
 
-const categories = [
-  {
-    title: "Iteraciones Activas",
-    metric: "36",
-    icon: RefreshIcon,
-    color: "indigo",
-  },
-  {
-    title: "Usuarios Activos",
-    metric: "14",
-    icon: UserGroupIcon,
-    color: "fuchsia",
-  },
-  {
-    title: "% Iteraciones Completadas",
-    metric: "56%",
-    icon: CheckIcon,
-    color: "amber",
-  },
-  {
-    title: "% Promedio Satisfacción",
-    metric: "95%",
-    icon: HeartIcon,
-    color: "emerald",
-  },
-];
-
-export default function Example() {
+const Cards = (props) => {
+  const { content } = props;
+  const categories = [
+    {
+      title: "Iteraciones Activas",
+      metric: content.iteraciones_activas,
+      icon: RefreshIcon,
+      color: "indigo",
+    },
+    {
+      title: "Usuarios Activos",
+      metric: content.usuarios_activos,
+      icon: UserGroupIcon,
+      color: "fuchsia",
+    },
+    {
+      title: "% Iteraciones Completadas",
+      metric: content.porc_iteraciones_completadas,
+      icon: CheckIcon,
+      color: "amber",
+    },
+    {
+      title: "% Promedio Satisfacción",
+      metric: content.porc_promedio_satisfaccion,
+      icon: HeartIcon,
+      color: "emerald",
+    },
+  ];
   return (
     <Grid numItemsSm={2} numItemsLg={4} className="gap-6">
       {categories.map((item) => (
@@ -46,3 +46,5 @@ export default function Example() {
     </Grid>
   );
 }
+
+export default Cards

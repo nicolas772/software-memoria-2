@@ -11,7 +11,15 @@ exports.userBoard = (req, res) => {
 };
 
 exports.testerBoard = (req, res) => {
-  res.status(200).send("Tester Content.");
+  const idUser = req.headers["id"];
+  console.log(idUser)
+  const responseData = {
+    "iteraciones_activas": "45",
+    "usuarios_activos": "20",
+    "porc_iteraciones_completadas": "56%",
+    "porc_promedio_satisfaccion": "95%"
+  }
+  res.status(200).json(responseData)
 };
 
 exports.updateProfile= (req, res) => {
