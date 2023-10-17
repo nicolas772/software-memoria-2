@@ -13,6 +13,7 @@ exports.userBoard = (req, res) => {
 exports.testerBoard = (req, res) => {
   const idUser = req.headers["id"];
   console.log(idUser)
+  //aqui hacer logica para rescatar todos los datos de las cards
   const responseData = {
     "iteraciones_activas": "45",
     "usuarios_activos": "20",

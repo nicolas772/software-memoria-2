@@ -59,15 +59,7 @@ function ApexChart() {
   });
 
   return (
-    <div>
-      <div className="row">
-        <div className="col-md-8">
-          <div id="chart">
-            <ReactApexChart options={chartData.options} series={chartData.series} type="bar" height={350} />
-          </div>
-        </div>
-      </div>
-    </div>
+    <ReactApexChart options={chartData.options} series={chartData.series} type="bar" height={300} />
   );
 }
 

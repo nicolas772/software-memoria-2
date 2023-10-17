@@ -12,7 +12,7 @@ function ApexChart2() {
         breakpoint: 480,
         options: {
           chart: {
-            width: 200,
+            width: 100,
           },
           legend: {
             position: 'bottom',
@@ -23,15 +23,9 @@ function ApexChart2() {
   };
 
   return (
-    <div>
-      <div className="row">
-        <div className="col-md-8">
-          <div id="chart">
-            <ReactApexChart options={state.options} series={state.series} type="donut" />
-          </div>
-        </div>
-      </div>
-    </div>
+
+    <ReactApexChart options={state.options} series={state.series} type="donut" />
+
   );
 }
 
