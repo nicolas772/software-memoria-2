@@ -4,6 +4,7 @@ const controller = require("../controllers/user.controller");
 const iterationstate_controller = require("../controllers/iterationstate.controller");
 const csuqanswers_controller = require("../controllers/csuqanswers.controller");
 const openanswer_controller = require("../controllers/openanswer.controller");
+const dashMain_controller = require("../controllers/dashMain.controller");
 
 module.exports = function (app) {
   app.use(function (req, res, next) {
@@ -19,7 +20,7 @@ module.exports = function (app) {
   app.get(
     "/api/test/tester",
     [authJwt.verifyToken, authJwt.isTester],
-    controller.testerBoard
+    dashMain_controller.testerBoard
   );
 
   app.get(

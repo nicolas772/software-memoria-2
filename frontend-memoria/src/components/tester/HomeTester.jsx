@@ -37,6 +37,7 @@ const HomeTester = () => {
       <div style={{ margin: "1%" }}>
         <Cards content={content}></Cards>
       </div>
+      {/*<div>
       <div style={{ margin: "1%" }}>
         <div className="row">
           <div className="col-md-6">
@@ -69,6 +70,7 @@ const HomeTester = () => {
           
         </div>
       </div>
+  </div>*/}
     </div>
   )
 }

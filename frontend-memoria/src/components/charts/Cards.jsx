@@ -24,8 +24,8 @@ const Cards = (props) => {
       color: "amber",
     },
     {
-      title: "% Promedio Satisfacción",
-      metric: content.porc_promedio_satisfaccion,
+      title: "% Estudios Completados",
+      metric: content.porc_estudios_completados,
       icon: HeartIcon,
       color: "emerald",
     },
