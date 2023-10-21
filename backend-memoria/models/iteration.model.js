@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
   const Iteration = sequelize.define("iterations", {
-    state: {//En progreso - Finalizada
+    state: {//Activa - Finalizada
       type: Sequelize.STRING,
       defaultValue: "Creada",
     },
