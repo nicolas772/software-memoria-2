@@ -12,8 +12,8 @@ const Cards = (props) => {
       color: "indigo",
     },
     {
-      title: "Usuarios Activos",
-      metric: content.usuarios_activos,
+      title: "Usuarios Participantes",
+      metric: content.usuarios_participantes,
       icon: UserGroupIcon,
       color: "fuchsia",
     },
@@ -31,7 +31,7 @@ const Cards = (props) => {
     },
   ];
   return (
-    <Grid numItemsSm={2} numItemsLg={4} className="gap-6">
+    <Grid numItemsSm={2} numItemsLg={4} className="gap-4">
       {categories.map((item) => (
         <Card 
         key={item.title} 
