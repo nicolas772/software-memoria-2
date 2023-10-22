@@ -1,22 +1,15 @@
 import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
-function ColumnChart() {
-  const [chartData, setChartData] = useState({
-    series: [
-      {
-        name: "Net Profit",
-        data: [44, 55, 57, 56, 61, 58, 63, 60, 66],
-      },
-      {
-        name: "Revenue",
-        data: [76, 85, 101, 98, 87, 105, 91, 114, 94],
-      },
-      {
-        name: "Free Cash Flow",
-        data: [35, 41, 36, 26, 45, 48, 52, 53, 41],
-      },
-    ],
+function ColumnChart(props) {
+  const { content } = props;
+
+  if (!content || !content.series || !content.xaxis_categories) {
+    return <p>Cargando gráfico...</p>;
+  }
+
+  const chartData = {
+    series: content.series,
     options: {
       chart: {
         type: "bar",
@@ -39,11 +32,11 @@ function ColumnChart() {
         colors: ["transparent"],
       },
       xaxis: {
-        categories: ["Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct"],
+        categories: content.xaxis_categories,
       },
       yaxis: {
         title: {
-          text: "$ (thousands)",
+          text: "Cantidad Iteraciones",
         },
       },
       fill: {
@@ -52,12 +45,12 @@ function ColumnChart() {
       tooltip: {
         y: {
           formatter: function (val) {
-            return "$ " + val + " thousands";
+            return val;
           },
         },
       },
     },
-  });
+  };
 
   return (
     <ReactApexChart options={chartData.options} series={chartData.series} type="bar" height={300} />
