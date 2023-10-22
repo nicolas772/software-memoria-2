@@ -4,7 +4,7 @@ const Iteration = db.iteration;
 const Study = db.study;
 const { sequelize } = db; // Asegúrate de importar sequelize correctamente.
 
-exports.testerBoard = async (req, res) => {
+exports.cards = async (req, res) => {
   const idUser = req.headers["id"];
 
   try {

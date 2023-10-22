@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
-function ApexChart() {
+function ColumnChart() {
   const [chartData, setChartData] = useState({
     series: [
       {
@@ -21,6 +21,7 @@ function ApexChart() {
       chart: {
         type: "bar",
         height: 350,
+        stacked: true,
       },
       plotOptions: {
         bar: {
@@ -63,4 +64,4 @@ function ApexChart() {
   );
 }
 
-export default ApexChart;
+export default ColumnChart;

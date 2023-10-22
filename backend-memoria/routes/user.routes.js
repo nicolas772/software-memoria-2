@@ -18,12 +18,6 @@ module.exports = function (app) {
   app.get("/api/test/all", controller.allAccess);
 
   app.get(
-    "/api/test/tester",
-    [authJwt.verifyToken, authJwt.isTester],
-    dashMain_controller.testerBoard
-  );
-
-  app.get(
     "/api/test/user",
     [authJwt.verifyToken, authJwt.isUser],
     controller.userBoard

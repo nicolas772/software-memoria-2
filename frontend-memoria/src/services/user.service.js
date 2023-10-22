@@ -11,10 +11,6 @@ const getUserBoard = () => {
   return axios.get(API_URL + "user", { headers: authHeader() });
 };
 
-const getTesterBoard = () => {
-  return axios.get(API_URL + "tester", { headers: authHeader() });
-};
-
 const getStudies = () => {
   return axios.get(API_URL + "studies", { headers: authHeader() });
 }
@@ -88,7 +84,6 @@ const updatePassword = (idUser, actualPass, newPass) => {
 const UserService = {
   getPublicContent,
   getUserBoard,
-  getTesterBoard,
   getStudies,
   getStudy,
   getIterations,
