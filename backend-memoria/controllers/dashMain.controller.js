@@ -27,6 +27,7 @@ exports.testerBoard = async (req, res) => {
     }, []);
 
     const activeIterationsCount = allIterations.filter(iteration => iteration.state === "Activa").length;
+    
 
     const usersQtyCompleteSum = await Iteration.sum('users_qty_complete', {
       where: {
@@ -34,10 +35,14 @@ exports.testerBoard = async (req, res) => {
       }
     });
 
+    const totalIterationsCount = allIterations.length;
+    const finishIterationsCount = allIterations.filter(iteration => iteration.state === "Finalizada").length;
+    const percentageFinishIterations = (finishIterationsCount / totalIterationsCount) * 100;
+
     const responseData = {
       iteraciones_activas: activeIterationsCount,
       usuarios_participantes: usersQtyCompleteSum, // Obtén la cantidad de usuarios activos según tus necesidades.
-      porc_iteraciones_completadas: "56%", // Calcula esto según tus necesidades.
+      porc_iteraciones_completadas: percentageFinishIterations.toFixed(1) + "%", // Calcula esto según tus necesidades.
       porc_estudios_completados: "94%" // Calcula esto según tus necesidades.
     };
 
