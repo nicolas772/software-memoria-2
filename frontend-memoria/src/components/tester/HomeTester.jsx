@@ -13,7 +13,7 @@ const HomeTester = () => {
   const [columnChartContent, setColumnChartContent] = useState("");
 
   useEffect(() => {
-    DashboardService.getCardsContentPrincipal().then(
+    DashboardService.getCardsContentMain().then(
       (response) => {
         setCardsContent(response.data);
       },
@@ -31,6 +31,24 @@ const HomeTester = () => {
   }, []);
 
   useEffect(() => {
+    DashboardService.getColumnChartContentMain().then(
+      (response) => {
+        setColumnChartContent(response.data);
+      },
+      (error) => {
+        const _content =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+          setColumnChartContent(_content);
+      }
+    );
+  }, []);
+
+  /*useEffect(() => {
     const aux = {
       series: [
         {
@@ -49,7 +67,7 @@ const HomeTester = () => {
       xaxis_categories: ["Estudio 1", "Estudio 2"]
     }
     setColumnChartContent(aux)
-  }, [])
+  }, [])*/
 
 
   return (

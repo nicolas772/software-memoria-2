@@ -5,12 +5,17 @@ const API_URL = "http://localhost:8080/api/dashboard/";
 
 //DASHBOARD PRINCIPAL
 
-const getCardsContentPrincipal = () => {
+const getCardsContentMain= () => {
   return axios.get(API_URL + "main/cards", { headers: authHeader() });
 };
 
+const getColumnChartContentMain= () => {
+    return axios.get(API_URL + "main/columnChart", { headers: authHeader() });
+  };
+
 const DashboardService = {
-  getCardsContentPrincipal,
+  getCardsContentMain,
+  getColumnChartContentMain,
 };
 
 export default DashboardService;

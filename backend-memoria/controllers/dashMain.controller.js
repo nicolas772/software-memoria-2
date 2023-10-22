@@ -64,3 +64,32 @@ exports.cards = async (req, res) => {
     res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
   }
 };
+
+exports.columnChart = async (req, res) => {
+  const idUser = req.headers["id"];
+
+  try {
+    const responseData = {
+      series: [
+        {
+          name: "Iteraciones no iniciadas",
+          data: [44, 55],
+        },
+        {
+          name: "Iteraciones activas",
+          data: [76, 85],
+        },
+        {
+          name: "Iteraciones finalizadas",
+          data: [35, 41],
+        },
+      ],
+      xaxis_categories: ["Estudio 1", "Estudio 2"]
+    }
+
+    res.status(200).json(responseData);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
+  }
+};

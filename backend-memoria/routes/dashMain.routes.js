@@ -15,4 +15,9 @@ module.exports = function (app) {
     [authJwt.verifyToken, authJwt.isTester],
     dashMain_controller.cards
   );
+  app.get(
+    "/api/dashboard/main/columnChart",
+    [authJwt.verifyToken, authJwt.isTester],
+    dashMain_controller.columnChart
+  );
 };
