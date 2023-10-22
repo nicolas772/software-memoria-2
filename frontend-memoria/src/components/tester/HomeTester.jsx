@@ -48,27 +48,6 @@ const HomeTester = () => {
     );
   }, []);
 
-  /*useEffect(() => {
-    const aux = {
-      series: [
-        {
-          name: "Iteraciones no iniciadas",
-          data: [44, 55],
-        },
-        {
-          name: "Iteraciones activas",
-          data: [76, 85],
-        },
-        {
-          name: "Iteraciones finalizadas",
-          data: [35, 41],
-        },
-      ],
-      xaxis_categories: ["Estudio 1", "Estudio 2"]
-    }
-    setColumnChartContent(aux)
-  }, [])*/
-
 
   return (
     <div style={{ margin: '20px' }}>
@@ -83,7 +62,7 @@ const HomeTester = () => {
         <div className="row">
           <div className="col-md-6">
             <div id="chart">
-              <ColumnChart content={columnChartContent}></ColumnChart>
+              <ColumnChart content={columnChartContent} chartTitle="Total Iteraciones por Estudio"></ColumnChart>
             </div>
           </div>
           <div className="col-md-6">

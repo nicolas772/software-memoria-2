@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
 function ColumnChart(props) {
-  const { content } = props;
+  const { content, chartTitle } = props;
 
-  if (!content || !content.series || !content.xaxis_categories) {
+  if (!content || !content.series || !content.software_names) {
     return <p>Cargando gráfico...</p>;
   }
 
@@ -32,11 +32,16 @@ function ColumnChart(props) {
         colors: ["transparent"],
       },
       xaxis: {
-        categories: content.xaxis_categories,
+        categories: content.software_names,
       },
       yaxis: {
         title: {
           text: "Cantidad Iteraciones",
+        },
+        labels: {
+          formatter: function (value) {
+            return Math.floor(value); // Redondear los valores a números enteros
+          },
         },
       },
       fill: {
@@ -48,6 +53,10 @@ function ColumnChart(props) {
             return val;
           },
         },
+      },
+      title: {
+        text: chartTitle, // Título del gráfico
+        align: "left", // Alineación del título (puede ser "left", "center" o "right")
       },
     },
   };

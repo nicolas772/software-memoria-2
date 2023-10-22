@@ -69,23 +69,61 @@ exports.columnChart = async (req, res) => {
   const idUser = req.headers["id"];
 
   try {
+    const user = await User.findByPk(idUser, {
+      include: [
+        {
+          model: Study,
+          include: Iteration
+        }
+      ]
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: "Usuario no encontrado" });
+    }
+
+    // Obtener la lista de estudios del usuario
+    const studies = user.studies;
+
+    // Inicializar las variables para almacenar los datos
+    const software_names = [];
+    const createdIterations = [];
+    const activeIterations = [];
+    const finishedIterations = [];
+
+    // Iterar sobre los estudios y recopilar los datos
+    studies.forEach(study => {
+      software_names.push(study.software_name); // Almacenar el nombre del software
+
+      // Filtrar las iteraciones por estado
+      const created = study.iterations.filter(iteration => iteration.state === "Creada");
+      const active = study.iterations.filter(iteration => iteration.state === "Activa");
+      const finished = study.iterations.filter(iteration => iteration.state === "Finalizada");
+
+      // Almacenar las cantidades en los arreglos respectivos
+      createdIterations.push(created.length);
+      activeIterations.push(active.length);
+      finishedIterations.push(finished.length);
+    });
+
+    // Crear la estructura de respuesta
     const responseData = {
+      software_names: software_names,
       series: [
         {
           name: "Iteraciones no iniciadas",
-          data: [44, 55],
+          data: createdIterations,
         },
         {
           name: "Iteraciones activas",
-          data: [76, 85],
+          data: activeIterations,
         },
         {
           name: "Iteraciones finalizadas",
-          data: [35, 41],
+          data: finishedIterations,
         },
-      ],
-      xaxis_categories: ["Estudio 1", "Estudio 2"]
-    }
+      ]
+    };
 
     res.status(200).json(responseData);
   } catch (error) {
