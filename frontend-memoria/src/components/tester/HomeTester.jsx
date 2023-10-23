@@ -3,7 +3,7 @@ import DashboardService from "../../services/dashboard.service";
 import ColumnChart from "../charts/ColumnChart";
 import ApexChart2 from "../charts/ApexChart2";
 import ApexChart3 from "../charts/ApexChart3";
-import ApexChart4 from "../charts/ApexChart4";
+import StackedBar from "../charts/StackedBar";
 import Cards from "../charts/Cards";
 import Treemap from "../charts/Treemap";
 import "../charts/css/styleDashboardPrincipal.css"
@@ -11,6 +11,7 @@ import "../charts/css/styleDashboardPrincipal.css"
 const HomeTester = () => {
   const [cardsContent, setCardsContent] = useState("");
   const [columnChartContent, setColumnChartContent] = useState("");
+  const [stackedBarContent, setStackedBarContent] = useState("");
 
   useEffect(() => {
     DashboardService.getCardsContentMain().then(
@@ -48,6 +49,24 @@ const HomeTester = () => {
     );
   }, []);
 
+  useEffect(() => {
+    DashboardService.getStackedBarContentMain().then(
+      (response) => {
+        setStackedBarContent(response.data);
+      },
+      (error) => {
+        const _content =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+          setStackedBarContent(_content);
+      }
+    );
+  }, []);
+
 
   return (
     <div style={{ margin: '20px' }}>
@@ -58,7 +77,7 @@ const HomeTester = () => {
         <Cards content={cardsContent}></Cards>
       </div>
 
-      <div style={{ marginTop: "5%" }}>
+      <div style={{ marginTop: "4%" }}>
         <div className="row">
           <div className="col-md-6">
             <div id="chart">
@@ -67,7 +86,7 @@ const HomeTester = () => {
           </div>
           <div className="col-md-6">
             <div id="chart">
-              {/*<ApexChart4></ApexChart4>*/}
+              <StackedBar content={stackedBarContent} chartTitle="Cantidad de Usuarios por Estudio e Iteración"></StackedBar>
             </div>
           </div>
         </div>

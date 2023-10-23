@@ -11,11 +11,16 @@ const getCardsContentMain= () => {
 
 const getColumnChartContentMain= () => {
     return axios.get(API_URL + "main/columnChart", { headers: authHeader() });
-  };
+};
+
+const getStackedBarContentMain= () => {
+  return axios.get(API_URL + "main/stackedBar", { headers: authHeader() });
+};
 
 const DashboardService = {
   getCardsContentMain,
   getColumnChartContentMain,
+  getStackedBarContentMain,
 };
 
 export default DashboardService;

@@ -12,7 +12,7 @@ const Cards = (props) => {
       color: "indigo",
     },
     {
-      title: "Usuarios Participantes",
+      title: "Usuarios Totales",
       metric: content.usuarios_participantes,
       icon: UserGroupIcon,
       color: "fuchsia",

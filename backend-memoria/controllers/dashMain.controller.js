@@ -131,3 +131,38 @@ exports.columnChart = async (req, res) => {
     res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
   }
 };
+
+exports.stackedBar = async (req, res) => {
+  const idUser = req.headers["id"];
+
+  try {
+
+    //aqui hacer lógica para grafico stacked
+    const series = [
+      {
+        name: 'Iteración 1',
+        data: [40, 50, 60]
+      },
+      {
+        name: 'Iteración 2',
+        data: [40, 50, 60]
+      },
+      {
+        name: 'Iteración 3',
+        data: [40, 50, 0]
+      }
+    ]
+
+    const studies1 = ["Estudio 1", "Estudio 2", "Estudio 3"]
+
+    const responseData = {
+      series: series,
+      studies: studies1,
+    }
+
+    res.status(200).json(responseData);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
+  }
+};

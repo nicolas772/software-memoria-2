@@ -20,4 +20,9 @@ module.exports = function (app) {
     [authJwt.verifyToken, authJwt.isTester],
     dashMain_controller.columnChart
   );
+  app.get(
+    "/api/dashboard/main/stackedBar",
+    [authJwt.verifyToken, authJwt.isTester],
+    dashMain_controller.stackedBar
+  );
 };
