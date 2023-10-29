@@ -136,29 +136,69 @@ exports.stackedBar = async (req, res) => {
   const idUser = req.headers["id"];
 
   try {
+    const user = await User.findByPk(idUser, {
+      include: [
+        {
+          model: Study,
+          include: Iteration
+        }
+      ]
+    });
 
-    //aqui hacer lógica para grafico stacked
-    const series = [
+    if (!user) {
+      return res.status(404).json({ error: "Usuario no encontrado" });
+    }
+
+    // Obtener todos los estudios del usuario
+    const studies = user.studies;
+
+    // Inicializar las variables para almacenar los datos
+    const studies1 = [];
+    const series = [];
+    /*const series = [
       {
         name: 'Iteración 1',
-        data: [40, 50, 60]
+        data: [40, 50]
       },
       {
         name: 'Iteración 2',
-        data: [40, 50, 60]
+        data: [40, 50]
       },
       {
         name: 'Iteración 3',
-        data: [40, 50, 0]
+        data: [40, 50]
       }
-    ]
+    ]*/
 
-    const studies1 = ["Estudio 1", "Estudio 2", "Estudio 3"]
+    const allIterations = studies.reduce((iterations, study) => {
+      iterations.push(...study.iterations);
+      return iterations;
+    }, []);
+
+    // Calcular el número máximo de iteration_number
+    const maxIterationNumber = Math.max(...allIterations.map(iteration => iteration.iteration_number));
+
+    // Crear la estructura de series con datos vacíos
+    for (let i = 1; i <= maxIterationNumber; i++) {
+      series.push({
+        name: `Iteración ${i}`,
+        data: Array(studies.length).fill(0)
+      });
+    }
+
+    // Iterar sobre los estudios
+    studies.forEach((study, studyIndex) => {
+      studies1.push(study.software_name); // Almacenar el nombre del estudio
+      study.iterations.forEach(iteration => {
+        const iterationIndex = iteration.iteration_number - 1;
+        series[iterationIndex].data[studyIndex] = iteration.users_qty_complete || 0;
+      });
+    });
 
     const responseData = {
-      series: series,
       studies: studies1,
-    }
+      series: series
+    };
 
     res.status(200).json(responseData);
   } catch (error) {
