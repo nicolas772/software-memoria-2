@@ -33,22 +33,28 @@ const Studies = ({ user }) => {
 
 
   return (
-    <div style={{margin:'20px'}}>
+    <div style={{ margin: '20px' }}>
       <div className="container">
         <header>
           <h3>Mis estudios</h3>
         </header>
       </div>
+      <button
+        onClick={handleShowCreateModal}
+        type="button"
+        className="btn button-primary"
+        
+      >
+        Crear Estudio
+      </button>
+
       <div style={{ margin: 20 }}></div>
       <TableStudies2 content={content}></TableStudies2>
-      <div style={{ margin: 20 }}></div>
-      <button onClick={handleShowCreateModal} type="button" className="btn btn-primary" style={{ width: '20%' }}>
-        Nuevo Estudio
-      </button>
+
       <div style={{ margin: 20 }}>
-        <ModalFormStudy show={showCreateModal} 
-        handleClose={handleCloseCreateModal} 
-        userId={user.id}/>
+        <ModalFormStudy show={showCreateModal}
+          handleClose={handleCloseCreateModal}
+          userId={user.id} />
       </div>
     </div>
   )

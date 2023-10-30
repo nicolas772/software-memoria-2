@@ -170,3 +170,15 @@ a {
 .form-control[type="tel"] {
 	width: 100px;
 }
+
+.button-primary {
+	background: transparent;
+	background-color: #435F7A;
+	color: #FFF;
+}
+
+.button-primary:hover {
+	background: transparent;
+	background-color: #6B96C2;
+	color: #FFF;
+}
