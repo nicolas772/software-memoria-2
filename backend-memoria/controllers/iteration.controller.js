@@ -118,7 +118,7 @@ exports.deleteIteration2 = (req, res) => {
     })
 }
 
-exports.deleteIteration = (req, res) => {
+/*exports.deleteIteration = (req, res) => {
   const studyId = req.query.idStudy
   const iterationId = req.query.idIteration
   //eliminar tareas de la iteracion
@@ -131,6 +131,7 @@ exports.deleteIteration = (req, res) => {
       //disminuir iteration qty
       const study = await Study.findByPk(studyId)
       study.iteration_qty -= 1
+      study.active_iteration_qty -= 1; //solo si el estado de la iteracion que estoy eliminando es "Activa"
       await study.save()
       res.status(200).json(iteration)
     })
@@ -138,7 +139,40 @@ exports.deleteIteration = (req, res) => {
       console.error(err);
       res.status(500).send('Error interno del servidor'); // Enviar una respuesta de error si ocurre algún problema en la consulta
     })
-}
+}*/
+
+exports.deleteIteration = (req, res) => {
+  const studyId = req.query.idStudy
+  const iterationId = req.query.idIteration
+
+  Iteration.findByPk(iterationId)
+    .then(async (iteration) => {
+      if (!iteration) {
+        return res.status(404).send({ message: "Iteración no encontrada." });
+      }
+
+      const iterationState = iteration.state;
+
+      iteration.destroy()
+        .then(async () => {
+          const study = await Study.findByPk(studyId);
+
+          if (iterationState === "Activa") {
+            study.active_iteration_qty -= 1;
+          }
+          study.iteration_qty -= 1
+          await study.save();
+          res.send({ message: "La iteración ha sido eliminada con éxito!" });
+        })
+        .catch(err => {
+          res.status(500).send({ message: err.message });
+        });
+    })
+    .catch(err => {
+      res.status(500).send({ message: err.message });
+    });
+};
+
 
 exports.setStateIteration = (req, res) => {
   const studyId = req.body.idStudy
