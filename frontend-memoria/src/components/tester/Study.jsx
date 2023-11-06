@@ -112,6 +112,39 @@ const Study = () => {
           </p>
         </header>
       </div>
+      <div style={{ display: 'flex' }}>
+        <button onClick={handleBack} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
+          Volver a Estudios
+        </button>
+        <button onClick={handleShowModal} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
+          Nueva Iteración
+        </button>
+        <button onClick={handleShowEditModal} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
+          Editar Estudio
+        </button>
+        <button onClick={handleShowDeleteModal} type="button" className="btn button-primary">
+          Eliminar Estudio
+        </button>
+      </div>
+      <div style={{marginTop:'2%'}}>
+        <TableIterations content={contentTable}></TableIterations>
+      </div>
+      <ModalFormIteration
+        show={showModal}
+        handleClose={handleCloseModal}
+        idstudy={idstudy} />
+      <ModalEditStudy
+        show={showEditModal}
+        handleClose={handleCloseEditModal}
+        onEditSuccess={handleEditSuccess}
+        idstudy={idstudy}
+        content={content} />
+      <DeleteConfirmationModal
+        show={showDeleteModal}
+        handleClose={handleCloseDeleteModal}
+        handleDelete={handleDelete}
+        element={title}
+      />
     </div>
   )
 }

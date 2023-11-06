@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
 function StackedBar(props) {
-  const { chartTitle, content } = props
+  const { chartTitle, content } = props;
   if (!content || !content.series || !content.studies) {
     return <p>Cargando gráfico...</p>;
   }
@@ -41,7 +41,7 @@ function StackedBar(props) {
         categories: content.studies,
         labels: {
           formatter: function (val) {
-            return val
+            return Math.round(val); // Redondear el valor a un número entero
           }
         }
       },
