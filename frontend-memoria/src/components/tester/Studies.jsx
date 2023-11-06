@@ -36,6 +36,9 @@ const Studies = ({ user }) => {
       <div className="header-pages">
         <header>
           <h3>Mis Estudios</h3>
+          <p>
+            Total Estudios: <strong>{content.length}</strong>&nbsp;&nbsp;&nbsp;&nbsp;
+          </p>
         </header>
       </div>
       <button
