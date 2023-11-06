@@ -182,3 +182,14 @@ a {
 	background-color: #6B96C2;
 	color: #FFF;
 }
+
+.header-pages header {
+	margin: 0 0 30px;
+	padding: 0;
+	color: #344b60;
+	text-align: left;
+	font-family: "Poppins", sans-serif;
+	font-weight: bold;
+	transition: .5s;
+	animation: LabelOnLoad 1s forwards 0s ease;
+}

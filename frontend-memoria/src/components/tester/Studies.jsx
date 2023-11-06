@@ -34,9 +34,9 @@ const Studies = ({ user }) => {
 
   return (
     <div style={{ margin: '20px' }}>
-      <div className="container">
+      <div className="header-pages">
         <header>
-          <h3>Mis estudios</h3>
+          <h3>Mis Estudios</h3>
         </header>
       </div>
       <button

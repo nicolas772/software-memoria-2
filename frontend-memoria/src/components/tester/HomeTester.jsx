@@ -70,9 +70,11 @@ const HomeTester = () => {
 
   return (
     <div style={{ margin: '20px' }}>
-      <header>
-        <h3>Dashboard Principal</h3>
-      </header>
+      <div className="header-pages">
+        <header>
+          <h3>Dashboard Principal</h3>
+        </header>
+      </div>
       <div style={{ margin: "1%" }}>
         <Cards content={cardsContent}></Cards>
       </div>
