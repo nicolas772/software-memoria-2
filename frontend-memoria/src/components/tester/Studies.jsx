@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react"
 import TableStudies from "./TableStudies"
-import TableStudies2 from "./TableStudies2"
 import ModalFormStudy from "./ModalFormStudy";
 import UserService from "../../services/user.service";
 
@@ -49,7 +48,7 @@ const Studies = ({ user }) => {
       </button>
 
       <div style={{ margin: 20 }}></div>
-      <TableStudies2 content={content}></TableStudies2>
+      <TableStudies content={content}></TableStudies>
 
       <div style={{ margin: 20 }}>
         <ModalFormStudy show={showCreateModal}

@@ -103,11 +103,42 @@ const Study = () => {
 
   return (
     <div style={{margin:'20px'}}>
-      <div className="header-pages">
+      <div>
         <header>
           <h3>Estudio {content.software_name}</h3>
         </header>
       </div>
+      <div>
+        <ul>
+          <li type="disc">Nombre: {content.software_name}</li>
+          <li type="disc">Tipo de software: {content.software_tipe}</li>
+          <li type="disc">URL: {content.url}</li>
+        </ul>
+      </div>
+      <TableIterations content={contentTable}></TableIterations>
+      <div style={{ display: 'flex' }}>
+        <button onClick={handleShowModal} type="button" className="btn btn-primary" style={{ marginRight: '10px' }}>
+          Nueva Iteración
+        </button>
+        <button onClick={handleShowEditModal} type="button" className="btn btn-primary" style={{ marginRight: '10px' }}>
+          Editar Estudio
+        </button>
+        <button onClick={handleShowDeleteModal} type="button" className="btn btn-danger" style={{ marginRight: '10px' }}>
+          Eliminar Estudio
+        </button>
+        <button onClick={handleBack} type="button" className="btn btn-primary">
+          Volver a Estudios
+        </button>
+      </div>
+      <div style={{ margin: 50 }}></div>
+      <ModalFormIteration show={showModal} handleClose={handleCloseModal} idstudy={idstudy}/>
+      <ModalEditStudy show={showEditModal} handleClose={handleCloseEditModal} onEditSuccess={handleEditSuccess} idstudy={idstudy} content={content} />
+      <DeleteConfirmationModal
+        show={showDeleteModal}
+        handleClose={handleCloseDeleteModal}
+        handleDelete={handleDelete}
+        element={title}
+      />
     </div>
   )
 }
