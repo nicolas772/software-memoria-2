@@ -20,9 +20,10 @@ const update = (iditeration, objetivo, startDate, endDate) => {
   })
 }
 
-const setStateIteration = (iditeration, state) => {
+const setStateIteration = (iditeration, idStudy, state) => {
   return axios.put(API_URL + "setState", {
     iditeration,
+    idStudy,
     state,
   })
 }

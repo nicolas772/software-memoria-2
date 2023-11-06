@@ -36,21 +36,6 @@ exports.updateIteration = (req, res) => {
     });
 };
 
-exports.setStateIteration = (req, res) => {
-  // Save new Study to Database
-  Iteration.update({
-    state: req.body.state,
-  },
-    { where: { id: req.body.iditeration } }
-  )
-    .then(() => {
-      res.send({ message: "La iteracion ha sido modificada con éxito!" });
-    })
-    .catch(err => {
-      res.status(500).send({ message: err.message });
-    });
-};
-
 exports.getIterations = (req, res) => {
   const studyId= req.query.idStudy;
   Iteration.findAll({
@@ -154,3 +139,26 @@ exports.deleteIteration = (req, res) => {
       res.status(500).send('Error interno del servidor'); // Enviar una respuesta de error si ocurre algún problema en la consulta
     })
 }
+
+exports.setStateIteration = (req, res) => {
+  const studyId = req.body.idStudy
+  const newState = req.body.state;
+  Iteration.update({
+    state: newState,
+  },
+    { where: { id: req.body.iditeration } }
+  )
+    .then(async () => {
+      const study = await Study.findByPk(studyId)
+      if (newState === "Finalizada") {
+        study.active_iteration_qty -= 1;
+      } else if (newState === "Activa") {
+        study.active_iteration_qty += 1;
+      }
+      await study.save()
+      res.send({ message: "La iteracion ha sido modificada con éxito!" });
+    })
+    .catch(err => {
+      res.status(500).send({ message: err.message });
+    });
+};

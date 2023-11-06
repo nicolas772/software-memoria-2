@@ -61,7 +61,7 @@ const Iteration = () => {
 
   const handleActivate = () => {
     const state = "Activa"
-    IterationService.setStateIteration(iditeration, state).then(
+    IterationService.setStateIteration(iditeration, content.studyId, state).then(
       (response) => {
         setShowActivateModal(false);
         //window.location.reload()
@@ -75,7 +75,7 @@ const Iteration = () => {
 
   const handleFinalizar = () => {
     const state = "Finalizada"
-    IterationService.setStateIteration(iditeration, state).then(
+    IterationService.setStateIteration(iditeration, content.studyId, state).then(
       (response) => {
         setShowFinalizarModal(false);
         //window.location.reload()
