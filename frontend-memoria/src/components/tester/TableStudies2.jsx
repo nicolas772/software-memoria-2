@@ -22,24 +22,24 @@ const theme = createTheme(
 );
 
 const columns = [
-  { id: 'name', label: 'Nombre Software', minWidth: 170 },
-  { id: 'code', label: 'Tipo', minWidth: 100 },
+  { id: 'software_name', label: 'Nombre Software', minWidth: 170 },
+  { id: 'software_tipe', label: 'Tipo', minWidth: 100 },
   {
-    id: 'population',
+    id: 'id',
     label: 'Iteraciones Activas',
     minWidth: 170,
     align: 'center',
     format: (value) => value.toLocaleString('en-US'),
   },
   {
-    id: 'size',
+    id: 'iteration_qty',
     label: 'Total Iteraciones',
     minWidth: 170,
     align: 'center',
     format: (value) => value.toLocaleString('en-US'),
   },
   {
-    id: 'density',
+    id: 'url',
     label: 'URL',
     minWidth: 170,
     align: 'center',
@@ -67,18 +67,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(name, code, population, size, density) {
-  return { name, code, population, size, density };
-}
 
-const rows = [
-  createData('Software 1', 'App Móvil', 3, 4, "www.software1.cl"),
-  createData('Software 2', 'App Desktop', 5, 6, "www.software2.cl"),
-  createData('Software 3', 'App Web', 7, 8, "www.software3.cl"),
-  
-];
-
-export default function TableStudies2() {
+export default function TableStudies2(props) {
+  const { content } = props;
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -110,11 +101,11 @@ export default function TableStudies2() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
+              {content
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
                   return (
-                    <StyledTableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                    <StyledTableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                       {columns.map((column) => {
                         const value = row[column.id];
                         return (
@@ -134,7 +125,7 @@ export default function TableStudies2() {
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
           component="div"
-          count={rows.length}
+          count={content.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
