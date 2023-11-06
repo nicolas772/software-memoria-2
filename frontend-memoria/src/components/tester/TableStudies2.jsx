@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -8,9 +9,9 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { styled } from '@mui/material/styles';
-import "./css/table.css"
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { esES } from '@mui/material/locale';
+import "./css/table.css"
 
 const theme = createTheme(
   {
@@ -25,7 +26,7 @@ const columns = [
   { id: 'software_name', label: 'Nombre Software', minWidth: 170 },
   { id: 'software_tipe', label: 'Tipo', minWidth: 100 },
   {
-    id: 'id',
+    id: 'active_iteration_qty',
     label: 'Iteraciones Activas',
     minWidth: 170,
     align: 'center',
@@ -67,7 +68,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-
 export default function TableStudies2(props) {
   const { content } = props;
   const [page, setPage] = React.useState(0);
@@ -103,22 +103,28 @@ export default function TableStudies2(props) {
             <TableBody>
               {content
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
-                  return (
-                    <StyledTableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                      {columns.map((column) => {
-                        const value = row[column.id];
-                        return (
-                          <StyledTableCell key={column.id} align={column.align}>
-                            {column.format && typeof value === 'number'
+                .map((row) => (
+                  <StyledTableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                    {columns.map((column) => {
+                      const value = row[column.id];
+                      return (
+                        <StyledTableCell key={column.id} align={column.align}>
+                          {column.id === 'software_name' ? (
+                            <Link to={row.id.toString()}>
+                              {column.format && typeof value === 'number'
+                                ? column.format(value)
+                                : value}
+                            </Link>
+                          ) : (
+                            column.format && typeof value === 'number'
                               ? column.format(value)
-                              : value}
-                          </StyledTableCell>
-                        );
-                      })}
-                    </StyledTableRow>
-                  );
-                })}
+                              : value
+                          )}
+                        </StyledTableCell>
+                      );
+                    })}
+                  </StyledTableRow>
+                ))}
             </TableBody>
           </Table>
         </TableContainer>
@@ -130,7 +136,7 @@ export default function TableStudies2(props) {
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
-          classes={{ toolbar: 'centered-pagination' }} // Asigna una clase CSS personalizada
+          classes={{ toolbar: 'centered-pagination' }}
         />
       </Paper>
     </ThemeProvider>

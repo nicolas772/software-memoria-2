@@ -3,7 +3,6 @@ import ReactApexChart from "react-apexcharts";
 
 function StackedBar(props) {
   const { chartTitle, content } = props
-  console.log(content)
   if (!content || !content.series || !content.studies) {
     return <p>Cargando gráfico...</p>;
   }
