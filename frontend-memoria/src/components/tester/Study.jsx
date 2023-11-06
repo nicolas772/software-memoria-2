@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import UserService from "../../services/user.service";
 import StudyService from "../../services/study.service";
 import ModalFormIteration from "./ModalFormIteration";
@@ -26,7 +26,7 @@ const Study = () => {
 
   const handleShowEditModal = () => setShowEditModal(true)
   const handleCloseEditModal = () => setShowEditModal(false)
-  
+
   const handleShowDeleteModal = () => setShowDeleteModal(true)
   const handleCloseDeleteModal = () => setShowDeleteModal(false)
 
@@ -97,15 +97,19 @@ const Study = () => {
     );
   }, [reloadStudy]);
 
-  if(loading){
+  if (loading) {
     return <div>Cargando...</div>
   }
 
   return (
-    <div style={{margin:'20px'}}>
+    <div style={{ margin: '20px' }}>
       <div className="header-pages">
         <header>
-          <h3>Estudio {content.software_name}</h3>
+          <h3>{content.software_name}</h3>
+          <p>
+            Tipo de Software: <strong>{content.software_tipe}</strong>&nbsp;&nbsp;&nbsp;&nbsp;
+            Sitio Web: <a href={content.url} target="_blank"><strong>{content.url}</strong></a>
+          </p>
         </header>
       </div>
     </div>
