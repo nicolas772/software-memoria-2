@@ -59,9 +59,16 @@ exports.getIteration = (req, res) => {
       id: iterationId
     }
   })
-  .then(iteration => {
+  .then(async (iteration) => {
     console.log(iteration.studyId)
-    res.status(200).json(iteration)
+    //aqui rescatar el titulo del estudio con iteration.studyId, y enviarlo en la response
+    const study = await Study.findByPk(iteration.studyId)
+    const software_name = study.software_name
+    const response = {
+      ...iteration.toJSON(),
+      software_name: software_name
+    };
+    res.status(200).json(response)
   })
   .catch(err => {
     console.error(err);
@@ -88,7 +95,7 @@ exports.getIterationWithDataStudy = async (req, res) => {
   }
 };
 
-
+//esta no se usa
 exports.deleteIteration2 = (req, res) => {
   const studyId = req.query.idStudy
   const iterationId = req.query.idIteration

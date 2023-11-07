@@ -113,7 +113,6 @@ const Iteration = () => {
     UserService.getIteration(iditeration).then(
       (response) => {
         setContent(response.data);
-        console.log(response.data)
         setLoading(false)
       },
       (error) => {
@@ -152,41 +151,47 @@ const Iteration = () => {
   }
 
   return (
-    <div style={{ margin: '20px' }}>
-      <div className="header-pages">
+    <div style={{margin:'20px'}}>
+      <div>
         <header>
-          <h3>{content.software_name}: Iteracion {content.iteration_number}</h3>
-          <p>
-            Estado: <strong>{content.state}</strong>&nbsp;&nbsp;&nbsp;&nbsp;
-            Objetivo: <strong>{content.goal}</strong>&nbsp;&nbsp;&nbsp;&nbsp;
-            Usuarios que completaron: <strong>{content.users_qty_complete}</strong>&nbsp;&nbsp;&nbsp;&nbsp;
-            Codigo iteración: <strong>{agregarCeros(iditeration)}</strong>
-          </p>
+          <h3>Iteracion {content.iteration_number}</h3>
         </header>
       </div>
+      <div>
+        <ul>
+          <li type="disc">Estado: {content.state}</li>
+          <li type="disc">Codigo iteracion: {agregarCeros(iditeration)}</li>
+          <li type="disc">Objetivo: {content.goal}</li>
+          <li type="disc">Cantidad de tareas asociadas: {content.task_qty}</li>
+          <li type="disc">Cantidad de usuarios activos en la iteracion: {content.users_qty}</li>
+        </ul>
+      </div>
+
+      <TableTasks content={contentTable}></TableTasks>
+
+
       <div style={{ display: 'flex' }}>
-      <button onClick={handleBack} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
-          Volver a Estudio
+        <button onClick={handleShowModal} type="button" className="btn btn-primary" style={{ marginRight: '10px' }}>
+          Agregar Tarea
         </button>
-        <button onClick={handleShowModal} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
-          Nueva Tarea
+        <button onClick={handleShowEditModal} type="button" className="btn btn-primary" style={{ marginRight: '10px' }}>
+          Editar Iteración
         </button>
         {content.state === 'Activa' ? (
-          <button onClick={handleShowFinalizarModal} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
+          <button onClick={handleShowFinalizarModal} type="button" className="btn btn-danger" style={{ marginRight: '10px' }}>
             Finalizar Iteración
           </button>
         ) : (
-          <button onClick={handleShowActivateModal} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
+          <button onClick={handleShowActivateModal} type="button" className="btn btn-primary" style={{ marginRight: '10px' }}>
             Activar Iteración
           </button>
         )}
-        <button onClick={handleShowEditModal} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
-          Editar Iteración
-        </button>
-        <button onClick={handleShowDeleteModal} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
+        <button onClick={handleShowDeleteModal} type="button" className="btn btn-danger" style={{ marginRight: '10px' }}>
           Eliminar Iteración
         </button>
-        
+        <button onClick={handleBack} type="button" className="btn btn-primary">
+          Volver a Estudio
+        </button>
       </div>
       <div style={{ margin: 50 }}></div>
       <ModalFormTask show={showModal} handleClose={handleCloseModal} iditeration={iditeration} />
