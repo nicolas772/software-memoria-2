@@ -192,3 +192,34 @@ a {
 	transition: .5s;
 	animation: LabelOnLoad 1s forwards 0s ease;
 }
+
+.code-container {
+	display: flex;
+	align-items: center;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	padding: 5px;
+	cursor: pointer;
+	width: 100px;
+	transition: background-color 0.3s; 
+  }
+  
+  .code-container.copied {
+	background-color: green; /* Cambia el fondo a verde cuando se ha copiado */
+	color: white; /* Cambia el color del texto a blanco para mayor visibilidad */
+  }
+
+.copy-icon {
+	width: 20px;
+	/* Tamaño personalizado */
+	height: 20px;
+	/* Tamaño personalizado */
+	margin-left: 15px;
+	/* Añadir espacio entre el ícono y el texto */
+}
+
+.parrafo {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+}

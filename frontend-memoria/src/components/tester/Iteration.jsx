@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import ModalFormTask from './ModalFormTask';
 import UserService from "../../services/user.service";
@@ -12,6 +12,9 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import { ClipboardIcon } from '@heroicons/react/solid';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -67,6 +70,28 @@ const Iteration = () => {
   const [title, setTitle] = useState("")
   const [contentTable, setContentTable] = useState([]);
   const navigate = useNavigate()
+  const [isCopied, setIsCopied] = useState(false); // Estado para controlar si el texto se ha copiado
+
+  const handleCopyToClipboard = () => {
+    navigator.clipboard.writeText(agregarCeros(iditeration))
+      .then(() => {
+        setIsCopied(true); // Cambia el estado para indicar que se ha copiado el texto
+        setTimeout(() => setIsCopied(false), 1000); // Reinicia el estado después de 1.5 segundos
+        toast.success('Código copiado al portapapeles.', {
+          position: "top-center",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      })
+      .catch((error) => {
+        console.error('Error al copiar al portapapeles', error);
+      });
+  };
 
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => {
@@ -150,7 +175,6 @@ const Iteration = () => {
     UserService.getIteration(iditeration).then(
       (response) => {
         setContent(response.data);
-        console.log(response.data)
         setLoading(false)
       },
       (error) => {
@@ -193,11 +217,18 @@ const Iteration = () => {
       <div className="header-pages">
         <header>
           <h3>{content.software_name}: Iteración {content.iteration_number}</h3>
-          <p>
-            Estado: <strong>{content.state}</strong>&nbsp;&nbsp;&nbsp;&nbsp;
-            Objetivo: <strong>{content.goal}</strong>&nbsp;&nbsp;&nbsp;&nbsp;
-            Usuarios que completaron: <strong>{content.users_qty_complete}</strong>&nbsp;&nbsp;&nbsp;&nbsp;
-            Codigo iteración: <strong>{agregarCeros(iditeration)}</strong>
+          <p className='parrafo'>
+            Estado:&nbsp;<strong>{content.state}</strong>&nbsp;&nbsp;&nbsp;
+            Objetivo:&nbsp;<strong>{content.goal}</strong>&nbsp;&nbsp;&nbsp;
+            Usuarios que completaron:&nbsp;<strong>{content.users_qty_complete}</strong>&nbsp;&nbsp;&nbsp;
+            Código iteración:&nbsp;
+            <span
+              onClick={handleCopyToClipboard}
+              className={`code-container ${isCopied ? 'copied' : ''}`}
+            >
+              &nbsp;<strong>{agregarCeros(iditeration)}</strong>
+              <ClipboardIcon className="copy-icon" />
+            </span>
           </p>
         </header>
       </div>
@@ -263,6 +294,18 @@ const Iteration = () => {
         handleClose={handleCloseFinalizarModal}
         handleFinalizar={handleFinalizar}
         element={title}
+      />
+      <ToastContainer
+        position="top-center"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
       />
     </div>
   )
