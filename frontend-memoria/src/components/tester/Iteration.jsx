@@ -8,6 +8,37 @@ import ModalEditIteration from './ModalEditIteration';
 import DeleteConfirmationModal from '../DeleteConfirmationModal';
 import ActivateIterationModal from './ActivateIterationModal';
 import FinalizarIterationModal from './FinalizarIterationModal';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+
+function CustomTabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
 
 function agregarCeros(numero) {
   const longitudDeseada = 6;
@@ -105,6 +136,12 @@ const Iteration = () => {
     window.history.back();
   }
 
+  const [value, setValue] = useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
   useEffect(() => {
     setTitle('Iteración ' + content.iteration_number)
   }, [content])
@@ -155,7 +192,7 @@ const Iteration = () => {
     <div style={{ margin: '20px' }}>
       <div className="header-pages">
         <header>
-          <h3>{content.software_name}: Iteracion {content.iteration_number}</h3>
+          <h3>{content.software_name}: Iteración {content.iteration_number}</h3>
           <p>
             Estado: <strong>{content.state}</strong>&nbsp;&nbsp;&nbsp;&nbsp;
             Objetivo: <strong>{content.goal}</strong>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -165,7 +202,7 @@ const Iteration = () => {
         </header>
       </div>
       <div style={{ display: 'flex' }}>
-      <button onClick={handleBack} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
+        <button onClick={handleBack} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
           Volver a Estudio
         </button>
         <button onClick={handleShowModal} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
@@ -186,8 +223,25 @@ const Iteration = () => {
         <button onClick={handleShowDeleteModal} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
           Eliminar Iteración
         </button>
-        
       </div>
+      <div style={{ margin: '2%' }}></div>
+      <Box sx={{ width: '100%' }}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+            <Tab label="Dashboard"
+              {...a11yProps(0)} />
+            <Tab label="Tareas" {...a11yProps(1)} />
+          </Tabs>
+        </Box>
+        <CustomTabPanel value={value} index={0}>
+          Dashboard
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={1}>
+          <TableTasks content={contentTable}></TableTasks>
+        </CustomTabPanel>
+      </Box>
+
+
       <div style={{ margin: 50 }}></div>
       <ModalFormTask show={showModal} handleClose={handleCloseModal} iditeration={iditeration} />
       <ModalEditIteration show={showEditModal} handleClose={handleCloseEditModal} iditeration={iditeration} content={content} />
