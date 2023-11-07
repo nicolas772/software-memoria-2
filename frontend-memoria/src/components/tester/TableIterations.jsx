@@ -53,13 +53,13 @@ const columns = [
     id: 'start_date',
     label: 'Fecha Inicio Iteración',
     align: 'left',
-    minWidth: 170
+    minWidth: 200
   },
   {
     id: 'end_date',
     label: 'Fecha Término Iteración',
     align: 'left',
-    minWidth: 170
+    minWidth: 220
   },
   {
     id: 'task_qty',
@@ -72,6 +72,12 @@ const columns = [
     label: 'Usuarios Activos',
     align: 'left',
     minWidth: 170
+  },
+  {
+    id: 'users_qty_complete',
+    label: 'Usuarios Finalizados',
+    align: 'left',
+    minWidth: 200
   },
 ];
 
