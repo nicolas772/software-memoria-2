@@ -175,7 +175,7 @@ export default function TableTasks(props) {
                       {columns.map((column) => {
                         let value;
                         if (column.id === 'minutes_optimal') {
-                          value = row['minutes_optimal'] + ' min ' + row['seconds_optimal'] + ' seg';
+                          value = row['minutes_optimal'] + ' min ' + row['seconds_optimal'] + ' seg.';
                         }else {
                           value = row[column.id];
                         }

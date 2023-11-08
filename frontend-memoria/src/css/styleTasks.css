@@ -114,3 +114,24 @@
 	font-size: 16px;
 	color: #6f8495;
 }
+
+.box-task-tester {
+	/* Espacio entre subtítulo y box */
+	width: 600px;
+	padding: 20px;
+	background: #6083a4;
+	box-sizing: border-box;
+	box-shadow: 0 3px 5px rgba(0, 0, 0, .5);
+	border-radius: 10px;
+}
+
+.box-task-tester p {
+	margin: 0px 0 10px;
+	padding: 0;
+	color: #ffffff;
+	text-align: center;
+	font-size: 16px;
+	font-weight: 200;
+	transition: .5s;
+	animation: LabelOnLoad 1s forwards 0s ease;
+}

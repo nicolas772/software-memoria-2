@@ -219,7 +219,6 @@ const Iteration = () => {
           <h3>{content.software_name}: Iteración {content.iteration_number}</h3>
           <p className='parrafo'>
             Estado:&nbsp;<strong>{content.state}</strong>&nbsp;&nbsp;&nbsp;
-            Objetivo:&nbsp;<strong>{content.goal}</strong>&nbsp;&nbsp;&nbsp;
             Usuarios que completaron:&nbsp;<strong>{content.users_qty_complete}</strong>&nbsp;&nbsp;&nbsp;
             Código iteración:&nbsp;
             <span
@@ -229,6 +228,9 @@ const Iteration = () => {
               &nbsp;<strong>{agregarCeros(iditeration)}</strong>
               <ClipboardIcon className="copy-icon" />
             </span>
+          </p>
+          <p>
+            Objetivo:&nbsp;<strong>{content.goal}</strong>&nbsp;&nbsp;&nbsp;
           </p>
         </header>
       </div>
