@@ -27,3 +27,8 @@
   border: none;
   cursor: pointer;
 }
+
+.modal-input {
+  width: 60%;
+  text-align: left;
+}
