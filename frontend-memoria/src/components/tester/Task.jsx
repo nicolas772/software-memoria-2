@@ -87,7 +87,6 @@ const Task = () => {
     UserService.getTask(idtask).then(
       (response) => {
         setContent(response.data);
-        console.log(response.data)
         setLoading(false)
       },
       (error) => {
@@ -111,7 +110,7 @@ const Task = () => {
     <div style={{ margin: '20px' }}>
       <div className="header-pages">
         <header>
-          <h3>Feel UX: Iteración 1</h3>
+          <h3>{content.software_name}: Iteración {content.iteration_number}</h3>
           <p>
             Tarea:&nbsp;<strong>{content.title}</strong>&nbsp;&nbsp;&nbsp;
             Dificultad:&nbsp;<strong>{content.dificulty}</strong>&nbsp;&nbsp;&nbsp;

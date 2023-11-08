@@ -60,7 +60,6 @@ exports.getIteration = (req, res) => {
     }
   })
   .then(async (iteration) => {
-    console.log(iteration.studyId)
     //aqui rescatar el titulo del estudio con iteration.studyId, y enviarlo en la response
     const study = await Study.findByPk(iteration.studyId)
     const software_name = study.software_name

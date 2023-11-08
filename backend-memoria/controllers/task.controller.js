@@ -1,6 +1,7 @@
 const db = require("../models");
 const Task = db.task;
 const Iteration = db.iteration
+const Study = db.study
 
 exports.create = (req, res) => {
   // Save new Study to Database
@@ -62,8 +63,17 @@ exports.getTask = (req, res) => {
       id: taskId
     }
   })
-    .then(task => {
-      res.status(200).json(task)
+    .then(async (task) => {
+      const iteration = await Iteration.findByPk(task.iterationId)
+      const iteration_number = iteration.iteration_number
+      const study = await Study.findByPk(iteration.studyId)
+      const software_name = study.software_name
+      const response = {
+        ...task.toJSON(),
+        software_name: software_name,
+        iteration_number: iteration_number
+      };
+      res.status(200).json(response)
     })
     .catch(err => {
       console.error(err);
