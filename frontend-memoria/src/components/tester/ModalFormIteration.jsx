@@ -1,18 +1,23 @@
 import React, { useState, useRef } from "react";
 import { Button, Modal, Form } from "react-bootstrap";
 import IterationService from "../../services/iteration.service";
-import DatePicker from "react-datepicker"
+//import DatePicker from "react-datepicker"
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from "@mui/x-date-pickers-pro";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 import { registerLocale } from "react-datepicker";
 import es from 'date-fns/locale/es';
+import dayjs from 'dayjs';
 registerLocale('es', es)
 
 function ModalFormIteration(props) {
   const { show, handleClose, idstudy } = props;
   const [objetivo, setObjetivo] = useState("");
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [startDate, setStartDate] = useState(dayjs());
+  const [endDate, setEndDate] = useState(dayjs());
   const [badEndDate, setBadEndDate] = useState(false)
 
   const onChangeObjetivo = (e) => {
@@ -44,8 +49,8 @@ function ModalFormIteration(props) {
     IterationService.create(idstudy, objetivo, startDate, endDate).then(
       (response) => {
         setObjetivo("")
-        setStartDate()
-        setEndDate()
+        setStartDate(dayjs())
+        setEndDate(dayjs())
         setBadEndDate(false)
         handleClose();
       },
@@ -64,53 +69,64 @@ function ModalFormIteration(props) {
     <>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Nueva Iteración</Modal.Title>
+          <Modal.Title style={{ color: '#344b60', fontFamily: "Poppins, sans-serif" }}>Nueva Iteración</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formObjetivo">
-              <Form.Label>Objetivo de la nueva iteración</Form.Label>
+              <Form.Label style={{ color: '#344b60', fontFamily: "Poppins, sans-serif" }}>Objetivo de la nueva iteración</Form.Label>
               <Form.Control
-                as="textarea"
+                type="text"
                 rows={3}
                 placeholder="Ingresa el objetivo"
                 name="objetivo"
                 value={objetivo}
                 onChange={onChangeObjetivo}
+                style={{ width: "100%", textAlign: "left" }}
               />
             </Form.Group>
 
+            
             <div className="form-group">
-              <label htmlFor="initdate">Fecha Inicio de Iteración</label>
-              <DatePicker
-                locale="es"
-                selected={startDate}
-                onChange={handleStartCalendar}
-                minDate={new Date()}
-                showDisabledMonthNavigation
-                placeholderText="mm/dd/aaaa"
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="enddate">Fecha Término de Iteración</label>
-              <DatePicker
-                locale="es"
-                selected={endDate}
-                onChange={handleEndCalendar}
-                minDate={new Date()}
-                showDisabledMonthNavigation
-                placeholderText="mm/dd/aaaa"
-              />
+              
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <label htmlFor="initdate" style={{ color: '#344b60', fontFamily: "Poppins, sans-serif" }}>Fecha Inicio de Iteración</label>
+                <DemoContainer components={['DatePicker', 'DatePicker']}>
+                  <DatePicker
+                    value={startDate}
+                    onChange={handleStartCalendar}
+                    
+                  />
+                </DemoContainer>
+                <label htmlFor="initdate" style={{ color: '#344b60', fontFamily: "Poppins, sans-serif", marginTop: "4%" }}>Fecha Fin de Iteración</label>
+                <DemoContainer components={['DatePicker', 'DatePicker']}>
+                  <DatePicker
+                    value={endDate}
+                    onChange={handleEndCalendar}
+                    
+                  />
+                </DemoContainer>
+              </LocalizationProvider>
               {badEndDate && (
                 <div className="alert alert-danger" role="alert">
                   La fecha de término de iteración debe ser posterior a la fecha de inicio.
                 </div>
               )}
             </div>
-            <Button variant="primary" type="submit">
-              Crear Iteración
-            </Button>
+
+            
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: '5%'
+              }}>
+              <Button variant="primary" type="submit" className="btn button-primary">
+                Crear Iteración
+              </Button>
+            </div>
+
           </Form>
         </Modal.Body>
       </Modal>
