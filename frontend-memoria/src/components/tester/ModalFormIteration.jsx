@@ -1,17 +1,14 @@
 import React, { useState, useRef } from "react";
 import { Button, Modal, Form } from "react-bootstrap";
 import IterationService from "../../services/iteration.service";
-//import DatePicker from "react-datepicker"
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from "@mui/x-date-pickers-pro";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import "react-datepicker/dist/react-datepicker.css";
-import 'react-datepicker/dist/react-datepicker-cssmodules.css';
-import { registerLocale } from "react-datepicker";
-import es from 'date-fns/locale/es';
 import dayjs from 'dayjs';
-registerLocale('es', es)
+import 'dayjs/locale/es';
+
+dayjs.locale('es'); // Configura dayjs para español
 
 function ModalFormIteration(props) {
   const { show, handleClose, idstudy } = props;
@@ -86,11 +83,11 @@ function ModalFormIteration(props) {
               />
             </Form.Group>
 
-            
+
             <div className="form-group">
-              
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <label htmlFor="initdate" style={{ color: '#344b60', fontFamily: "Poppins, sans-serif" }}>Fecha Inicio de Iteración</label>
+
+              <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
+                <label htmlFor="initdate" style={{ color: '#344b60', fontFamily: "Poppins, sans-serif" }}>Fecha Inicio de Iteración</label>
                 <DemoContainer components={['DatePicker', 'DatePicker']}>
                   <DatePicker
                     value={startDate}
@@ -108,13 +105,14 @@ function ModalFormIteration(props) {
                 </DemoContainer>
               </LocalizationProvider>
               {badEndDate && (
-                <div className="alert alert-danger" role="alert">
+                <div className="alert alert-danger" role="alert" style={{marginTop:'2%'}}>
                   La fecha de término de iteración debe ser posterior a la fecha de inicio.
                 </div>
               )}
+
             </div>
 
-            
+
             <div
               style={{
                 display: 'flex',
