@@ -224,3 +224,8 @@ a {
 	flex-wrap: wrap;
 	margin-bottom: 5px;
 }
+
+.duracion-optima-div {
+	display: flex;
+	align-items: center;
+}

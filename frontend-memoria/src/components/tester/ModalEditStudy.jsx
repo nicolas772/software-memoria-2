@@ -81,7 +81,7 @@ function ModalEditStudy(props) {
     <>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title style={{color: '#344b60', fontFamily: "Poppins, sans-serif"}}>Editar Estudio</Modal.Title>
+          <Modal.Title style={{color: '#344b60', fontFamily: "Poppins, sans-serif"}}>Modificar Estudio</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>

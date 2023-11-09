@@ -7,7 +7,7 @@ const DeleteConfirmationModal = ({ show, handleClose, handleDelete, element }) =
       <Modal.Body>
         <p
         style={{color: '#344b60', fontFamily: "Poppins, sans-serif", fontSize:'18px'}}
-        >¿Estás seguro que desea eliminar {element}?</p> 
+        >¿Estás seguro que deseas eliminar {element}?</p> 
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>

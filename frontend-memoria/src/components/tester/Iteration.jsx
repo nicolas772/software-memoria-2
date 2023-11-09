@@ -76,7 +76,7 @@ const Iteration = () => {
     navigator.clipboard.writeText(agregarCeros(iditeration))
       .then(() => {
         setIsCopied(true); // Cambia el estado para indicar que se ha copiado el texto
-        setTimeout(() => setIsCopied(false), 1000); // Reinicia el estado después de 1.5 segundos
+        setTimeout(() => setIsCopied(false), 2000); // Reinicia el estado después de 1.5 segundos
         toast.success('Código copiado al portapapeles.', {
           position: "top-right",
           autoClose: 1500,
