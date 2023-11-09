@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { ClipboardIcon } from '@heroicons/react/solid';
 import { ToastContainer, toast } from 'react-toastify';
+import { Button } from 'react-bootstrap';
 import 'react-toastify/dist/ReactToastify.css';
 
 function CustomTabPanel(props) {
@@ -168,7 +169,7 @@ const Iteration = () => {
   };
 
   useEffect(() => {
-    setTitle('Iteración ' + content.iteration_number)
+    setTitle("Iteración " + content.iteration_number + " de " + content.software_name)
   }, [content])
 
   useEffect(() => {
@@ -253,9 +254,9 @@ const Iteration = () => {
         <button onClick={handleShowEditModal} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
           Editar Iteración
         </button>
-        <button onClick={handleShowDeleteModal} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
+        <Button variant="danger" onClick={handleShowDeleteModal}>
           Eliminar Iteración
-        </button>
+        </Button>
       </div>
       <div style={{ margin: '2%' }}></div>
       <Box sx={{ width: '100%' }}>

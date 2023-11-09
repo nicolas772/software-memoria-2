@@ -81,7 +81,7 @@ const Study = () => {
   }
 
   useEffect(() => {
-    setTitle('Estudio de ' + content.software_name)
+    setTitle('Estudio ' + content.software_name)
   }, [content])
 
   useEffect(() => {
