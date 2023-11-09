@@ -77,12 +77,14 @@ function ModalChangePassword(props) {
     <>
       <Modal show={show}>
         <Modal.Header>
-          <Modal.Title>{successful ? "Información" : "Cambiar Contraseña"}</Modal.Title>
+          <Modal.Title style={{ color: '#344b60', fontFamily: "Poppins, sans-serif" }}>
+            {successful ? "Información" : "Cambiar Contraseña"}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {successful ? (
             <>
-              <p>Contraseña actualizada con éxito.</p>
+              <p style={{ color: '#344b60', fontFamily: "Poppins, sans-serif" }}>
+                Contraseña actualizada con éxito.</p>
               <div className="buttons-div">
                 <Button variant="secondary" onClick={handleClose}>
                   Cerrar
@@ -92,7 +94,8 @@ function ModalChangePassword(props) {
           ) : (
             <Form onSubmit={handleSubmit}>
               <Form.Group controlId="actualPassForm">
-                <Form.Label>Contraseña Actual</Form.Label>
+                <Form.Label style={{ color: '#344b60', fontFamily: "Poppins, sans-serif" }}>
+                  Contraseña Actual</Form.Label>
                 <Form.Control
                   type="password"
                   placeholder="Ingresa Contraseña Actual"
@@ -102,7 +105,8 @@ function ModalChangePassword(props) {
                 />
               </Form.Group>
               <Form.Group controlId="newPassForm">
-                <Form.Label>Nueva Contraseña</Form.Label>
+                <Form.Label style={{ color: '#344b60', fontFamily: "Poppins, sans-serif" }}>
+                  Nueva Contraseña</Form.Label>
                 <Form.Control
                   type="password"
                   placeholder="Ingresa Contraseña Nueva"
@@ -130,7 +134,7 @@ function ModalChangePassword(props) {
                 <Button variant="secondary" onClick={handleClose}>
                   Cancelar
                 </Button>
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" className="btn button-primary">
                   Cambiar Contraseña
                 </Button>
               </div>
