@@ -18,10 +18,12 @@ function ModalEditStudy(props) {
   const [endDate, setEndDate] = useState(new Date(content.end_date));
   const [badEndDate, setBadEndDate] = useState(false)
   const navigate = useNavigate()
+  const [noSoftwareName, setNoSoftwareName] = useState(false)
 
   const onChangeSoftwareName = (e) => {
     const softwareName = e.target.value;
     setSoftwareName(softwareName);
+    setNoSoftwareName(false)
   };
   const onChangeSoftwareType = (e) => {
     const softwareType = e.target.value;
@@ -53,28 +55,32 @@ function ModalEditStudy(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Aquí se puede realizar la lógica para enviar los datos del formulario
-    StudyService.update(idstudy, softwareName, softwareType, softwareUrl, startDate, endDate).then(
-      (response) => {
-        // ... éxito al editar el estudio ...
-        const editedContent = {
-          ...content,
-          software_name: softwareName,
-          software_tipe: softwareType,
-          url: softwareUrl,
-          start_date: startDate.toISOString(),
-          end_date: endDate.toISOString()
-        };
-        onEditSuccess(editedContent); // Llamamos a la función de edición exitosa y pasamos el contenido editado
-      },
-      (error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-      }
-    );
+    if(softwareName === ""){
+      setNoSoftwareName(true)
+    }else {
+      StudyService.update(idstudy, softwareName, softwareType, softwareUrl, startDate, endDate).then(
+        (response) => {
+          // ... éxito al editar el estudio ...
+          const editedContent = {
+            ...content,
+            software_name: softwareName,
+            software_tipe: softwareType,
+            url: softwareUrl,
+            start_date: startDate.toISOString(),
+            end_date: endDate.toISOString()
+          };
+          onEditSuccess(editedContent); // Llamamos a la función de edición exitosa y pasamos el contenido editado
+        },
+        (error) => {
+          const resMessage =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
+    }
   };
 
   return (
@@ -118,6 +124,12 @@ function ModalEditStudy(props) {
                 style={{ width: "100%", textAlign: "left" }} 
               />
             </Form.Group>
+            {noSoftwareName && (
+              <div className="alert alert-danger" role="alert" style={{ marginTop: '2%' }}>
+                Ingresa un Nombre de Software.
+              </div>
+            )}
+
             <div
               style={{
                 display: 'flex',
