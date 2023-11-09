@@ -113,7 +113,7 @@ function ModalEditIteration(props) {
               )}
               {noGoal && (
                 <div className="alert alert-danger" role="alert" style={{ marginTop: '2%' }}>
-                  Ingresa un objetivo para la nueva iteración.
+                  Ingresa un objetivo para la iteración actual.
                 </div>
               )}
             </div>
