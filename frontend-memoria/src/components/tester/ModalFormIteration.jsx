@@ -16,10 +16,12 @@ function ModalFormIteration(props) {
   const [startDate, setStartDate] = useState(dayjs());
   const [endDate, setEndDate] = useState(dayjs());
   const [badEndDate, setBadEndDate] = useState(false)
+  const [noGoal, setNoGoal] = useState(false)
 
   const onChangeObjetivo = (e) => {
     const objetivo = e.target.value;
     setObjetivo(objetivo);
+    setNoGoal(false)
   };
 
   const handleStartCalendar = (date) => {
@@ -43,23 +45,27 @@ function ModalFormIteration(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Aquí se puede realizar la lógica para enviar los datos del formulario
-    IterationService.create(idstudy, objetivo, startDate, endDate).then(
-      (response) => {
-        setObjetivo("")
-        setStartDate(dayjs())
-        setEndDate(dayjs())
-        setBadEndDate(false)
-        handleClose();
-      },
-      (error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-      }
-    );
+    if (objetivo === ""){
+      setNoGoal(true)
+    }else {
+      IterationService.create(idstudy, objetivo, startDate, endDate).then(
+        (response) => {
+          setObjetivo("")
+          setStartDate(dayjs())
+          setEndDate(dayjs())
+          setBadEndDate(false)
+          handleClose();
+        },
+        (error) => {
+          const resMessage =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
+    }
   };
 
   return (
@@ -92,7 +98,7 @@ function ModalFormIteration(props) {
                   <DatePicker
                     value={startDate}
                     onChange={handleStartCalendar}
-                    
+
                   />
                 </DemoContainer>
                 <label htmlFor="initdate" style={{ color: '#344b60', fontFamily: "Poppins, sans-serif", marginTop: "4%" }}>Fecha Fin de Iteración</label>
@@ -100,18 +106,22 @@ function ModalFormIteration(props) {
                   <DatePicker
                     value={endDate}
                     onChange={handleEndCalendar}
-                    
+
                   />
                 </DemoContainer>
               </LocalizationProvider>
               {badEndDate && (
-                <div className="alert alert-danger" role="alert" style={{marginTop:'2%'}}>
+                <div className="alert alert-danger" role="alert" style={{ marginTop: '2%' }}>
                   La fecha de término de iteración debe ser posterior a la fecha de inicio.
                 </div>
               )}
 
             </div>
-
+            {noGoal && (
+              <div className="alert alert-danger" role="alert" style={{ marginTop: '2%' }}>
+                Ingresa un objetivo para la nueva iteración.
+              </div>
+            )}
 
             <div
               style={{
