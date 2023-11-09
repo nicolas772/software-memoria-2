@@ -27,7 +27,7 @@ exports.cards = async (req, res) => {
     }, []);
     //CARD 1: Iteraciones Activas
     const activeIterationsCount = allIterations.filter(iteration => iteration.state === "Activa").length;
-    
+
     //CARD 2: Usuarios Participantes
     const usersQtyCompleteSum = await Iteration.sum('users_qty_complete', {
       where: {
@@ -45,10 +45,18 @@ exports.cards = async (req, res) => {
     const allStudies = user.studies;
     const totalStudiesCount = allStudies.length;
     const finishedStudies = allStudies.filter(study => {
-      return study.iterations.every(iteration => iteration.state === "Finalizada");
-    });
-    const finishedStudiesCount = finishedStudies.length;
+      const hasIterations = study.iterations.length > 0; // Verifica si el estudio tiene iteraciones
 
+      if (hasIterations) {
+        // Verifica que todas las iteraciones estén en estado "Finalizada"
+        return study.iterations.every(iteration => iteration.state === "Finalizada");
+      } else {
+        // Si el estudio no tiene iteraciones, no se considera finalizado
+        return false;
+      }
+    });
+
+    const finishedStudiesCount = finishedStudies.length;
     const percentageFinishedStudies = (finishedStudiesCount / totalStudiesCount) * 100;
 
     const responseData = {
