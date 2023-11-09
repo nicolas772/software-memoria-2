@@ -81,23 +81,24 @@ function ModalEditStudy(props) {
     <>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Modificar Estudio</Modal.Title>
+          <Modal.Title style={{color: '#344b60', fontFamily: "Poppins, sans-serif"}}>Editar Estudio</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formSoftwareName">
-              <Form.Label>Nombre del software</Form.Label>
+              <Form.Label style={{color: '#344b60', fontFamily: "Poppins, sans-serif"}}>Nombre del software</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Ingresa un nombre."
                 name="softwareName"
                 value={softwareName}
                 onChange={onChangeSoftwareName}
+                style={{ width: "100%", textAlign: "left" }} 
               />
             </Form.Group>
 
             <div className="form-group">
-              <label htmlFor="inputSoftwareType">Tipo de software</label>
+              <label htmlFor="inputSoftwareType" style={{color: '#344b60', fontFamily: "Poppins, sans-serif"}}>Tipo de software</label>
               <select onChange={onChangeSoftwareType} value={softwareType} id="inputSoftwareType" className="form-control">
                 <option>App Desktop</option>
                 <option>App Móvil</option>
@@ -107,47 +108,27 @@ function ModalEditStudy(props) {
             </div>
 
             <Form.Group controlId="formUrl">
-              <Form.Label>URL del software</Form.Label>
+              <Form.Label style={{color: '#344b60', fontFamily: "Poppins, sans-serif"}}>URL del software</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Ingresa una URL"
                 name="Url"
                 value={softwareUrl}
                 onChange={onChangeSoftwareUrl}
+                style={{ width: "100%", textAlign: "left" }} 
               />
             </Form.Group>
-
-            <div className="form-group">
-              <label htmlFor="initdate">Fecha Inicio de Estudio</label>
-              <DatePicker
-                locale="es"
-                selected={startDate}
-                onChange={handleStartCalendar}
-                minDate={new Date()}
-                showDisabledMonthNavigation
-                placeholderText="mm/dd/aaaa"
-              />
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: '5%'
+              }}>
+              <Button variant="primary" type="submit" className="btn button-primary">
+                Editar Estudio
+              </Button>
             </div>
-
-            <div className="form-group">
-              <label htmlFor="enddate">Fecha Término de Estudio</label>
-              <DatePicker
-                locale="es"
-                selected={endDate}
-                onChange={handleEndCalendar}
-                minDate={new Date()}
-                showDisabledMonthNavigation
-                placeholderText="mm/dd/aaaa"
-              />
-              {badEndDate && (
-                <div className="alert alert-danger" role="alert">
-                  La fecha de término de estudio debe ser posterior a la fecha de inicio.
-                </div>
-              )}
-            </div>
-            <Button variant="primary" type="submit">
-              Editar Estudio
-            </Button>
           </Form>
         </Modal.Body>
       </Modal>
