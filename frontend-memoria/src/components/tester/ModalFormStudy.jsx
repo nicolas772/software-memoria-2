@@ -16,10 +16,12 @@ function ModalFormStudy(props) {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [badEndDate, setBadEndDate] = useState(false)
+  const [noSoftwareName, setNoSoftwareName] = useState(false)
 
   const onChangeSoftwareName = (e) => {
     const softwareName = e.target.value;
     setSoftwareName(softwareName);
+    setNoSoftwareName(false)
   };
   const onChangeSoftwareType = (e) => {
     const softwareType = e.target.value;
@@ -51,49 +53,53 @@ function ModalFormStudy(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Aquí se puede realizar la lógica para enviar los datos del formulario
-    StudyService.create(userId, softwareName, softwareType, softwareUrl, startDate, endDate).then(
-      (response) => {
-        setSoftwareName("")
-        setSoftwareType("")
-        setSoftwareUrl("")
-        setStartDate()
-        setEndDate()
-        setBadEndDate(false)
-        handleClose();
-      },
-      (error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-      }
-    );
+    if (softwareName === "") {
+      setNoSoftwareName(true)
+    } else {
+      StudyService.create(userId, softwareName, softwareType, softwareUrl, startDate, endDate).then(
+        (response) => {
+          setSoftwareName("")
+          setSoftwareType("")
+          setSoftwareUrl("")
+          setStartDate()
+          setEndDate()
+          setBadEndDate(false)
+          handleClose();
+        },
+        (error) => {
+          const resMessage =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
+    }
   };
 
   return (
     <>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header>
-          <Modal.Title style={{color: '#344b60', fontFamily: "Poppins, sans-serif"}}>Nuevo Estudio</Modal.Title>
+          <Modal.Title style={{ color: '#344b60', fontFamily: "Poppins, sans-serif" }}>Nuevo Estudio</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formSoftwareName">
-              <Form.Label style={{color: '#344b60', fontFamily: "Poppins, sans-serif"}}>Nombre del software</Form.Label>
+              <Form.Label style={{ color: '#344b60', fontFamily: "Poppins, sans-serif" }}>Nombre del software</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Ingresa un nombre."
                 name="softwareName"
                 value={softwareName}
                 onChange={onChangeSoftwareName}
-                style={{ width: "100%", textAlign: "left" }} 
+                style={{ width: "100%", textAlign: "left" }}
               />
             </Form.Group>
 
             <div className="form-group">
-              <label htmlFor="inputSoftwareType" style={{color: '#344b60', fontFamily: "Poppins, sans-serif"}}>Tipo de software</label>
+              <label htmlFor="inputSoftwareType" style={{ color: '#344b60', fontFamily: "Poppins, sans-serif" }}>Tipo de software</label>
               <select onChange={onChangeSoftwareType} value={softwareType} id="inputSoftwareType" className="form-control" style={{ width: "100%", textAlign: "left" }} >
                 <option>App Desktop</option>
                 <option>App Móvil</option>
@@ -103,16 +109,21 @@ function ModalFormStudy(props) {
             </div>
 
             <Form.Group controlId="formUrl">
-              <Form.Label style={{color: '#344b60', fontFamily: "Poppins, sans-serif"}}>URL del software</Form.Label>
+              <Form.Label style={{ color: '#344b60', fontFamily: "Poppins, sans-serif" }}>URL del software</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Ingresa una URL"
                 name="Url"
                 value={softwareUrl}
                 onChange={onChangeSoftwareUrl}
-                style={{ width: "100%", textAlign: "left" }} 
+                style={{ width: "100%", textAlign: "left" }}
               />
             </Form.Group>
+            {noSoftwareName && (
+              <div className="alert alert-danger" role="alert" style={{ marginTop: '2%' }}>
+                Ingresa un Nombre de Software.
+              </div>
+            )}
 
             <div
               style={{
