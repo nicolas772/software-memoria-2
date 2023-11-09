@@ -4,6 +4,10 @@ import { Modal, Button } from 'react-bootstrap';
 const FinalizarIterationModal = ({ show, handleClose, handleFinalizar, element }) => {
   return (
     <Modal show={show} onHide={handleClose}>
+      <Modal.Header>
+        <Modal.Title style={{ color: '#344b60', fontFamily: "Poppins, sans-serif", fontSize: '24px' }}>
+          Información</Modal.Title>
+      </Modal.Header>
       <Modal.Body>
         <p
           style={{ color: '#344b60', fontFamily: "Poppins, sans-serif", fontSize: '16px' }}
