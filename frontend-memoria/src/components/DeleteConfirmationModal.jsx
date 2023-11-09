@@ -3,9 +3,12 @@ import { Modal, Button } from 'react-bootstrap';
 const DeleteConfirmationModal = ({ show, handleClose, handleDelete, element }) => {
   return (
     <Modal show={show} onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>¿Está seguro que desea eliminar {element}?</Modal.Title>
-      </Modal.Header>
+      
+      <Modal.Body>
+        <p
+        style={{color: '#344b60', fontFamily: "Poppins, sans-serif", fontSize:'18px'}}
+        >¿Estás seguro que desea eliminar {element}?</p> 
+      </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
           Cancelar

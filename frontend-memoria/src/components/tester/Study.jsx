@@ -6,7 +6,7 @@ import ModalFormIteration from "./ModalFormIteration";
 import TableIterations from "./TableIterations";
 import ModalEditStudy from "./ModalEditStudy";
 import DeleteConfirmationModal from "../DeleteConfirmationModal";
-
+import { Button } from 'react-bootstrap';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
@@ -161,9 +161,10 @@ const Study = () => {
         <button onClick={handleShowEditModal} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
           Editar Estudio
         </button>
-        <button onClick={handleShowDeleteModal} type="button" className="btn button-primary">
+        
+        <Button variant="danger" onClick={handleShowDeleteModal}>
           Eliminar Estudio
-        </button>
+        </Button>
       </div>
       <div style={{ margin: '2%' }}></div>
       <Box sx={{ width: '100%' }}>
