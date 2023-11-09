@@ -5,10 +5,12 @@ const ActivateIterationModal = ({ show, handleClose, handleActivate, element, nt
     return (
       <Modal show={show} onHide={handleClose}>
         <Modal.Header>
-          <Modal.Title>Información</Modal.Title>
+          <Modal.Title style={{ color: '#344b60', fontFamily: "Poppins, sans-serif", fontSize: '24px' }}>
+            Información</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>Agrega una tarea para poder activar la {element}.</p>
+          <p style={{ color: '#344b60', fontFamily: "Poppins, sans-serif", fontSize: '16px' }}>
+            Agrega una tarea para poder activar la {element}.</p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
@@ -22,16 +24,18 @@ const ActivateIterationModal = ({ show, handleClose, handleActivate, element, nt
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Confirmación</Modal.Title>
+        <Modal.Title style={{ color: '#344b60', fontFamily: "Poppins, sans-serif", fontSize: '24px' }}>
+          Confirmación</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-          <p>¿Estás seguro que deseas activar la {element}?</p>
+          <p style={{ color: '#344b60', fontFamily: "Poppins, sans-serif", fontSize: '16px' }}>
+            ¿Estás seguro que deseas activar <strong>{element}</strong>?</p>
         </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
           Cancelar
         </Button>
-        <Button variant="primary" onClick={handleActivate}>
+        <Button variant="primary" onClick={handleActivate} className="btn button-primary">
           Activar
         </Button>
       </Modal.Footer>
