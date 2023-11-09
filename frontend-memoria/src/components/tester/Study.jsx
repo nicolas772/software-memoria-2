@@ -147,7 +147,7 @@ const Study = () => {
           <p>
             Total Iteraciones: <strong>{contentTable.length}</strong>&nbsp;&nbsp;&nbsp;&nbsp;
             Tipo de Software: <strong>{content.software_tipe}</strong>&nbsp;&nbsp;&nbsp;&nbsp;
-            Sitio Web: <a href={content.url} target="_blank"><strong>{content.url}</strong></a>
+            Sitio Web: <a href={content.url} target="_blank"><strong>{content.software_name}</strong></a>
           </p>
         </header>
       </div>

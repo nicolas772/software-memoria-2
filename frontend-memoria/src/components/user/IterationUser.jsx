@@ -102,8 +102,8 @@ const IterationUser = (props) => {
         <ul>
           <li type="disc">Iteracion n° {content.iteration.iteration_number}</li>
           <li type="disc">Tipo de software: {content.study.software_tipe}</li>
-          <li type="disc">Url software:&nbsp;
-            <a href={content.study.url}>{content.study.url}</a>
+          <li type="disc">Sitio Web:&nbsp;
+            <a href={content.study.url} target="_blank" rel="noopener noreferrer">{content.study.software_name}</a>
           </li>
           <li type="disc">Objetivo: {content.iteration.goal}</li>
           <li type="disc">Cantidad de tareas asociadas: {content.iteration.task_qty}</li>

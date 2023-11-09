@@ -135,7 +135,7 @@ export default function TableStudies(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {stableSort(content, getComparator(order, orderBy)) // La función de ordenación
+              {stableSort(content, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => (
                   <StyledTableRow hover role="checkbox" tabIndex={-1} key={row.id}>
@@ -143,11 +143,9 @@ export default function TableStudies(props) {
                       const value = row[column.id];
                       return (
                         <StyledTableCell key={column.id} align={column.align}>
-                          {column.id === 'software_name' ? (
-                            <Link to={row.id.toString()}>
-                              {column.format && typeof value === 'number'
-                                ? column.format(value)
-                                : value}
+                          {column.id === 'software_name' || column.id === 'url' ? (
+                            <Link to={column.id === 'url' ? value : row.id.toString()} target={column.id === 'url' ? "_blank" : ""}>
+                              {column.id === 'url' ? 'Sitio Web' : value}
                             </Link>
                           ) : (
                             column.format && typeof value === 'number'
@@ -160,6 +158,7 @@ export default function TableStudies(props) {
                   </StyledTableRow>
                 ))}
             </TableBody>
+
           </Table>
         </TableContainer>
         <TablePagination
