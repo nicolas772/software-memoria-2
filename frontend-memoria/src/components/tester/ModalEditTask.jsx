@@ -5,13 +5,19 @@ import TaskService from "../../services/task.service";
 function TimeInput(props) {
   return (
     <div>
-      <label>{props.label}</label>
+      <label style={{ marginRight: "7px" }}>{props.label}:</label>
       <input
         type="number"
         min="0"
         max={props.max}
         value={props.value}
         onChange={props.onChange}
+        style={{
+          marginRight: "10px",
+          border: "1px solid #ced4da",
+          padding: "5px",
+          borderRadius: "5px",
+        }}
       />
     </div>
   );
@@ -68,22 +74,23 @@ function ModalEditTask(props) {
     <>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Modificar Tarea</Modal.Title>
+          <Modal.Title style={{ color: '#344b60', fontFamily: "Poppins, sans-serif" }}>Modificar Tarea</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formTitulo">
-              <Form.Label>Título de la tarea.</Form.Label>
+              <Form.Label style={{ color: '#344b60', fontFamily: "Poppins, sans-serif" }}>Título de la Tarea.</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Ingresa un título para la nueva tarea."
                 name="titulo"
                 value={titulo}
                 onChange={onChangeTitulo}
+                style={{ width: "100%", textAlign: "left" }}
               />
             </Form.Group>
             <Form.Group controlId="formDescripcion">
-              <Form.Label>Descripción de la tarea</Form.Label>
+              <Form.Label style={{ color: '#344b60', fontFamily: "Poppins, sans-serif" }}>Descripción de la Tarea</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={5}
@@ -95,22 +102,21 @@ function ModalEditTask(props) {
             </Form.Group>
 
             <div className="form-group">
-              <label htmlFor="inputSoftwareType">Dificultad de la tarea</label>
+              <label htmlFor="inputSoftwareType" style={{ color: '#344b60', fontFamily: "Poppins, sans-serif" }}>Dificultad de la Tarea</label>
               <select onChange={onChangeDificulty} value={dificulty} id="inputDificulty" className="form-control">
                 <option>Fácil</option>
                 <option>Medio</option>
                 <option>Difícil</option>
               </select>
             </div>
-            <label htmlFor="inputDuracion">Duración óptima de la tarea</label>
-            <div style={{ display: "flex", alignItems: "center" }}>
+            <label htmlFor="inputDuracion" style={{ color: '#344b60', fontFamily: "Poppins, sans-serif" }}>Duración óptima de la Tarea</label>
+            <div className="duracion-optima-div">
               <TimeInput
                 label="Minutes"
-                max="59"
+                max="99"
                 value={minutes}
                 onChange={handleMinutesChange}
               />
-              <span style={{ alignSelf: "flex-end", margin: "0 12px" }}>:</span>
               <TimeInput
                 label="Seconds"
                 max="59"
@@ -118,10 +124,17 @@ function ModalEditTask(props) {
                 onChange={handleSecondsChange}
               />
             </div>
-            <div style={{ margin: 20 }}></div>
-            <Button variant="primary" type="submit">
-              Editar Tarea
-            </Button>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: '5%'
+              }}>
+              <Button variant="primary" type="submit" className="btn button-primary">
+                Editar Tarea
+              </Button>
+            </div>
           </Form>
         </Modal.Body>
       </Modal>

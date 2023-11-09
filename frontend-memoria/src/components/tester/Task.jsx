@@ -8,6 +8,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import { Button } from 'react-bootstrap';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -40,6 +41,7 @@ const Task = () => {
   const { idtask } = useParams();
   const [content, setContent] = useState({});
   const [loading, setLoading] = useState(true)
+  const [title, setTitle] = useState("")
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [reloadTask, setReloadTask] = useState(false)
@@ -84,6 +86,10 @@ const Task = () => {
   };
 
   useEffect(() => {
+    setTitle("Tarea '"   + content.title + "', de Iteración " + content.iteration_number + " de " + content.software_name)
+  }, [content])
+
+  useEffect(() => {
     UserService.getTask(idtask).then(
       (response) => {
         setContent(response.data);
@@ -125,9 +131,9 @@ const Task = () => {
         <button onClick={handleShowModal} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
           Editar Tarea
         </button>
-        <button onClick={handleShowDeleteModal} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
+        <Button variant="danger" onClick={handleShowDeleteModal}>
           Eliminar Tarea
-        </button>
+        </Button>
       </div>
 
       <Box sx={{ width: '100%' }}>
@@ -167,7 +173,7 @@ const Task = () => {
         show={showDeleteModal}
         handleClose={handleCloseDeleteModal}
         handleDelete={handleDelete}
-        element={content.title}
+        element={title}
       />
     </div>
   )
