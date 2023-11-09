@@ -58,7 +58,7 @@ const FormStudy = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Aquí manejar campos vacios!!
-    if (softwareName === "" || softwareUrl === "" || !startDate || !endDate) {
+    if (softwareName === "" || softwareUrl === "") {
       setFaltanInputs(true)
       return
     }
@@ -104,7 +104,7 @@ const FormStudy = () => {
           </div>
         </div>
         <div className="column">
-          <div className='box-createForm' style={{ top: '10%' }}>
+          <div className='box-createForm' style={{ top: '20%' }}>
             <div className="inputBox">
               <input
                 type="text"
@@ -144,39 +144,6 @@ const FormStudy = () => {
             <div className="labelBox">
               <label>URL del Software</label>
             </div>
-            <div className="inputBox">
-              <DatePicker
-                locale="es"
-                selected={startDate}
-                onChange={handleStartCalendar}
-                minDate={new Date()}
-                showDisabledMonthNavigation
-                placeholderText="mm/dd/aaaa"
-                className="form-control"
-              />
-            </div>
-            <div className="labelBox">
-              <label>Fecha de Inicio Estudio</label>
-            </div>
-            <div className="inputBox">
-              <DatePicker
-                locale="es"
-                selected={endDate}
-                onChange={handleEndCalendar}
-                minDate={new Date()}
-                showDisabledMonthNavigation
-                placeholderText="mm/dd/aaaa"
-                className="form-control"
-              />
-            </div>
-            <div className="labelBox">
-              <label>Fecha de Término Estudio</label>
-            </div>
-            {badEndDate && (
-              <div className="alert alert-danger" role="alert">
-                La fecha de término de estudio debe ser posterior a la fecha de inicio.
-              </div>
-            )}
             {faltanInputs && (
               <div className="alert alert-danger" role="alert">
                 Debes completar todos los campos para crear Estudio.
