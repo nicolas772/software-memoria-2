@@ -30,49 +30,59 @@ function ModalFormTask(props) {
   const [dificulty, setDificulty] = useState("Fácil");
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
+  const [faltaCampo, setFaltaCampo] = useState(false)
 
   const handleMinutesChange = (event) => {
     setMinutes(event.target.value);
+    setFaltaCampo(false)
   };
 
   const handleSecondsChange = (event) => {
     setSeconds(event.target.value);
+    setFaltaCampo(false)
   };
 
   const onChangeTitulo = (e) => {
     const titulo = e.target.value;
     setTitulo(titulo);
+    setFaltaCampo(false)
   };
   const onChangeDescripcion = (e) => {
     const descripcion = e.target.value;
     setDescripcion(descripcion);
+    setFaltaCampo(false)
   };
   const onChangeDificulty = (e) => {
     const dificulty = e.target.value;
     setDificulty(dificulty);
+    setFaltaCampo(false)
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // Aquí se puede realizar la lógica para enviar los datos del formulario
-    TaskService.create(iditeration, titulo, descripcion, dificulty, minutes, seconds).then(
-      (response) => {
-        setTitulo("")
-        setDescripcion("")
-        setDificulty("Fácil")
-        setMinutes(0)
-        setSeconds(0)
-        handleClose();
-      },
-      (error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-      }
-    );
+    if (titulo === "" || descripcion === "" || dificulty === "" || minutes === "" || seconds === "") {
+      setFaltaCampo(true)
+    } else {
+      TaskService.create(iditeration, titulo, descripcion, dificulty, minutes, seconds).then(
+        (response) => {
+          setTitulo("")
+          setDescripcion("")
+          setDificulty("Fácil")
+          setMinutes(0)
+          setSeconds(0)
+          handleClose();
+        },
+        (error) => {
+          const resMessage =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
+    }
   };
 
   return (
@@ -130,6 +140,11 @@ function ModalFormTask(props) {
                 onChange={handleSecondsChange}
               />
             </div>
+            {faltaCampo && (
+              <div className="alert alert-danger" role="alert" style={{ marginTop: '2%' }}>
+                Completa todos los campos para poder crear tarea.
+              </div>
+            )}
             <div
               style={{
                 display: 'flex',
