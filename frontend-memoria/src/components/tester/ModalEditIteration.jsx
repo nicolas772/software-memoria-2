@@ -46,8 +46,8 @@ function ModalEditIteration(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Aquí se puede realizar la lógica para enviar los datos del formulario
-    if (objetivo === "") {
-      setNoGoal(true)
+    if (objetivo === "" || badEndDate) {
+      if (objetivo === ""){setNoGoal(true)}
     } else {
       IterationService.update(iditeration, objetivo, startDate, endDate).then(
         (response) => {

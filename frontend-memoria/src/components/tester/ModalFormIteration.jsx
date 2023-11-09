@@ -45,9 +45,9 @@ function ModalFormIteration(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Aquí se puede realizar la lógica para enviar los datos del formulario
-    if (objetivo === ""){
-      setNoGoal(true)
-    }else {
+    if (objetivo === "" || badEndDate) {
+      if (objetivo === ""){setNoGoal(true)}
+    } else {
       IterationService.create(idstudy, objetivo, startDate, endDate).then(
         (response) => {
           setObjetivo("")
