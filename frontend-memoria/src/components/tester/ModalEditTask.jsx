@@ -112,13 +112,13 @@ function ModalEditTask(props) {
             <label htmlFor="inputDuracion" style={{ color: '#344b60', fontFamily: "Poppins, sans-serif" }}>Duración óptima de la Tarea</label>
             <div className="duracion-optima-div">
               <TimeInput
-                label="Minutes"
+                label="Minutos"
                 max="99"
                 value={minutes}
                 onChange={handleMinutesChange}
               />
               <TimeInput
-                label="Seconds"
+                label="Segundos"
                 max="59"
                 value={seconds}
                 onChange={handleSecondsChange}

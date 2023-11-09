@@ -69,7 +69,7 @@ const FormCSUQ = () => {
   const handleNextQuestion = () => {
     if (selectedValue === null) {
       setTitleModal('Información')
-      setBodyModal('Selecciona una opción de respuesta antes de continuar.')
+      setBodyModal('Selecciona una opción de respuesta antes de continuar')
       handleShowInfoModal()
     } else {
       handleRespuestaChange(actualQuestion, selectedValue)
