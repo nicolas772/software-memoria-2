@@ -54,7 +54,7 @@ function CodigoForm() {
   return (
     <>
       {!showIterationUser ? (
-        <div className='box-code-study '>
+        <div className='box-code-study'>
           <form onSubmit={handleSubmit}>
             <div className='inputBox'>
               <label>

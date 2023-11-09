@@ -28,7 +28,7 @@ const BoardUser = () => {
     <>
       <div className="container">
         <header className="jumbotron">
-          <h3>BOARD USER {content}</h3>
+          <h5>Invitaciones</h5>
         </header>
       </div>
     </>

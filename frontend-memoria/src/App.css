@@ -76,7 +76,7 @@ a {
 	border-radius: 10px;
 }
 
-.box-code-iteration h3 {
+.box-code-iteration h4 {
 	/*margin: 0 0 30px;*/
 	padding: 0;
 	color: #D5E8FB;
@@ -88,7 +88,7 @@ a {
 }
 
 .box-code-iteration li {
-	margin: 0 0 10px;
+	margin: 0 0 5px;
 	padding: 0;
 	color: #D5E8FB;
 	text-align: left;

@@ -95,10 +95,10 @@ const IterationUser = (props) => {
     <>
       <div>
         <header>
-          <h3>Estudio: {content.study.software_name}</h3>
+          <h4>Estudio: {content.study.software_name}</h4>
         </header>
       </div>
-      <div>
+      <div style={{marginLeft:'15px'}}>
         <ul>
           <li type="disc">Iteracion n° {content.iteration.iteration_number}</li>
           <li type="disc">Tipo de software: {content.study.software_tipe}</li>
