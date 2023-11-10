@@ -262,15 +262,21 @@ const Iteration = () => {
       <Box sx={{ width: '100%' }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-            <Tab label="Dashboard"
+            <Tab label="Dashboard General"
               {...a11yProps(0)} />
-            <Tab label="Tareas" {...a11yProps(1)} />
+              <Tab label="Dashboard Sentimientos"
+              {...a11yProps(1)} />
+            <Tab label="Detalle Tareas" 
+            {...a11yProps(2)} />
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          Dashboard
+          Dashboard General
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
+          Dashboard Sentimientos
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={2}>
           <TableTasks content={contentTable}></TableTasks>
         </CustomTabPanel>
       </Box>
