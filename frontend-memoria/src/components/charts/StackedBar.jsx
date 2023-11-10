@@ -2,17 +2,17 @@ import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
 function StackedBar(props) {
-  const { chartTitle, content } = props;
-  if (!content || !content.series || !content.studies) {
+  const { chartTitle, series, categories, titleXAxis } = props;
+  if (!series || !categories) {
     return <p>Cargando gráfico...</p>;
   }
   
   const chartData = {
-    series: content.series,
+    series: series,
     options: {
       chart: {
         type: 'bar',
-        height: 310,
+        height: 300,
         stacked: true,
       },
       plotOptions: {
@@ -38,12 +38,15 @@ function StackedBar(props) {
         text: chartTitle
       },
       xaxis: {
-        categories: content.studies,
+        categories: categories,
         labels: {
           formatter: function (val) {
             return Math.round(val); // Redondear el valor a un número entero
           }
-        }
+        },
+        title: {
+          text: titleXAxis,
+        },
       },
       yaxis: {
         title: {
@@ -53,7 +56,7 @@ function StackedBar(props) {
       tooltip: {
         y: {
           formatter: function (val) {
-            return val + " usuarios"
+            return val
           }
         }
       },

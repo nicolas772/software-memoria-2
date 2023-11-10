@@ -110,12 +110,17 @@ const HomeTester = () => {
                 categories={columnChartContent.software_names}
                 chartTitle="Total Iteraciones por Estudio"
                 titleYAxis="Cantidad Iteraciones"
-                ></ColumnChart>
+              ></ColumnChart>
             </div>
           </div>
           <div className="col-md-6">
             <div id="chart">
-              <StackedBar content={stackedBarContent} chartTitle="Cantidad de Usuarios por Estudio e Iteración"></StackedBar>
+              <StackedBar
+                series={stackedBarContent.series}
+                categories={stackedBarContent.studies}
+                chartTitle="Cantidad de Usuarios por Estudio e Iteración"
+                titleXAxis="Cantidad Usuarios"
+              ></StackedBar>
             </div>
           </div>
         </div>
