@@ -8,7 +8,7 @@ const MetricCard = (props) => {
       className="max-w-xs pt-2 pb-0 mx-auto"
       decoration="top"
       decorationColor={color}>
-      <Text>{title}</Text>
+      <Text className="mb-2">{title}</Text>
       <Metric>{metric}</Metric>
     </Card>
   );
