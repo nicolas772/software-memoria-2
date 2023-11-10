@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
 function ColumnChart(props) {
-  const { content, chartTitle } = props;
+  const { series, categories, chartTitle, titleYAxis } = props;
 
-  if (!content || !content.series || !content.software_names) {
+  if (!series || !categories) {
     return <p>Cargando gráfico...</p>;
   }
 
   const chartData = {
-    series: content.series,
+    series: series,
     options: {
       chart: {
         type: "bar",
@@ -32,11 +32,11 @@ function ColumnChart(props) {
         colors: ["transparent"],
       },
       xaxis: {
-        categories: content.software_names,
+        categories: categories,
       },
       yaxis: {
         title: {
-          text: "Cantidad Iteraciones",
+          text: titleYAxis,
         },
         labels: {
           formatter: function (value) {

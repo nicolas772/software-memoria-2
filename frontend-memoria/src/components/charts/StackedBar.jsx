@@ -12,7 +12,7 @@ function StackedBar(props) {
     options: {
       chart: {
         type: 'bar',
-        height: 350,
+        height: 310,
         stacked: true,
       },
       plotOptions: {

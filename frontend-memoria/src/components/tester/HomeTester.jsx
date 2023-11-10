@@ -105,7 +105,12 @@ const HomeTester = () => {
         <div className="row">
           <div className="col-md-6">
             <div id="chart">
-              <ColumnChart content={columnChartContent} chartTitle="Total Iteraciones por Estudio"></ColumnChart>
+              <ColumnChart
+                series={columnChartContent.series}
+                categories={columnChartContent.software_names}
+                chartTitle="Total Iteraciones por Estudio"
+                titleYAxis="Cantidad Iteraciones"
+                ></ColumnChart>
             </div>
           </div>
           <div className="col-md-6">
