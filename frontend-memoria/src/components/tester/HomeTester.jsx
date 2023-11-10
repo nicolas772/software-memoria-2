@@ -4,9 +4,10 @@ import ColumnChart from "../charts/ColumnChart";
 import ApexChart2 from "../charts/ApexChart2";
 import ApexChart3 from "../charts/ApexChart3";
 import StackedBar from "../charts/StackedBar";
-import Cards from "../charts/Cards";
+import MetricCard from "../charts/MetricCard";
 import Treemap from "../charts/Treemap";
 import "../charts/css/styleDashboardPrincipal.css"
+import { Grid } from "@tremor/react";
 
 const HomeTester = () => {
   const [cardsContent, setCardsContent] = useState("");
@@ -44,7 +45,7 @@ const HomeTester = () => {
           error.message ||
           error.toString();
 
-          setColumnChartContent(_content);
+        setColumnChartContent(_content);
       }
     );
   }, []);
@@ -62,7 +63,7 @@ const HomeTester = () => {
           error.message ||
           error.toString();
 
-          setStackedBarContent(_content);
+        setStackedBarContent(_content);
       }
     );
   }, []);
@@ -76,7 +77,28 @@ const HomeTester = () => {
         </header>
       </div>
       <div style={{ margin: "1%" }}>
-        <Cards content={cardsContent}></Cards>
+        <Grid numItemsSm={2} numItemsLg={4} className="gap-4">
+          <MetricCard
+            metric={cardsContent.iteraciones_activas}
+            title="Iteraciones Activas"
+            color="indigo"
+          ></MetricCard>
+          <MetricCard
+            metric={cardsContent.usuarios_participantes}
+            title="Usuarios Totales"
+            color="fuchsia"
+          ></MetricCard>
+          <MetricCard
+            metric={cardsContent.porc_iteraciones_completadas}
+            title="% Iteraciones Completadas"
+            color="amber"
+          ></MetricCard>
+          <MetricCard
+            metric={cardsContent.porc_estudios_completados}
+            title="% Estudios Completados"
+            color="emerald"
+          ></MetricCard>
+        </Grid>
       </div>
 
       <div style={{ marginTop: "4%" }}>
