@@ -10,7 +10,6 @@ import ActivateIterationModal from './ActivateIterationModal';
 import FinalizarIterationModal from './FinalizarIterationModal';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { ClipboardIcon } from '@heroicons/react/solid';
 import { ToastContainer, toast } from 'react-toastify';
@@ -30,7 +29,7 @@ function CustomTabPanel(props) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          {children}
         </Box>
       )}
     </div>
@@ -266,7 +265,7 @@ const Iteration = () => {
               {...a11yProps(0)} />
               <Tab label="Dashboard Sentimientos"
               {...a11yProps(1)} />
-            <Tab label="Detalle Tareas" 
+            <Tab label="Tareas" 
             {...a11yProps(2)} />
           </Tabs>
         </Box>

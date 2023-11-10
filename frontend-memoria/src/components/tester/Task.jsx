@@ -6,7 +6,6 @@ import ModalEditTask from './ModalEditTask';
 import DeleteConfirmationModal from '../DeleteConfirmationModal';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { Button } from 'react-bootstrap';
 
@@ -23,7 +22,7 @@ function CustomTabPanel(props) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          {children}
         </Box>
       )}
     </div>
@@ -139,7 +138,7 @@ const Task = () => {
       <Box sx={{ width: '100%' }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-            <Tab label="Dashboard General"
+            <Tab label="Dashboard"
               {...a11yProps(0)} />
             <Tab label="Descripción" {...a11yProps(1)} />
           </Tabs>

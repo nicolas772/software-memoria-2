@@ -9,8 +9,8 @@ import DeleteConfirmationModal from "../DeleteConfirmationModal";
 import { Button } from 'react-bootstrap';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import StudyGeneralDashboard from "../Dashboards/testerDashboards/studyGeneralDashboard";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -25,7 +25,7 @@ function CustomTabPanel(props) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          {children}
         </Box>
       )}
     </div>
@@ -161,7 +161,7 @@ const Study = () => {
         <button onClick={handleShowEditModal} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
           Editar Estudio
         </button>
-        
+
         <Button variant="danger" onClick={handleShowDeleteModal}>
           Eliminar Estudio
         </Button>
@@ -170,16 +170,13 @@ const Study = () => {
       <Box sx={{ width: '100%' }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-            <Tab label="Dashboard General"
-              {...a11yProps(0)}/>
-              <Tab label="Dashboard Sentimientos"
-              {...a11yProps(1)}/>
-            <Tab label="Detalle Iteraciones" 
-            {...a11yProps(2)} />
+            <Tab label="Dashboard General"/>
+            <Tab label="Dashboard Sentimientos"/>
+            <Tab label="Iteraciones"/>
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          Dashboard General
+          <StudyGeneralDashboard></StudyGeneralDashboard>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
           Dashboard Sentimientos
