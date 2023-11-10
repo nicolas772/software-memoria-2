@@ -11,6 +11,8 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import CustomTabPanel from "./CustomTabPanel";
+import DashboardGeneralStudy from "./Dashboards/DashboardGeneralStudy"
+import DashboardSentimentStudy from "./Dashboards/DashboardSentimentStudy"
 
 const Study = () => {
   const { idstudy } = useParams();
@@ -149,10 +151,10 @@ const Study = () => {
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          Dashboard General
+          <DashboardGeneralStudy></DashboardGeneralStudy>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          Dashboard Sentimientos
+          <DashboardSentimentStudy></DashboardSentimentStudy>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
           <TableIterations content={contentTable}></TableIterations>

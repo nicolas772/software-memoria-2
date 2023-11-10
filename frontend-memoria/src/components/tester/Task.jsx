@@ -9,6 +9,7 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import { Button } from 'react-bootstrap';
 import CustomTabPanel from "./CustomTabPanel";
+import DashboardGeneralTask from "./Dashboards/DashboardGeneralTask"
 
 function a11yProps(index) {
   return {
@@ -125,7 +126,7 @@ const Task = () => {
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          Dashboard General
+          <DashboardGeneralTask></DashboardGeneralTask>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
           <div style={{

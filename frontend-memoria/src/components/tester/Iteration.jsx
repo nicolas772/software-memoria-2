@@ -16,6 +16,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import { Button } from 'react-bootstrap';
 import 'react-toastify/dist/ReactToastify.css';
 import CustomTabPanel from "./CustomTabPanel";
+import DashboardGeneralIteration from "./Dashboards/DashboardGeneralIteration"
+import DashboardSentimentIteration from "./Dashboards/DashboardSentimentIteration"
 
 function a11yProps(index) {
   return {
@@ -251,10 +253,10 @@ const Iteration = () => {
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          Dashboard General
+          <DashboardGeneralIteration></DashboardGeneralIteration>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          Dashboard Sentimientos
+          <DashboardSentimentIteration></DashboardSentimentIteration>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
           <TableTasks content={contentTable}></TableTasks>
