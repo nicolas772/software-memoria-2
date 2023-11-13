@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Grid } from "@tremor/react";
 import MetricCardCategoryBar from '../../charts/MetricCardCategoryBar';
+import MetricCardList from "../../charts/MetricCardList";
 import DashboardStudyService from '../../../services/dashboardStudy.service'
 
 const DashboardGeneralStudy = () => {
@@ -33,8 +34,8 @@ const DashboardGeneralStudy = () => {
   return (
     <div>
       <Grid numItemsSm={2} numItemsLg={2} className="gap-6">
-        <MetricCardCategoryBar content={cardsContent}/>
-        <MetricCardCategoryBar content={cardsContent}/>
+        <MetricCardList content={cardsContent.total_iteraciones}/>
+        <MetricCardList content={cardsContent.total_usuarios}/>
       </Grid>
     </div>
   );
