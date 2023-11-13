@@ -52,6 +52,9 @@ const TaskUser = () => {
   };
 
   useEffect(() => {
+    if (!actualTask) {
+      return;
+    }
     UserService.getTask(actualTask).then(
       (response) => {
         setContent(response.data);
@@ -94,13 +97,13 @@ const TaskUser = () => {
     UserService.getNextTaskForStudy(iditeration, user.id).then(
       (response) => {
         setTaskForCont(response.data.lastTaskForCont)
+        setLoading(false)
       },
       (error) => {
         console.log(error)
       }
     )
   }, []);
-
 
   if (loading) {
     return <div>Cargando...</div>
@@ -113,10 +116,10 @@ const TaskUser = () => {
       </a>
       <div className="title-container">
         <h1 className="component-title">Tarea {taskForCont}</h1>
-        <h2 className="component-subtitle">{content.title}</h2>
+        <h2 className="component-subtitle">{content?.title || "Cargando..."}</h2>
       </div>
       <div className="box-task">
-        {content.description.split('\n').map((line, index) => (
+        {content?.description?.split('\n').map((line, index) => (
           <p key={index}>{line}</p>
         ))}
         {mostrarBotones ? (
@@ -146,4 +149,4 @@ const TaskUser = () => {
   )
 }
 
-export default TaskUser
+export default TaskUser;
