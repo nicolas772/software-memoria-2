@@ -229,3 +229,12 @@ a {
 	display: flex;
 	align-items: center;
 }
+
+.metric-card-icon {
+	width: 20px;
+	/* Tamaño personalizado */
+	height: 20px;
+	/* Tamaño personalizado */
+	align-self: flex-start;
+	margin-right: 5px;
+}

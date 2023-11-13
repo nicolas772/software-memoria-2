@@ -17,14 +17,17 @@ exports.cards = async (req, res) => {
             {
                name: "Activas",
                stat: "10",
+               icon: "activa",
             },
             {
                name: "Creadas",
                stat: "7",
+               icon: "creada",
             },
             {
                name: "Finalizadas",
                stat: "8",
+               icon: "finalizado"
             },
          ]
       };
@@ -37,10 +40,12 @@ exports.cards = async (req, res) => {
             {
                name: "En Proceso",
                stat: "150",
+               icon: "proceso"
             },
             {
                name: "Finalizados",
                stat: "50",
+               icon: "finalizado"
             }
          ]
       }
