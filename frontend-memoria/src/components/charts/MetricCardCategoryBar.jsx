@@ -1,14 +1,8 @@
 import { Card, Metric, Text, CategoryBar, Legend, Grid } from "@tremor/react";
 import "./css/fixedMargin.css"
 
-const content = {
-  title: "Total users",
-  metric: "10,345",
-  subCategoryValues: [30, 70],
-  subCategroyColors: ["emerald", "red"],
-  subCategoryTitles: ["Active users", "Inactive users"],
-}
-export default function MetricCardCategoryBar() {
+export default function MetricCardCategoryBar(props) {
+  const { content } = props
   return (
     <Card>
       <Text>{content.title}</Text>
