@@ -6,27 +6,38 @@ const { sequelize } = db; // Asegúrate de importar sequelize correctamente.
 
 exports.cards = async (req, res) => {
    const idUser = req.headers["id"];
-
+   const idStudy= req.query.idStudy;
    try {
+      const allIterations = await Iteration.findAll({
+         where:{
+           studyId: idStudy,
+         }
+       })
+      //CARD 1: Total Iteraciones
+      const total_iterations = allIterations.length
+      const finishedIterationsCount = allIterations.filter(iteration => iteration.state === "Finalizada").length;
+      const activeIterationsCount = allIterations.filter(iteration => iteration.state === "Activa").length;
+      const createIterationsCount = allIterations.filter(iteration => iteration.state === "Creada").length;
+
       const TotalIteraciones = {
          title: "Total Iteraciones",
-         metric: "25",
+         metric: total_iterations,
          columnName1: "Estado Iteración",
-         columnName2: "Cantidad Iteraciones",
+         columnName2: "Iteraciones",
          data: [
             {
                name: "Activas",
-               stat: "10",
+               stat: activeIterationsCount,
                icon: "activa",
             },
             {
                name: "Creadas",
-               stat: "7",
+               stat: createIterationsCount,
                icon: "creada",
             },
             {
                name: "Finalizadas",
-               stat: "8",
+               stat: finishedIterationsCount,
                icon: "finalizado"
             },
          ]
@@ -35,7 +46,7 @@ exports.cards = async (req, res) => {
          title: "Total Usuarios",
          metric: "200",
          columnName1: "Estado Usuarios",
-         columnName2: "Cantidad Usuarios",
+         columnName2: "Usuarios",
          data: [
             {
                name: "En Proceso",

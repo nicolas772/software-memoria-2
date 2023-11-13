@@ -2,7 +2,7 @@ import { Card, Metric, Text, List, ListItem, Flex, Bold, Grid } from "@tremor/re
 import { CheckCircleIcon, PlusCircleIcon, CheckIcon, RefreshIcon } from '@heroicons/react/solid';
 
 export default function MetricCardList(props) {
-  const { content } = props;
+  const { content, color } = props;
 
   // Mapa de iconos según los valores del campo "icon"
   const iconMap = {
@@ -19,7 +19,10 @@ export default function MetricCardList(props) {
   };
 
   return (
-    <Card className="pb-0">
+    <Card
+      className="pb-0"
+      decoration="top"
+      decorationColor={color}>
       <Text>{content.title}</Text>
       <Metric>{content.metric}</Metric>
       <Flex className="mt-2">
@@ -37,7 +40,7 @@ export default function MetricCardList(props) {
           const IconColor = iconColorMap[item.icon] || "black"
           return (
             <ListItem key={item.name}>
-              <IconComponent className="metric-card-icon" color={IconColor}/>
+              <IconComponent className="metric-card-icon" color={IconColor} />
               <Flex justifyContent="start" className="truncate space-x-2.5">
                 <Text className="truncate">{item.name}</Text>
               </Flex>

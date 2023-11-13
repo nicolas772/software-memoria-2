@@ -4,12 +4,13 @@ import MetricCardCategoryBar from '../../charts/MetricCardCategoryBar';
 import MetricCardList from "../../charts/MetricCardList";
 import DashboardStudyService from '../../../services/dashboardStudy.service'
 
-const DashboardGeneralStudy = () => {
+const DashboardGeneralStudy = (props) => {
+  const {idStudy} = props
   const [cardsContent, setCardsContent] = useState("");
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    DashboardStudyService.getCardsContentGeneral().then(
+    DashboardStudyService.getCardsContentGeneral(idStudy).then(
       (response) => {
         setCardsContent(response.data)
         setLoading(false)
@@ -33,9 +34,9 @@ const DashboardGeneralStudy = () => {
 
   return (
     <div>
-      <Grid numItemsSm={2} numItemsLg={2} className="gap-6">
-        <MetricCardList content={cardsContent.total_iteraciones}/>
-        <MetricCardList content={cardsContent.total_usuarios}/>
+      <Grid numItemsSm={2} numItemsLg={4} className="gap-4">
+        <MetricCardList content={cardsContent.total_iteraciones} color="amber"/>
+        <MetricCardList content={cardsContent.total_usuarios} color="emerald"/>
       </Grid>
     </div>
   );

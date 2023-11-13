@@ -151,7 +151,7 @@ const Study = () => {
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          <DashboardGeneralStudy></DashboardGeneralStudy>
+          <DashboardGeneralStudy idStudy={idstudy}></DashboardGeneralStudy>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
           <DashboardSentimentStudy></DashboardSentimentStudy>

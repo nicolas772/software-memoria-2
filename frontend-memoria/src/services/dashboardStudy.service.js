@@ -5,8 +5,8 @@ const API_URL = "http://localhost:8080/api/dashboard/";
 
 //DASHBOARD GENERAL ESTUDIO
 
-const getCardsContentGeneral = () => {
-    return axios.get(API_URL + "study/general/cards", { headers: authHeader() });
+const getCardsContentGeneral = (idStudy) => {
+    return axios.get(API_URL + "study/general/cards", { headers: authHeader(), params: { idStudy: idStudy }  });
 };
 
 
