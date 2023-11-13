@@ -13,6 +13,11 @@ exports.cards = async (req, res) => {
            studyId: idStudy,
          }
        })
+
+       if (!allIterations) {
+         return res.status(404).json({ error: "Estudio no encontrado no encontrada." });
+       }
+
       //CARD 1: Total Iteraciones
       const total_iterations = allIterations.length
       const finishedIterationsCount = allIterations.filter(iteration => iteration.state === "Finalizada").length;
@@ -42,20 +47,35 @@ exports.cards = async (req, res) => {
             },
          ]
       };
+
+      //CARD 2: Total Usuarios
+      const usersQtyCompleteSum = await Iteration.sum('users_qty_complete', {
+         where: {
+           id: allIterations.map(iteration => iteration.id)
+         }
+       });
+       const usersQtyActiveSum = await Iteration.sum('users_qty', {
+         where: {
+           id: allIterations.map(iteration => iteration.id)
+         }
+       });
+
+       const allUsersSum = usersQtyCompleteSum + usersQtyActiveSum
+
       const TotalUsuarios = {
          title: "Total Usuarios",
-         metric: "200",
+         metric: allUsersSum,
          columnName1: "Estado Usuarios",
          columnName2: "Usuarios",
          data: [
             {
                name: "En Proceso",
-               stat: "150",
+               stat: usersQtyActiveSum,
                icon: "proceso"
             },
             {
                name: "Finalizados",
-               stat: "50",
+               stat: usersQtyCompleteSum,
                icon: "finalizado"
             }
          ]
