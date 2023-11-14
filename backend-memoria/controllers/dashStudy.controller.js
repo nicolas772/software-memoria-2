@@ -2,6 +2,7 @@ const db = require("../models");
 const User = db.user;
 const Iteration = db.iteration;
 const Study = db.study;
+const InfoTask = db.infotask
 const { sequelize } = db; // Asegúrate de importar sequelize correctamente.
 
 exports.cards = async (req, res) => {
@@ -96,34 +97,49 @@ exports.cards = async (req, res) => {
 exports.stackedBar = async (req, res) => {
    const idUser = req.headers["id"];
    const idStudy = req.query.idStudy;
+
    try {
       const allIterations = await Iteration.findAll({
          where: {
             studyId: idStudy,
          }
-      })
+      });
 
       if (!allIterations) {
-         return res.status(404).json({ error: "Estudio no encontrado no encontrada." });
+         return res.status(404).json({ error: "Estudio no encontrado." });
       }
 
-      const charData = [
-         {
-            name: "Iteración 1",
-            "Tiempo Promedio": 2488,
-         },
-         {
-            name: "Iteración 2",
-            "Tiempo Promedio": 1445,
-         },
-         {
-            name: "Iteración 3",
-            "Tiempo Promedio": 743,
-         },
-      ]
+      const charData = [];
 
-      const colors = ["blue"]
-      const categories = ["Tiempo Promedio"]
+      for (const iteration of allIterations) {
+         const iterationId = iteration.id;
+         const iterationNumber = iteration.iteration_number
+
+         // Busca todas las tareas relacionadas con la iteración actual
+         const tasks = await InfoTask.findAll({
+            where: {
+               iterationId: iterationId,
+            }
+         });
+
+         if (tasks.length > 0) {
+            // Calcula el tiempo promedio de las tareas
+            const averageDuration = tasks.reduce((total, task) => total + task.duration, 0) / tasks.length;
+
+            charData.push({
+               name: `Iteración ${iterationNumber}`,
+               "Tiempo Promedio": averageDuration,
+            });
+         } else {
+            charData.push({
+               name: `Iteración ${iterationNumber}`,
+               "Tiempo Promedio": 0, // Otra opción podría ser omitir esta iteración si no hay tareas
+            });
+         }
+      }
+
+      const colors = ["blue"];
+      const categories = ["Tiempo Promedio"];
 
       const responseData = {
          charData: charData,

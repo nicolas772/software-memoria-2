@@ -8,6 +8,10 @@ a {
 	color: #1976d2;
 }
 
+p {
+	margin-bottom: 0px;
+}
+
 .gradient-background-pages {
 	font-family: sans-serif;
 	/* 	background: url(bg.jpg); */

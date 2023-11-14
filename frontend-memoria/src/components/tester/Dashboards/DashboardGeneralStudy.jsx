@@ -4,6 +4,13 @@ import MetricCardList from "../../charts/MetricCardList";
 import DashboardStudyService from '../../../services/dashboardStudy.service'
 import BarChartGraphic from "../../charts/BarChartGraphic";
 
+const formatTime = (milliseconds) => {
+  const totalSeconds = Math.floor(milliseconds / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const remainingSeconds = totalSeconds % 60;
+  return `${minutes}m ${remainingSeconds}s`;
+};
+
 const DashboardGeneralStudy = (props) => {
   const { idStudy } = props
   const [cardsContent, setCardsContent] = useState("");
@@ -62,7 +69,9 @@ const DashboardGeneralStudy = (props) => {
           content={stackedBarContent.charData}
           color={stackedBarContent.colors}
           categories={stackedBarContent.categories}
-          title="Tiempo Promedio por Iteración"/>
+          title="Tiempo Promedio por Iteración"
+          valueFormatter={formatTime}/>
+
         </Col>
       </Grid>
     </div>

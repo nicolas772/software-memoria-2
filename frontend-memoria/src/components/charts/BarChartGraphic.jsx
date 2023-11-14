@@ -1,9 +1,7 @@
 import { BarChart, Card, Title } from "@tremor/react";
 
-const valueFormatter = (number) => `${new Intl.NumberFormat("us").format(number).toString()}`;
-
 const BarChartGraphic = (props) => {
-  const {content, color, categories, title } = props
+  const {content, color, categories, title, valueFormatter } = props
   return (
     <Card>
       <Title>{title}</Title>
