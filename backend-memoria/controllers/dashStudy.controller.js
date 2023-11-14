@@ -109,7 +109,7 @@ exports.barList = async (req, res) => {
          return res.status(404).json({ error: "Estudio no encontrado." });
       }
 
-      const charData = [];
+      const chartData = [];
 
       for (const iteration of allIterations) {
          const iterationId = iteration.id;
@@ -128,14 +128,14 @@ exports.barList = async (req, res) => {
             // Aproxima a la unidad de mil más cercana
             const roundedAverageDuration = Math.round(averageDuration / 1000) * 1000;
 
-            charData.push({
+            chartData.push({
                name: `Iteración ${iterationNumber}`,
                value: roundedAverageDuration,
                href: `${idStudy}/${iterationId}`,
                target: "_self",
             });
          } else {
-            charData.push({
+            chartData.push({
                name: `Iteración ${iterationNumber}`,
                value: 0, // Otra opción podría ser omitir esta iteración si no hay tareas
                href: `${idStudy}/${iterationId}`,
@@ -145,7 +145,50 @@ exports.barList = async (req, res) => {
       }
 
       const responseData = {
-         charData: charData,
+         chartData: chartData,
+      }
+
+      res.status(200).json(responseData);
+   } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
+   }
+};
+
+exports.barChart = async (req, res) => {
+   const idUser = req.headers["id"];
+   const idStudy = req.query.idStudy;
+
+   try {
+      const allIterations = await Iteration.findAll({
+         where: {
+            studyId: idStudy,
+         }
+      });
+
+      if (!allIterations) {
+         return res.status(404).json({ error: "Estudio no encontrado." });
+      }
+
+      const chartData = [
+         {
+            name: "Iteracion 1",
+            "Tareas Completadas": 4,
+            "Tareas No Completadas": 3,
+         },
+         {
+            name: "Iteracion 2",
+            "Tareas Completadas": 7,
+            "Tareas No Completadas": 3,
+         },
+      ]
+      const colors = ["emerald", "rose"]
+      const categories = ["Tareas Completadas", "Tareas No Completadas"]
+
+      const responseData = {
+         chartData: chartData,
+         colors: colors,
+         categories: categories
       }
 
       res.status(200).json(responseData);

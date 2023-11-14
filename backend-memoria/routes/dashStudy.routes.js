@@ -20,4 +20,9 @@ module.exports = function (app) {
     [authJwt.verifyToken, authJwt.isTester],
     dashStudy_controller.barList
   );
+  app.get(
+    "/api/dashboard/study/general/bar-chart",
+    [authJwt.verifyToken, authJwt.isTester],
+    dashStudy_controller.barChart
+  );
 };
