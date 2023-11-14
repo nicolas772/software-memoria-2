@@ -1,7 +1,7 @@
 import { BarChart, Card, Title } from "@tremor/react";
 
 const BarChartGraphic = (props) => {
-  const {content, color, categories, title, valueFormatter } = props
+  const {content, color, categories, title, valueFormatter, stack=false } = props
   return (
     <Card>
       <Title>{title}</Title>
@@ -11,6 +11,8 @@ const BarChartGraphic = (props) => {
         categories={categories}
         colors={color}
         valueFormatter={valueFormatter}
+        stack={stack}
+        showAnimation={true}
       />
     </Card>
   )

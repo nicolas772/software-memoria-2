@@ -103,7 +103,8 @@ const DashboardGeneralStudy = (props) => {
             valueFormatter={valueFormatter}
             title="Cantidad de Tareas por Iteración"
             categories={barChartContent.categories}
-            color={barChartContent.colors} />
+            color={barChartContent.colors}
+            stack={true} />
         </Col>
       </Grid>
     </div>

@@ -163,33 +163,45 @@ exports.barChart = async (req, res) => {
       const allIterations = await Iteration.findAll({
          where: {
             studyId: idStudy,
-         }
+         },
       });
 
       if (!allIterations) {
          return res.status(404).json({ error: "Estudio no encontrado." });
       }
 
-      const chartData = [
-         {
-            name: "Iteracion 1",
-            "Tareas Completadas": 4,
-            "Tareas No Completadas": 3,
-         },
-         {
-            name: "Iteracion 2",
-            "Tareas Completadas": 7,
-            "Tareas No Completadas": 3,
-         },
-      ]
-      const colors = ["emerald", "rose"]
-      const categories = ["Tareas Completadas", "Tareas No Completadas"]
+      const chartData = [];
+
+      for (const iteration of allIterations) {
+         const iterationId = iteration.id;
+         const iterationNumber = iteration.iteration_number
+
+         // Busca todas las tareas relacionadas con la iteración actual
+         const tasks = await InfoTask.findAll({
+            where: {
+               iterationId: iterationId,
+            },
+         });
+
+         // Calcula la cantidad de tareas completadas y no completadas
+         const completedTasks = tasks.filter(task => task.complete === true).length;
+         const notCompletedTasks = tasks.length - completedTasks;
+
+         chartData.push({
+            name: `Iteración ${iterationNumber}`,
+            "Tareas Completadas": completedTasks,
+            "Tareas No Completadas": notCompletedTasks,
+         });
+      }
+
+      const colors = ["emerald", "rose"];
+      const categories = ["Tareas Completadas", "Tareas No Completadas"];
 
       const responseData = {
          chartData: chartData,
          colors: colors,
-         categories: categories
-      }
+         categories: categories,
+      };
 
       res.status(200).json(responseData);
    } catch (error) {
@@ -197,3 +209,4 @@ exports.barChart = async (req, res) => {
       res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
    }
 };
+
