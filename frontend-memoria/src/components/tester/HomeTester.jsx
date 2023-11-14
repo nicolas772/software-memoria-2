@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
 import DashboardService from "../../services/dashboard.service";
 import ColumnChart from "../charts/ColumnChart";
-import ApexChart2 from "../charts/ApexChart2";
-import ApexChart3 from "../charts/ApexChart3";
 import StackedBar from "../charts/StackedBar";
 import MetricCard from "../charts/MetricCard";
-import Treemap from "../charts/Treemap";
 import "../charts/css/styleDashboardPrincipal.css"
 import { Grid } from "@tremor/react";
 

@@ -9,9 +9,14 @@ const getCardsContentGeneral = (idStudy) => {
     return axios.get(API_URL + "study/general/cards", { headers: authHeader(), params: { idStudy: idStudy }  });
 };
 
+const getStackedBarContentGeneral = (idStudy) => {
+    return axios.get(API_URL + "study/general/stacked-bar", { headers: authHeader(), params: { idStudy: idStudy }  });
+
+}
 
 const DashboardStudyService = {
-    getCardsContentGeneral
+    getCardsContentGeneral,
+    getStackedBarContentGeneral
 };
 
 export default DashboardStudyService;

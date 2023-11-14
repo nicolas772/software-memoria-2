@@ -15,4 +15,9 @@ module.exports = function (app) {
     [authJwt.verifyToken, authJwt.isTester],
     dashStudy_controller.cards
   );
+  app.get(
+    "/api/dashboard/study/general/stacked-bar",
+    [authJwt.verifyToken, authJwt.isTester],
+    dashStudy_controller.stackedBar
+  );
 };
