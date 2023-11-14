@@ -131,14 +131,14 @@ exports.barList = async (req, res) => {
             chartData.push({
                name: `Iteración ${iterationNumber}`,
                value: roundedAverageDuration,
-               href: `${idStudy}/${iterationId}`,
+               //href: `${idStudy}/${iterationId}`,
                target: "_self",
             });
          } else {
             chartData.push({
                name: `Iteración ${iterationNumber}`,
                value: 0, // Otra opción podría ser omitir esta iteración si no hay tareas
-               href: `${idStudy}/${iterationId}`,
+               //href: `${idStudy}/${iterationId}`,
                target: "_self",
             });
          }
@@ -175,27 +175,31 @@ exports.barChart = async (req, res) => {
       for (const iteration of allIterations) {
          const iterationId = iteration.id;
          const iterationNumber = iteration.iteration_number
-
+         const userSet = new Set();
          // Busca todas las tareas relacionadas con la iteración actual
          const tasks = await InfoTask.findAll({
             where: {
                iterationId: iterationId,
             },
          });
-
+         // Calcula la cantidad de usuarios únicos que realizaron tareas
+         tasks.forEach(task => userSet.add(task.userId));
+         const usersQty_iteration = userSet.size
          // Calcula la cantidad de tareas completadas y no completadas
          const completedTasks = tasks.filter(task => task.complete === true).length;
          const notCompletedTasks = tasks.length - completedTasks;
+         const averageCompletedTasks = completedTasks / usersQty_iteration
+         const averageNotCompletedTasks = notCompletedTasks / usersQty_iteration
 
          chartData.push({
             name: `Iteración ${iterationNumber}`,
-            "Tareas Completadas": completedTasks,
-            "Tareas No Completadas": notCompletedTasks,
+            "Promedio Tareas Completadas": averageCompletedTasks,
+            "Promedio Tareas No Completadas": averageNotCompletedTasks,
          });
       }
 
       const colors = ["emerald", "rose"];
-      const categories = ["Tareas Completadas", "Tareas No Completadas"];
+      const categories = ["Promedio Tareas Completadas", "Promedio Tareas No Completadas"];
 
       const responseData = {
          chartData: chartData,

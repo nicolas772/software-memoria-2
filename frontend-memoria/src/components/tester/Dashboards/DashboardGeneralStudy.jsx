@@ -4,6 +4,7 @@ import MetricCardList from "../../charts/MetricCardList";
 import DashboardStudyService from '../../../services/dashboardStudy.service'
 import BarChartGraphic from "../../charts/BarChartGraphic";
 import BarListGraphic from "../../charts/BarListGraphic";
+import TableDashGeneralStudy from "../../tables/TableDashGeneralStudy";
 
 const formatTime = (milliseconds) => {
   const totalSeconds = Math.floor(milliseconds / 1000);
@@ -19,9 +20,11 @@ const DashboardGeneralStudy = (props) => {
   const [cardsContent, setCardsContent] = useState("");
   const [barListContent, setBarListContent] = useState("");
   const [barChartContent, setBarChartContent] = useState("");
+  const [tableContent, setTableContent] = useState("");
   const [loading1, setLoading1] = useState(true)
   const [loading2, setLoading2] = useState(true)
   const [loading3, setLoading3] = useState(true)
+  const [loading4, setLoading4] = useState(true)
 
   useEffect(() => {
     DashboardStudyService.getCardsContentGeneral(idStudy).then(
@@ -80,6 +83,37 @@ const DashboardGeneralStudy = (props) => {
     );
   }, []);
 
+  useEffect(() => {
+    const responseData = [
+      {
+        name: 'Iteracion 1',
+        minTiempo: "2m 23s",
+        maxTiempo: "2m 24s",
+        diferencia: "2m 1s"
+      },
+      {
+        name: 'Iteracion 2',
+        minTiempo: "2m 23s",
+        maxTiempo: "2m 24s",
+        diferencia: "2m 1s"
+      },
+      {
+        name: 'Iteracion 3',
+        minTiempo: "2m 23s",
+        maxTiempo: "2m 24s",
+        diferencia: "2m 1s"
+      },
+      {
+        name: 'Iteracion 4',
+        minTiempo: "2m 23s",
+        maxTiempo: "2m 24s",
+        diferencia: "2m 1s"
+      },
+  
+    ]
+    setTableContent(responseData)
+  }, [])
+
   if (loading1 || loading2 || loading3) {
     return <div>Cargando...</div>
   }
@@ -101,10 +135,13 @@ const DashboardGeneralStudy = (props) => {
           <BarChartGraphic
             content={barChartContent.chartData}
             valueFormatter={valueFormatter}
-            title="Cantidad de Tareas por Iteración"
+            title="Promedio de Tareas por Iteración"
             categories={barChartContent.categories}
             color={barChartContent.colors}
             stack={true} />
+        </Col>
+        <Col numColSpan={2} numColSpanLg={2}>
+          <TableDashGeneralStudy content = {tableContent}/>
         </Col>
       </Grid>
     </div>
