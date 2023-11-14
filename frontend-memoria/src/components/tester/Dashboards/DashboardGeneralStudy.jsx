@@ -3,6 +3,7 @@ import { Grid, Col } from "@tremor/react";
 import MetricCardList from "../../charts/MetricCardList";
 import DashboardStudyService from '../../../services/dashboardStudy.service'
 import BarChartGraphic from "../../charts/BarChartGraphic";
+import BarListGraphic from "../../charts/BarListGraphic";
 
 const formatTime = (milliseconds) => {
   const totalSeconds = Math.floor(milliseconds / 1000);
@@ -14,7 +15,7 @@ const formatTime = (milliseconds) => {
 const DashboardGeneralStudy = (props) => {
   const { idStudy } = props
   const [cardsContent, setCardsContent] = useState("");
-  const [stackedBarContent, setStackedBarContent] = useState("");
+  const [barListContent, setBarListContent] = useState("");
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -37,10 +38,9 @@ const DashboardGeneralStudy = (props) => {
   }, []);
 
   useEffect(() => {
-    DashboardStudyService.getStackedBarContentGeneral(idStudy).then(
+    DashboardStudyService.getBarListContentGeneral(idStudy).then(
       (response) => {
-        setStackedBarContent(response.data);
-        console.log(response.data)
+        setBarListContent(response.data);
       },
       (error) => {
         const _content =
@@ -50,7 +50,7 @@ const DashboardGeneralStudy = (props) => {
           error.message ||
           error.toString();
 
-        setStackedBarContent(_content);
+        setBarListContent(_content);
       }
     );
   }, []);
@@ -65,13 +65,12 @@ const DashboardGeneralStudy = (props) => {
         <MetricCardList content={cardsContent.total_iteraciones} color="amber" />
         <MetricCardList content={cardsContent.total_usuarios} color="emerald" />
         <Col numColSpan={2} numColSpanLg={2}>
-          <BarChartGraphic 
-          content={stackedBarContent.charData}
-          color={stackedBarContent.colors}
-          categories={stackedBarContent.categories}
+          <BarListGraphic 
+          content={barListContent.charData}
+          valueFormatter={formatTime} 
           title="Tiempo Promedio por Iteración"
-          valueFormatter={formatTime}/>
-
+          columnA="Iteración"
+          columnB="Tiempo"/>
         </Col>
       </Grid>
     </div>

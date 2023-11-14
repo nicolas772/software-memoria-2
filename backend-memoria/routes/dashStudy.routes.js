@@ -16,8 +16,8 @@ module.exports = function (app) {
     dashStudy_controller.cards
   );
   app.get(
-    "/api/dashboard/study/general/stacked-bar",
+    "/api/dashboard/study/general/bar-list",
     [authJwt.verifyToken, authJwt.isTester],
-    dashStudy_controller.stackedBar
+    dashStudy_controller.barList
   );
 };

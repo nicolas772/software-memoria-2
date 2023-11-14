@@ -94,7 +94,7 @@ exports.cards = async (req, res) => {
    }
 };
 
-exports.stackedBar = async (req, res) => {
+exports.barList = async (req, res) => {
    const idUser = req.headers["id"];
    const idStudy = req.query.idStudy;
 
@@ -125,26 +125,27 @@ exports.stackedBar = async (req, res) => {
          if (tasks.length > 0) {
             // Calcula el tiempo promedio de las tareas
             const averageDuration = tasks.reduce((total, task) => total + task.duration, 0) / tasks.length;
+            // Aproxima a la unidad de mil más cercana
+            const roundedAverageDuration = Math.round(averageDuration / 1000) * 1000;
 
             charData.push({
                name: `Iteración ${iterationNumber}`,
-               "Tiempo Promedio": averageDuration,
+               value: roundedAverageDuration,
+               href: `${idStudy}/${iterationId}`,
+               target: "_self",
             });
          } else {
             charData.push({
                name: `Iteración ${iterationNumber}`,
-               "Tiempo Promedio": 0, // Otra opción podría ser omitir esta iteración si no hay tareas
+               value: 0, // Otra opción podría ser omitir esta iteración si no hay tareas
+               href: `${idStudy}/${iterationId}`,
+               target: "_self",
             });
          }
       }
 
-      const colors = ["blue"];
-      const categories = ["Tiempo Promedio"];
-
       const responseData = {
          charData: charData,
-         colors: colors,
-         categories: categories,
       }
 
       res.status(200).json(responseData);

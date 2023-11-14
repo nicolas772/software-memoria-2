@@ -20,12 +20,11 @@ export default function MetricCardList(props) {
 
   return (
     <Card
-      className="pb-0"
       decoration="top"
       decorationColor={color}>
       <Text>{content.title}</Text>
-      <Metric>{content.metric}</Metric>
-      <Flex className="mt-2">
+      <Metric className="mt-2">{content.metric}</Metric>
+      <Flex className="mt-4">
         <Text>
           <Bold>{content.columnName1}</Bold>
         </Text>
@@ -33,7 +32,7 @@ export default function MetricCardList(props) {
           <Bold>{content.columnName2}</Bold>
         </Text>
       </Flex>
-      <List className="mt-1">
+      <List className="mt-2">
         {content.data.map((item) => {
           // Obtén el componente de icono correspondiente
           const IconComponent = iconMap[item.icon] || CheckCircleIcon;
