@@ -3,7 +3,6 @@ const User = db.user;
 const Iteration = db.iteration;
 const Study = db.study;
 const InfoTask = db.infotask
-const { sequelize } = db; // Asegúrate de importar sequelize correctamente.
 
 exports.cards = async (req, res) => {
    const idUser = req.headers["id"];

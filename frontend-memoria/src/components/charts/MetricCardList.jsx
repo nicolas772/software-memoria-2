@@ -1,5 +1,5 @@
 import { Card, Metric, Text, List, ListItem, Flex, Bold, Grid } from "@tremor/react";
-import { CheckCircleIcon, PlusCircleIcon, CheckIcon, RefreshIcon } from '@heroicons/react/solid';
+import { CheckCircleIcon, PlusCircleIcon, CheckIcon, RefreshIcon, LightBulbIcon } from '@heroicons/react/solid';
 
 export default function MetricCardList(props) {
   const { content, color } = props;
@@ -9,13 +9,19 @@ export default function MetricCardList(props) {
     activa: CheckCircleIcon,
     creada: PlusCircleIcon,
     finalizado: CheckIcon,
-    proceso: RefreshIcon
+    proceso: RefreshIcon,
+    facil: LightBulbIcon,
+    medio: LightBulbIcon,
+    dificil: LightBulbIcon
   };
   const iconColorMap = {
     activa: "green",       // Verde para indicar algo activo
     creada: "grey",        // Gris para indicar algo creado pero no activo
     finalizado: "#3399FF",    // Azul para indicar algo finalizado
     proceso: "orange",     // Naranja para indicar algo en proceso (puedes usar un color asociado a la acción de carga o movimiento)
+    facil: "green",
+    medio: "#FFD700",
+    dificil: "red"
   };
 
   return (

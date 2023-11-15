@@ -37,6 +37,7 @@ require('./routes/iteration.routes')(app);
 require('./routes/task.routes')(app);
 require('./routes/dashMain.routes')(app);
 require('./routes/dashStudy.routes')(app);
+require('./routes/dashIteration.routes')(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
