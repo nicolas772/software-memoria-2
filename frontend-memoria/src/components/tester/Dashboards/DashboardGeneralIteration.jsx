@@ -31,31 +31,27 @@ export default function DashboardGeneralIteration(props) {
   }, []);
 
   useEffect(() => {
-    const responseData = [
-      {
-        name: "Tarea 1",
-        avgTime: 40000,
-        optTiempo: 40000,
-        diference: 10000,
+    DashboardIterationService.getTableTimeContentGeneral(idIteration).then(
+      (response) => {
+        setTableTimeContent(response.data)
+        setLoading2(false)
       },
-      {
-        name: "Tarea 2",
-        avgTime: 30000,
-        optTiempo: 40000,
-        diference: 10000,
-      },
-      {
-        name: "Tarea 3",
-        avgTime: 30000,
-        optTiempo: 40000,
-        diference: 10000,
-      },
-    ]
-    setTableTimeContent(responseData)
-    setLoading2(false)
-  }, [])
+      (error) => {
+        const _content =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
 
-  if (loading1) {
+        setCardsContent(_content);
+      }
+    );
+  }, []);
+
+  
+
+  if (loading1 || loading2) {
     return <div>Cargando...</div>
   }
   return (

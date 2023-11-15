@@ -16,17 +16,17 @@ const getCardsContentGeneral = (idIteration) => {
 
 const getBarChartContentGeneral = (idStudy) => {
     return axios.get(API_URL + "study/general/bar-chart", { headers: authHeader(), params: { idStudy: idStudy }  });
-}
-
-const getTableTimeContentGeneral = (idStudy) => {
-    return axios.get(API_URL + "study/general/table-time", { headers: authHeader(), params: { idStudy: idStudy }  });
 }*/
+
+const getTableTimeContentGeneral = (idIteration) => {
+    return axios.get(API_URL + "iteration/general/table-time", { headers: authHeader(), params: { idIteration: idIteration }  });
+}
 
 const DashboardStudyService = {
     getCardsContentGeneral,
     /*getBarListContentGeneral,
-    getBarChartContentGeneral,
-    getTableTimeContentGeneral*/
+    getBarChartContentGeneral,*/
+    getTableTimeContentGeneral
 };
 
 export default DashboardStudyService;

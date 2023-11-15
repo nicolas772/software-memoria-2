@@ -8,27 +8,6 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TableSortLabel from '@mui/material/TableSortLabel';
 
-const content = [
-   {
-      name: "Tarea 111111",
-      avgTime: 30000,
-      optTime: 40000,
-      diference: -10000,
-   },
-   {
-      name: "Tarea 222",
-      avgTime: 600000,
-      optTime: 200000,
-      diference: 400000,
-   },
-   {
-      name: "Tarea 3",
-      avgTime: 90000,
-      optTime: 20000,
-      diference: 200000,
-   },
-];
-
 // Función para formatear el tiempo en milisegundos a "x min y seg"
 const formatTime = (milliseconds) => {
    const totalSeconds = Math.floor(Math.abs(milliseconds) / 1000);
@@ -50,6 +29,7 @@ const getRowColor = (value, maxDiference, minNegativeDiference) => {
 };
 
 export default function TableDashGeneralIteration(props) {
+   const {content} = props
    const [orderBy, setOrderBy] = useState('name');
    const [order, setOrder] = useState('asc');
 

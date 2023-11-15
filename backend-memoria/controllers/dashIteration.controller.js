@@ -8,10 +8,10 @@ exports.cards = async (req, res) => {
    const idIteration = req.query.idIteration;
    try {
       const iteration = await Iteration.findOne({
-         where:{
-           id: idIteration
+         where: {
+            id: idIteration
          }
-       })
+      })
 
       const allTasks = await Task.findAll({
          where: {
@@ -19,7 +19,7 @@ exports.cards = async (req, res) => {
          }
       })
 
-      if (!allTasks) {
+      if (!allTasks || !iteration) {
          return res.status(404).json({ error: "Iteración No Encontrada." });
       }
       //CARD 1: Total Iteraciones
@@ -27,8 +27,8 @@ exports.cards = async (req, res) => {
       const easyTask = allTasks.filter(task => task.dificulty === "Fácil").length;
       const mediumTask = allTasks.filter(task => task.dificulty === "Medio").length;
       const hardTask = allTasks.filter(task => task.dificulty === "Difícil").length;
-      
-      
+
+
       const totalTask = {
          title: "Total Tareas",
          metric: total_task,
@@ -88,3 +88,55 @@ exports.cards = async (req, res) => {
       res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
    }
 };
+
+exports.tableTime = async (req, res) => {
+   const idIteration = req.query.idIteration;
+   try {
+      const allTasks = await Task.findAll({
+         where: {
+            iterationId: idIteration,
+         }
+      })
+
+      if (!allTasks) {
+         return res.status(404).json({ error: "Iteración No Encontrada." });
+      }
+
+      const responseData = []
+
+      for (const task of allTasks) {
+         const idTask = task.id
+         const name = task.title
+         const minutesOptimal = task.minutes_optimal
+         const secondsOptimal = task.seconds_optimal
+         const tasks = await InfoTask.findAll({
+            where: {
+               taskId: idTask,
+            },
+         });
+         if (tasks.length > 0) {
+            const taskQty = tasks.length
+            const averageDuration = tasks.reduce((total, task) => total + task.duration, 0) / taskQty;
+            const roundedAverageDuration = Math.round(averageDuration / 1000) * 1000;
+            const optTime = minutesSecondsToMilliseconds(minutesOptimal, secondsOptimal);
+            const diference = roundedAverageDuration - optTime
+            responseData.push({
+               name: name,
+               avgTime: roundedAverageDuration,
+               optTime: optTime,
+               diference: diference,
+            })
+         }
+      }
+
+      res.status(200).json(responseData);
+   } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
+   }
+};
+
+function minutesSecondsToMilliseconds(minutes, seconds) {
+   const totalSeconds = minutes * 60 + seconds;
+   return totalSeconds * 1000; // Convertir segundos a milisegundos
+}

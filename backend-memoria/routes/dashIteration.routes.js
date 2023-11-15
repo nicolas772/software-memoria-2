@@ -9,10 +9,14 @@ module.exports = function (app) {
     );
     next();
   });
-
   app.get(
     "/api/dashboard/iteration/general/cards",
     [authJwt.verifyToken, authJwt.isTester],
     dashIteration_controller.cards
+  );
+  app.get(
+    "/api/dashboard/iteration/general/table-time",
+    [authJwt.verifyToken, authJwt.isTester],
+    dashIteration_controller.tableTime
   );
 };
