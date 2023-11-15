@@ -34,6 +34,7 @@ export default function DashboardGeneralIteration(props) {
     <div>
       <Grid numItemsSm={2} numItemsLg={4} className="gap-4">
         <MetricCardList content={cardsContent.total_tareas} color="amber" />
+        <MetricCardList content={cardsContent.total_usuarios} color="emerald" />
       </Grid>
     </div>
   );

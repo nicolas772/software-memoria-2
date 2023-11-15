@@ -7,6 +7,12 @@ const InfoTask = db.infotask
 exports.cards = async (req, res) => {
    const idIteration = req.query.idIteration;
    try {
+      const iteration = await Iteration.findOne({
+         where:{
+           id: idIteration
+         }
+       })
+
       const allTasks = await Task.findAll({
          where: {
             iterationId: idIteration,
@@ -46,8 +52,34 @@ exports.cards = async (req, res) => {
             },
          ]
       };
+
+      //CARD 2: Total Usuarios
+      const users_active = iteration.users_qty
+      const users_complete = iteration.users_qty_complete
+      const total_users = users_active + users_complete
+
+      const totalUsers = {
+         title: "Total Usuarios",
+         metric: total_users,
+         columnName1: "Estado Usuarios",
+         columnName2: "Usuarios",
+         data: [
+            {
+               name: "En proceso",
+               stat: users_active,
+               icon: "proceso",
+            },
+            {
+               name: "Finalizados",
+               stat: users_complete,
+               icon: "finalizado",
+            }
+         ]
+      };
+
       const responseData = {
          total_tareas: totalTask,
+         total_usuarios: totalUsers,
       }
 
       res.status(200).json(responseData);

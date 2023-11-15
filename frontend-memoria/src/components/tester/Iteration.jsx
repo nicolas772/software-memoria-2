@@ -218,7 +218,7 @@ const Iteration = () => {
             </p>
           </header>
         </div>
-        <div style={{ display: 'flex' , marginBottom: '2%', marginTop: '2%'}}>
+        <div style={{ display: 'flex', marginBottom: '2%', marginTop: '2%' }}>
           <button onClick={handleBack} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
             Volver a Estudio
           </button>
@@ -254,7 +254,7 @@ const Iteration = () => {
         </Box>
       </div>
       <CustomTabPanel value={value} index={0}>
-        <DashboardGeneralIteration idIteration={iditeration}></DashboardGeneralIteration>
+        <DashboardGeneralIteration idIteration={iditeration} ></DashboardGeneralIteration>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         <DashboardSentimentIteration></DashboardSentimentIteration>
