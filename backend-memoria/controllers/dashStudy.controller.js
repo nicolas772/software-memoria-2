@@ -32,14 +32,14 @@ exports.cards = async (req, res) => {
          columnName2: "Iteraciones",
          data: [
             {
-               name: "Activas",
-               stat: activeIterationsCount,
-               icon: "activa",
-            },
-            {
                name: "Creadas",
                stat: createIterationsCount,
                icon: "creada",
+            },
+            {
+               name: "Activas",
+               stat: activeIterationsCount,
+               icon: "activa",
             },
             {
                name: "Finalizadas",
@@ -114,17 +114,22 @@ exports.barList = async (req, res) => {
       for (const iteration of allIterations) {
          const iterationId = iteration.id;
          const iterationNumber = iteration.iteration_number
+         const userSet = new Set();
 
          // Busca todas las tareas relacionadas con la iteración actual
          const tasks = await InfoTask.findAll({
             where: {
                iterationId: iterationId,
-            }
+            },
          });
+
+         // Calcula la cantidad de usuarios únicos que realizaron tareas
+         tasks.forEach(task => userSet.add(task.userId));
+         const usersQty_iteration = userSet.size
 
          if (tasks.length > 0) {
             // Calcula el tiempo promedio de las tareas
-            const averageDuration = tasks.reduce((total, task) => total + task.duration, 0) / tasks.length;
+            const averageDuration = tasks.reduce((total, task) => total + task.duration, 0) / usersQty_iteration;
             // Aproxima a la unidad de mil más cercana
             const roundedAverageDuration = Math.round(averageDuration / 1000) * 1000;
 

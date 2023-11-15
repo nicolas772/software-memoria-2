@@ -115,7 +115,7 @@ const DashboardGeneralStudy = (props) => {
           <BarListGraphic
             content={barListContent.chartData}
             valueFormatter={formatTime}
-            title="Tiempo Promedio por Iteración"
+            title="Tiempo Promedio de Usuario por Iteración"
             columnA="Iteración"
             columnB="Tiempo" />
         </Col>
@@ -123,7 +123,7 @@ const DashboardGeneralStudy = (props) => {
           <BarChartGraphic
             content={barChartContent.chartData}
             valueFormatter={valueFormatter}
-            title="Promedio de Tareas por Iteración"
+            title="Promedio de Tareas de Usuario por Iteración"
             categories={barChartContent.categories}
             color={barChartContent.colors}
             stack={true} />
