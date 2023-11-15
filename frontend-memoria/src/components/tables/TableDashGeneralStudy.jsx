@@ -12,7 +12,7 @@ export default function TableDashGeneralStudy(props) {
    const {content} = props
    const [orderBy, setOrderBy] = useState('name');
    const [order, setOrder] = useState('asc');
-
+   console.log(content)
    const handleRequestSort = (property) => {
       const isAsc = orderBy === property && order === 'asc';
       setOrder(isAsc ? 'desc' : 'asc');
