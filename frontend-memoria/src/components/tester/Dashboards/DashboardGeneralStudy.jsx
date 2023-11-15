@@ -20,7 +20,7 @@ const DashboardGeneralStudy = (props) => {
   const [cardsContent, setCardsContent] = useState("");
   const [barListContent, setBarListContent] = useState("");
   const [barChartContent, setBarChartContent] = useState("");
-  const [tableContent, setTableContent] = useState("");
+  const [tableTimeContent, setTableTimeContent] = useState("");
   const [loading1, setLoading1] = useState(true)
   const [loading2, setLoading2] = useState(true)
   const [loading3, setLoading3] = useState(true)
@@ -84,37 +84,25 @@ const DashboardGeneralStudy = (props) => {
   }, []);
 
   useEffect(() => {
-    const responseData = [
-      {
-        name: 'Iteracion 1',
-        minTiempo: "2m 23s",
-        maxTiempo: "2m 24s",
-        diferencia: "2m 1s"
+    DashboardStudyService.getTableTimeContentGeneral(idStudy).then(
+      (response) => {
+        setTableTimeContent(response.data);
+        setLoading4(false)
       },
-      {
-        name: 'Iteracion 2',
-        minTiempo: "2m 23s",
-        maxTiempo: "2m 24s",
-        diferencia: "2m 1s"
-      },
-      {
-        name: 'Iteracion 3',
-        minTiempo: "2m 23s",
-        maxTiempo: "2m 24s",
-        diferencia: "2m 1s"
-      },
-      {
-        name: 'Iteracion 4',
-        minTiempo: "2m 23s",
-        maxTiempo: "2m 24s",
-        diferencia: "2m 1s"
-      },
-  
-    ]
-    setTableContent(responseData)
-  }, [])
+      (error) => {
+        const _content =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
 
-  if (loading1 || loading2 || loading3) {
+        setBarChartContent(_content);
+      }
+    );
+  }, []);
+
+  if (loading1 || loading2 || loading3 || loading4) {
     return <div>Cargando...</div>
   }
 
@@ -141,7 +129,7 @@ const DashboardGeneralStudy = (props) => {
             stack={true} />
         </Col>
         <Col numColSpan={2} numColSpanLg={2}>
-          <TableDashGeneralStudy content = {tableContent}/>
+          <TableDashGeneralStudy content = {tableTimeContent}/>
         </Col>
       </Grid>
     </div>

@@ -25,4 +25,9 @@ module.exports = function (app) {
     [authJwt.verifyToken, authJwt.isTester],
     dashStudy_controller.barChart
   );
+  app.get(
+    "/api/dashboard/study/general/table-time",
+    [authJwt.verifyToken, authJwt.isTester],
+    dashStudy_controller.tableTime
+  );
 };

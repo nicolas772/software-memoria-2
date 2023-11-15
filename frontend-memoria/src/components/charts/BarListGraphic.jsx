@@ -19,7 +19,7 @@ const BarListGraphic = (props) => {
                <Bold>{columnB}</Bold>
             </Text>
          </Flex>
-         <BarList data={contentWithIcons} className="mt-2" valueFormatter={valueFormatter} showAnimation={true}/>
+         <BarList data={contentWithIcons} className="mt-2" valueFormatter={valueFormatter} showAnimation={true} color="blue"/>
       </Card>
    )
 }

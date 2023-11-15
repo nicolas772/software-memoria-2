@@ -214,3 +214,75 @@ exports.barChart = async (req, res) => {
    }
 };
 
+exports.tableTime = async (req, res) => {
+   const idUser = req.headers["id"];
+   const idStudy = req.query.idStudy;
+ 
+   try {
+     const allIterations = await Iteration.findAll({
+       where: {
+         studyId: idStudy,
+       },
+     });
+ 
+     if (!allIterations) {
+       return res.status(404).json({ error: "Estudio no encontrado." });
+     }
+ 
+     const responseData = [];
+ 
+     for (const iteration of allIterations) {
+       const iterationId = iteration.id;
+       const iterationNumber = iteration.iteration_number
+       // Buscar todas las tareas relacionadas con la iteración actual
+       const tasks = await InfoTask.findAll({
+         where: {
+           iterationId: iterationId,
+         },
+       });
+ 
+       // Crear un objeto para almacenar los tiempos por usuario
+       const userTimes = {};
+ 
+       tasks.forEach(task => {
+         if (!userTimes[task.userId]) {
+           userTimes[task.userId] = 0;
+         }
+         userTimes[task.userId] += task.duration;
+       });
+ 
+       // Encontrar al usuario con el tiempo máximo y al usuario con el tiempo mínimo
+       const maxUserId = Object.keys(userTimes).reduce((a, b) => userTimes[a] > userTimes[b] ? a : b);
+       const minUserId = Object.keys(userTimes).reduce((a, b) => userTimes[a] < userTimes[b] ? a : b);
+ 
+       // Convertir los tiempos a un formato "m minutos s segundos"
+       const maxTiempo = formatTime(userTimes[maxUserId]);
+       const minTiempo = formatTime(userTimes[minUserId]);
+ 
+       // Calcular la diferencia de tiempo
+       const diferencia = formatTime(userTimes[maxUserId] - userTimes[minUserId]);
+ 
+       responseData.push({
+         name: `Iteración ${iterationNumber}`,
+         maxTiempo: maxTiempo,
+         minTiempo: minTiempo,
+         diferencia: diferencia,
+       });
+     }
+ 
+     res.status(200).json(responseData);
+   } catch (error) {
+     console.error(error);
+     res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
+   }
+ };
+ 
+ // Función para convertir milisegundos a "m minutos s segundos"
+ function formatTime(milliseconds) {
+   const totalSeconds = Math.floor(milliseconds / 1000);
+   const minutes = Math.floor(totalSeconds / 60);
+   const remainingSeconds = totalSeconds % 60;
+   return `${minutes}m ${remainingSeconds}s`;
+ }
+ 
+

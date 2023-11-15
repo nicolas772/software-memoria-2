@@ -18,10 +18,15 @@ const getBarChartContentGeneral = (idStudy) => {
     return axios.get(API_URL + "study/general/bar-chart", { headers: authHeader(), params: { idStudy: idStudy }  });
 }
 
+const getTableTimeContentGeneral = (idStudy) => {
+    return axios.get(API_URL + "study/general/table-time", { headers: authHeader(), params: { idStudy: idStudy }  });
+}
+
 const DashboardStudyService = {
     getCardsContentGeneral,
     getBarListContentGeneral,
-    getBarChartContentGeneral
+    getBarChartContentGeneral,
+    getTableTimeContentGeneral
 };
 
 export default DashboardStudyService;
