@@ -196,72 +196,72 @@ const Iteration = () => {
   }
 
   return (
-    <div style={{ margin: '20px' }}>
-      <div className="header-pages">
-        <header>
-          <h3>{content.software_name}: Iteración {content.iteration_number}</h3>
-          <p className='parrafo'>
-            Estado:&nbsp;<strong>{content.state}</strong>&nbsp;&nbsp;&nbsp;
-            Usuarios que completaron:&nbsp;<strong>{content.users_qty_complete}</strong>&nbsp;&nbsp;&nbsp;
-            Código iteración:&nbsp;
-            <span
-              onClick={handleCopyToClipboard}
-              className={`code-container ${isCopied ? 'copied' : ''}`}
-            >
-              &nbsp;<strong>{agregarCeros(iditeration)}</strong>
-              <ClipboardIcon className="copy-icon" />
-            </span>
-          </p>
-          <p>
-            Objetivo:&nbsp;<strong>{content.goal}</strong>&nbsp;&nbsp;&nbsp;
-          </p>
-        </header>
-      </div>
-      <div style={{ display: 'flex' }}>
-        <button onClick={handleBack} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
-          Volver a Estudio
-        </button>
-        <button onClick={handleShowModal} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
-          Nueva Tarea
-        </button>
-        {content.state === 'Activa' ? (
-          <button onClick={handleShowFinalizarModal} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
-            Finalizar Iteración
+    <div>
+      <div style={{ padding: 20, paddingBottom: 5, position: 'sticky', top: 0, zIndex: 1000, background: 'white' }}>
+        <div className="header-pages">
+          <header>
+            <h3>{content.software_name}: Iteración {content.iteration_number}</h3>
+            <p className='parrafo'>
+              Estado:&nbsp;<strong>{content.state}</strong>&nbsp;&nbsp;&nbsp;
+              Usuarios que completaron:&nbsp;<strong>{content.users_qty_complete}</strong>&nbsp;&nbsp;&nbsp;
+              Código iteración:&nbsp;
+              <span
+                onClick={handleCopyToClipboard}
+                className={`code-container ${isCopied ? 'copied' : ''}`}
+              >
+                &nbsp;<strong>{agregarCeros(iditeration)}</strong>
+                <ClipboardIcon className="copy-icon" />
+              </span>
+            </p>
+            <p>
+              Objetivo:&nbsp;<strong>{content.goal}</strong>&nbsp;&nbsp;&nbsp;
+            </p>
+          </header>
+        </div>
+        <div style={{ display: 'flex' , marginBottom: '2%', marginTop: '2%'}}>
+          <button onClick={handleBack} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
+            Volver a Estudio
           </button>
-        ) : (
-          <button onClick={handleShowActivateModal} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
-            Activar Iteración
+          <button onClick={handleShowModal} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
+            Nueva Tarea
           </button>
-        )}
-        <button onClick={handleShowEditModal} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
-          Editar Iteración
-        </button>
-        <Button variant="danger" onClick={handleShowDeleteModal}>
-          Eliminar Iteración
-        </Button>
-      </div>
-      <div style={{ margin: '2%' }}></div>
-      <Box sx={{ width: '100%' }}>
+          {content.state === 'Activa' ? (
+            <button onClick={handleShowFinalizarModal} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
+              Finalizar Iteración
+            </button>
+          ) : (
+            <button onClick={handleShowActivateModal} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
+              Activar Iteración
+            </button>
+          )}
+          <button onClick={handleShowEditModal} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
+            Editar Iteración
+          </button>
+          <Button variant="danger" onClick={handleShowDeleteModal}>
+            Eliminar Iteración
+          </Button>
+        </div>
+
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
             <Tab label="Dashboard General"
               {...a11yProps(0)} />
-              <Tab label="Dashboard Sentimientos"
+            <Tab label="Dashboard Sentimientos"
               {...a11yProps(1)} />
-            <Tab label="Tareas" 
-            {...a11yProps(2)} />
+            <Tab label="Tareas"
+              {...a11yProps(2)} />
           </Tabs>
         </Box>
-        <CustomTabPanel value={value} index={0}>
-          <DashboardGeneralIteration></DashboardGeneralIteration>
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}>
-          <DashboardSentimentIteration></DashboardSentimentIteration>
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={2}>
-          <TableTasks content={contentTable}></TableTasks>
-        </CustomTabPanel>
-      </Box>
+      </div>
+      <CustomTabPanel value={value} index={0}>
+        <DashboardGeneralIteration></DashboardGeneralIteration>
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={1}>
+        <DashboardSentimentIteration></DashboardSentimentIteration>
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={2}>
+        <TableTasks content={contentTable}></TableTasks>
+      </CustomTabPanel>
 
 
       <div style={{ margin: 50 }}></div>

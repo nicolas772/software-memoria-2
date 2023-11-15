@@ -115,34 +115,34 @@ const Study = () => {
   }
 
   return (
-    <div style={{ margin: '20px' }}>
-      <div className="header-pages">
-        <header>
-          <h3>{content.software_name}</h3>
-          <p>
-            Total Iteraciones: <strong>{contentTable.length}</strong>&nbsp;&nbsp;&nbsp;&nbsp;
-            Tipo de Software: <strong>{content.software_tipe}</strong>&nbsp;&nbsp;&nbsp;&nbsp;
-            Sitio Web: <a href={content.url} target="_blank"><strong>{content.software_name}</strong></a>
-          </p>
-        </header>
-      </div>
-      <div style={{ display: 'flex' }}>
-        <button onClick={handleBack} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
-          Volver a Estudios
-        </button>
-        <button onClick={handleShowModal} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
-          Nueva Iteración
-        </button>
-        <button onClick={handleShowEditModal} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
-          Editar Estudio
-        </button>
+    <div>
+      <div style={{ padding: 20, paddingBottom:5, position: 'sticky', top: 0, zIndex: 1000, background: 'white' }}>
+        <div className="header-pages">
+          <header>
+            <h3>{content.software_name}</h3>
+            <p>
+              Total Iteraciones: <strong>{contentTable.length}</strong>&nbsp;&nbsp;&nbsp;&nbsp;
+              Tipo de Software: <strong>{content.software_tipe}</strong>&nbsp;&nbsp;&nbsp;&nbsp;
+              Sitio Web: <a href={content.url} target="_blank"><strong>{content.software_name}</strong></a>
+            </p>
+          </header>
+        </div>
+        <div style={{ display: 'flex' , marginBottom: '2%', marginTop: '2%'}}>
+          <button onClick={handleBack} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
+            Volver a Estudios
+          </button>
+          <button onClick={handleShowModal} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
+            Nueva Iteración
+          </button>
+          <button onClick={handleShowEditModal} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
+            Editar Estudio
+          </button>
 
-        <Button variant="danger" onClick={handleShowDeleteModal}>
-          Eliminar Estudio
-        </Button>
-      </div>
-      <div style={{ margin: '2%' }}></div>
-      <Box sx={{ width: '100%' }}>
+          <Button variant="danger" onClick={handleShowDeleteModal}>
+            Eliminar Estudio
+          </Button>
+        </div>
+
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
             <Tab label="Dashboard General" />
@@ -150,16 +150,17 @@ const Study = () => {
             <Tab label="Iteraciones" />
           </Tabs>
         </Box>
-        <CustomTabPanel value={value} index={0}>
-          <DashboardGeneralStudy idStudy={idstudy}></DashboardGeneralStudy>
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}>
-          <DashboardSentimentStudy></DashboardSentimentStudy>
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={2}>
-          <TableIterations content={contentTable}></TableIterations>
-        </CustomTabPanel>
-      </Box>
+      </div>
+      <CustomTabPanel value={value} index={0}>
+        <DashboardGeneralStudy idStudy={idstudy}></DashboardGeneralStudy>
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={1}>
+        <DashboardSentimentStudy></DashboardSentimentStudy>
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={2}>
+        <TableIterations content={contentTable}></TableIterations>
+      </CustomTabPanel>
+
       <ModalFormIteration
         show={showModal}
         handleClose={handleCloseModal}

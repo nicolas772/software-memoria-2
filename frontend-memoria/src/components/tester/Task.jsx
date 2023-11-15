@@ -67,7 +67,7 @@ const Task = () => {
   };
 
   useEffect(() => {
-    setTitle("Tarea '"   + content.title + "', de Iteración " + content.iteration_number + " de " + content.software_name)
+    setTitle("Tarea '" + content.title + "', de Iteración " + content.iteration_number + " de " + content.software_name)
   }, [content])
 
   useEffect(() => {
@@ -94,30 +94,31 @@ const Task = () => {
   }
 
   return (
-    <div style={{ margin: '20px' }}>
-      <div className="header-pages">
-        <header>
-          <h3>{content.software_name}: Iteración {content.iteration_number}</h3>
-          <p>
-            Tarea:&nbsp;<strong>{content.title}</strong>&nbsp;&nbsp;&nbsp;
-            Dificultad:&nbsp;<strong>{content.dificulty}</strong>&nbsp;&nbsp;&nbsp;
-            Tiempo óptimo:&nbsp;<strong>{content.minutes_optimal} min {content.seconds_optimal} seg.</strong>&nbsp;&nbsp;&nbsp;
-          </p>
-        </header>
-      </div>
-      <div style={{ display: 'flex', marginBottom: '2%' }}>
-        <button onClick={handleBack} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
-          Volver a Iteración
-        </button>
-        <button onClick={handleShowModal} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
-          Editar Tarea
-        </button>
-        <Button variant="danger" onClick={handleShowDeleteModal}>
-          Eliminar Tarea
-        </Button>
-      </div>
+    <div>
+      <div style={{ padding: 20, paddingBottom: 5, position: 'sticky', top: 0, zIndex: 1000, background: 'white' }}>
+        <div className="header-pages">
+          <header>
+            <h3>{content.software_name}: Iteración {content.iteration_number}</h3>
+            <p>
+              Tarea:&nbsp;<strong>{content.title}</strong>&nbsp;&nbsp;&nbsp;
+              Dificultad:&nbsp;<strong>{content.dificulty}</strong>&nbsp;&nbsp;&nbsp;
+              Tiempo óptimo:&nbsp;<strong>{content.minutes_optimal} min {content.seconds_optimal} seg.</strong>&nbsp;&nbsp;&nbsp;
+            </p>
+          </header>
+        </div>
+        <div style={{ display: 'flex', marginBottom: '2%', marginTop: '2%' }}>
+          <button onClick={handleBack} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
+            Volver a Iteración
+          </button>
+          <button onClick={handleShowModal} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
+            Editar Tarea
+          </button>
+          <Button variant="danger" onClick={handleShowDeleteModal}>
+            Eliminar Tarea
+          </Button>
+        </div>
 
-      <Box sx={{ width: '100%' }}>
+
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
             <Tab label="Dashboard"
@@ -125,24 +126,25 @@ const Task = () => {
             <Tab label="Descripción" {...a11yProps(1)} />
           </Tabs>
         </Box>
-        <CustomTabPanel value={value} index={0}>
-          <DashboardGeneralTask></DashboardGeneralTask>
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}>
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-            <div className="box-task-tester">
-              {content.description.split('\n').map((line, index) => (
-                <p key={index}>{line}</p>
-              ))}
-            </div>
+      </div>
+      <CustomTabPanel value={value} index={0}>
+        <DashboardGeneralTask></DashboardGeneralTask>
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={1}>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+          <div className="box-task-tester">
+            {content.description.split('\n').map((line, index) => (
+              <p key={index}>{line}</p>
+            ))}
           </div>
+        </div>
 
-        </CustomTabPanel>
-      </Box>
+      </CustomTabPanel>
+
       <div style={{ margin: 50 }}></div>
       <ModalEditTask
         show={showModal}
