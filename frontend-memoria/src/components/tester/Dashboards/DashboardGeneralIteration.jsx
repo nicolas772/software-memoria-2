@@ -3,6 +3,7 @@ import { Grid, Col } from "@tremor/react";
 import MetricCardList from "../../charts/MetricCardList";
 import TableDashGeneralIteration from "../../tables/TableDashGeneralIteration";
 import DashboardIterationService from '../../../services/dashboardIteration.service'
+import PieChart from "../../charts/PieChart";
 
 export default function DashboardGeneralIteration(props) {
   const { idIteration } = props;
@@ -59,6 +60,9 @@ export default function DashboardGeneralIteration(props) {
       <Grid numItemsSm={2} numItemsLg={4} className="gap-4">
         <MetricCardList content={cardsContent.total_tareas} color="amber" />
         <MetricCardList content={cardsContent.total_usuarios} color="emerald" />
+        <Col numColSpan={2} numColSpanLg={2}>
+          <PieChart />
+        </Col>
         <Col numColSpan={2} numColSpanLg={2}>
           <TableDashGeneralIteration content = {tableTimeContent} />
         </Col>
