@@ -260,17 +260,19 @@ exports.tableTime = async (req, res) => {
        const minUserId = Object.keys(userTimes).reduce((a, b) => userTimes[a] < userTimes[b] ? a : b);
  
        // Convertir los tiempos a un formato "m minutos s segundos"
-       const maxTiempo = formatTime(userTimes[maxUserId]);
-       const minTiempo = formatTime(userTimes[minUserId]);
+       const maxTiempo = userTimes[maxUserId];
+       const minTiempo = userTimes[minUserId];
+       const roundedMaxTiempo = Math.round(maxTiempo / 1000) * 1000;
+       const roundedMinTiempo = Math.round(minTiempo / 1000) * 1000;
  
        // Calcular la diferencia de tiempo
-       const diferencia = formatTime(userTimes[maxUserId] - userTimes[minUserId]);
+       const diferencia = roundedMaxTiempo - roundedMinTiempo;
  
        responseData.push({
          name: `Iteración ${iterationNumber}`,
-         maxTiempo: maxTiempo,
-         minTiempo: minTiempo,
-         diferencia: diferencia,
+         minTime: roundedMinTiempo,
+         maxTime: roundedMaxTiempo,
+         diference: diferencia,
        });
      }
  
@@ -280,13 +282,5 @@ exports.tableTime = async (req, res) => {
      res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
    }
  };
- 
- // Función para convertir milisegundos a "m minutos s segundos"
- function formatTime(milliseconds) {
-   const totalSeconds = Math.floor(milliseconds / 1000);
-   const minutes = Math.floor(totalSeconds / 60);
-   const remainingSeconds = totalSeconds % 60;
-   return `${minutes}m ${remainingSeconds}s`;
- }
  
 
