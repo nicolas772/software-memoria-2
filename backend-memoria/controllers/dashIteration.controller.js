@@ -37,12 +37,11 @@ exports.cards = async (req, res) => {
       const avgMediumTask = await calculateAvgDuration(mediumTaskIds);
       const avgHardTask = await calculateAvgDuration(hardTaskIds);
 
-
       const avgTime = {
-         title: "Total Tareas",
+         title: "Tiempo Promedio de Iteración",
          metric: formatTime(avgTask),
-         columnName1: "Dificultad",
-         columnName2: "Tareas",
+         columnName1: "Dificultad Tarea",
+         columnName2: "Tiempo",
          data: [
             {
                name: "Fácil",
@@ -62,8 +61,40 @@ exports.cards = async (req, res) => {
          ]
       };
 
+      //CARD 2: Porcentaje Tareas Completadas
+
+      const completePrcTask = await calculateCompletePercentage(allTaskIds);
+      const completePrcEasyTask = await calculateCompletePercentage(easyTaskIds);
+      const completePrcMediumTask = await calculateCompletePercentage(mediumTaskIds);
+      const completePrcHardTask = await calculateCompletePercentage(hardTaskIds);
+
+      const completePercentage = {
+         title: "Porcentaje Tareas Completadas",
+         metric: completePrcTask,
+         columnName1: "Dificultad Tarea",
+         columnName2: "Porcentaje",
+         data: [
+            {
+               name: "Fácil",
+               stat: completePrcEasyTask,
+               icon: "facil",
+            },
+            {
+               name: "Medio",
+               stat: completePrcMediumTask,
+               icon: "medio",
+            },
+            {
+               name: "Dificil",
+               stat: completePrcHardTask,
+               icon: "dificil"
+            },
+         ]
+      };
+
       const responseData = {
          tiempo_promedio: avgTime,
+         tareas_completadas: completePercentage,
       }
 
       res.status(200).json(responseData);
@@ -212,6 +243,14 @@ function minutesSecondsToMilliseconds(minutes, seconds) {
    return totalSeconds * 1000; // Convertir segundos a milisegundos
 }
 
+// Función para convertir milisegundos a "m minutos s segundos"
+function formatTime(milliseconds) {
+   const totalSeconds = Math.floor(milliseconds / 1000);
+   const minutes = Math.floor(totalSeconds / 60);
+   const remainingSeconds = totalSeconds % 60;
+   return `${minutes}m ${remainingSeconds}s`;
+}
+
 // Función para calcular el tiempo promedio de duración
 async function calculateAvgDuration(taskIds) {
    if (taskIds.length === 0) {
@@ -237,10 +276,28 @@ async function calculateAvgDuration(taskIds) {
    return roundedAverageDuration
 }
 
-// Función para convertir milisegundos a "m minutos s segundos"
-function formatTime(milliseconds) {
-   const totalSeconds = Math.floor(milliseconds / 1000);
-   const minutes = Math.floor(totalSeconds / 60);
-   const remainingSeconds = totalSeconds % 60;
-   return `${minutes}m ${remainingSeconds}s`;
+// Función para calcular el procentaje completado de tareas
+async function calculateCompletePercentage(taskIds) {
+   if (taskIds.length === 0) {
+      return 0;
+   }
+
+   // Obtener las InfoTasks correspondientes a los ids de las tareas
+   const allInfoTasks = await InfoTask.findAll({
+      where: {
+         taskId: {
+            [Op.in]: taskIds,
+         },
+      },
+   });
+
+   if (allInfoTasks.length === 0) {
+      return 0;
+   }
+
+   const total_task_qty = allInfoTasks.length
+   const completed_task_qty = allInfoTasks.filter(task => task.complete === true).length;
+   const percentageTaskComplete = completed_task_qty/total_task_qty
+   const porcentaje = (percentageTaskComplete * 100).toFixed(1) + "%";
+   return (porcentaje)
 }

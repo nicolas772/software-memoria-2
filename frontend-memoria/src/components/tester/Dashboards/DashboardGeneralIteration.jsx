@@ -59,6 +59,7 @@ export default function DashboardGeneralIteration(props) {
     <div>
       <Grid numItemsSm={2} numItemsLg={4} className="gap-4">
         <MetricCardList content={cardsContent.tiempo_promedio} color="amber" />
+        <MetricCardList content={cardsContent.tareas_completadas} color="amber" />
         <Col numColSpan={2} numColSpanLg={2}>
           <PieChart />
         </Col>
