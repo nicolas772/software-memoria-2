@@ -129,7 +129,7 @@ const DashboardGeneralStudy = (props) => {
             stack={true} />
         </Col>
         <Col numColSpan={2} numColSpanLg={2}>
-          <TableDashGeneralStudy content = {tableTimeContent}/>
+          <TableDashGeneralStudy content = {tableTimeContent} title="Tabla Comparativa de Tiempo"/>
         </Col>
       </Grid>
     </div>

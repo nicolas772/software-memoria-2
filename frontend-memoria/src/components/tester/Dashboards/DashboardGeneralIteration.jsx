@@ -50,23 +50,22 @@ export default function DashboardGeneralIteration(props) {
     );
   }, []);
 
-  
+
 
   if (loading1 || loading2) {
     return <div>Cargando...</div>
   }
   return (
     <div>
-      <Grid numItemsSm={2} numItemsLg={4} className="gap-4">
+      <Grid numItemsSm={1} numItemsLg={3} className="gap-4">
         <MetricCardList content={cardsContent.tiempo_promedio} color="amber" />
-        <MetricCardList content={cardsContent.tareas_completadas} color="amber" />
-        <Col numColSpan={2} numColSpanLg={2}>
-          <PieChart />
-        </Col>
-        <Col numColSpan={2} numColSpanLg={2}>
-          <TableDashGeneralIteration content = {tableTimeContent} />
-        </Col>
+        <MetricCardList content={cardsContent.tareas_completadas} color="emerald" />
+        <PieChart title="Distribución Porcentual de Tareas" color="blue" />
       </Grid>
+      <Grid numItemsSm={1} numItemsLg={2} className="gap-4 mt-3">
+        <TableDashGeneralIteration title="Tabla Comparativa de Tiempo" content={tableTimeContent} />
+      </Grid>
+
     </div>
   );
 }

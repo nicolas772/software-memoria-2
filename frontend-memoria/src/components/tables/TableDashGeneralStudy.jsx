@@ -7,6 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TableSortLabel from '@mui/material/TableSortLabel';
+import { Title } from "@tremor/react";
 
 // Función para formatear el tiempo en milisegundos a "x min y seg"
 const formatTime = (milliseconds) => {
@@ -29,7 +30,7 @@ const getRowColor = (value, maxDiference, minNegativeDiference) => {
 };
 
 export default function TableDashGeneralStudy(props) {
-   const {content} = props
+   const {content, title} = props
    const [orderBy, setOrderBy] = useState('name');
    const [order, setOrder] = useState('asc');
 
@@ -55,6 +56,7 @@ export default function TableDashGeneralStudy(props) {
 
    return (
       <TableContainer component={Paper} style={{ maxHeight: 396, overflowY: 'auto' }}>
+         <Title className='m-2'>{title}</Title>
          <Table stickyHeader sx={{ minWidth: 500, minHeight: 200 }} aria-label="sortable table">
             <TableHead>
                <TableRow>
