@@ -151,6 +151,38 @@ exports.tableTime = async (req, res) => {
    }
 };
 
+exports.pieChart = async (req, res) => {
+   const idIteration = req.query.idIteration;
+   try {
+      const allTasks = await Task.findAll({
+         where: {
+            iterationId: idIteration,
+         }
+      })
+
+      if (!allTasks) {
+         return res.status(404).json({ error: "Iteración No Encontrada." });
+      }
+      const easyTask = allTasks.filter(task => task.dificulty === "Fácil").length;
+      const mediumTask = allTasks.filter(task => task.dificulty === "Medio").length;
+      const hardTask = allTasks.filter(task => task.dificulty === "Difícil").length;
+
+      const series = [easyTask, mediumTask, hardTask]
+      const labels = ['Fácil', 'Medio', 'Difícil']
+      const colors = ['#28a745', '#ffc108', '#dc3545']
+      
+      const responseData = {
+         series: series,
+         labels: labels,
+         colors: colors
+      }
+      res.status(200).json(responseData);
+   } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
+   }
+};
+
 /*
 exports.cards = async (req, res) => {
    const idIteration = req.query.idIteration;

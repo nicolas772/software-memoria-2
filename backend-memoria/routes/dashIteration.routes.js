@@ -19,4 +19,9 @@ module.exports = function (app) {
     [authJwt.verifyToken, authJwt.isTester],
     dashIteration_controller.tableTime
   );
+  app.get(
+    "/api/dashboard/iteration/general/pie-chart",
+    [authJwt.verifyToken, authJwt.isTester],
+    dashIteration_controller.pieChart
+  );
 };

@@ -9,24 +9,18 @@ const getCardsContentGeneral = (idIteration) => {
     return axios.get(API_URL + "iteration/general/cards", { headers: authHeader(), params: { idIteration: idIteration }  });
 };
 
-/*const getBarListContentGeneral = (idStudy) => {
-    return axios.get(API_URL + "study/general/bar-list", { headers: authHeader(), params: { idStudy: idStudy }  });
-
-}
-
-const getBarChartContentGeneral = (idStudy) => {
-    return axios.get(API_URL + "study/general/bar-chart", { headers: authHeader(), params: { idStudy: idStudy }  });
-}*/
-
 const getTableTimeContentGeneral = (idIteration) => {
     return axios.get(API_URL + "iteration/general/table-time", { headers: authHeader(), params: { idIteration: idIteration }  });
 }
 
+const getPieChartContentGeneral = (idIteration) => {
+    return axios.get(API_URL + "iteration/general/pie-chart", { headers: authHeader(), params: { idIteration: idIteration }  });
+}
+
 const DashboardStudyService = {
     getCardsContentGeneral,
-    /*getBarListContentGeneral,
-    getBarChartContentGeneral,*/
-    getTableTimeContentGeneral
+    getTableTimeContentGeneral,
+    getPieChartContentGeneral,
 };
 
 export default DashboardStudyService;
