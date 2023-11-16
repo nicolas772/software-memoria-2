@@ -3,7 +3,124 @@ const User = db.user;
 const Iteration = db.iteration;
 const Task = db.task;
 const InfoTask = db.infotask
+const { Op } = require('sequelize'); // Necesitas importar Op desde sequelize
 
+exports.cards = async (req, res) => {
+   const idIteration = req.query.idIteration;
+   try {
+      const iteration = await Iteration.findOne({
+         where: {
+            id: idIteration
+         }
+      })
+
+      const allTasks = await Task.findAll({
+         where: {
+            iterationId: idIteration,
+         }
+      })
+
+      if (!allTasks || !iteration) {
+         return res.status(404).json({ error: "Iteración No Encontrada." });
+      }
+      //CARD 1: Tiempo Promedio
+      const allTaskIds = allTasks.map(task => task.id);
+      const easyTask = allTasks.filter(task => task.dificulty === "Fácil");
+      const easyTaskIds = easyTask.map(task => task.id);
+      const mediumTask = allTasks.filter(task => task.dificulty === "Medio");
+      const mediumTaskIds = mediumTask.map(task => task.id);
+      const hardTask = allTasks.filter(task => task.dificulty === "Difícil");
+      const hardTaskIds = hardTask.map(task => task.id);
+
+      const avgTask = await calculateAvgDuration(allTaskIds);
+      const avgEasyTask = await calculateAvgDuration(easyTaskIds);
+      const avgMediumTask = await calculateAvgDuration(mediumTaskIds);
+      const avgHardTask = await calculateAvgDuration(hardTaskIds);
+
+
+      const avgTime = {
+         title: "Total Tareas",
+         metric: formatTime(avgTask),
+         columnName1: "Dificultad",
+         columnName2: "Tareas",
+         data: [
+            {
+               name: "Fácil",
+               stat: formatTime(avgEasyTask),
+               icon: "facil",
+            },
+            {
+               name: "Medio",
+               stat: formatTime(avgMediumTask),
+               icon: "medio",
+            },
+            {
+               name: "Dificil",
+               stat: formatTime(avgHardTask),
+               icon: "dificil"
+            },
+         ]
+      };
+
+      const responseData = {
+         tiempo_promedio: avgTime,
+      }
+
+      res.status(200).json(responseData);
+   } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
+   }
+};
+
+exports.tableTime = async (req, res) => {
+   const idIteration = req.query.idIteration;
+   try {
+      const allTasks = await Task.findAll({
+         where: {
+            iterationId: idIteration,
+         }
+      })
+
+      if (!allTasks) {
+         return res.status(404).json({ error: "Iteración No Encontrada." });
+      }
+
+      const responseData = []
+
+      for (const task of allTasks) {
+         const idTask = task.id
+         const name = task.title
+         const minutesOptimal = task.minutes_optimal
+         const secondsOptimal = task.seconds_optimal
+         const tasks = await InfoTask.findAll({
+            where: {
+               taskId: idTask,
+            },
+         });
+         if (tasks.length > 0) {
+            const taskQty = tasks.length
+            const averageDuration = tasks.reduce((total, task) => total + task.duration, 0) / taskQty;
+            const roundedAverageDuration = Math.round(averageDuration / 1000) * 1000;
+            const optTime = minutesSecondsToMilliseconds(minutesOptimal, secondsOptimal);
+            const diference = roundedAverageDuration - optTime
+            responseData.push({
+               name: name,
+               avgTime: roundedAverageDuration,
+               optTime: optTime,
+               diference: diference,
+            })
+         }
+      }
+
+      res.status(200).json(responseData);
+   } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
+   }
+};
+
+/*
 exports.cards = async (req, res) => {
    const idIteration = req.query.idIteration;
    try {
@@ -88,55 +205,42 @@ exports.cards = async (req, res) => {
       res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
    }
 };
-
-exports.tableTime = async (req, res) => {
-   const idIteration = req.query.idIteration;
-   try {
-      const allTasks = await Task.findAll({
-         where: {
-            iterationId: idIteration,
-         }
-      })
-
-      if (!allTasks) {
-         return res.status(404).json({ error: "Iteración No Encontrada." });
-      }
-
-      const responseData = []
-
-      for (const task of allTasks) {
-         const idTask = task.id
-         const name = task.title
-         const minutesOptimal = task.minutes_optimal
-         const secondsOptimal = task.seconds_optimal
-         const tasks = await InfoTask.findAll({
-            where: {
-               taskId: idTask,
-            },
-         });
-         if (tasks.length > 0) {
-            const taskQty = tasks.length
-            const averageDuration = tasks.reduce((total, task) => total + task.duration, 0) / taskQty;
-            const roundedAverageDuration = Math.round(averageDuration / 1000) * 1000;
-            const optTime = minutesSecondsToMilliseconds(minutesOptimal, secondsOptimal);
-            const diference = roundedAverageDuration - optTime
-            responseData.push({
-               name: name,
-               avgTime: roundedAverageDuration,
-               optTime: optTime,
-               diference: diference,
-            })
-         }
-      }
-
-      res.status(200).json(responseData);
-   } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
-   }
-};
+*/
 
 function minutesSecondsToMilliseconds(minutes, seconds) {
    const totalSeconds = minutes * 60 + seconds;
    return totalSeconds * 1000; // Convertir segundos a milisegundos
+}
+
+// Función para calcular el tiempo promedio de duración
+async function calculateAvgDuration(taskIds) {
+   if (taskIds.length === 0) {
+      return 0;
+   }
+
+   // Obtener las InfoTasks correspondientes a los ids de las tareas
+   const allInfoTasks = await InfoTask.findAll({
+      where: {
+         taskId: {
+            [Op.in]: taskIds,
+         },
+      },
+   });
+
+   if (allInfoTasks.length === 0) {
+      return 0;
+   }
+
+   const totalDuration = allInfoTasks.reduce((total, task) => total + task.duration, 0);
+   const avgDuration = totalDuration / allInfoTasks.length;
+   const roundedAverageDuration = Math.round(avgDuration / 1000) * 1000;
+   return roundedAverageDuration
+}
+
+// Función para convertir milisegundos a "m minutos s segundos"
+function formatTime(milliseconds) {
+   const totalSeconds = Math.floor(milliseconds / 1000);
+   const minutes = Math.floor(totalSeconds / 60);
+   const remainingSeconds = totalSeconds % 60;
+   return `${minutes}m ${remainingSeconds}s`;
 }
