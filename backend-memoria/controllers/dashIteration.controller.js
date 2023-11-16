@@ -141,6 +141,13 @@ exports.tableTime = async (req, res) => {
                optTime: optTime,
                diference: diference,
             })
+         } else {
+            responseData.push({
+               name: name,
+               avgTime: 0,
+               optTime: 0,
+               diference: 0,
+            })
          }
       }
 
@@ -170,12 +177,59 @@ exports.pieChart = async (req, res) => {
       const series = [easyTask, mediumTask, hardTask]
       const labels = ['Fácil', 'Medio', 'Difícil']
       const colors = ['#28a745', '#ffc108', '#dc3545']
-      
+
       const responseData = {
          series: series,
          labels: labels,
          colors: colors
       }
+      res.status(200).json(responseData);
+   } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
+   }
+};
+
+exports.barChart = async (req, res) => {
+   const idIteration = req.query.idIteration;
+   try {
+      const allTasks = await Task.findAll({
+         where: {
+            iterationId: idIteration,
+         }
+      })
+
+      if (!allTasks) {
+         return res.status(404).json({ error: "Iteración No Encontrada." });
+      }
+
+      const chartData = []
+      for (const task of allTasks) {
+         const idTask = task.id
+         const name = task.title
+         const allInfoTasks = await InfoTask.findAll({
+            where: {
+               taskId: idTask,
+            },
+         });
+         const info_task_qty = allInfoTasks.length
+         const completedTask = allInfoTasks.filter(task => task.complete === true).length;
+         const incompletedTask = info_task_qty - completedTask
+         chartData.push({
+            name: name,
+            "Usuarios que Completaron": completedTask,
+            "Usuarios que No Completaron": incompletedTask
+         })
+      }
+
+      const colors = ["emerald", "rose"];
+      const categories = ["Usuarios que Completaron", "Usuarios que No Completaron"];
+
+      const responseData = {
+         chartData: chartData,
+         colors: colors,
+         categories: categories,
+      };
       res.status(200).json(responseData);
    } catch (error) {
       console.error(error);
@@ -329,7 +383,7 @@ async function calculateCompletePercentage(taskIds) {
 
    const total_task_qty = allInfoTasks.length
    const completed_task_qty = allInfoTasks.filter(task => task.complete === true).length;
-   const percentageTaskComplete = completed_task_qty/total_task_qty
+   const percentageTaskComplete = completed_task_qty / total_task_qty
    const porcentaje = (percentageTaskComplete * 100).toFixed(1) + "%";
    return (porcentaje)
 }

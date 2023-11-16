@@ -56,7 +56,7 @@ export default function TableDashGeneralIteration(props) {
 
    return (
       <TableContainer component={Paper} style={{ maxHeight: 396, overflowY: 'auto' }}>
-         <Title className='m-2'>{title}</Title>
+         <Title className='m-4'>{title}</Title>
          <Table stickyHeader sx={{ minWidth: 500, minHeight: 200 }} aria-label="sortable table">
             <TableHead>
                <TableRow>

@@ -203,7 +203,6 @@ const Iteration = () => {
             <h3>{content.software_name}: Iteración {content.iteration_number}</h3>
             <p className='parrafo'>
               Estado:&nbsp;<strong>{content.state}</strong>&nbsp;&nbsp;&nbsp;
-              Usuarios que completaron:&nbsp;<strong>{content.users_qty_complete}</strong>&nbsp;&nbsp;&nbsp;
               Código iteración:&nbsp;
               <span
                 onClick={handleCopyToClipboard}

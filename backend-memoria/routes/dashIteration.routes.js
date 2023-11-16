@@ -24,4 +24,9 @@ module.exports = function (app) {
     [authJwt.verifyToken, authJwt.isTester],
     dashIteration_controller.pieChart
   );
+  app.get(
+    "/api/dashboard/iteration/general/bar-chart",
+    [authJwt.verifyToken, authJwt.isTester],
+    dashIteration_controller.barChart
+  );
 };

@@ -17,10 +17,15 @@ const getPieChartContentGeneral = (idIteration) => {
     return axios.get(API_URL + "iteration/general/pie-chart", { headers: authHeader(), params: { idIteration: idIteration }  });
 }
 
+const getBarChartContentGeneral = (idIteration) => {
+    return axios.get(API_URL + "iteration/general/bar-chart", { headers: authHeader(), params: { idIteration: idIteration }  });
+}
+
 const DashboardStudyService = {
     getCardsContentGeneral,
     getTableTimeContentGeneral,
     getPieChartContentGeneral,
+    getBarChartContentGeneral,
 };
 
 export default DashboardStudyService;
