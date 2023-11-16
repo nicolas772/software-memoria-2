@@ -102,7 +102,7 @@ export default function TableDashGeneralIteration(props) {
                      key={row.name}
                   //sx={{ '&:last-child td, &:last-child th': { border: 0 }, backgroundColor: getRowColor(row.diference, maxDiference, minNegativeDiference) }}
                   >
-                     <TableCell component="th" scope="row">
+                     <TableCell component="th" scope="row" style={{ width: '30%' }}>
                         {row.name}
                      </TableCell>
                      <TableCell align="center">{formatTime(row.avgTime)}</TableCell>
