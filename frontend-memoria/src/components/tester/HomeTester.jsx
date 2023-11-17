@@ -78,22 +78,22 @@ const HomeTester = () => {
           <MetricCard
             metric={cardsContent.iteraciones_activas}
             title="Iteraciones Activas"
-            color="indigo"
+            color="blue"
           ></MetricCard>
           <MetricCard
             metric={cardsContent.usuarios_participantes}
             title="Usuarios Totales"
-            color="fuchsia"
+            color="gray"
           ></MetricCard>
           <MetricCard
             metric={cardsContent.porc_iteraciones_completadas}
             title="% Iteraciones Completadas"
-            color="amber"
+            color="emerald"
           ></MetricCard>
           <MetricCard
             metric={cardsContent.porc_estudios_completados}
             title="% Estudios Completados"
-            color="emerald"
+            color="amber"
           ></MetricCard>
         </Grid>
       </div>

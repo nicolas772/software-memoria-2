@@ -128,7 +128,7 @@ const Task = () => {
         </Box>
       </div>
       <CustomTabPanel value={value} index={0}>
-        <DashboardGeneralTask></DashboardGeneralTask>
+        <DashboardGeneralTask idTask={idtask}></DashboardGeneralTask>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         <div style={{
