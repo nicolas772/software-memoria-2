@@ -4,6 +4,7 @@ const Iteration = db.iteration;
 const Task = db.task;
 const InfoTask = db.infotask
 const { Op } = require('sequelize'); // Necesitas importar Op desde sequelize
+const moment = require('moment');
 
 exports.cards = async (req, res) => {
    const idTask = req.query.idTask;
@@ -62,9 +63,6 @@ exports.cards = async (req, res) => {
             diferencia: formatTime(0)
          };
       }
-
-
-
       res.status(200).json(responseData);
    } catch (error) {
       console.error(error);
@@ -75,31 +73,48 @@ exports.cards = async (req, res) => {
 exports.barChart = async (req, res) => {
    const idTask = req.query.idTask;
    try {
+      const task = await Task.findOne({
+         where: {
+            id: idTask
+         }
+      })
+      const allInfoTasks = await InfoTask.findAll({
+         where: {
+            taskId: idTask,
+         }
+      })
+
+      if (!allInfoTasks || !task) {
+         return res.status(404).json({ error: "Tarea No Encontrada." });
+      }
+
+      //BAR CHART % exito por rango etario y sexo
+      const allUserIds = allInfoTasks.map(task => task.userId);
+      const completedTask = allInfoTasks.filter(task => task.complete === true);
+      const completedTaskUserIds = completedTask.map(task => task.userId);
+      const maleUserIds = await getUserIdsBySex(allUserIds, "Masculino")
+      const femaleUserIds = await getUserIdsBySex(allUserIds, "Femenino")
+      const noInformedUserIds = await getUserIdsBySex(allUserIds, "No Informado")
+      const maleUserIdsCompleted = await getUserIdsBySex(completedTaskUserIds, "Masculino")
+      const femaleUserIdsCompleted = await getUserIdsBySex(completedTaskUserIds, "Femenino")
+      const noInformedUserIdsCompleted = await getUserIdsBySex(completedTaskUserIds, "No Informado")
+
+      const successMale = getSuccessPercentage(maleUserIdsCompleted, maleUserIds, "Hombre")
+      const successFemale = getSuccessPercentage(femaleUserIdsCompleted, femaleUserIds, "Mujer")
+      const successNoInformed = getSuccessPercentage(noInformedUserIdsCompleted, noInformedUserIds, "No Informado")
+
+      /*console.log("AQUI!!!")
+      console.log(successMale)
+      console.log(successfeMale)
+      console.log(successNoInformed)*/
+
       const rango1 = "Niños";
       const rango2 = "Adolescentes";
-      const rango3 = "Joven";
-      const rango4 = "Adulto";
-      const rango5 = "Adulto Mayor";
-      const chartData1 = [
-         {
-            name: "Hombre",
-            [rango1]: 0.1,
-            [rango3]: 0.2,
-            [rango4]: 0.3,
-            [rango5]: 0.1,
-         },
-         {
-            name: "Mujer",
-            [rango1]: 0.6,
-            [rango2]: 0.7,
-            [rango3]: 0.8,
-         },
-         {
-            name: "No Informado",
-            [rango1]: 0.6,
-            [rango2]: 0.7,
-         },
-      ];
+      const rango3 = "Jovenes";
+      const rango4 = "Adultos";
+      const rango5 = "Adulto Mayores";
+      
+      const chartData1 = [successMale, successFemale, successNoInformed];
 
       const chartData2 = [
          {
@@ -149,4 +164,89 @@ function formatTime(milliseconds) {
 function minutesSecondsToMilliseconds(minutes, seconds) {
    const totalSeconds = minutes * 60 + seconds;
    return totalSeconds * 1000; // Convertir segundos a milisegundos
+}
+
+async function getUserIdsBySex(allUserIds, sex) {
+   try {
+      const users = await User.findAll({
+         attributes: ['id', 'birthday', 'sex'],
+         where: {
+            id: allUserIds,
+            sex: sex, // Considera el sexo solo si no es "ni"
+         },
+      });
+
+      const result = {
+         "nino": [],
+         "adolescente": [],
+         "joven": [],
+         "adulto": [],
+         'adulto mayor': [],
+      };
+
+      const currentDate = moment();
+
+      users.forEach((user) => {
+         const age = currentDate.diff(moment(user.birthday), 'years');
+
+         if (age <= 13) {
+            result['nino'].push(user.id);
+         } else if (age <= 18) {
+            result['adolescente'].push(user.id);
+         } else if (age <= 35) {
+            result['joven'].push(user.id);
+         } else if (age <= 60) {
+            result['adulto'].push(user.id);
+         } else {
+            result['adulto mayor'].push(user.id);
+         }
+      });
+
+      return result;
+   } catch (error) {
+      console.error(error);
+      throw new Error('Error al obtener usuarios por sexo y rango etario');
+   }
+}
+
+function getSuccessPercentage(userIdsCompleted, userIdsTotal, sex) {
+   try {
+      const result = {};
+      result.name = sex
+      if (userIdsTotal.nino.length > 0) {
+         result['Niños'] = calculatePercentage(userIdsCompleted.nino, userIdsTotal.nino);
+      }
+
+      if (userIdsTotal.adolescente.length > 0) {
+         result['Adolescentes'] = calculatePercentage(userIdsCompleted.adolescente, userIdsTotal.adolescente);
+      }
+
+      if (userIdsTotal.joven.length > 0) {
+         result['Jovenes'] = calculatePercentage(userIdsCompleted.joven, userIdsTotal.joven);
+      }
+
+      if (userIdsTotal.adulto.length > 0) {
+         result['Adultos'] = calculatePercentage(userIdsCompleted.adulto, userIdsTotal.adulto);
+      }
+
+      if (userIdsTotal['adulto mayor'].length > 0) {
+         result['Adulto mayores'] = calculatePercentage(userIdsCompleted['adulto mayor'], userIdsTotal['adulto mayor']);
+      }
+
+      return result;
+   } catch (error) {
+      console.error(error);
+      throw new Error('Error al calcular la tasa de éxito por rango etario');
+   }
+}
+
+
+function calculatePercentage(completedIds, totalIds) {
+   if (totalIds.length === 0) {
+      // Si el largo del array del rango etario del segundo parámetro es 0, no considerar el rango etario
+      return null;
+   }
+
+   const successPercentage = (completedIds.length / totalIds.length);
+   return successPercentage;
 }
