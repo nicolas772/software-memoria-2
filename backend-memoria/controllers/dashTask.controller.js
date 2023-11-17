@@ -98,12 +98,12 @@ exports.barChart = async (req, res) => {
       const allUserIds = allInfoTasks.map(task => task.userId);
       const completedTask = allInfoTasks.filter(task => task.complete === true);
       const completedTaskUserIds = completedTask.map(task => task.userId);
-      const maleUserIds = await getUserIdsBySex(allUserIds, "Masculino")
-      const femaleUserIds = await getUserIdsBySex(allUserIds, "Femenino")
-      const noInformedUserIds = await getUserIdsBySex(allUserIds, "No Informado")
-      const maleUserIdsCompleted = await getUserIdsBySex(completedTaskUserIds, "Masculino")
-      const femaleUserIdsCompleted = await getUserIdsBySex(completedTaskUserIds, "Femenino")
-      const noInformedUserIdsCompleted = await getUserIdsBySex(completedTaskUserIds, "No Informado")
+      const maleUserIds = await getUserIdsBySexAndRange(allUserIds, "Masculino")
+      const femaleUserIds = await getUserIdsBySexAndRange(allUserIds, "Femenino")
+      const noInformedUserIds = await getUserIdsBySexAndRange(allUserIds, "No Informado")
+      const maleUserIdsCompleted = await getUserIdsBySexAndRange(completedTaskUserIds, "Masculino")
+      const femaleUserIdsCompleted = await getUserIdsBySexAndRange(completedTaskUserIds, "Femenino")
+      const noInformedUserIdsCompleted = await getUserIdsBySexAndRange(completedTaskUserIds, "No Informado")
 
       const successMale = getSuccessPercentage(maleUserIdsCompleted, maleUserIds, "Hombre")
       const successFemale = getSuccessPercentage(femaleUserIdsCompleted, femaleUserIds, "Mujer")
@@ -114,30 +114,33 @@ exports.barChart = async (req, res) => {
       console.log(successfeMale)
       console.log(successNoInformed)*/
 
-
-
       const chartData1 = [successMale, successFemale, successNoInformed];
 
-      const chartData2 = [
-         {
-            name: "Hombre",
-            [rango1]: 6000,
-            [rango3]: 700000,
-            [rango4]: 23000,
-            [rango5]: 430000,
-         },
-         {
-            name: "Mujer",
-            [rango3]: 700000,
-            [rango4]: 23000,
-            [rango5]: 430000,
-         },
-         {
-            name: "No Informado",
-            [rango1]: 6000,
-            [rango3]: 700000,
-         },
-      ];
+      //BAR CHART Tiempo promedio por rango etario y sexo
+
+      const allUserTimes = allInfoTasks.map(task => ({
+         userId: task.userId,
+         time: task.duration
+      }));
+      const maleIds = await getIdsBySex(allUserIds, "Masculino")
+      const femaleIds = await getIdsBySex(allUserIds, "Femenino")
+      const noInformedIds = await getIdsBySex(allUserIds, "No Informado")
+
+      const maleUserTimes = allUserTimes.filter(userTime => maleIds.includes(userTime.userId));
+      const femaleUserTimes = allUserTimes.filter(userTime => femaleIds.includes(userTime.userId));
+      const noInformedUserTimes = allUserTimes.filter(userTime => noInformedIds.includes(userTime.userId));
+
+      const avgTimeMale = await getAvgTimeByRange(maleUserTimes, "Hombre")
+      const avgTimeFemale = await getAvgTimeByRange(femaleUserTimes, "Mujer")
+      const avgTimeNoInformed = await getAvgTimeByRange(noInformedUserTimes, "No Informado")
+
+
+      console.log("AQUI!!!")
+      console.log(avgTimeMale)
+      console.log(avgTimeFemale)
+      console.log(avgTimeNoInformed)
+
+      const chartData2 = [avgTimeMale, avgTimeFemale, avgTimeNoInformed];
 
       const colors = ["emerald", "rose", "blue", "indigo", "yellow"];
       const categories = [rango1, rango2, rango3, rango4, rango5];
@@ -168,7 +171,7 @@ function minutesSecondsToMilliseconds(minutes, seconds) {
    return totalSeconds * 1000; // Convertir segundos a milisegundos
 }
 
-async function getUserIdsBySex(allUserIds, sex) {
+async function getUserIdsBySexAndRange(allUserIds, sex) {
    try {
       const users = await User.findAll({
          attributes: ['id', 'birthday', 'sex'],
@@ -211,6 +214,22 @@ async function getUserIdsBySex(allUserIds, sex) {
    }
 }
 
+async function getIdsBySex(allUserIds, sex) {
+   try {
+      const users = await User.findAll({
+         where: {
+            id: allUserIds,
+            sex: sex, // Considera el sexo solo si no es "ni"
+         },
+      });
+      const userIds = users.map(user => user.id);
+      return userIds;
+   } catch (error) {
+      console.error(error);
+      throw new Error('Error al obtener usuarios por sexo y rango etario');
+   }
+}
+
 function getSuccessPercentage(userIdsCompleted, userIdsTotal, sex) {
    try {
       const result = {};
@@ -242,7 +261,6 @@ function getSuccessPercentage(userIdsCompleted, userIdsTotal, sex) {
    }
 }
 
-
 function calculatePercentage(completedIds, totalIds) {
    if (totalIds.length === 0) {
       // Si el largo del array del rango etario del segundo parámetro es 0, no considerar el rango etario
@@ -251,4 +269,74 @@ function calculatePercentage(completedIds, totalIds) {
 
    const successPercentage = (completedIds.length / totalIds.length);
    return successPercentage;
+}
+
+async function getAvgTimeByRange(UserTimes, sex) {
+   try {
+      const users = await User.findAll({
+         attributes: ['id', 'birthday'],
+         where: {
+            id: UserTimes.map(userTime => userTime.userId),
+         },
+      });
+
+      const currentDate = moment();
+
+      const result = {
+         [rango1]: [],
+         [rango2]: [],
+         [rango3]: [],
+         [rango4]: [],
+         [rango5]: [],
+      };
+
+      UserTimes.forEach(userTime => {
+         const user = users.find(u => u.id === userTime.userId);
+         if (user) {
+            const age = currentDate.diff(moment(user.birthday), 'years');
+            if (age <= 13) {
+               result[rango1].push(userTime.time);
+            } else if (age <= 18) {
+               result[rango2].push(userTime.time);
+            } else if (age <= 35) {
+               result[rango3].push(userTime.time);
+            } else if (age <= 60) {
+               result[rango4].push(userTime.time);
+            } else {
+               result[rango5].push(userTime.time);
+            }
+         }
+      });
+      const roundToNearestThousand = value => Math.round(value / 1000) * 1000;
+
+      const calculateAverage = arr => (
+         arr.length > 0
+            ? roundToNearestThousand(arr.reduce((sum, value) => sum + parseFloat(value), 0) / arr.length)
+            : 0
+      );
+      
+      const avgTime = {}
+      avgTime.name = sex
+      
+      if(result[rango1].length > 0){
+         avgTime[rango1] = calculateAverage(result[rango1])
+      }
+      if(result[rango2].length > 0){
+         avgTime[rango2] = calculateAverage(result[rango2])
+      }
+      if(result[rango3].length > 0){
+         avgTime[rango3] = calculateAverage(result[rango3])
+      }
+      if(result[rango4].length > 0){
+         avgTime[rango4] = calculateAverage(result[rango4])
+      }
+      if(result[rango5].length > 0){
+         avgTime[rango5] = calculateAverage(result[rango5])
+      }
+
+      return avgTime;
+   } catch (error) {
+      console.error(error);
+      throw new Error('Error al obtener el tiempo promedio por rango etario');
+   }
 }
