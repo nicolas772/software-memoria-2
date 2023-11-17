@@ -6,6 +6,12 @@ const InfoTask = db.infotask
 const { Op } = require('sequelize'); // Necesitas importar Op desde sequelize
 const moment = require('moment');
 
+const rango1 = "Niños";
+const rango2 = "Adolescentes";
+const rango3 = "Jovenes";
+const rango4 = "Adultos";
+const rango5 = "Adulto Mayores";
+
 exports.cards = async (req, res) => {
    const idTask = req.query.idTask;
    try {
@@ -108,12 +114,8 @@ exports.barChart = async (req, res) => {
       console.log(successfeMale)
       console.log(successNoInformed)*/
 
-      const rango1 = "Niños";
-      const rango2 = "Adolescentes";
-      const rango3 = "Jovenes";
-      const rango4 = "Adultos";
-      const rango5 = "Adulto Mayores";
-      
+
+
       const chartData1 = [successMale, successFemale, successNoInformed];
 
       const chartData2 = [
@@ -177,11 +179,11 @@ async function getUserIdsBySex(allUserIds, sex) {
       });
 
       const result = {
-         "nino": [],
-         "adolescente": [],
-         "joven": [],
-         "adulto": [],
-         'adulto mayor': [],
+         [rango1]: [],
+         [rango2]: [],
+         [rango3]: [],
+         [rango4]: [],
+         [rango5]: [],
       };
 
       const currentDate = moment();
@@ -190,15 +192,15 @@ async function getUserIdsBySex(allUserIds, sex) {
          const age = currentDate.diff(moment(user.birthday), 'years');
 
          if (age <= 13) {
-            result['nino'].push(user.id);
+            result[rango1].push(user.id);
          } else if (age <= 18) {
-            result['adolescente'].push(user.id);
+            result[rango2].push(user.id);
          } else if (age <= 35) {
-            result['joven'].push(user.id);
+            result[rango3].push(user.id);
          } else if (age <= 60) {
-            result['adulto'].push(user.id);
+            result[rango4].push(user.id);
          } else {
-            result['adulto mayor'].push(user.id);
+            result[rango5].push(user.id);
          }
       });
 
@@ -213,24 +215,24 @@ function getSuccessPercentage(userIdsCompleted, userIdsTotal, sex) {
    try {
       const result = {};
       result.name = sex
-      if (userIdsTotal.nino.length > 0) {
-         result['Niños'] = calculatePercentage(userIdsCompleted.nino, userIdsTotal.nino);
+      if (userIdsTotal[rango1].length > 0) {
+         result[rango1] = calculatePercentage(userIdsCompleted[rango1], userIdsTotal[rango1]);
       }
 
-      if (userIdsTotal.adolescente.length > 0) {
-         result['Adolescentes'] = calculatePercentage(userIdsCompleted.adolescente, userIdsTotal.adolescente);
+      if (userIdsTotal[rango2].length > 0) {
+         result[rango2] = calculatePercentage(userIdsCompleted[rango2], userIdsTotal[rango2]);
       }
 
-      if (userIdsTotal.joven.length > 0) {
-         result['Jovenes'] = calculatePercentage(userIdsCompleted.joven, userIdsTotal.joven);
+      if (userIdsTotal[rango3].length > 0) {
+         result[rango3] = calculatePercentage(userIdsCompleted[rango3], userIdsTotal[rango3]);
       }
 
-      if (userIdsTotal.adulto.length > 0) {
-         result['Adultos'] = calculatePercentage(userIdsCompleted.adulto, userIdsTotal.adulto);
+      if (userIdsTotal[rango4].length > 0) {
+         result[rango4] = calculatePercentage(userIdsCompleted[rango4], userIdsTotal[rango4]);
       }
 
-      if (userIdsTotal['adulto mayor'].length > 0) {
-         result['Adulto mayores'] = calculatePercentage(userIdsCompleted['adulto mayor'], userIdsTotal['adulto mayor']);
+      if (userIdsTotal[rango5].length > 0) {
+         result[rango5] = calculatePercentage(userIdsCompleted[rango5], userIdsTotal[rango5]);
       }
 
       return result;
