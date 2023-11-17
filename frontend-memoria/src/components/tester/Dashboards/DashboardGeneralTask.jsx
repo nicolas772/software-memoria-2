@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import MetricCard from "../../charts/MetricCard";
 import { Grid, Col } from "@tremor/react";
 import BarChartGraphic from "../../charts/BarChartGraphic";
+import DashboardTaskService from "../../../services/dashboardTask.service";
 
 const valueFormatter = (number) => {
   const percentage = new Intl.NumberFormat("us", { style: 'percent', minimumFractionDigits: 1 }).format(number);
@@ -18,101 +19,50 @@ const valueFormatter2 = (milliseconds) => {
 export default function DashboardGeneralTask(props) {
   const { idTask } = props;
   const [cardsContent, setCardsContent] = useState("");
-  const [barChartContent1, setBarChartContent1] = useState("")
-  const [barChartContent2, setBarChartContent2] = useState("")
+  const [barChartContent, setBarChartContent] = useState("")
   const [loading1, setLoading1] = useState(true)
   const [loading2, setLoading2] = useState(true)
-  const [loading3, setLoading3] = useState(true)
 
   useEffect(() => {
-    const responseData = {
-      porcentaje_exito: "95.7%",
-      tiempo_promedio: "2m 34s",
-      tiempo_optimo: "3m 0s",
-      diferencia: "0m 26s"// Calcula esto según tus necesidades.
-    };
-    setCardsContent(responseData)
-    setLoading1(false)
-
-  }, [])
-
-  useEffect(() => {
-    const rango1 = "Niños";
-    const rango2 = "Adolescentes";
-    const rango3 = "Joven";
-    const rango4 = "Adulto";
-    const rango5 = "Adulto Mayor";
-    const chartData = [
-      {
-        name: "Hombre",
-        [rango1]: 0.6,
-        [rango3]: 0.8,
-        [rango4]: 0.9,
-        [rango5]: 0.1,
+    DashboardTaskService.getCardsContentGeneral(idTask).then(
+      (response) => {
+        setCardsContent(response.data)
+        setLoading1(false)
       },
-      {
-        name: "Mujer",
-        [rango1]: 0.6,
-        [rango2]: 0.7,
-        [rango3]: 0.8,
-      },
-      {
-        name: "No Informado",
-        [rango1]: 0.6,
-        [rango2]: 0.7,
-      },
-    ];
+      (error) => {
+        const _content =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
 
-    const colors = ["emerald", "rose", "blue", "indigo", "yellow"];
-    const categories = [rango1, rango2, rango3, rango4, rango5];
-    const responseData = {
-      chartData: chartData,
-      colors: colors,
-      categories: categories,
-    };
-    setBarChartContent1(responseData)
-    setLoading2(false)
-  }, [])
+        setCardsContent(_content);
+      }
+    );
+  }, []);
 
   useEffect(() => {
-    const rango1 = "Niños";
-    const rango2 = "Adolescentes";
-    const rango3 = "Joven";
-    const rango4 = "Adulto";
-    const rango5 = "Adulto Mayor";
-    const chartData = [
-      {
-        name: "Hombre",
-        [rango1]: 6000,
-        [rango3]: 700000,
-        [rango4]: 23000,
-        [rango5]: 430000,
+    DashboardTaskService.getBarChartContentGeneral(idTask).then(
+      (response) => {
+        setBarChartContent(response.data)
+        setLoading2(false)
       },
-      {
-        name: "Mujer",
-        [rango3]: 700000,
-        [rango4]: 23000,
-        [rango5]: 430000,
-      },
-      {
-        name: "No Informado",
-        [rango1]: 6000,
-        [rango3]: 700000,
-      },
-    ];
+      (error) => {
+        const _content =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
 
-    const colors = ["emerald", "rose", "blue", "indigo", "yellow"];
-    const categories = [rango1, rango2, rango3, rango4, rango5];
-    const responseData = {
-      chartData: chartData,
-      colors: colors,
-      categories: categories,
-    };
-    setBarChartContent2(responseData)
-    setLoading3(false)
-  }, [])
+        setBarChartContent(_content);
+      }
+    );
+  }, []);
 
-  if (loading1 || loading2 || loading3) {
+
+  if (loading1 || loading2) {
     return (
       <div>
         Cargando...
@@ -145,20 +95,20 @@ export default function DashboardGeneralTask(props) {
         ></MetricCard>
         <Col numColSpan={2} numColSpanLg={2}>
           <BarChartGraphic
-            content={barChartContent1.chartData}
+            content={barChartContent.chartData1}
             valueFormatter={valueFormatter}
             title="Porcentaje Éxito por rango etario y sexo"
-            categories={barChartContent1.categories}
-            color={barChartContent1.colors}
+            categories={barChartContent.categories}
+            color={barChartContent.colors}
             stack={false} />
         </Col>
         <Col numColSpan={2} numColSpanLg={2}>
           <BarChartGraphic
-            content={barChartContent2.chartData}
+            content={barChartContent.chartData2}
             valueFormatter={valueFormatter2}
             title="Tiempo Promedio por rango etario y sexo"
-            categories={barChartContent2.categories}
-            color={barChartContent2.colors}
+            categories={barChartContent.categories}
+            color={barChartContent.colors}
             stack={false} />
         </Col>
       </Grid>
