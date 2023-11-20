@@ -108,18 +108,18 @@ const DashboardGeneralStudy = (props) => {
 
   return (
     <div>
-      <Grid numItemsSm={2} numItemsLg={4} className="gap-4">
+      <Grid numItemsSm={2} numItemsLg={2} className="gap-4">
         <MetricCardList content={cardsContent.total_iteraciones} color="amber" />
-        <MetricCardList content={cardsContent.total_usuarios} color="emerald" />
-        <Col numColSpan={2} numColSpanLg={2}>
+        {/*<MetricCardList content={cardsContent.total_usuarios} color="emerald" />*/}
+        
           <BarListGraphic
             content={barListContent.chartData}
             valueFormatter={formatTime}
             title="Tiempo Promedio de Usuario por Iteración"
             columnA="Iteración"
             columnB="Tiempo" />
-        </Col>
-        <Col numColSpan={2} numColSpanLg={2}>
+        
+        
           <BarChartGraphic
             content={barChartContent.chartData}
             valueFormatter={valueFormatter}
@@ -127,10 +127,9 @@ const DashboardGeneralStudy = (props) => {
             categories={barChartContent.categories}
             color={barChartContent.colors}
             stack={true} />
-        </Col>
-        <Col numColSpan={2} numColSpanLg={2}>
+        
           <TableDashGeneralStudy content = {tableTimeContent} title="Tabla Comparativa de Tiempo"/>
-        </Col>
+       
       </Grid>
     </div>
   );
