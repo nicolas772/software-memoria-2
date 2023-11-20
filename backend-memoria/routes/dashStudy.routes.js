@@ -1,5 +1,6 @@
 const { authJwt, verifyProfile } = require("../middleware");
 const dashStudy_controller = require("../controllers/dashStudy.controller");
+const dashDemogrStudy_controller = require("../controllers/dashDemogrStudy.controller")
 
 module.exports = function (app) {
   app.use(function (req, res, next) {
@@ -29,5 +30,20 @@ module.exports = function (app) {
     "/api/dashboard/study/general/table-time",
     [authJwt.verifyToken, authJwt.isTester],
     dashStudy_controller.tableTime
+  );
+  app.get(
+    "/api/dashboard/study/demogr/cards",
+    [authJwt.verifyToken, authJwt.isTester],
+    dashDemogrStudy_controller.cards
+  );
+  app.get(
+    "/api/dashboard/study/demogr/pie-chart",
+    [authJwt.verifyToken, authJwt.isTester],
+    dashDemogrStudy_controller.pieChart
+  );
+  app.get(
+    "/api/dashboard/study/demogr/bar-chart",
+    [authJwt.verifyToken, authJwt.isTester],
+    dashDemogrStudy_controller.barChart
   );
 };

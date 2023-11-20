@@ -8,23 +8,8 @@ const { Op } = require('sequelize'); // Necesitas importar Op desde sequelize
 const rangos = ["Niños", "Adolescentes", "Jovenes", "Adultos", "Adulto Mayores"]
 
 exports.cards = async (req, res) => {
-   const idIteration = req.query.idIteration;
+   const idStudy = req.query.idStudy;
    try {
-      const iteration = await Iteration.findOne({
-         where: {
-            id: idIteration
-         }
-      })
-
-      const allTasks = await Task.findAll({
-         where: {
-            iterationId: idIteration,
-         }
-      })
-
-      if (!allTasks || !iteration) {
-         return res.status(404).json({ error: "Iteración No Encontrada." });
-      }
       //CARD 1: Cantidad usuarios
 
       const cantUsuarios = {
@@ -63,17 +48,8 @@ exports.cards = async (req, res) => {
 };
 
 exports.pieChart = async (req, res) => {
-   const idIteration = req.query.idIteration;
+   const idStudy = req.query.idStudy;
    try {
-      const allTasks = await Task.findAll({
-         where: {
-            iterationId: idIteration,
-         }
-      })
-
-      if (!allTasks) {
-         return res.status(404).json({ error: "Iteración No Encontrada." });
-      }
 
       const series = [2, 2, 3, 5, 1]
       const colors = ['#28a745', '#ffc108', '#6f42c1', '#007bff', '#fd7e14']
@@ -91,17 +67,8 @@ exports.pieChart = async (req, res) => {
 };
 
 exports.barChart = async (req, res) => {
-   const idIteration = req.query.idIteration;
+   const idStudy = req.query.idStudy;
    try {
-      const allTasks = await Task.findAll({
-         where: {
-            iterationId: idIteration,
-         }
-      })
-
-      if (!allTasks) {
-         return res.status(404).json({ error: "Iteración No Encontrada." });
-      }
 
       const chartData = [
          {

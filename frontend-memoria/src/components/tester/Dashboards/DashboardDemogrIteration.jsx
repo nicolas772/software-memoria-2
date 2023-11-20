@@ -80,13 +80,13 @@ const DashboardDemogrIteration = (props) => {
 
    return (
       <div>
-         <Grid numItemsSm={1} numItemsLg={4} className="gap-6">
+         <Grid numItemsSm={1} numItemsLg={5} className="gap-6">
             <Col numColSpan={1} numColSpanLg={2}>
                <MetricCardList content={cardsContent.cantidad_usuarios} color="amber" />
                <div className="m-3"></div>
                <PieChart title="Distribución Rango Etario" color="blue" content={pieChartContent} />
             </Col>
-            <Col numColSpan={2} numColSpanLg={2}>
+            <Col numColSpan={2} numColSpanLg={3}>
                <BarChartGraphic
                   content={barChartContent.chartData}
                   valueFormatter={valueFormatter}
@@ -101,23 +101,3 @@ const DashboardDemogrIteration = (props) => {
 }
 
 export default DashboardDemogrIteration
-
-/**
- <div>
-         <Grid numItemsSm={1} numItemsLg={4} className="gap-6">
-            <Col numColSpan={1} numColSpanLg={2}>
-               <MetricCardList content={cardsContent.cantidad_usuarios} color="amber"/>
-               <PieChart title="Distribución Rango Etario" color="blue" content={pieChartContent} />
-            </Col>
-            <Col numColSpan={2} numColSpanLg={2}>
-               <BarChartGraphic
-                  content={barChartContent.chartData}
-                  valueFormatter={valueFormatter}
-                  title="Relación Cantidad Usuarios que completaron Tarea"
-                  categories={barChartContent.categories}
-                  color={barChartContent.colors}
-                  stack={true} />
-            </Col>
-         </Grid>
-      </div>
- */

@@ -157,10 +157,10 @@ const Study = () => {
         <DashboardGeneralStudy idStudy={idstudy}></DashboardGeneralStudy>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <DashboardDemogrStudy></DashboardDemogrStudy>
+        <DashboardDemogrStudy idStudy={idstudy}></DashboardDemogrStudy>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        <DashboardSentimentStudy></DashboardSentimentStudy>
+        <DashboardSentimentStudy idStudy={idstudy}></DashboardSentimentStudy>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
         <TableIterations content={contentTable}></TableIterations>

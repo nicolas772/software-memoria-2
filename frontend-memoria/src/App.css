@@ -244,17 +244,3 @@ p {
 	align-self: flex-start;
 	margin-right: 5px;
 }
-
-.container-dash-demogr {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	/* Dos columnas de tamaño igual */
-	gap: 15px;
-	/* Espacio entre columnas */
-}
-
-.container-dash-demogr .column {
-	border: 1px solid #ddd;
-	padding: 15px;
-	box-sizing: border-box;
-}
