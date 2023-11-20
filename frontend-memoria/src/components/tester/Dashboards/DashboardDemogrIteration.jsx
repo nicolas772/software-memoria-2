@@ -89,7 +89,7 @@ const DashboardDemogrIteration = (props) => {
                <BarChartGraphic
                   content={barChartContent.chartData}
                   valueFormatter={valueFormatter}
-                  title="Cantidad de usuarios por Rango Etario y Género"
+                  title="Cantidad de Usuarios por Rango Etario y Género"
                   categories={barChartContent.categories}
                   color={barChartContent.colors}
                   stack={true} />
