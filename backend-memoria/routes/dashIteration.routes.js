@@ -1,5 +1,6 @@
 const { authJwt, verifyProfile } = require("../middleware");
 const dashIteration_controller = require("../controllers/dashIteration.controller")
+const dashDemogrIteration_controller = require("../controllers/dashDemogrIteration.controller")
 
 module.exports = function (app) {
   app.use(function (req, res, next) {
@@ -28,5 +29,10 @@ module.exports = function (app) {
     "/api/dashboard/iteration/general/bar-chart",
     [authJwt.verifyToken, authJwt.isTester],
     dashIteration_controller.barChart
+  );
+  app.get(
+    "/api/dashboard/iteration/demogr/cards",
+    [authJwt.verifyToken, authJwt.isTester],
+    dashDemogrIteration_controller.cards
   );
 };

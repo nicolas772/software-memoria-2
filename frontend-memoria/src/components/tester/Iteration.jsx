@@ -262,7 +262,7 @@ const Iteration = () => {
         <DashboardDemogrIteration idIteration={iditeration}></DashboardDemogrIteration>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        <DashboardSentimentIteration></DashboardSentimentIteration>
+        <DashboardSentimentIteration idIteration={iditeration}></DashboardSentimentIteration>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
         <TableTasks content={contentTable}></TableTasks>
