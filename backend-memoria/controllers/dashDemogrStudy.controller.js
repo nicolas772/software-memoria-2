@@ -24,10 +24,7 @@ exports.cards = async (req, res) => {
          return res.status(404).json({ error: "Estudio no encontrado." });
       }
 
-      let users_qty_complete = 0
-      let male_qty = 0
-      let female_qty = 0
-      let no_informed_qty = 0
+      const allUsersIdsStudy = []
 
       for (const iteration of allIterations) {
          const idIteration = iteration.id;
@@ -36,22 +33,22 @@ exports.cards = async (req, res) => {
                iterationId: idIteration,
             }
          })
-         users_qty_complete += iteration.users_qty_complete
          const allUserIds = allIterationStates.map(iterationState => {
             if (!iterationState.inTask && !iterationState.inCSUQ && !iterationState.inQuestion) {
                return iterationState.userId
             }
          });
-         const maleIds = await getIdsBySex(allUserIds, "Masculino")
-         const femaleIds = await getIdsBySex(allUserIds, "Femenino")
-         const noInformedIds = await getIdsBySex(allUserIds, "No Informado")
-
-         male_qty += maleIds.length
-         female_qty += femaleIds.length
-         no_informed_qty += noInformedIds.length
-
+         allUsersIdsStudy.push(...allUserIds);
       }
 
+      const maleIds = await getIdsBySex(allUsersIdsStudy, "Masculino")
+      const femaleIds = await getIdsBySex(allUsersIdsStudy, "Femenino")
+      const noInformedIds = await getIdsBySex(allUsersIdsStudy, "No Informado")
+      const users_qty_complete = maleIds.length + femaleIds.length + noInformedIds.length
+      
+      console.log("AQUI!!!")
+      console.log(allUsersIdsStudy)
+      
       const cantUsuarios = {
          title: "Cantidad Usuarios",
          metric: users_qty_complete,
@@ -60,17 +57,17 @@ exports.cards = async (req, res) => {
          data: [
             {
                name: "Masculino",
-               stat: male_qty,
+               stat: maleIds.length,
                icon: "hombre",
             },
             {
                name: "Femenino",
-               stat: female_qty,
+               stat: femaleIds.length,
                icon: "mujer",
             },
             {
                name: "No Informado",
-               stat: no_informed_qty,
+               stat: noInformedIds.length,
                icon: "noIdentificado"
             },
          ]
@@ -107,6 +104,8 @@ exports.pieChart = async (req, res) => {
          [rangos[4]]: 0,
       };
 
+      const allUsersIdsStudy = []
+
       for (const iteration of allIterations) {
          const idIteration = iteration.id;
          const allIterationStates = await IterationState.findAll({
@@ -119,14 +118,17 @@ exports.pieChart = async (req, res) => {
                return iterationState.userId
             }
          });
-         const allUsersByRange = await getUserIdsBySexAndRange(allUserIds, "todos")
-
-         for (const key of Object.keys(result)) {
-            result[key] += allUsersByRange[key].length;
-         }
+         allUsersIdsStudy.push(...allUserIds);
       }
 
-      const series = Object.values(result)
+      const allUsersByRange = await getUserIdsBySexAndRange(allUsersIdsStudy, "todos")
+      const series = [
+         allUsersByRange[rangos[0]].length,
+         allUsersByRange[rangos[1]].length,
+         allUsersByRange[rangos[2]].length,
+         allUsersByRange[rangos[3]].length,
+         allUsersByRange[rangos[4]].length,
+      ]
       const colors = ['#28a745', '#ffc108', '#6f42c1', '#007bff', '#fd7e14']
 
       const responseData = {
@@ -169,14 +171,10 @@ exports.barChart = async (req, res) => {
          });
          allUsersIdsStudy.push(...allUserIds);
       }
-      
+
       const maleUsersByRange = await getUserIdsBySexAndRange(allUsersIdsStudy, "Masculino")
       const femaleUsersByRange = await getUserIdsBySexAndRange(allUsersIdsStudy, "Femenino")
       const noIdentificadoUsersByRange = await getUserIdsBySexAndRange(allUsersIdsStudy, "No Informado")
-
-      console.log("AQUI!!!")
-      console.log(allUsersIdsStudy)
-      console.log(maleUsersByRange)
 
       const maleUsersByRangeQty = getUsersQtyByRange(maleUsersByRange)
       const femaleUsersByRangeQty = getUsersQtyByRange(femaleUsersByRange)
@@ -275,7 +273,7 @@ function getUsersQtyByRange(usuariosPorRango) {
 
    for (const [key, value] of Object.entries(usuariosPorRango)) {
       if (Array.isArray(value)) {
-         if (value.length > 0){
+         if (value.length > 0) {
             usuariosPorRangoConCantidad[key] = value.length;
          }
       } else {
