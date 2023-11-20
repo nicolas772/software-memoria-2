@@ -13,6 +13,7 @@ import Box from '@mui/material/Box';
 import CustomTabPanel from "./CustomTabPanel";
 import DashboardGeneralStudy from "./Dashboards/DashboardGeneralStudy"
 import DashboardSentimentStudy from "./Dashboards/DashboardSentimentStudy"
+import DashboardDemogrStudy from "./Dashboards/DashboardDemogrStudy";
 
 const Study = () => {
   const { idstudy } = useParams();
@@ -145,8 +146,9 @@ const Study = () => {
 
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-            <Tab label="Dashboard General" />
-            <Tab label="Dashboard Sentimientos" />
+            <Tab label="General" />
+            <Tab label="Demográfico" />
+            <Tab label="Sentimiento y Opiniones" />
             <Tab label="Iteraciones" />
           </Tabs>
         </Box>
@@ -155,9 +157,12 @@ const Study = () => {
         <DashboardGeneralStudy idStudy={idstudy}></DashboardGeneralStudy>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <DashboardSentimentStudy></DashboardSentimentStudy>
+        <DashboardDemogrStudy></DashboardDemogrStudy>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
+        <DashboardSentimentStudy></DashboardSentimentStudy>
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={3}>
         <TableIterations content={contentTable}></TableIterations>
       </CustomTabPanel>
 
