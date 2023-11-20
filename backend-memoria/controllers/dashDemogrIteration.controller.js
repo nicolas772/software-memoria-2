@@ -100,10 +100,6 @@ exports.pieChart = async (req, res) => {
       });
 
       const allUsersByRange = await getUserIdsBySexAndRange(allUserIds, "todos")
-      console.log("AQUI!!!!")
-      console.log(allUsersByRange)
-
-
       const series = [
          allUsersByRange[rangos[0]].length,
          allUsersByRange[rangos[1]].length,
@@ -128,44 +124,40 @@ exports.pieChart = async (req, res) => {
 exports.barChart = async (req, res) => {
    const idIteration = req.query.idIteration;
    try {
-      const allTasks = await Task.findAll({
+      const iteration = await Iteration.findOne({
+         where: {
+            id: idIteration
+         }
+      })
+
+      const allIterationStates = await IterationState.findAll({
          where: {
             iterationId: idIteration,
          }
       })
 
-      if (!allTasks) {
+      if (!allIterationStates || !iteration) {
          return res.status(404).json({ error: "Iteración No Encontrada." });
       }
 
-      const chartData = [
-         {
-            name: "Hombre",
-            [rangos[0]]: 1,
-            [rangos[1]]: 1,
-            [rangos[2]]: 1,
-            [rangos[3]]: 1,
-            [rangos[4]]: 1,
-         },
-         {
-            name: "Mujer",
-            [rangos[0]]: 1,
-            [rangos[1]]: 1,
-            [rangos[2]]: 1,
-            [rangos[3]]: 1,
-            [rangos[4]]: 1,
-         },
-         {
-            name: "No Informado",
-            [rangos[0]]: 1,
-            [rangos[1]]: 1,
-            [rangos[2]]: 1,
-            [rangos[3]]: 1,
-            [rangos[4]]: 1,
+      const allUserIds = allIterationStates.map(iterationState => {
+         if (!iterationState.inTask && !iterationState.inCSUQ && !iterationState.inQuestion) {
+            return iterationState.userId
          }
+      });
+
+      const maleUsersByRange = await getUserIdsBySexAndRange(allUserIds, "Masculino")
+      const femaleUsersByRange = await getUserIdsBySexAndRange(allUserIds, "Femenino")
+      const noIdentificadoUsersByRange = await getUserIdsBySexAndRange(allUserIds, "No Informado")
+
+      const maleUsersByRangeQty = getUsersQtyByRange(maleUsersByRange)
+      const femaleUsersByRangeQty = getUsersQtyByRange(femaleUsersByRange)
+      const noIdentificadoUsersByRangeQty = getUsersQtyByRange(noIdentificadoUsersByRange)
+      const chartData = [
+         maleUsersByRangeQty,
+         femaleUsersByRangeQty,
+         noIdentificadoUsersByRangeQty,
       ]
-
-
       const colors = ["green", "yellow", "purple", "blue", "orange"];
 
       const responseData = {
@@ -223,7 +215,7 @@ async function getUserIdsBySexAndRange(allUserIds, sexo) {
          [rangos[3]]: [],
          [rangos[4]]: [],
       };
-
+      result.name = sexo
       const currentDate = moment();
 
       users.forEach((user) => {
@@ -247,4 +239,19 @@ async function getUserIdsBySexAndRange(allUserIds, sexo) {
       console.error(error);
       throw new Error('Error al obtener usuarios por sexo y rango etario');
    }
+}
+
+function getUsersQtyByRange(usuariosPorRango) {
+   const usuariosPorRangoConCantidad = {};
+
+   for (const [key, value] of Object.entries(usuariosPorRango)) {
+      if (Array.isArray(value)) {
+         if (value.length > 0){
+            usuariosPorRangoConCantidad[key] = value.length;
+         }
+      } else {
+         usuariosPorRangoConCantidad[key] = value;
+      }
+   }
+   return usuariosPorRangoConCantidad
 }
