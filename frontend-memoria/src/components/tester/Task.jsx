@@ -121,7 +121,7 @@ const Task = () => {
 
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-            <Tab label="Dashboard"
+            <Tab label="General Tarea"
               {...a11yProps(0)} />
             <Tab label="Descripción" {...a11yProps(1)} />
           </Tabs>

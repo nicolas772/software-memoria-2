@@ -219,7 +219,7 @@ async function getIdsBySex(allUserIds, sex) {
       const users = await User.findAll({
          where: {
             id: allUserIds,
-            sex: sex, // Considera el sexo solo si no es "ni"
+            sex: sex,
          },
       });
       const userIds = users.map(user => user.id);

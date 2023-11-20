@@ -145,7 +145,7 @@ const Iteration = () => {
     window.history.back();
   }
 
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(1);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -244,7 +244,7 @@ const Iteration = () => {
 
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-            <Tab label="General"
+            <Tab label="General Iteración"
               {...a11yProps(0)} />
               <Tab label="Demográfico"
               {...a11yProps(1)} />

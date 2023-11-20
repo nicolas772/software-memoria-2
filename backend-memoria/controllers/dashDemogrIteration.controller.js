@@ -3,6 +3,7 @@ const User = db.user;
 const Iteration = db.iteration;
 const Task = db.task;
 const InfoTask = db.infotask
+const IterationState = db.iterationstate
 const { Op } = require('sequelize'); // Necesitas importar Op desde sequelize
 
 const rangos = ["Niños", "Adolescentes", "Jovenes", "Adultos", "Adulto Mayores"]
@@ -16,36 +17,46 @@ exports.cards = async (req, res) => {
          }
       })
 
-      const allTasks = await Task.findAll({
+      const allIterationStates = await IterationState.findAll({
          where: {
             iterationId: idIteration,
          }
       })
 
-      if (!allTasks || !iteration) {
+      if (!allIterationStates || !iteration) {
          return res.status(404).json({ error: "Iteración No Encontrada." });
       }
       //CARD 1: Cantidad usuarios
 
+      const users_qty_complete = iteration.users_qty_complete
+      const allUserIds = allIterationStates.map(iterationState => {
+         if (!iterationState.inTask && !iterationState.inCSUQ && !iterationState.inQuestion){
+            return iterationState.userId
+         }
+      });
+      const maleIds = await getIdsBySex(allUserIds, "Masculino")
+      const femaleIds = await getIdsBySex(allUserIds, "Femenino")
+      const noInformedIds = await getIdsBySex(allUserIds, "No Informado")
+
       const cantUsuarios = {
          title: "Cantidad Usuarios",
-         metric: 10,
-         columnName1: "Sexo",
+         metric: users_qty_complete,
+         columnName1: "Género",
          columnName2: "Usuarios",
          data: [
             {
                name: "Masculino",
-               stat: 5,
+               stat: maleIds.length,
                icon: "hombre",
             },
             {
                name: "Femenino",
-               stat: 4,
+               stat: femaleIds.length,
                icon: "mujer",
             },
             {
                name: "No Informado",
-               stat: 1,
+               stat: noInformedIds.length,
                icon: "noIdentificado"
             },
          ]
@@ -144,3 +155,19 @@ exports.barChart = async (req, res) => {
       res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
    }
 };
+
+async function getIdsBySex(allUserIds, sex) {
+   try {
+      const users = await User.findAll({
+         where: {
+            id: allUserIds,
+            sex: sex,
+         },
+      });
+      const userIds = users.map(user => user.id);
+      return userIds;
+   } catch (error) {
+      console.error(error);
+      throw new Error('Error al obtener usuarios por sexo y rango etario');
+   }
+}

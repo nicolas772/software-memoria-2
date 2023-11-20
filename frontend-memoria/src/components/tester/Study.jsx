@@ -85,7 +85,7 @@ const Study = () => {
     handleCloseEditModal();
   };
 
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(1);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -146,7 +146,7 @@ const Study = () => {
 
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-            <Tab label="General" />
+            <Tab label="General Estudio" />
             <Tab label="Demográfico" />
             <Tab label="Sentimiento y Opiniones" />
             <Tab label="Iteraciones" />

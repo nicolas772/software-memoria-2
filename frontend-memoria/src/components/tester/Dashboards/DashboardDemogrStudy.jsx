@@ -90,7 +90,7 @@ const DashboardDemogrStudy = (props) => {
                <BarChartGraphic
                   content={barChartContent.chartData}
                   valueFormatter={valueFormatter}
-                  title="Cantidad de usuarios por Rango Etario y Sexo"
+                  title="Cantidad de usuarios por Rango Etario y Género"
                   categories={barChartContent.categories}
                   color={barChartContent.colors}
                   stack={true} />

@@ -15,7 +15,7 @@ exports.cards = async (req, res) => {
       const cantUsuarios = {
          title: "Cantidad Usuarios",
          metric: 10,
-         columnName1: "Sexo",
+         columnName1: "Género",
          columnName2: "Usuarios",
          data: [
             {
