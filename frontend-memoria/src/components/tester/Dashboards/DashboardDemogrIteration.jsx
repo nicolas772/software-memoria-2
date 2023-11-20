@@ -39,7 +39,6 @@ const DashboardDemogrIteration = (props) => {
       DashboardIterationService.getPieChartContentDemogr(idIteration).then(
          (response) => {
             setPieChartContent(response.data)
-            console.log(response.data)
             setLoading2(false)
          },
          (error) => {

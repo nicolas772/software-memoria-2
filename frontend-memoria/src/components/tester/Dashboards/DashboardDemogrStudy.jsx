@@ -39,7 +39,6 @@ const DashboardDemogrStudy = (props) => {
       DashboardStudyService.getPieChartContentDemogr(idStudy).then(
          (response) => {
             setPieChartContent(response.data)
-            console.log(response.data)
             setLoading2(false)
          },
          (error) => {

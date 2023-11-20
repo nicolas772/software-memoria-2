@@ -5,6 +5,7 @@ const Task = db.task;
 const InfoTask = db.infotask
 const IterationState = db.iterationstate
 const { Op } = require('sequelize'); // Necesitas importar Op desde sequelize
+const moment = require('moment');
 
 const rangos = ["Niños", "Adolescentes", "Jovenes", "Adultos", "Adulto Mayores"]
 
@@ -30,7 +31,7 @@ exports.cards = async (req, res) => {
 
       const users_qty_complete = iteration.users_qty_complete
       const allUserIds = allIterationStates.map(iterationState => {
-         if (!iterationState.inTask && !iterationState.inCSUQ && !iterationState.inQuestion){
+         if (!iterationState.inTask && !iterationState.inCSUQ && !iterationState.inQuestion) {
             return iterationState.userId
          }
       });
@@ -76,17 +77,40 @@ exports.cards = async (req, res) => {
 exports.pieChart = async (req, res) => {
    const idIteration = req.query.idIteration;
    try {
-      const allTasks = await Task.findAll({
+      const iteration = await Iteration.findOne({
+         where: {
+            id: idIteration
+         }
+      })
+
+      const allIterationStates = await IterationState.findAll({
          where: {
             iterationId: idIteration,
          }
       })
 
-      if (!allTasks) {
+      if (!allIterationStates || !iteration) {
          return res.status(404).json({ error: "Iteración No Encontrada." });
       }
 
-      const series = [2, 2, 3, 5, 1]
+      const allUserIds = allIterationStates.map(iterationState => {
+         if (!iterationState.inTask && !iterationState.inCSUQ && !iterationState.inQuestion) {
+            return iterationState.userId
+         }
+      });
+
+      const allUsersByRange = await getUserIdsBySexAndRange(allUserIds, "todos")
+      console.log("AQUI!!!!")
+      console.log(allUsersByRange)
+
+
+      const series = [
+         allUsersByRange[rangos[0]].length,
+         allUsersByRange[rangos[1]].length,
+         allUsersByRange[rangos[2]].length,
+         allUsersByRange[rangos[3]].length,
+         allUsersByRange[rangos[4]].length,
+      ]
       const colors = ['#28a745', '#ffc108', '#6f42c1', '#007bff', '#fd7e14']
 
       const responseData = {
@@ -166,6 +190,59 @@ async function getIdsBySex(allUserIds, sex) {
       });
       const userIds = users.map(user => user.id);
       return userIds;
+   } catch (error) {
+      console.error(error);
+      throw new Error('Error al obtener usuarios por sexo y rango etario');
+   }
+}
+
+async function getUserIdsBySexAndRange(allUserIds, sexo) {
+   try {
+      let users
+      if (sexo === "todos") {
+         users = await User.findAll({
+            attributes: ['id', 'birthday', 'sex'],
+            where: {
+               id: allUserIds,
+            },
+         });
+      } else {
+         users = await User.findAll({
+            attributes: ['id', 'birthday', 'sex'],
+            where: {
+               id: allUserIds,
+               sex: sexo,
+            },
+         });
+      }
+
+      const result = {
+         [rangos[0]]: [],
+         [rangos[1]]: [],
+         [rangos[2]]: [],
+         [rangos[3]]: [],
+         [rangos[4]]: [],
+      };
+
+      const currentDate = moment();
+
+      users.forEach((user) => {
+         const age = currentDate.diff(moment(user.birthday), 'years');
+
+         if (age <= 13) {
+            result[rangos[0]].push(user.id);
+         } else if (age <= 18) {
+            result[rangos[1]].push(user.id);
+         } else if (age <= 35) {
+            result[rangos[2]].push(user.id);
+         } else if (age <= 60) {
+            result[rangos[3]].push(user.id);
+         } else {
+            result[rangos[4]].push(user.id);
+         }
+      });
+
+      return result;
    } catch (error) {
       console.error(error);
       throw new Error('Error al obtener usuarios por sexo y rango etario');
