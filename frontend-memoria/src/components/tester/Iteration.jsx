@@ -18,6 +18,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import CustomTabPanel from "./CustomTabPanel";
 import DashboardGeneralIteration from "./Dashboards/DashboardGeneralIteration"
 import DashboardSentimentIteration from "./Dashboards/DashboardSentimentIteration"
+import DashboardDemogrIteration from './Dashboards/DashboardDemogrIteration';
 
 function a11yProps(index) {
   return {
@@ -243,12 +244,14 @@ const Iteration = () => {
 
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-            <Tab label="Dashboard General"
+            <Tab label="General"
               {...a11yProps(0)} />
-            <Tab label="Dashboard Sentimientos"
+              <Tab label="Demográfico"
               {...a11yProps(1)} />
-            <Tab label="Tareas"
+            <Tab label="Sentimiento y opiniones"
               {...a11yProps(2)} />
+            <Tab label="Tareas"
+              {...a11yProps(3)} />
           </Tabs>
         </Box>
       </div>
@@ -256,9 +259,12 @@ const Iteration = () => {
         <DashboardGeneralIteration idIteration={iditeration} ></DashboardGeneralIteration>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <DashboardSentimentIteration></DashboardSentimentIteration>
+        <DashboardDemogrIteration idIteration={iditeration}></DashboardDemogrIteration>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
+        <DashboardSentimentIteration></DashboardSentimentIteration>
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={3}>
         <TableTasks content={contentTable}></TableTasks>
       </CustomTabPanel>
 
