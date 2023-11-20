@@ -35,4 +35,9 @@ module.exports = function (app) {
     [authJwt.verifyToken, authJwt.isTester],
     dashDemogrIteration_controller.cards
   );
+  app.get(
+    "/api/dashboard/iteration/demogr/pie-chart",
+    [authJwt.verifyToken, authJwt.isTester],
+    dashDemogrIteration_controller.pieChart
+  );
 };

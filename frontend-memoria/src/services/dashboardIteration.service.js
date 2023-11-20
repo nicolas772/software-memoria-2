@@ -27,12 +27,17 @@ const getCardsContentDemogr = (idIteration) => {
     return axios.get(API_URL + "demogr/cards", { headers: authHeader(), params: { idIteration: idIteration }  });
 };
 
+const getPieChartContentDemogr = (idIteration) => {
+    return axios.get(API_URL + "demogr/pie-chart", { headers: authHeader(), params: { idIteration: idIteration }  });
+}
+
 const DashboardIterationService = {
     getCardsContentGeneral,
     getTableTimeContentGeneral,
     getPieChartContentGeneral,
     getBarChartContentGeneral,
     getCardsContentDemogr,
+    getPieChartContentDemogr,
 };
 
 export default DashboardIterationService;
