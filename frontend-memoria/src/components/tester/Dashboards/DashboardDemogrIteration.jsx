@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import DashboardIterationService from '../../../services/dashboardIteration.service'
 import MetricCardList from "../../charts/MetricCardList";
 import PieChart from "../../charts/PieChart";
+import BarChartGraphic from "../../charts/BarChartGraphic";
 import { Grid, Col } from "@tremor/react";
+
+const valueFormatter = (number) => `${new Intl.NumberFormat("us").format(number).toString()}`;
 
 const DashboardDemogrIteration = (props) => {
    const { idIteration } = props
@@ -34,36 +37,87 @@ const DashboardDemogrIteration = (props) => {
 
    useEffect(() => {
       DashboardIterationService.getPieChartContentDemogr(idIteration).then(
-        (response) => {
-          setPieChartContent(response.data)
-          console.log(response.data)
-          setLoading2(false)
-        },
-        (error) => {
-          const _content =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-  
-          setCardsContent(_content);
-        }
-      );
-    }, []);
+         (response) => {
+            setPieChartContent(response.data)
+            console.log(response.data)
+            setLoading2(false)
+         },
+         (error) => {
+            const _content =
+               (error.response &&
+                  error.response.data &&
+                  error.response.data.message) ||
+               error.message ||
+               error.toString();
 
-   if (loading1 || loading2) {
+            setCardsContent(_content);
+         }
+      );
+   }, []);
+
+   useEffect(() => {
+      DashboardIterationService.getBarChartContentDemogr(idIteration).then(
+         (response) => {
+            setBarChartContent(response.data)
+            setLoading3(false)
+         },
+         (error) => {
+            const _content =
+               (error.response &&
+                  error.response.data &&
+                  error.response.data.message) ||
+               error.message ||
+               error.toString();
+
+            setCardsContent(_content);
+         }
+      );
+   }, []);
+
+   if (loading1 || loading2 || loading3) {
       return <div>Cargando...</div>
    }
 
    return (
       <div>
-         <Grid numItemsSm={1} numItemsLg={3} className="gap-3">
-            <MetricCardList content={cardsContent.cantidad_usuarios} color="amber" />
-            <PieChart title="Distribución Rango Etario" color="blue" content={pieChartContent} />
+         <Grid numItemsSm={1} numItemsLg={4} className="gap-6">
+            <Col numColSpan={1} numColSpanLg={2}>
+               <MetricCardList content={cardsContent.cantidad_usuarios} color="amber" />
+               <div className="m-3"></div>
+               <PieChart title="Distribución Rango Etario" color="blue" content={pieChartContent} />
+            </Col>
+            <Col numColSpan={2} numColSpanLg={2}>
+               <BarChartGraphic
+                  content={barChartContent.chartData}
+                  valueFormatter={valueFormatter}
+                  title="Cantidad de usuarios por Rango Etario y Sexo"
+                  categories={barChartContent.categories}
+                  color={barChartContent.colors}
+                  stack={true} />
+            </Col>
          </Grid>
       </div>
    )
 }
 
 export default DashboardDemogrIteration
+
+/**
+ <div>
+         <Grid numItemsSm={1} numItemsLg={4} className="gap-6">
+            <Col numColSpan={1} numColSpanLg={2}>
+               <MetricCardList content={cardsContent.cantidad_usuarios} color="amber"/>
+               <PieChart title="Distribución Rango Etario" color="blue" content={pieChartContent} />
+            </Col>
+            <Col numColSpan={2} numColSpanLg={2}>
+               <BarChartGraphic
+                  content={barChartContent.chartData}
+                  valueFormatter={valueFormatter}
+                  title="Relación Cantidad Usuarios que completaron Tarea"
+                  categories={barChartContent.categories}
+                  color={barChartContent.colors}
+                  stack={true} />
+            </Col>
+         </Grid>
+      </div>
+ */

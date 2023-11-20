@@ -40,4 +40,9 @@ module.exports = function (app) {
     [authJwt.verifyToken, authJwt.isTester],
     dashDemogrIteration_controller.pieChart
   );
+  app.get(
+    "/api/dashboard/iteration/demogr/bar-chart",
+    [authJwt.verifyToken, authJwt.isTester],
+    dashDemogrIteration_controller.barChart
+  );
 };

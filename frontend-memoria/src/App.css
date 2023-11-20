@@ -205,13 +205,15 @@ p {
 	padding: 5px;
 	cursor: pointer;
 	width: 100px;
-	transition: background-color 0.3s; 
-  }
-  
-  .code-container.copied {
-	background-color: green; /* Cambia el fondo a verde cuando se ha copiado */
-	color: white; /* Cambia el color del texto a blanco para mayor visibilidad */
-  }
+	transition: background-color 0.3s;
+}
+
+.code-container.copied {
+	background-color: green;
+	/* Cambia el fondo a verde cuando se ha copiado */
+	color: white;
+	/* Cambia el color del texto a blanco para mayor visibilidad */
+}
 
 .copy-icon {
 	width: 20px;
@@ -241,4 +243,18 @@ p {
 	/* Tamaño personalizado */
 	align-self: flex-start;
 	margin-right: 5px;
+}
+
+.container-dash-demogr {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	/* Dos columnas de tamaño igual */
+	gap: 15px;
+	/* Espacio entre columnas */
+}
+
+.container-dash-demogr .column {
+	border: 1px solid #ddd;
+	padding: 15px;
+	box-sizing: border-box;
 }
