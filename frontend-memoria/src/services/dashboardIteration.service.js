@@ -35,6 +35,16 @@ const getBarChartContentDemogr = (idIteration) => {
     return axios.get(API_URL + "demogr/bar-chart", { headers: authHeader(), params: { idIteration: idIteration }  });
 }
 
+//DASHBOARD USABILITY ITERACIÓN
+
+const getCardsContentUsability = (idIteration) => {
+    return axios.get(API_URL + "usability/cards", { headers: authHeader(), params: { idIteration: idIteration }  });
+};
+
+const getTableAvgContentUsability = (idIteration) => {
+    return axios.get(API_URL + "usability/table-avg", { headers: authHeader(), params: { idIteration: idIteration }  });
+};
+
 const DashboardIterationService = {
     getCardsContentGeneral,
     getTableTimeContentGeneral,
@@ -43,6 +53,8 @@ const DashboardIterationService = {
     getCardsContentDemogr,
     getPieChartContentDemogr,
     getBarChartContentDemogr,
+    getCardsContentUsability,
+    getTableAvgContentUsability,
 };
 
 export default DashboardIterationService;

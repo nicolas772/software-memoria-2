@@ -1,7 +1,7 @@
 const { authJwt, verifyProfile } = require("../middleware");
 const dashIteration_controller = require("../controllers/dashIteration.controller")
 const dashDemogrIteration_controller = require("../controllers/dashDemogrIteration.controller")
-
+const dashUsabilityIteration_controller = require("../controllers/dashUsabilityIteration.controller")
 module.exports = function (app) {
   app.use(function (req, res, next) {
     res.header(
@@ -44,5 +44,15 @@ module.exports = function (app) {
     "/api/dashboard/iteration/demogr/bar-chart",
     [authJwt.verifyToken, authJwt.isTester],
     dashDemogrIteration_controller.barChart
+  );
+  app.get(
+    "/api/dashboard/iteration/usability/cards",
+    [authJwt.verifyToken, authJwt.isTester],
+    dashUsabilityIteration_controller.cards
+  );
+  app.get(
+    "/api/dashboard/iteration/usability/table-avg",
+    [authJwt.verifyToken, authJwt.isTester],
+    dashUsabilityIteration_controller.tableAvg
   );
 };
