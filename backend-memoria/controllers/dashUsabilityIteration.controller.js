@@ -2,22 +2,54 @@ const db = require("../models");
 const User = db.user;
 const Iteration = db.iteration;
 const Study = db.study;
+const CsuqAnswers = db.csuqanswers
 const { sequelize } = db; // Asegúrate de importar sequelize correctamente.
 
 exports.cards = async (req, res) => {
    const idIteration = req.query.idIteration;
 
    try {
-      avg_scoresus = 84, 765
-      avg_intqual = (6.4 / 7) * 100
-      avg_infoqual = (7 / 7) * 100
-      avg_sysuser = (4.8999 / 7) * 100
+
+      const allAnswers = await CsuqAnswers.findAll({
+         where: {
+            iterationId: idIteration,
+         }
+      })
+      const allAnswersQty = allAnswers.length
+
+      let intqual = 0
+      let infoqual = 0
+      let sysuse = 0
+      let scoresus = 0
+
+      for (const answer of allAnswers) {
+         scoresus += answer.scoresus
+         intqual += answer.avgintqual
+         infoqual += answer.avginfoqual
+         sysuse += answer.avgsysuse
+      }
+
+      let avg_intqual = 0
+      let avg_infoqual = 0
+      let avg_sysuse = 0
+      let avg_scoresus = 0
+
+      if (allAnswersQty > 0) {
+         avg_intqual = intqual / allAnswersQty
+         avg_infoqual = infoqual / allAnswersQty
+         avg_sysuse = sysuse / allAnswersQty
+         avg_scoresus = scoresus / allAnswersQty
+      }
+
+      const perc_avg_intqual = (avg_intqual / 7) * 100
+      const perc_avg_infoqual = (avg_infoqual / 7) * 100
+      const perc_avg_sysuse = (avg_sysuse / 7) * 100
 
       const responseData = {
          promedio_scoresus: avg_scoresus.toFixed(1) + "%",
-         promedio_intqual: avg_intqual.toFixed(1) + "%",
-         promedio_infoqual: avg_infoqual.toFixed(1) + "%",
-         promedio_sysuse: avg_sysuser.toFixed(1) + "%"
+         promedio_intqual: perc_avg_intqual.toFixed(1) + "%",
+         promedio_infoqual: perc_avg_infoqual.toFixed(1) + "%",
+         promedio_sysuse: perc_avg_sysuse.toFixed(1) + "%"
       };
 
       res.status(200).json(responseData);
