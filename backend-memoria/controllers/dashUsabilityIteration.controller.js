@@ -62,37 +62,44 @@ exports.cards = async (req, res) => {
 exports.tableAvg = async (req, res) => {
    const idIteration = req.query.idIteration;
    try {
+      const allAnswers = await CsuqAnswers.findAll({
+         where: {
+            iterationId: idIteration,
+         }
+      })
+      const allAnswersQty = allAnswers.length
+      const questions = ["Pregunta 1", "Pregunta 2", "Pregunta 3", "Pregunta 4", "Pregunta 5", "Pregunta 6", "Pregunta 7", "Pregunta 8", "Pregunta 9", "Pregunta 10", "Pregunta 11", "Pregunta 12", "Pregunta 13", "Pregunta 14", "Pregunta 15", "Pregunta 16"];
+      const responseData = questions.map((question, index) => ({
+         name: question,
+         avg: 0,
+         min: 0,
+         max: 0,
+         diference: 0,
+         column: `answer${index + 1}`,
+         index: index
+      }));
 
-      const responseData = [
-         {
-            name: "Pregunta 1",
-            avg: 6.7,
-            min: 3,
-            max: 7,
-            diference: 4
-         },
-         {
-            name: "Pregunta 2",
-            avg: 6.7,
-            min: 3,
-            max: 7,
-            diference: 3
-         },
-         {
-            name: "Pregunta 3",
-            avg: 6.7,
-            min: 3,
-            max: 7,
-            diference: 2
-         },
-         {
-            name: "Pregunta 4",
-            avg: 6.7,
-            min: 3,
-            max: 7,
-            diference: 0
-         },
-      ]
+      for (const question of responseData) {
+         const columnName = question.column
+         let minimo = 8
+         let maximo = -1
+         let suma = 0
+         for (const answer of allAnswers) {
+            const value = answer[columnName]
+            suma += value
+            if (value>maximo) {
+               maximo = value
+            }
+            if (value<minimo){
+               minimo=value
+            }
+         }
+         question.min = minimo
+         question.max = maximo
+         question.diference = maximo-minimo
+         question.avg = suma/allAnswersQty
+      }
+
       res.status(200).json(responseData);
    } catch (error) {
       console.error(error);

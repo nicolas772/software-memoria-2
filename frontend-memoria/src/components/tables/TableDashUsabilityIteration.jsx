@@ -31,7 +31,7 @@ const getRowColor = (value, maxDiference, minNegativeDiference) => {
 
 export default function TableDashUsabilityIteration(props) {
    const { content, title, color } = props
-   const [orderBy, setOrderBy] = useState('name');
+   const [orderBy, setOrderBy] = useState('index');
    const [order, setOrder] = useState('asc');
 
    const handleRequestSort = (property) => {
@@ -62,11 +62,11 @@ export default function TableDashUsabilityIteration(props) {
                <TableRow>
                   <TableCell>
                      <TableSortLabel
-                        active={orderBy === 'name'}
-                        direction={orderBy === 'name' ? order : 'asc'}
-                        onClick={() => handleRequestSort('name')}
+                        active={orderBy === 'index'}
+                        direction={orderBy === 'index' ? order : 'asc'}
+                        onClick={() => handleRequestSort('index')}
                      >
-                        <strong>Tarea</strong>
+                        <strong>Pregunta</strong>
                      </TableSortLabel>
                   </TableCell>
                   <TableCell align="center">
