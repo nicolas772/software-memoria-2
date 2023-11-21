@@ -14,6 +14,7 @@ import CustomTabPanel from "./CustomTabPanel";
 import DashboardGeneralStudy from "./Dashboards/DashboardGeneralStudy"
 import DashboardSentimentStudy from "./Dashboards/DashboardSentimentStudy"
 import DashboardDemogrStudy from "./Dashboards/DashboardDemogrStudy";
+import DashboardUsabilidadStudy from "./Dashboards/DashboardUsabilidadStudy";
 
 const Study = () => {
   const { idstudy } = useParams();
@@ -148,6 +149,7 @@ const Study = () => {
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
             <Tab label="General Estudio" />
             <Tab label="Demográfico" />
+            <Tab label="Usabilidad" />
             <Tab label="Sentimiento y Opiniones" />
             <Tab label="Iteraciones" />
           </Tabs>
@@ -160,9 +162,12 @@ const Study = () => {
         <DashboardDemogrStudy idStudy={idstudy}></DashboardDemogrStudy>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        <DashboardSentimentStudy idStudy={idstudy}></DashboardSentimentStudy>
+        <DashboardUsabilidadStudy idStudy={idstudy}></DashboardUsabilidadStudy>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
+        <DashboardSentimentStudy idStudy={idstudy}></DashboardSentimentStudy>
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={4}>
         <TableIterations content={contentTable}></TableIterations>
       </CustomTabPanel>
 

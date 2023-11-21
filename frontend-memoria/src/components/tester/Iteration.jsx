@@ -19,6 +19,7 @@ import CustomTabPanel from "./CustomTabPanel";
 import DashboardGeneralIteration from "./Dashboards/DashboardGeneralIteration"
 import DashboardSentimentIteration from "./Dashboards/DashboardSentimentIteration"
 import DashboardDemogrIteration from './Dashboards/DashboardDemogrIteration';
+import DashboardUsabilidadIteration from './Dashboards/DashboardUsabilidadIteration';
 
 function a11yProps(index) {
   return {
@@ -246,12 +247,14 @@ const Iteration = () => {
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
             <Tab label="General Iteración"
               {...a11yProps(0)} />
-              <Tab label="Demográfico"
+            <Tab label="Demográfico"
               {...a11yProps(1)} />
-            <Tab label="Sentimiento y opiniones"
+            <Tab label="Usabilidad"
               {...a11yProps(2)} />
-            <Tab label="Tareas"
+            <Tab label="Sentimiento y opiniones"
               {...a11yProps(3)} />
+            <Tab label="Tareas"
+              {...a11yProps(4)} />
           </Tabs>
         </Box>
       </div>
@@ -262,9 +265,12 @@ const Iteration = () => {
         <DashboardDemogrIteration idIteration={iditeration}></DashboardDemogrIteration>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        <DashboardSentimentIteration idIteration={iditeration}></DashboardSentimentIteration>
+        <DashboardUsabilidadIteration idIteration={iditeration}></DashboardUsabilidadIteration>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
+        <DashboardSentimentIteration idIteration={iditeration}></DashboardSentimentIteration>
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={4}>
         <TableTasks content={contentTable}></TableTasks>
       </CustomTabPanel>
 
