@@ -55,4 +55,9 @@ module.exports = function (app) {
     [authJwt.verifyToken, authJwt.isTester],
     dashUsabilityIteration_controller.tableAvg
   );
+  app.get(
+    "/api/dashboard/iteration/usability/box-plot",
+    [authJwt.verifyToken, authJwt.isTester],
+    dashUsabilityIteration_controller.boxPlot
+  );
 };

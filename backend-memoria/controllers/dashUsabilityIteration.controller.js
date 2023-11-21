@@ -67,3 +67,42 @@ exports.tableAvg = async (req, res) => {
       res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
    }
 };
+
+exports.boxPlot = async (req, res) => {
+   const idIteration = req.query.idIteration;
+
+   try {
+      const series = [
+         {
+            type: 'boxPlot',
+            data: [
+               {
+                  x: 'Score Sus General',
+                  y: [54, 66, 69, 75, 100]
+               },
+               {
+                  x: 'Interfaz Quality',
+                  y: [43, 65, 69, 76, 81]
+               },
+               {
+                  x: 'Info Quality',
+                  y: [31, 39, 45, 51, 59]
+               },
+               {
+                  x: 'System Usability',
+                  y: [39, 46, 55, 65, 71]
+               },
+            ]
+         }
+      ]
+
+      const responseData = {
+         series: series
+      }
+
+      res.status(200).json(responseData);
+   } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
+   }
+};
