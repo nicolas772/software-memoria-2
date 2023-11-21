@@ -3,6 +3,7 @@ import DashboardStudyService from "../../../services/dashboardStudy.service";
 import MetricCardList from "../../charts/MetricCardList";
 import PieChart from "../../charts/PieChart";
 import BarChartGraphic from "../../charts/BarChartGraphic";
+import BubbleChart from "../../charts/BubbleChart"
 import { Grid, Col } from "@tremor/react";
 
 const valueFormatter = (number) => `${new Intl.NumberFormat("us").format(number).toString()}`;
@@ -79,21 +80,17 @@ const DashboardDemogrStudy = (props) => {
 
    return (
       <div>
-         <Grid numItemsSm={1} numItemsLg={5} className="gap-6">
-            <Col numColSpan={1} numColSpanLg={2}>
-               <MetricCardList content={cardsContent.cantidad_usuarios} color="amber" />
-               <div className="m-3"></div>
-               <PieChart title="Distribución Rango Etario" color="blue" content={pieChartContent} />
-            </Col>
-            <Col numColSpan={2} numColSpanLg={3}>
-               <BarChartGraphic
-                  content={barChartContent.chartData}
-                  valueFormatter={valueFormatter}
-                  title="Cantidad de usuarios por Rango Etario y Género"
-                  categories={barChartContent.categories}
-                  color={barChartContent.colors}
-                  stack={true} />
-            </Col>
+         <Grid numItemsSm={1} numItemsLg={2} className="gap-6">
+            <MetricCardList content={cardsContent.cantidad_usuarios} color="amber" />
+            <PieChart title="Distribución Rango Etario" color="blue" content={pieChartContent} />
+            <BarChartGraphic
+               content={barChartContent.chartData}
+               valueFormatter={valueFormatter}
+               title="Cantidad de usuarios por Rango Etario y Género"
+               categories={barChartContent.categories}
+               color={barChartContent.colors}
+               stack={true} />
+            <BubbleChart />
          </Grid>
       </div>
    )

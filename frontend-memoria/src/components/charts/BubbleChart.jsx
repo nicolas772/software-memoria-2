@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
+import { Card, Title } from "@tremor/react";
 
 const generateData = (startTimestamp, count, options) => {
     const { min, max } = options;
@@ -7,7 +8,7 @@ const generateData = (startTimestamp, count, options) => {
   
     for (let i = 0; i < count; i++) {
       const data = {
-        x: `Category ${i + 1}`,
+        x: `Iteración ${i + 1}`,
         y: Math.floor(Math.random() * (max - min + 1)) + min,
         z: Math.floor(Math.random() * (max - min + 1)) + min,
       };
@@ -61,9 +62,6 @@ const BubbleChart = () => {
         fill: {
           opacity: 0.8
         },
-        title: {
-          text: 'Simple Bubble Chart'
-        },
         xaxis: {
           tickAmount: 12,
           type: 'category',
@@ -77,9 +75,13 @@ const BubbleChart = () => {
   });
 
   return (
-    <div id="chart">
-      <ReactApexChart options={chartState.options} series={chartState.series} type="bubble" height={350} />
-    </div>
+    <Card>
+      <Title>
+        Usuarios por Género, Rango Etario e Iteración
+      </Title>
+      <ReactApexChart options={chartState.options} series={chartState.series} type="bubble" height={300} />
+    </Card>
+    
   );
 };
 
