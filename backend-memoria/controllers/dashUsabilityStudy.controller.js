@@ -9,15 +9,15 @@ exports.cards = async (req, res) => {
 
    try {
       avg_scoresus = 95.33
-      avg_intqual = (4 / 7) * 100
-      avg_infoqual = (3 / 7) * 100
-      avg_sysuser = (2 / 7) * 100
+      avg_intqual = 4
+      avg_infoqual = 3
+      avg_sysuser = 2 
 
       const responseData = {
          promedio_scoresus: avg_scoresus.toFixed(1) + "%",
-         promedio_intqual: avg_intqual.toFixed(1) + "%",
-         promedio_infoqual: avg_infoqual.toFixed(1) + "%",
-         promedio_sysuse: avg_sysuser.toFixed(1) + "%"
+         promedio_intqual: avg_intqual.toFixed(1) + " / 7",
+         promedio_infoqual: avg_infoqual.toFixed(1) + " / 7",
+         promedio_sysuse: avg_sysuser.toFixed(1) + " / 7"
       };
 
       res.status(200).json(responseData);

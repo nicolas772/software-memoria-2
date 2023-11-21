@@ -83,7 +83,7 @@ const DashboardUsabilidadStudy = (props) => {
          <Grid numItemsSm={2} numItemsLg={4} className="gap-4">
             <MetricCard
                metric={cardsContent.promedio_scoresus}
-               title="Promedio Score Sus"
+               title="Promedio Score SUS"
                color="blue"
             ></MetricCard>
             <MetricCard

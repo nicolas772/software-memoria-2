@@ -45,12 +45,18 @@ exports.cards = async (req, res) => {
       const perc_avg_infoqual = (avg_infoqual / 7) * 100
       const perc_avg_sysuse = (avg_sysuse / 7) * 100
 
-      const responseData = {
+      /*const responseData = {
          promedio_scoresus: avg_scoresus.toFixed(1) + "%",
          promedio_intqual: perc_avg_intqual.toFixed(1) + "%",
          promedio_infoqual: perc_avg_infoqual.toFixed(1) + "%",
          promedio_sysuse: perc_avg_sysuse.toFixed(1) + "%"
-      };
+      };*/
+      const responseData = {
+         promedio_scoresus: avg_scoresus.toFixed(1) + "%",
+         promedio_intqual: avg_intqual.toFixed(1) + " / 7",
+         promedio_infoqual: avg_infoqual.toFixed(1) + " / 7",
+         promedio_sysuse: avg_sysuse.toFixed(1) + " / 7"
+      }
 
       res.status(200).json(responseData);
    } catch (error) {
@@ -79,25 +85,27 @@ exports.tableAvg = async (req, res) => {
          index: index
       }));
 
-      for (const question of responseData) {
-         const columnName = question.column
-         let minimo = 8
-         let maximo = -1
-         let suma = 0
-         for (const answer of allAnswers) {
-            const value = answer[columnName]
-            suma += value
-            if (value>maximo) {
-               maximo = value
+      if (allAnswersQty > 0) {
+         for (const question of responseData) {
+            const columnName = question.column
+            let minimo = 8
+            let maximo = -1
+            let suma = 0
+            for (const answer of allAnswers) {
+               const value = answer[columnName]
+               suma += value
+               if (value > maximo) {
+                  maximo = value
+               }
+               if (value < minimo) {
+                  minimo = value
+               }
             }
-            if (value<minimo){
-               minimo=value
-            }
+            question.min = minimo
+            question.max = maximo
+            question.diference = maximo - minimo
+            question.avg = (suma / allAnswersQty).toFixed(1)
          }
-         question.min = minimo
-         question.max = maximo
-         question.diference = maximo-minimo
-         question.avg = suma/allAnswersQty
       }
 
       res.status(200).json(responseData);
@@ -110,26 +118,70 @@ exports.tableAvg = async (req, res) => {
 exports.boxPlot = async (req, res) => {
    const idIteration = req.query.idIteration;
 
+
    try {
+      const allAnswers = await CsuqAnswers.findAll({
+         where: {
+            iterationId: idIteration,
+         }
+      })
+
+      const avg_total = []
+      const avg_sysuse = []
+      const avg_info = []
+      const avg_interfaz = []
+
+      if (allAnswers.length > 0) {
+         for (const answer of allAnswers) {
+            avg_total.push(answer.avgtotal)
+            const sysuse = (
+               answer.answer1
+               + answer.answer2
+               + answer.answer3
+               + answer.answer4
+               + answer.answer5
+               + answer.answer6) / 6
+            const info = (
+               answer.answer7
+               + answer.answer8
+               + answer.answer9
+               + answer.answer10
+               + answer.answer11
+               + answer.answer12) / 6
+            const interfaz = (
+               answer.answer13
+               + answer.answer14
+               + answer.answer15) / 3
+            avg_sysuse.push(sysuse)
+            avg_info.push(info)
+            avg_interfaz.push(interfaz)
+         }
+      }
+
+      const serie_avg_total = calcularEstadisticas(avg_total)
+      const serie_avg_sysuse = calcularEstadisticas(avg_sysuse)
+      const serie_avg_info = calcularEstadisticas(avg_info)
+      const serie_avg_interfaz = calcularEstadisticas(avg_interfaz)
+
       const series = [
          {
             type: 'boxPlot',
             data: [
                {
-                  x: 'Score Sus General',
-                  y: [54, 66, 69, 75, 100]
+                  x: 'General',
+                  y: serie_avg_total
                },
                {
                   x: 'Interfaz Quality',
-                  y: [43, 65, 69, 76, 81]
+                  y: serie_avg_sysuse
                },
                {
                   x: 'Info Quality',
-                  y: [31, 39, 45, 51, 59]
+                  y: serie_avg_info
                },
                {
                   x: 'System Usability',
-                  y: [39, 46, 55, 65, 71]
+                  y: serie_avg_interfaz
                },
             ]
          }
@@ -145,3 +197,29 @@ exports.boxPlot = async (req, res) => {
       res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
    }
 };
+
+// Función para calcular los cuartiles, valor máximo y valor mínimo
+function calcularEstadisticas(arr) {
+   if (arr.length === 0) {
+      console.log("El array está vacío. No se pueden calcular estadísticas.");
+      return []; // o cualquier otro valor que indique un resultado no válido
+   }
+   var sortedArray = arr.slice().sort(function (a, b) {
+      return a - b;
+   });
+
+   var length = sortedArray.length;
+   var q1 = sortedArray[Math.floor(length * 0.25)];
+   var q2 = sortedArray[Math.floor(length * 0.5)]; // Mediana
+   var q3 = sortedArray[Math.floor(length * 0.75)];
+   var minValue = sortedArray[0];
+   var maxValue = sortedArray[length - 1];
+   const arr_final = [
+      minValue.toFixed(1),
+      q1.toFixed(1),
+      q2.toFixed(1),
+      q3.toFixed(1),
+      maxValue.toFixed(1)
+   ]
+   return arr_final;
+}

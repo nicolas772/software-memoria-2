@@ -70,6 +70,22 @@ const HomeTester = () => {
     <div style={{ margin: '20px' }}>
       <div className="header-pages">
         <header>
+          <h3>Home Tester</h3>
+        </header>
+      </div>
+      
+
+    </div>
+  )
+}
+
+export default HomeTester
+
+/*
+return (
+    <div style={{ margin: '20px' }}>
+      <div className="header-pages">
+        <header>
           <h3>Dashboard Principal</h3>
         </header>
       </div>
@@ -126,23 +142,18 @@ const HomeTester = () => {
         <div className="row">
           <div className="col-md-4">
             <div className="row">
-              {/*<ApexChart2></ApexChart2>*/}
+              </div>
+              <div className="row">
+              </div>
             </div>
-            <div className="row">
-              {/*<ApexChart2></ApexChart2>*/}
+            <div className="col-md-8">
+              <div id="chart">
+              </div>
             </div>
+  
           </div>
-          <div className="col-md-8">
-            <div id="chart">
-              {/*<Treemap />*/}
-            </div>
-          </div>
-
         </div>
+  
       </div>
-
-    </div>
-  )
-}
-
-export default HomeTester
+    )
+*/

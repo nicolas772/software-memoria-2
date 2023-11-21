@@ -81,7 +81,7 @@ const DashboardUsabilidadIteration = (props) => {
          <Grid numItemsSm={2} numItemsLg={4} className="gap-4">
             <MetricCard
                metric={cardsContent.promedio_scoresus}
-               title="Promedio Score Sus"
+               title="Score SUS"
                color="blue"
             ></MetricCard>
             <MetricCard
@@ -104,7 +104,7 @@ const DashboardUsabilidadIteration = (props) => {
             </Col>
             <Col numColSpan={2} numColSpanLg={2}>
                <BoxPlotChart
-                  title="Box Plot Puntaje Promedio por Categoría"
+                  title="Box Plot Puntaje Promedio por Categoría de Evaluación"
                   content={boxPlotContent}
                />
             </Col>
