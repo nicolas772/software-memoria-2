@@ -3,11 +3,14 @@ import DashboardStudyService from "../../../services/dashboardStudy.service";
 import { Grid, Col } from "@tremor/react";
 import MetricCard from "../../charts/MetricCard";
 import BoxPlotChart from "../../charts/BoxPlotChart";
+import BarChartGraphic from "../../charts/BarChartGraphic";
+
+const valueFormatter = (number) => `${new Intl.NumberFormat("us").format(number).toString()}`;
 
 const DashboardUsabilidadStudy = (props) => {
    const { idStudy } = props
    const [cardsContent, setCardsContent] = useState("");
-   const [tableAvgContent, setTableAvgContent] = useState("")
+   const [barChartContent, setBarChartContent] = useState("");
    const [boxPlotContent, setBoxPlotContent] = useState("")
    const [loading1, setLoading1] = useState(true)
    const [loading2, setLoading2] = useState(true)
@@ -33,10 +36,29 @@ const DashboardUsabilidadStudy = (props) => {
    }, []);
 
    useEffect(() => {
+      DashboardStudyService.getBarChartContentUsability(idStudy).then(
+         (response) => {
+            setBarChartContent(response.data)
+            console.log(response.data)
+            setLoading2(false)
+         },
+         (error) => {
+            const _content =
+               (error.response &&
+                  error.response.data &&
+                  error.response.data.message) ||
+               error.message ||
+               error.toString();
+
+            setCardsContent(_content);
+         }
+      );
+   }, []);
+
+   useEffect(() => {
       DashboardStudyService.getBoxPlotContentUsability(idStudy).then(
          (response) => {
             setBoxPlotContent(response.data)
-            console.log(response.data)
             setLoading3(false)
          },
          (error) => {
@@ -52,7 +74,7 @@ const DashboardUsabilidadStudy = (props) => {
       );
    }, []);
 
-   if (loading1 || loading3) {
+   if (loading1 || loading2 || loading3) {
       return <div>Cargando...</div>
    }
 
@@ -80,8 +102,17 @@ const DashboardUsabilidadStudy = (props) => {
                color="amber"
             ></MetricCard>
             <Col numColSpan={2} numColSpanLg={2}>
+               <BarChartGraphic
+                  content={barChartContent.chartData}
+                  valueFormatter={valueFormatter}
+                  title="Promedio CSUQ por Iteración"
+                  categories={barChartContent.categories}
+                  color={barChartContent.colors}
+                  stack={false} />
+            </Col>
+            <Col numColSpan={2} numColSpanLg={2}>
                <BoxPlotChart
-                  title="Box Plot Puntaje Promedio por Categoría"
+                  title="Box Plot Puntaje Promedio Score Sus por Iteración"
                   content={boxPlotContent}
                />
             </Col>

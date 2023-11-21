@@ -56,4 +56,9 @@ module.exports = function (app) {
     [authJwt.verifyToken, authJwt.isTester],
     dashUsabilityStudy_controller.boxPlot
   );
+  app.get(
+    "/api/dashboard/study/usability/bar-chart",
+    [authJwt.verifyToken, authJwt.isTester],
+    dashUsabilityStudy_controller.barChart
+  );
 };

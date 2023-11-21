@@ -65,3 +65,54 @@ exports.boxPlot = async (req, res) => {
       res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
    }
 };
+
+exports.barChart = async (req, res) => {
+   const idStudy = req.query.idStudy;
+
+   try {
+      const chartData = [
+         {
+            name: `Iteración 1`,
+            "Promedio Score Sus": 0.9,
+            "Promedio Interfaz Quality": 0.8,
+            "Promedio Info Quality": 0.7,
+            "Promedio Sys Use": 0.6
+         },
+         {
+            name: `Iteración 2`,
+            "Promedio Score Sus": 0.9,
+            "Promedio Interfaz Quality": 0.8,
+            "Promedio Info Quality": 0.7,
+            "Promedio Sys Use": 0.6
+         },
+         {
+            name: `Iteración 3`,
+            "Promedio Score Sus": 0.9,
+            "Promedio Interfaz Quality": 0.8,
+            "Promedio Info Quality": 0.7,
+            "Promedio Sys Use": 0.6
+         },
+
+      ];
+
+
+      const colors = ["emerald", "rose", "emerald", "rose"];
+      const categories = [
+         "Promedio Score Sus",
+         "Promedio Interfaz Quality",
+         "Promedio Info Quality",
+         "Promedio Sys Use"
+      ];
+
+      const responseData = {
+         chartData: chartData,
+         colors: colors,
+         categories: categories,
+      };
+
+      res.status(200).json(responseData);
+   } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
+   }
+};

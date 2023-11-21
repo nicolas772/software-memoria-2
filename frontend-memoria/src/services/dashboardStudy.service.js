@@ -46,6 +46,10 @@ const getBoxPlotContentUsability = (idStudy) => {
     return axios.get(API_URL + "usability/box-plot", { headers: authHeader(), params: { idStudy: idStudy }  });
 };
 
+const getBarChartContentUsability = (idStudy) => {
+    return axios.get(API_URL + "usability/bar-chart", { headers: authHeader(), params: { idStudy: idStudy }  });
+};
+
 const DashboardStudyService = {
     getCardsContentGeneral,
     getBarListContentGeneral,
@@ -56,6 +60,7 @@ const DashboardStudyService = {
     getBarChartContentDemogr,
     getCardsContentUsability,
     getBoxPlotContentUsability,
+    getBarChartContentUsability,
 };
 
 export default DashboardStudyService;
