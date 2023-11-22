@@ -182,27 +182,46 @@ exports.boxPlot = async (req, res) => {
    const idStudy = req.query.idStudy;
 
    try {
+      const allIterations = await Iteration.findAll({
+         where: {
+            studyId: idStudy,
+         }
+      });
+
+      if (!allIterations) {
+         return res.status(404).json({ error: "Estudio no encontrado." });
+      }
+
+      const data = []
+
+      for (const iteration of allIterations) {
+         const idIteration = iteration.id;
+         const iterationNumber = iteration.iteration_number
+
+         const allAnswers = await CsuqAnswers.findAll({
+            where: {
+               iterationId: idIteration,
+            }
+         })
+   
+         const avg_total = []
+   
+         if (allAnswers.length > 0) {
+            for (const answer of allAnswers) {
+               avg_total.push(answer.avgtotal)
+            }
+            const serie_avg_total = calcularEstadisticas(avg_total)
+            data.push({
+               x: `Iteración ${iterationNumber}`,
+               y: serie_avg_total
+            })
+         }
+      }
+
       const series = [
          {
             type: 'boxPlot',
-            data: [
-               {
-                  x: 'Iteración 1',
-                  y: [54, 66, 69, 75, 100]
-               },
-               {
-                  x: 'Iteración 2',
-                  y: [43, 65, 69, 76, 81]
-               },
-               {
-                  x: 'Iteración 3',
-                  y: [31, 39, 45, 51, 59]
-               },
-               {
-                  x: 'Iteración 4',
-                  y: [39, 46, 55, 65, 71]
-               },
-            ]
+            data: data,
          }
       ]
 
@@ -221,4 +240,30 @@ function calcularPromedio(arr) {
    const suma = arr.reduce((total, valor) => total + valor, 0);
    const promedio = suma / arr.length;
    return promedio.toFixed(1);
+}
+
+// Función para calcular los cuartiles, valor máximo y valor mínimo
+function calcularEstadisticas(arr) {
+   if (arr.length === 0) {
+      console.log("El array está vacío. No se pueden calcular estadísticas.");
+      return []; // o cualquier otro valor que indique un resultado no válido
+   }
+   var sortedArray = arr.slice().sort(function (a, b) {
+      return a - b;
+   });
+
+   var length = sortedArray.length;
+   var q1 = sortedArray[Math.floor(length * 0.25)];
+   var q2 = sortedArray[Math.floor(length * 0.5)]; // Mediana
+   var q3 = sortedArray[Math.floor(length * 0.75)];
+   var minValue = sortedArray[0];
+   var maxValue = sortedArray[length - 1];
+   const arr_final = [
+      minValue.toFixed(1),
+      q1.toFixed(1),
+      q2.toFixed(1),
+      q3.toFixed(1),
+      maxValue.toFixed(1)
+   ]
+   return arr_final;
 }

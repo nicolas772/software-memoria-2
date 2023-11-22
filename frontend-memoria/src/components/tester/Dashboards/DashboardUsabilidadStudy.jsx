@@ -112,7 +112,7 @@ const DashboardUsabilidadStudy = (props) => {
             </Col>
             <Col numColSpan={2} numColSpanLg={2}>
                <BoxPlotChart
-                  title="Box Plot Puntaje Promedio Score Sus por Iteración"
+                  title="Box Plot Puntaje Promedio Total por Iteración"
                   content={boxPlotContent}
                />
             </Col>
