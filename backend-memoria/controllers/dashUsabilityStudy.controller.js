@@ -90,6 +90,94 @@ exports.cards = async (req, res) => {
    }
 };
 
+exports.barChart = async (req, res) => {
+   const idStudy = req.query.idStudy;
+   try {
+      const allIterations = await Iteration.findAll({
+         where: {
+            studyId: idStudy,
+         }
+      });
+
+      if (!allIterations) {
+         return res.status(404).json({ error: "Estudio no encontrado." });
+      }
+
+      const chartData = []
+
+      let avg_intqual = 0
+      let avg_infoqual = 0
+      let avg_sysuse = 0
+      let avg_total = 0
+
+      let intqual = 0
+      let infoqual = 0
+      let sysuse = 0
+      let total = 0
+
+      for (const iteration of allIterations) {
+         const idIteration = iteration.id;
+         const iterationNumber = iteration.iteration_number
+         const allAnswers = await CsuqAnswers.findAll({
+            where: {
+               iterationId: idIteration,
+            }
+         })
+         const allAnswersQty = allAnswers.length
+
+         intqual = 0
+         infoqual = 0
+         sysuse = 0
+         total = 0
+
+         for (const answer of allAnswers) {
+            total += answer.avgtotal
+            intqual += answer.avgintqual
+            infoqual += answer.avginfoqual
+            sysuse += answer.avgsysuse
+         }
+
+         avg_intqual = 0
+         avg_infoqual = 0
+         avg_sysuse = 0
+         avg_total = 0
+
+         if (allAnswersQty > 0) {
+            avg_intqual = intqual / allAnswersQty
+            avg_infoqual = infoqual / allAnswersQty
+            avg_sysuse = sysuse / allAnswersQty
+            avg_total = total / allAnswersQty
+            chartData.push({
+               name: `Iteración ${iterationNumber}`,
+               "Promedio Total": avg_total.toFixed(1),
+               "Promedio Interfaz Quality": avg_intqual.toFixed(1),
+               "Promedio Info Quality": avg_infoqual.toFixed(1),
+               "Promedio Sys Use": avg_sysuse.toFixed(1)
+            })
+         }
+      }
+
+      const colors = ["green", "yellow", "blue", "orange"];
+      const categories = [
+         "Promedio Total",
+         "Promedio Interfaz Quality",
+         "Promedio Info Quality",
+         "Promedio Sys Use"
+      ];
+
+      const responseData = {
+         chartData: chartData,
+         colors: colors,
+         categories: categories,
+      };
+
+      res.status(200).json(responseData);
+   } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
+   }
+};
+
 exports.boxPlot = async (req, res) => {
    const idStudy = req.query.idStudy;
 
@@ -121,57 +209,6 @@ exports.boxPlot = async (req, res) => {
       const responseData = {
          series: series
       }
-
-      res.status(200).json(responseData);
-   } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
-   }
-};
-
-exports.barChart = async (req, res) => {
-   const idStudy = req.query.idStudy;
-
-   try {
-      const chartData = [
-         {
-            name: `Iteración 1`,
-            "Promedio Score Sus": 0.9,
-            "Promedio Interfaz Quality": 0.8,
-            "Promedio Info Quality": 0.7,
-            "Promedio Sys Use": 0.6
-         },
-         {
-            name: `Iteración 2`,
-            "Promedio Score Sus": 0.9,
-            "Promedio Interfaz Quality": 0.8,
-            "Promedio Info Quality": 0.7,
-            "Promedio Sys Use": 0.6
-         },
-         {
-            name: `Iteración 3`,
-            "Promedio Score Sus": 0.9,
-            "Promedio Interfaz Quality": 0.8,
-            "Promedio Info Quality": 0.7,
-            "Promedio Sys Use": 0.6
-         },
-
-      ];
-
-
-      const colors = ["emerald", "rose", "emerald", "rose"];
-      const categories = [
-         "Promedio Score Sus",
-         "Promedio Interfaz Quality",
-         "Promedio Info Quality",
-         "Promedio Sys Use"
-      ];
-
-      const responseData = {
-         chartData: chartData,
-         colors: colors,
-         categories: categories,
-      };
 
       res.status(200).json(responseData);
    } catch (error) {
