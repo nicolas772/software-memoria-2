@@ -8,6 +8,16 @@ const { Op } = require('sequelize'); // Necesitas importar Op desde sequelize
 const moment = require('moment');
 
 const rangos = ["Niños", "Adolescentes", "Jovenes", "Adultos", "Adulto Mayores"]
+const generos = ["Masculino", "Femenino", "No Informado"]
+const color_map_rangos = {
+   [rangos[0]]: '#28a745',
+   [rangos[1]]: '#ffc107',
+   [rangos[2]]: '#6f42c1',
+   [rangos[3]]: '#007bff',
+   [rangos[4]]: '#fd7e14',
+
+
+}
 
 exports.cards = async (req, res) => {
    const idStudy = req.query.idStudy;
@@ -45,10 +55,10 @@ exports.cards = async (req, res) => {
       const femaleIds = await getIdsBySex(allUsersIdsStudy, "Femenino")
       const noInformedIds = await getIdsBySex(allUsersIdsStudy, "No Informado")
       const users_qty_complete = maleIds.length + femaleIds.length + noInformedIds.length
-      
+
       console.log("AQUI!!!")
       console.log(allUsersIdsStudy)
-      
+
       const cantUsuarios = {
          title: "Cantidad Usuarios",
          metric: users_qty_complete,
@@ -212,100 +222,70 @@ exports.stackedChart = async (req, res) => {
          return res.status(404).json({ error: "Estudio no encontrado." });
       }
 
-      const series = [
-         {
-            name: 'Hombre Niño',
-            group: 'Niños',
-            data: [45, 55, 41],
-         },
-         {
-            name: 'Mujer Niña',
-            group: 'Niños',
-            data: [44, 55, 41],
-         },
-         {
-            name: 'No Informado Niño',
-            group: 'Niños',
-            data: [44, 55, 41],
-         },
-         {
-            name: 'Hombre Adolescente',
-            group: 'Adolescentes',
-            data: [44, 55, 41],
-         },
-         {
-            name: 'Mujer Adolescente',
-            group: 'Adolescentes',
-            data: [44, 55, 41],
-         },
-         {
-            name: 'No Informado Adolescente',
-            group: 'Adolescentes',
-            data: [44, 55, 41],
-         },
-         {
-            name: 'Hombre Joven',
-            group: 'Jovenes',
-            data: [44, 55, 41],
-         },
-         {
-            name: 'Mujer Joven',
-            group: 'Jovenes',
-            data: [44, 55, 41],
-         },
-         {
-            name: 'No Informado Joven',
-            group: 'Jovenes',
-            data: [44, 55, 41],
-         },
-         {
-            name: 'Hombre Adulto',
-            group: 'Adultos',
-            data: [44, 55, 41],
-         },
-         {
-            name: 'Mujer Adulta',
-            group: 'Adultos',
-            data: [44, 55, 41],
-         },
-         {
-            name: 'No Informado Adulto',
-            group: 'Adultos',
-            data: [44, 55, 41],
-         },
-         {
-            name: 'Hombre Adulto Mayor',
-            group: 'Adulto Mayor',
-            data: [44, 55, 41],
-         },
-         {
-            name: 'Mujer Adulta Mayor',
-            group: 'Adulto Mayor',
-            data: [44, 55, 41],
-         },
-         {
-            name: 'No Informado Adulto Mayor',
-            group: 'Adulto Mayor',
-            data: [44, 55, 41],
-         },
-      ];
+      const allUsersIdsByIteration = []
+      const categories_2 = []
+      for (const iteration of allIterations) {
+         const idIteration = iteration.id;
+         const iterationNumber = iteration.iteration_number
+         const allIterationStates = await IterationState.findAll({
+            where: {
+               iterationId: idIteration,
+            }
+         })
+         const allUserIds = allIterationStates.map(iterationState => {
+            if (!iterationState.inTask && !iterationState.inCSUQ && !iterationState.inQuestion) {
+               return iterationState.userId
+            }
+         });
+         const maleUsersByRange = await getUserIdsBySexAndRange(allUserIds, "Masculino")
+         const femaleUsersByRange = await getUserIdsBySexAndRange(allUserIds, "Femenino")
+         const noIdentificadoUsersByRange = await getUserIdsBySexAndRange(allUserIds, "No Informado")
 
-      const categories = [
-         'Iteracion 1',
-         'Iteracion 2',
-         'Iteracion 3'
-      ]
+         const maleUsersByRangeQty = getUsersQtyByRange(maleUsersByRange)
+         const femaleUsersByRangeQty = getUsersQtyByRange(femaleUsersByRange)
+         const noIdentificadoUsersByRangeQty = getUsersQtyByRange(noIdentificadoUsersByRange)
 
-      const colors = ['#28a745', '#28a745', '#28a745',
-      '#ffc107', '#ffc107', '#ffc107',
-      '#6f42c1', '#6f42c1', '#6f42c1',
-      '#007bff', '#007bff', '#007bff',
-      '#fd7e14', '#fd7e14', '#fd7e14']
+         allUsersIdsByIteration.push({
+            idIteration: idIteration,
+            iteration: `Iteración ${iterationNumber}`,
+            [generos[0]]: maleUsersByRangeQty,
+            [generos[1]]: femaleUsersByRangeQty,
+            [generos[2]]: noIdentificadoUsersByRangeQty
+         });
+         categories_2.push(`Iteración ${iterationNumber}`)
+      }
+
+      const series_2 = []
+      const colors_2 = []
+      //construccion de series
+      for (const rango of rangos) {
+         for (const genero of generos) {
+            const name = genero + " " + rango
+            const data = []
+            for (const iter of allUsersIdsByIteration) {
+               const obj_genero = iter[genero]
+               if (rango in obj_genero) {
+                  data.push(obj_genero[rango])
+               } else {
+                  data.push(0)
+               }
+            }
+            const todosSonCero = data.every(elemento => elemento === 0);
+            if (!todosSonCero) {
+               series_2.push({
+                  name: name,
+                  group: rango,
+                  data: data
+               })
+               colors_2.push(color_map_rangos[rango])
+            }
+         }
+      }
 
       const responseData = {
-         series: series,
-         colors: colors,
-         categories: categories,
+         series: series_2,
+         colors: colors_2,
+         categories: categories_2,
       };
 
       res.status(200).json(responseData);
