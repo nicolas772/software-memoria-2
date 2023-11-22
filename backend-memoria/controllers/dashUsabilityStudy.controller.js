@@ -1,23 +1,86 @@
 const db = require("../models");
 const User = db.user;
 const Iteration = db.iteration;
+const CsuqAnswers = db.csuqanswers
 const Study = db.study;
 const { sequelize } = db; // Asegúrate de importar sequelize correctamente.
 
 exports.cards = async (req, res) => {
    const idStudy = req.query.idStudy;
-
    try {
-      avg_scoresus = 95.33
-      avg_intqual = 4
-      avg_infoqual = 3
-      avg_sysuser = 2 
+      const allIterations = await Iteration.findAll({
+         where: {
+            studyId: idStudy,
+         }
+      });
+
+      if (!allIterations) {
+         return res.status(404).json({ error: "Estudio no encontrado." });
+      }
+
+      const arr_avg_intqual = []
+      const arr_avg_infoqual = []
+      const arr_avg_sysuse = []
+      const arr_avg_scoresus = []
+
+      let avg_intqual = 0
+      let avg_infoqual = 0
+      let avg_sysuse = 0
+      let avg_scoresus = 0
+
+      let intqual = 0
+      let infoqual = 0
+      let sysuse = 0
+      let scoresus = 0
+
+      for (const iteration of allIterations) {
+         const idIteration = iteration.id;
+         const allAnswers = await CsuqAnswers.findAll({
+            where: {
+               iterationId: idIteration,
+            }
+         })
+         const allAnswersQty = allAnswers.length
+
+         intqual = 0
+         infoqual = 0
+         sysuse = 0
+         scoresus = 0
+
+         for (const answer of allAnswers) {
+            scoresus += answer.scoresus
+            intqual += answer.avgintqual
+            infoqual += answer.avginfoqual
+            sysuse += answer.avgsysuse
+         }
+
+         avg_intqual = 0
+         avg_infoqual = 0
+         avg_sysuse = 0
+         avg_scoresus = 0
+
+         if (allAnswersQty > 0) {
+            avg_intqual = intqual / allAnswersQty
+            avg_infoqual = infoqual / allAnswersQty
+            avg_sysuse = sysuse / allAnswersQty
+            avg_scoresus = scoresus / allAnswersQty
+            arr_avg_intqual.push(avg_intqual)
+            arr_avg_infoqual.push(avg_infoqual)
+            arr_avg_sysuse.push(avg_sysuse)
+            arr_avg_scoresus.push(avg_scoresus)
+         }
+      }
+
+      const avg_arr_avg_intqual = calcularPromedio(arr_avg_intqual)
+      const avg_arr_avg_infoqual = calcularPromedio(arr_avg_infoqual)
+      const avg_arr_avg_sysuse = calcularPromedio(arr_avg_sysuse)
+      const avg_arr_avg_scoresus = calcularPromedio(arr_avg_scoresus)
 
       const responseData = {
-         promedio_scoresus: avg_scoresus.toFixed(1) + "%",
-         promedio_intqual: avg_intqual.toFixed(1) + " / 7",
-         promedio_infoqual: avg_infoqual.toFixed(1) + " / 7",
-         promedio_sysuse: avg_sysuser.toFixed(1) + " / 7"
+         promedio_scoresus: avg_arr_avg_scoresus + "%",
+         promedio_intqual: avg_arr_avg_intqual + " / 7",
+         promedio_infoqual: avg_arr_avg_infoqual + " / 7",
+         promedio_sysuse: avg_arr_avg_sysuse + " / 7"
       };
 
       res.status(200).json(responseData);
@@ -116,3 +179,9 @@ exports.barChart = async (req, res) => {
       res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
    }
 };
+
+function calcularPromedio(arr) {
+   const suma = arr.reduce((total, valor) => total + valor, 0);
+   const promedio = suma / arr.length;
+   return promedio.toFixed(1);
+}
