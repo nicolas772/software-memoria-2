@@ -15,7 +15,7 @@ const generateData = (startTimestamp, count, options) => {
   
       series.push(data);
     }
-  
+    console.log(series)
     return series;
   };
 
@@ -23,32 +23,44 @@ const BubbleChart = () => {
   const [chartState] = useState({
     series: [
       {
-        name: 'Bubble1',
-        data: generateData(new Date('11 Feb 2017 GMT').getTime(), 3, {
-          min: 10,
-          max: 60,
-        }),
+        name: 'Niños',
+        data: [
+          {
+            x: "Iteracion 1",
+            y: 11,
+            z: 5
+          },
+          {
+            x: "Iteracion 2",
+            y: 21,
+            z: 5
+          },
+          {
+            x: "Iteracion 3",
+            y: 31,
+            z: 5
+          },
+        ],
       },
       {
-        name: 'Bubble2',
-        data: generateData(new Date('11 Feb 2017 GMT').getTime(), 3, {
-          min: 10,
-          max: 60,
-        }),
-      },
-      {
-        name: 'Bubble3',
-        data: generateData(new Date('11 Feb 2017 GMT').getTime(), 3, {
-          min: 10,
-          max: 60,
-        }),
-      },
-      {
-        name: 'Bubble4',
-        data: generateData(new Date('11 Feb 2017 GMT').getTime(), 3, {
-          min: 10,
-          max: 60,
-        }),
+        name: 'Adolescentes',
+        data: [
+          {
+            x: "Iteracion 1",
+            y: 11,
+            z: 7
+          },
+          {
+            x: "Iteracion 2",
+            y: 21,
+            z: 7
+          },
+          {
+            x: "Iteracion 3",
+            y: 31,
+            z: 7
+          },
+        ],
       },
     ],
     options: {

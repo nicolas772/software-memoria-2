@@ -3,7 +3,7 @@ import DashboardStudyService from "../../../services/dashboardStudy.service";
 import MetricCardList from "../../charts/MetricCardList";
 import PieChart from "../../charts/PieChart";
 import BarChartGraphic from "../../charts/BarChartGraphic";
-import BubbleChart from "../../charts/BubbleChart"
+import GroupedStackedBar from "../../charts/GroupedStackedBar";
 import { Grid, Col } from "@tremor/react";
 
 const valueFormatter = (number) => `${new Intl.NumberFormat("us").format(number).toString()}`;
@@ -90,7 +90,7 @@ const DashboardDemogrStudy = (props) => {
                categories={barChartContent.categories}
                color={barChartContent.colors}
                stack={true} />
-            <BubbleChart />
+            <GroupedStackedBar />
          </Grid>
       </div>
    )
