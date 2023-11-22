@@ -47,6 +47,11 @@ module.exports = function (app) {
     dashDemogrStudy_controller.barChart
   );
   app.get(
+    "/api/dashboard/study/demogr/stacked-chart",
+    [authJwt.verifyToken, authJwt.isTester],
+    dashDemogrStudy_controller.stackedChart
+  );
+  app.get(
     "/api/dashboard/study/usability/cards",
     [authJwt.verifyToken, authJwt.isTester],
     dashUsabilityStudy_controller.cards

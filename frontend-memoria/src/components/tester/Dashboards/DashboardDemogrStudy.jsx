@@ -13,9 +13,11 @@ const DashboardDemogrStudy = (props) => {
    const [cardsContent, setCardsContent] = useState("");
    const [pieChartContent, setPieChartContent] = useState("")
    const [barChartContent, setBarChartContent] = useState("")
+   const [stackedChartContent, setStackedChartContent] = useState("")
    const [loading1, setLoading1] = useState(true)
    const [loading2, setLoading2] = useState(true)
    const [loading3, setLoading3] = useState(true)
+   const [loading4, setLoading4] = useState(true)
 
    useEffect(() => {
       DashboardStudyService.getCardsContentDemogr(idStudy).then(
@@ -74,7 +76,26 @@ const DashboardDemogrStudy = (props) => {
       );
    }, []);
 
-   if (loading1 || loading2 || loading3) {
+   useEffect(() => {
+      DashboardStudyService.getStackedChartContentDemogr(idStudy).then(
+         (response) => {
+            setStackedChartContent(response.data)
+            setLoading4(false)
+         },
+         (error) => {
+            const _content =
+               (error.response &&
+                  error.response.data &&
+                  error.response.data.message) ||
+               error.message ||
+               error.toString();
+
+            setCardsContent(_content);
+         }
+      );
+   }, []);
+
+   if (loading1 || loading2 || loading3 || loading4) {
       return <div>Cargando...</div>
    }
 
@@ -90,7 +111,10 @@ const DashboardDemogrStudy = (props) => {
                categories={barChartContent.categories}
                color={barChartContent.colors}
                stack={true} />
-            <GroupedStackedBar />
+            <GroupedStackedBar 
+            series={stackedChartContent.series}
+            colors={stackedChartContent.colors}
+            categories={stackedChartContent.categories}/>
          </Grid>
       </div>
    )
