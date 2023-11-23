@@ -5,11 +5,31 @@ import StackedBar from "../charts/StackedBar";
 import MetricCard from "../charts/MetricCard";
 import "../charts/css/styleDashboardPrincipal.css"
 import { Grid } from "@tremor/react";
+import { Form, Button, Nav } from 'react-bootstrap';
+import UserService from "../../services/user.service";
 
 const HomeTester = () => {
   const [cardsContent, setCardsContent] = useState("");
   const [columnChartContent, setColumnChartContent] = useState("");
   const [stackedBarContent, setStackedBarContent] = useState("");
+  const [opinion, setOpinion] = useState("")
+
+  const handleChangeOpinion = (event) => {
+    const value = event.target.value;
+    setOpinion(value);
+  };
+
+  const handleSubmit = () => {
+    UserService.postOpenAnswerPrueba(opinion).then(
+      (response) => {
+        //redireccionar a inicio
+        console.log(response.data)
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
 
   useEffect(() => {
     DashboardService.getCardsContentMain().then(
@@ -73,8 +93,19 @@ const HomeTester = () => {
           <h3>Home Tester</h3>
         </header>
       </div>
-      
 
+      <Form.Group className="mb-3">
+        <Form.Control
+          as="textarea"
+          rows={3}
+          value={opinion}
+          onChange={handleChangeOpinion}
+          className="disable-resize" // Agrega la clase aquí
+        />
+      </Form.Group>
+      <button type="button" onClick={handleSubmit}>
+        Terminar Estudio
+      </button>
     </div>
   )
 }

@@ -63,6 +63,12 @@ const postOpenAnswer = (idIteration, idUser, opinion1, opinion2, prefieroNoOpina
   });
 }
 
+const postOpenAnswerPrueba = (opinion) => {
+  return axios.post(API_URL + "open-answer-prueba", {
+    opinion: opinion,
+  });
+}
+
 const updateProfile = (idUser, username, email, sex, birthdayToSend) => {
   return axios.put(API_URL + "update-profile", {
     idUser: idUser,
@@ -96,6 +102,7 @@ const UserService = {
   postOpenAnswer,
   updateProfile,
   updatePassword,
+  postOpenAnswerPrueba,
 };
 
 export default UserService;

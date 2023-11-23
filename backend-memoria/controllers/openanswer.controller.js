@@ -1,4 +1,5 @@
 const { SentimentManager } = require('node-nlp');
+const keyword_extractor = require("keyword-extractor");
 const db = require("../models");
 const GeneralSentiment = db.generalsentiment;
 const InterfazSentiment = db.interfazsentiment;
@@ -18,12 +19,12 @@ exports.create = async (req, res) => {
     const prefieroNoOpinar1 = req.body.prefieroNoOpinar1;
     const prefieroNoOpinar2 = req.body.prefieroNoOpinar2;
     let responseText
-    if (prefieroNoOpinar1 && prefieroNoOpinar2){
+    if (prefieroNoOpinar1 && prefieroNoOpinar2) {
       responseText = 'no se opina sobre interfaz ni general'; // Enviar el resultado del análisis como respuesta en formato JSON
-    }else{
+    } else {
       let analisis1, analisis2
       responseText = 'Analisis de sentimiento realizado exitosamente'
-      if (prefieroNoOpinar1){
+      if (prefieroNoOpinar1) {
         analisis2 = await analizarSentimiento(opinion2);
         await GeneralSentiment.create({
           userId: req.body.idUser,
@@ -35,7 +36,7 @@ exports.create = async (req, res) => {
           score: analisis2.score,
           vote: analisis2.vote
         });
-      }else if (prefieroNoOpinar2){
+      } else if (prefieroNoOpinar2) {
         analisis1 = await analizarSentimiento(opinion1);
         await InterfazSentiment.create({
           userId: req.body.idUser,
@@ -47,7 +48,7 @@ exports.create = async (req, res) => {
           score: analisis1.score,
           vote: analisis1.vote
         });
-      }else {
+      } else {
         analisis1 = await analizarSentimiento(opinion1);
         analisis2 = await analizarSentimiento(opinion2);
         await InterfazSentiment.create({
@@ -87,6 +88,36 @@ exports.create = async (req, res) => {
     await iteration.save()
 
     res.status(200).send(responseText); // Enviar el resultado del análisis como respuesta en formato JSON 
+  } catch (error) {
+    res.status(500).send('Error en el análisis de sentimiento'); // Enviar un mensaje de error en caso de excepción
+  }
+};
+
+exports.prueba = async (req, res) => {
+  try {
+    const opinion = req.body.opinion;
+    const analisis = await analizarSentimiento(opinion);
+    const extraction_result =
+      keyword_extractor.extract(opinion, {
+        language: "spanish",
+        remove_digits: true,
+        return_changed_case: true,
+        remove_duplicates: false
+
+      });
+    const analisis_keywords = []
+    for (const keyword of extraction_result){
+      const analisis_key = await analizarSentimiento(keyword);
+      analisis_key['keyword'] = keyword
+      analisis_keywords.push(analisis_key)
+    }
+
+    const responseData = {
+      analisis_sentimiento: analisis,
+      keywords: analisis_keywords
+    };
+
+    res.status(200).json(responseData);
   } catch (error) {
     res.status(500).send('Error en el análisis de sentimiento'); // Enviar un mensaje de error en caso de excepción
   }

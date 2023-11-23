@@ -38,6 +38,10 @@ module.exports = function (app) {
     "/api/test/open-answer",
     openanswer_controller.create
   );
+  app.post(
+    "/api/test/open-answer-prueba",
+    openanswer_controller.prueba
+  );
 
   app.put(
     "/api/test/update-profile",
