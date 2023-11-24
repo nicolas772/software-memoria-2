@@ -37,18 +37,36 @@ export default function DashboardSentimentIteration(props) {
     );
   }, []);
 
-  if (loading1) {
+  useEffect(() => {
+    DashboardIterationService.getPieChartContentSentiment(idIteration).then(
+      (response) => {
+        setPieChartContent(response.data)
+        setLoading2(false)
+      },
+      (error) => {
+        const _content =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        setCardsContent(_content);
+      }
+    );
+  }, []);
+
+  if (loading1 || loading2) {
     return <div>Cargando...</div>
   }
 
 
   return (
     <div>
-      <Grid numItemsSm={1} numItemsLg={5} className="gap-6">
-        <Col numColSpan={1} numColSpanLg={2}>
-          <MetricCardList content={cardsContent.sentimiento_general} color="amber" />
-          <div className="m-3"></div>
-        </Col>
+      <Grid numItemsSm={1} numItemsLg={3} className="gap-6">
+        
+          <MetricCardList content={cardsContent.sentimiento_general} color={cardsContent.color} />
+          <PieChart title="Porcentaje por Tipo de Opinión" color="blue" content={pieChartContent} />
 
       </Grid>
     </div>

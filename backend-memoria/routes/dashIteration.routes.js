@@ -66,4 +66,9 @@ module.exports = function (app) {
     [authJwt.verifyToken, authJwt.isTester],
     dashSentimentIteration_controller.cards
   );
+  app.get(
+    "/api/dashboard/iteration/sentiment/pie-chart",
+    [authJwt.verifyToken, authJwt.isTester],
+    dashSentimentIteration_controller.pieChart
+  );
 };
