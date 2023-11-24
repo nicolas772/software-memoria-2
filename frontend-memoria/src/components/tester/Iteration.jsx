@@ -146,7 +146,7 @@ const Iteration = () => {
     window.history.back();
   }
 
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(3);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

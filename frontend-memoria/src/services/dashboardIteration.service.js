@@ -49,6 +49,12 @@ const getBoxPlotContentUsability = (idIteration) => {
     return axios.get(API_URL + "usability/box-plot", { headers: authHeader(), params: { idIteration: idIteration }  });
 };
 
+//DASHBOARD SENTIMIENTOS ITERACIÓN
+
+const getCardsContentSentiment = (idIteration) => {
+    return axios.get(API_URL + "sentiment/cards", { headers: authHeader(), params: { idIteration: idIteration }  });
+};
+
 const DashboardIterationService = {
     getCardsContentGeneral,
     getTableTimeContentGeneral,
@@ -60,6 +66,7 @@ const DashboardIterationService = {
     getCardsContentUsability,
     getTableAvgContentUsability,
     getBoxPlotContentUsability,
+    getCardsContentSentiment,
 };
 
 export default DashboardIterationService;

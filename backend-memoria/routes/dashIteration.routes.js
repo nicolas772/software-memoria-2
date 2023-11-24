@@ -2,6 +2,7 @@ const { authJwt, verifyProfile } = require("../middleware");
 const dashIteration_controller = require("../controllers/dashIteration.controller")
 const dashDemogrIteration_controller = require("../controllers/dashDemogrIteration.controller")
 const dashUsabilityIteration_controller = require("../controllers/dashUsabilityIteration.controller")
+const dashSentimentIteration_controller = require("../controllers/dashSentimentIteration.controller")
 module.exports = function (app) {
   app.use(function (req, res, next) {
     res.header(
@@ -59,5 +60,10 @@ module.exports = function (app) {
     "/api/dashboard/iteration/usability/box-plot",
     [authJwt.verifyToken, authJwt.isTester],
     dashUsabilityIteration_controller.boxPlot
+  );
+  app.get(
+    "/api/dashboard/iteration/sentiment/cards",
+    [authJwt.verifyToken, authJwt.isTester],
+    dashSentimentIteration_controller.cards
   );
 };

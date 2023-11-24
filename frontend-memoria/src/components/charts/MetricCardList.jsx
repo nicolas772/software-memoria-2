@@ -1,5 +1,5 @@
 import { Card, Metric, Text, List, ListItem, Flex, Bold, Grid } from "@tremor/react";
-import { CheckCircleIcon, PlusCircleIcon, CheckIcon, RefreshIcon, LightBulbIcon } from '@heroicons/react/solid';
+import { CheckCircleIcon, PlusCircleIcon, CheckIcon, RefreshIcon, LightBulbIcon, StarIcon, BookOpenIcon } from '@heroicons/react/solid';
 import { ArrowRight, GenderMale, GenderAmbiguous, GenderFemale } from 'react-bootstrap-icons';
 export default function MetricCardList(props) {
   const { content, color } = props;
@@ -16,6 +16,9 @@ export default function MetricCardList(props) {
     hombre: GenderMale,
     mujer: GenderFemale,
     noIdentificado: GenderAmbiguous,
+    score: StarIcon,
+    palabras: BookOpenIcon,
+    hits: BookOpenIcon,
   };
   const iconColorMap = {
     activa: "green",       // Verde para indicar algo activo
@@ -28,6 +31,9 @@ export default function MetricCardList(props) {
     hombre: "green",
     mujer: "purple",
     noIdentificado: "grey",
+    score: "green",
+    palabras: "#3399FF",
+    hits: "orange",
   };
 
   return (
