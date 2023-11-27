@@ -100,18 +100,21 @@ exports.pieChart = async (req, res) => {
          }
       })
 
-      const allIterationStates = await IterationState.findAll({
+      const allGeneralSentiment = await GeneralSentiment.findAll({
          where: {
             iterationId: idIteration,
          }
       })
 
-      if (!allIterationStates || !iteration) {
+      if (!allGeneralSentiment || !iteration) {
          return res.status(404).json({ error: "Iteración No Encontrada." });
       }
 
+      const positiveOpinions = allGeneralSentiment.filter(opinion => opinion.vote === "positive").length;
+      const negativeOpinions = allGeneralSentiment.filter(opinion => opinion.vote === "negative").length;
+      const neutralOpinions = allGeneralSentiment.filter(opinion => opinion.vote === "neutral").length;
 
-      const series = [5, 10, 15]
+      const series = [positiveOpinions, neutralOpinions, negativeOpinions]
       const colors = ['#28a745', '#ffc107', '#dc3545']
       const labels = ["Positivo", "Neutro", "Negativo"]
 
