@@ -3,9 +3,10 @@ import DashboardIterationService from '../../../services/dashboardIteration.serv
 import MetricCardList from "../../charts/MetricCardList";
 import PieChart from "../../charts/PieChart";
 import SimpleCarousel from "../../charts/Carousel";
-import BarChartGraphic from "../../charts/BarChartGraphic";
 import { Grid, Col } from "@tremor/react";
 import BarChartWithNegatives from "../../charts/BarChartWithNegatives";
+import WordCloudChart from "../../charts/WordCloudChart";
+
 
 const valueFormatter = (number) => `${number}`;
 
@@ -116,6 +117,7 @@ export default function DashboardSentimentIteration(props) {
         title="Score por Usuario"
         data={barChartContent.chartData}
         categories={barChartContent.categories}/>
+        <WordCloudChart />
       </Grid>
     </div>
   );
