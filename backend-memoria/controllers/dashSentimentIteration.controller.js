@@ -111,3 +111,39 @@ exports.pieChart = async (req, res) => {
        res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
     }
  };
+
+ exports.carousel = async (req, res) => {
+   const idIteration = req.query.idIteration;
+   try {
+      const iteration = await Iteration.findOne({
+         where: {
+            id: idIteration
+         }
+      })
+
+      const allIterationStates = await IterationState.findAll({
+         where: {
+            iterationId: idIteration,
+         }
+      })
+
+      if (!allIterationStates || !iteration) {
+         return res.status(404).json({ error: "Iteración No Encontrada." });
+      }
+
+      
+      const opinions = [
+         "Me parecio un excelente software.",
+         "No me gusto mucho, pienso que puede mejorar mucho la interfaz.",
+         "Expectacular, nada que decir. Los colores y las animaciones me parecieron impecables, el tamaño de la letra super bien."
+      ]
+      
+      const responseData = {
+         opiniones: opinions
+      }
+      res.status(200).json(responseData);
+   } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
+   }
+};

@@ -71,4 +71,9 @@ module.exports = function (app) {
     [authJwt.verifyToken, authJwt.isTester],
     dashSentimentIteration_controller.pieChart
   );
+  app.get(
+    "/api/dashboard/iteration/sentiment/carousel",
+    [authJwt.verifyToken, authJwt.isTester],
+    dashSentimentIteration_controller.carousel
+  );
 };

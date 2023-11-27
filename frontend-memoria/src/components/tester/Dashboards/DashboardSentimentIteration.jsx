@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import DashboardIterationService from '../../../services/dashboardIteration.service'
 import MetricCardList from "../../charts/MetricCardList";
 import PieChart from "../../charts/PieChart";
-import CarouselFadeExample from "../../charts/CarouselFadeExample";
+import SimpleCarousel from "../../charts/Carousel";
 import BarChartGraphic from "../../charts/BarChartGraphic";
 import { Grid, Col } from "@tremor/react";
 
@@ -11,7 +11,7 @@ export default function DashboardSentimentIteration(props) {
   const [cardsContent, setCardsContent] = useState("");
   const [pieChartContent, setPieChartContent] = useState("")
   const [barChartContent, setBarChartContent] = useState("")
-  const [opinions, setOpinions] = useState("")
+  const [carouselContent, setCarouselContent] = useState("")
   const [cloudContent, setCloudContent] = useState("")
   const [loading1, setLoading1] = useState(true)
   const [loading2, setLoading2] = useState(true)
@@ -57,7 +57,26 @@ export default function DashboardSentimentIteration(props) {
     );
   }, []);
 
-  if (loading1 || loading2) {
+  useEffect(() => {
+    DashboardIterationService.getCarouselContentSentiment(idIteration).then(
+      (response) => {
+        setCarouselContent(response.data)
+        setLoading3(false)
+      },
+      (error) => {
+        const _content =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        setCardsContent(_content);
+      }
+    );
+  }, []);
+
+  if (loading1 || loading2 || loading3) {
     return <div>Cargando...</div>
   }
 
@@ -69,7 +88,7 @@ export default function DashboardSentimentIteration(props) {
           <MetricCardList content={cardsContent.sentimiento_general} color={cardsContent.color} />
           <PieChart title="Porcentaje por Tipo de Opinión" color="blue" content={pieChartContent} />
          
-          <CarouselFadeExample></CarouselFadeExample>
+          <SimpleCarousel content={carouselContent.opiniones} title="Opiniones"></SimpleCarousel>
       </Grid>
       
     </div>
