@@ -139,22 +139,22 @@ exports.carousel = async (req, res) => {
          }
       })
 
-      const allIterationStates = await IterationState.findAll({
+      const allGeneralSentiment = await GeneralSentiment.findAll({
          where: {
             iterationId: idIteration,
          }
       })
 
-      if (!allIterationStates || !iteration) {
+      if (!allGeneralSentiment || !iteration) {
          return res.status(404).json({ error: "Iteración No Encontrada." });
       }
 
+      const opinions = []
 
-      const opinions = [
-         "Me parecio un excelente software.",
-         "No me gusto mucho, pienso que puede mejorar mucho la interfaz.",
-         "Expectacular, nada que decir. Los colores y las animaciones me parecieron impecables, el tamaño de la letra super bien."
-      ]
+      for (const opinion of allGeneralSentiment){
+         opinions.push(opinion.answer)
+      }
+      console.log(opinions)
 
       const responseData = {
          opiniones: opinions
