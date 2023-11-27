@@ -25,6 +25,7 @@
     "bootstrap": "^4.6.0",
     "dayjs": "^1.11.10",
     "env-cmd": "^10.1.0",
+    "flowbite-react": "^0.7.0",
     "formik": "^2.2.9",
     "mdb-react-ui-kit": "^6.1.0",
     "react": "^18.2.0",

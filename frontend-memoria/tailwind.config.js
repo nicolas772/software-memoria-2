@@ -7,6 +7,7 @@ module.exports = {
 
     // Path to the Tremor module
     "./node_modules/@tremor/**/*.{js,ts,jsx,tsx}",
+    'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}',
   ],
   theme: {
     transparent: "transparent",
@@ -127,4 +128,5 @@ module.exports = {
     },
   ],
   plugins: [require("@headlessui/tailwindcss")],
+  
 };

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import DashboardIterationService from '../../../services/dashboardIteration.service'
 import MetricCardList from "../../charts/MetricCardList";
 import PieChart from "../../charts/PieChart";
+import CarouselFadeExample from "../../charts/CarouselFadeExample";
 import BarChartGraphic from "../../charts/BarChartGraphic";
 import { Grid, Col } from "@tremor/react";
 
@@ -67,8 +68,10 @@ export default function DashboardSentimentIteration(props) {
         
           <MetricCardList content={cardsContent.sentimiento_general} color={cardsContent.color} />
           <PieChart title="Porcentaje por Tipo de Opinión" color="blue" content={pieChartContent} />
-
+         
+          <CarouselFadeExample></CarouselFadeExample>
       </Grid>
+      
     </div>
   );
 }
