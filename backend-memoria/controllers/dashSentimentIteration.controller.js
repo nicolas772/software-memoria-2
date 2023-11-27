@@ -149,12 +149,7 @@ exports.carousel = async (req, res) => {
          return res.status(404).json({ error: "Iteración No Encontrada." });
       }
 
-      const opinions = []
-
-      for (const opinion of allGeneralSentiment){
-         opinions.push(opinion.answer)
-      }
-      console.log(opinions)
+      const opinions = allGeneralSentiment.map(opinion => opinion.answer);
 
       const responseData = {
          opiniones: opinions
@@ -186,14 +181,21 @@ exports.barChart = async (req, res) => {
          return res.status(404).json({ error: "Iteración No Encontrada." });
       }
 
+      const allGeneralSentiment = await GeneralSentiment.findAll({
+         where: {
+            iterationId: idIteration,
+         }
+      })
 
-      const scores = [
-         10.45, 5.42, 5.9, -20.42,
-      ]
+      if (!allGeneralSentiment || !iteration) {
+         return res.status(404).json({ error: "Iteración No Encontrada." });
+      }
 
-      const users = [
-         'User 1', 'User 2', 'User 3', 'User 4',
-      ];
+      const scores = allGeneralSentiment.map(opinion => opinion.score.toFixed(2));
+
+      const users = allGeneralSentiment.map(opinion => "Usuario ID " + opinion.userId)
+
+      
 
       const responseData = {
          chartData: scores,
