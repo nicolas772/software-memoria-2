@@ -42,7 +42,7 @@ exports.cards = async (req, res) => {
       if (info_task_qty > 0) {
          //CARD 1: Porcentaje de éxito de tarea
          const completedTasks = allInfoTasks.filter(task => task.complete === true).length;
-         const avgSuccessNoFormat = info_task_qty / completedTasks
+         const avgSuccessNoFormat =  completedTasks / info_task_qty
          const avgSuccess = (avgSuccessNoFormat * 100).toFixed(1) + "%";
 
          //CARD 2: Tiempo promedio de tarea

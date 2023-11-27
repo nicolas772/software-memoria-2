@@ -5,14 +5,14 @@ export default function SimpleCarousel(props) {
   const { content, title } = props
   return (
     <Card
-      className='pl-0 pr-0'
+      
       decoration="top"
       decorationColor="cyan">
-      <Title className='pl-4'>{title}</Title>
+      <Title className='pb-2'>{title}</Title>
       <div className="h-56">
-        <Carousel indicators={false} leftControl rightControl>
+        <Carousel  leftControl rightControl>
           {content.map((item, index) => (
-            <div key={index} className="flex h-full pl-12 pr-12 items-center text-center justify-center bg-white dark:bg-white text-gray-700">
+            <div key={index} className="flex h-full pl-4 pr-4 items-center text-center justify-center bg-gray-200 dark:bg-gray-200 text-gray-700">
             "{item}"
           </div>
           ))}
