@@ -4,8 +4,8 @@ const Iteration = db.iteration;
 const Task = db.task;
 const InfoTask = db.infotask
 const IterationState = db.iterationstate
+const GeneralSentiment = db.generalsentiment
 const { Op } = require('sequelize'); // Necesitas importar Op desde sequelize
-const moment = require('moment');
 
 const rangos = ["Niños", "Adolescentes", "Jovenes", "Adultos", "Adulto Mayores"]
 const colorMapSentiment = {
@@ -28,17 +28,32 @@ exports.cards = async (req, res) => {
          }
       })
 
-      const allIterationStates = await IterationState.findAll({
+      const allGeneralSentiment = await GeneralSentiment.findAll({
          where: {
             iterationId: idIteration,
          }
       })
 
-      if (!allIterationStates || !iteration) {
+      if (!allGeneralSentiment || !iteration) {
          return res.status(404).json({ error: "Iteración No Encontrada." });
       }
+
+      const allSentimentQty = allGeneralSentiment.length
+      let sum_score = 0
+      let sum_words = 0
+      let sum_hits = 0
+      for (const sentiment of allGeneralSentiment) {
+         sum_score += sentiment.score
+         sum_words += sentiment.numwords
+         sum_hits += sentiment.numhits
+      }
+      if (allSentimentQty > 0) {
+         avg_score = sum_score / allSentimentQty
+         avg_words = sum_words / allSentimentQty
+         avg_hits = sum_hits / allSentimentQty
+      }
       //CARD 1: Sentimiento General Usuarios
-      const sentiment = "Positivo"
+      let sentiment = avg_score > 0 ? "Positivo" : avg_score < 0 ? "Negativo" : "Neutro";
 
       const generalSentiment = {
          title: "Sentimiento General Usuarios",
@@ -48,17 +63,17 @@ exports.cards = async (req, res) => {
          data: [
             {
                name: "Score Promedio",
-               stat: 0.35,
+               stat: avg_score.toFixed(2),
                icon: "score",
             },
             {
                name: "Promedio Palabras por opinión",
-               stat: 35,
+               stat: avg_words.toFixed(2),
                icon: "palabras",
             },
             {
                name: "Promedio Hits por opinión",
-               stat: 14,
+               stat: avg_hits.toFixed(2),
                icon: "hits"
             },
          ]
