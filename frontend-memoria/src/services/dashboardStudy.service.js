@@ -54,6 +54,28 @@ const getBarChartContentUsability = (idStudy) => {
     return axios.get(API_URL + "usability/bar-chart", { headers: authHeader(), params: { idStudy: idStudy }  });
 };
 
+//DASHBOARD SENTIMIENTOS STUDY
+
+const getCardsContentSentiment = (idStudy) => {
+    return axios.get(API_URL + "sentiment/cards", { headers: authHeader(), params: { idStudy: idStudy }  });
+};
+
+const getPieChartContentSentiment = (idStudy) => {
+    return axios.get(API_URL + "sentiment/pie-chart", { headers: authHeader(), params: { idStudy: idStudy }  });
+};
+
+const getCarouselContentSentiment = (idStudy) => {
+    return axios.get(API_URL + "sentiment/carousel", { headers: authHeader(), params: { idStudy: idStudy }   });
+};
+
+const getBarChartContentSentiment = (idStudy) => {
+    return axios.get(API_URL + "sentiment/bar-chart", { headers: authHeader(), params: { idStudy: idStudy }  });
+};
+
+const getCloudWordContentSentiment = (idStudy) => {
+    return axios.get(API_URL + "sentiment/cloud-word", { headers: authHeader(), params: { idStudy: idStudy }   });
+};
+
 const DashboardStudyService = {
     getCardsContentGeneral,
     getBarListContentGeneral,
@@ -66,6 +88,11 @@ const DashboardStudyService = {
     getCardsContentUsability,
     getBoxPlotContentUsability,
     getBarChartContentUsability,
+    getCardsContentSentiment,
+    getPieChartContentSentiment,
+    getCarouselContentSentiment,
+    getBarChartContentSentiment,
+    getCloudWordContentSentiment,
 };
 
 export default DashboardStudyService;

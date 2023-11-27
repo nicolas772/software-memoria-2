@@ -2,6 +2,7 @@ const { authJwt, verifyProfile } = require("../middleware");
 const dashStudy_controller = require("../controllers/dashStudy.controller");
 const dashDemogrStudy_controller = require("../controllers/dashDemogrStudy.controller")
 const dashUsabilityStudy_controller = require("../controllers/dashUsabilityStudy.controller")
+const dashSentimentStudy_controller = require("../controllers/dashSentimentStudy.controller")
 module.exports = function (app) {
   app.use(function (req, res, next) {
     res.header(
@@ -65,5 +66,30 @@ module.exports = function (app) {
     "/api/dashboard/study/usability/bar-chart",
     [authJwt.verifyToken, authJwt.isTester],
     dashUsabilityStudy_controller.barChart
+  );
+  app.get(
+    "/api/dashboard/study/sentiment/cards",
+    [authJwt.verifyToken, authJwt.isTester],
+    dashSentimentStudy_controller.cards
+  );
+  app.get(
+    "/api/dashboard/study/sentiment/pie-chart",
+    [authJwt.verifyToken, authJwt.isTester],
+    dashSentimentStudy_controller.pieChart
+  );
+  app.get(
+    "/api/dashboard/study/sentiment/carousel",
+    [authJwt.verifyToken, authJwt.isTester],
+    dashSentimentStudy_controller.carousel
+  );
+  app.get(
+    "/api/dashboard/study/sentiment/bar-chart",
+    [authJwt.verifyToken, authJwt.isTester],
+    dashSentimentStudy_controller.barChart
+  );
+  app.get(
+    "/api/dashboard/study/sentiment/cloud-word",
+    [authJwt.verifyToken, authJwt.isTester],
+    dashSentimentStudy_controller.cloudWord
   );
 };

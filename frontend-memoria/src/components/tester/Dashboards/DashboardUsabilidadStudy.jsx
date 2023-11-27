@@ -39,7 +39,6 @@ const DashboardUsabilidadStudy = (props) => {
       DashboardStudyService.getBarChartContentUsability(idStudy).then(
          (response) => {
             setBarChartContent(response.data)
-            console.log(response.data)
             setLoading2(false)
          },
          (error) => {
