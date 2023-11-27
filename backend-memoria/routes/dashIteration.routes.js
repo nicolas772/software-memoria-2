@@ -81,4 +81,9 @@ module.exports = function (app) {
     [authJwt.verifyToken, authJwt.isTester],
     dashSentimentIteration_controller.barChart
   );
+  app.get(
+    "/api/dashboard/iteration/sentiment/cloud-word",
+    [authJwt.verifyToken, authJwt.isTester],
+    dashSentimentIteration_controller.cloudWord
+  );
 };

@@ -188,3 +188,55 @@ exports.barChart = async (req, res) => {
       res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
    }
 };
+
+exports.cloudWord = async (req, res) => {
+   const idIteration = req.query.idIteration;
+
+   try {
+      const iteration = await Iteration.findOne({
+         where: {
+            id: idIteration
+         }
+      })
+
+      const allIterationStates = await IterationState.findAll({
+         where: {
+            iterationId: idIteration,
+         }
+      })
+
+      if (!allIterationStates || !iteration) {
+         return res.status(404).json({ error: "Iteración No Encontrada." });
+      }
+
+      const data = [
+         { value: 'jQuery', count: 200 },
+         { value: 'MongoDB', count: 18 },
+         { value: 'JavaScript', count: 38 },
+         { value: 'React', count: 30 },
+         { value: 'Nodejs', count: 28 },
+         { value: 'Express.js', count: 25 },
+         { value: 'HTML5', count: 33 },
+         { value: 'CSS3', count: 20 },
+         { value: 'Webpack', count: 22 },
+         { value: 'Babel.js', count: 7 },
+         { value: 'ECMAScript', count: 25 },
+         { value: 'Jest', count: 15 },
+         { value: 'Mocha', count: 17 },
+         { value: 'React Native', count: 27 },
+         { value: 'Angular.js', count: 30 },
+         { value: 'TypeScript', count: 15 },
+         { value: 'Flow', count: 30 },
+         { value: 'NPM', count: 11 },
+      ]
+
+      const responseData = {
+         data: data,
+      };
+
+      res.status(200).json(responseData);
+   } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
+   }
+};

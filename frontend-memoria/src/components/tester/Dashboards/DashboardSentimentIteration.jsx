@@ -99,10 +99,28 @@ export default function DashboardSentimentIteration(props) {
     );
   }, []);
 
-  if (loading1 || loading2 || loading3 || loading4) {
+  useEffect(() => {
+    DashboardIterationService.getCloudWordContentSentiment(idIteration).then(
+      (response) => {
+        setCloudContent(response.data)
+        setLoading5(false)
+      },
+      (error) => {
+        const _content =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        setCardsContent(_content);
+      }
+    );
+  }, []);
+
+  if (loading1 || loading2 || loading3 || loading4 || loading5) {
     return <div>Cargando...</div>
   }
-
 
   return (
     <div>
@@ -117,7 +135,7 @@ export default function DashboardSentimentIteration(props) {
         title="Score por Usuario"
         data={barChartContent.chartData}
         categories={barChartContent.categories}/>
-        <WordCloudChart />
+        <WordCloudChart content={cloudContent.data} title="Tags Opiniones"/>
       </Grid>
     </div>
   );
