@@ -5,6 +5,9 @@ import PieChart from "../../charts/PieChart";
 import SimpleCarousel from "../../charts/Carousel";
 import BarChartGraphic from "../../charts/BarChartGraphic";
 import { Grid, Col } from "@tremor/react";
+import BarChartWithNegatives from "../../charts/BarChartWithNegatives";
+
+const valueFormatter = (number) => `${number}`;
 
 export default function DashboardSentimentIteration(props) {
   const { idIteration } = props;
@@ -76,7 +79,26 @@ export default function DashboardSentimentIteration(props) {
     );
   }, []);
 
-  if (loading1 || loading2 || loading3) {
+  useEffect(() => {
+    DashboardIterationService.getBarChartContentSentiment(idIteration).then(
+      (response) => {
+        setBarChartContent(response.data)
+        setLoading4(false)
+      },
+      (error) => {
+        const _content =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        setCardsContent(_content);
+      }
+    );
+  }, []);
+
+  if (loading1 || loading2 || loading3 || loading4) {
     return <div>Cargando...</div>
   }
 
@@ -84,13 +106,17 @@ export default function DashboardSentimentIteration(props) {
   return (
     <div>
       <Grid numItemsSm={1} numItemsLg={3} className="gap-6">
-        
-          <MetricCardList content={cardsContent.sentimiento_general} color={cardsContent.color} />
-          <PieChart title="Porcentaje por Tipo de Opinión" color="blue" content={pieChartContent} />
-         
-          <SimpleCarousel content={carouselContent.opiniones} title="Opiniones"></SimpleCarousel>
+        <MetricCardList content={cardsContent.sentimiento_general} color={cardsContent.color} />
+        <PieChart title="Porcentaje por Tipo de Opinión" color="blue" content={pieChartContent} />
+        <SimpleCarousel content={carouselContent.opiniones} title="Opiniones"></SimpleCarousel>
       </Grid>
-      
+      <div style={{margin:'2%'}}></div>
+      <Grid numItemsSm={1} numItemsLg={2} className="gap-6">
+        <BarChartWithNegatives 
+        title="Score por Usuario"
+        data={barChartContent.chartData}
+        categories={barChartContent.categories}/>
+      </Grid>
     </div>
   );
 }

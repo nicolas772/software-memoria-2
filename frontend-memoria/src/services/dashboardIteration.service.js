@@ -63,6 +63,10 @@ const getCarouselContentSentiment = (idIteration) => {
     return axios.get(API_URL + "sentiment/carousel", { headers: authHeader(), params: { idIteration: idIteration }  });
 };
 
+const getBarChartContentSentiment = (idIteration) => {
+    return axios.get(API_URL + "sentiment/bar-chart", { headers: authHeader(), params: { idIteration: idIteration }  });
+};
+
 const DashboardIterationService = {
     getCardsContentGeneral,
     getTableTimeContentGeneral,
@@ -77,6 +81,7 @@ const DashboardIterationService = {
     getCardsContentSentiment,
     getPieChartContentSentiment,
     getCarouselContentSentiment,
+    getBarChartContentSentiment,
 };
 
 export default DashboardIterationService;
