@@ -31,6 +31,7 @@ exports.cards = async (req, res) => {
       const allGeneralSentiment = await GeneralSentiment.findAll({
          where: {
             iterationId: idIteration,
+            falsepositive: false
          }
       })
 
@@ -106,6 +107,7 @@ exports.pieChart = async (req, res) => {
       const allGeneralSentiment = await GeneralSentiment.findAll({
          where: {
             iterationId: idIteration,
+            falsepositive: false
          }
       })
 
@@ -174,19 +176,10 @@ exports.barChart = async (req, res) => {
          }
       })
 
-      const allIterationStates = await IterationState.findAll({
-         where: {
-            iterationId: idIteration,
-         }
-      })
-
-      if (!allIterationStates || !iteration) {
-         return res.status(404).json({ error: "Iteración No Encontrada." });
-      }
-
       const allGeneralSentiment = await GeneralSentiment.findAll({
          where: {
             iterationId: idIteration,
+            falsepositive: false
          }
       })
 
@@ -222,13 +215,14 @@ exports.cloudWord = async (req, res) => {
          }
       })
 
-      const allIterationStates = await IterationState.findAll({
+      const allGeneralSentiment = await GeneralSentiment.findAll({
          where: {
             iterationId: idIteration,
+            falsepositive: false
          }
       })
 
-      if (!allIterationStates || !iteration) {
+      if (!allGeneralSentiment || !iteration) {
          return res.status(404).json({ error: "Iteración No Encontrada." });
       }
 
