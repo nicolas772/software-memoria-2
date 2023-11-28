@@ -244,3 +244,28 @@ p {
 	align-self: flex-start;
 	margin-right: 5px;
 }
+
+.sentiment-container {
+	display: flex;
+	justify-content: space-between;
+	margin-left: 20%;
+	margin-right: 20%;
+	
+}
+
+.sentiment-icon {
+	cursor: pointer;
+	transition: color 0.3s ease;
+	color: #21252974
+	/* Agrega una transición suave al cambio de color */
+}
+
+.sentiment-icon:hover {
+	color: #212529c0
+	/* Aumenta la intensidad del color al pasar el mouse sobre el ícono */
+}
+
+.sentiment-icon.selected {
+	color: #212529
+	/* Aumenta aún más la intensidad del color cuando está seleccionado */
+}

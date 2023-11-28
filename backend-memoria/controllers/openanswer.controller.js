@@ -16,40 +16,54 @@ async function analizarSentimiento(texto) {
 
 exports.create = async (req, res) => {
   try {
-    const opinion1 = req.body.opinion1;
+    const opinion = req.body.opinion; //opinion a análisis
+    const sentiment_user = req.body.selectedSentiment; //sentimiento entregado por el usuario
     const normalizer = new NormalizerEs();
-    const opinion_normalizada = normalizer.normalize(opinion1);
+    const opinion_normalizada = normalizer.normalize(opinion);
     const analisis = await analizarSentimiento(opinion_normalizada);
     const keywords =
-      keyword_extractor.extract(opinion1, {
+      keyword_extractor.extract(opinion, {
         language: "spanish",
         remove_digits: true,
         return_changed_case: true,
         remove_duplicates: false
 
       });
+    
+    let falsePositive = false
+    if (sentiment_user === "positive" && analisis.vote === "negative"){
+      falsePositive = true
+    }
+    if (sentiment_user === "negative" && analisis.vote === "positive"){
+      falsePositive = true
+    }
+
     const keywords_no_neutral = []
-    for (const keyword of keywords) {
-      const analisis_key = await analizarSentimiento(keyword);
-      if (analisis_key.vote != "neutral") {
-        keywords_no_neutral.push(keyword)
-        await Keyword.create({
-          userId: req.body.idUser,
-          iterationId: req.body.idIteration,
-          keyword: keyword,
-        });
+    if (!falsePositive){
+      for (const keyword of keywords) {
+        const analisis_key = await analizarSentimiento(keyword);
+        if (analisis_key.vote != "neutral") {
+          keywords_no_neutral.push(keyword)
+          await Keyword.create({
+            userId: req.body.idUser,
+            iterationId: req.body.idIteration,
+            keyword: keyword,
+          });
+        }
       }
     }
 
     await GeneralSentiment.create({
       userId: req.body.idUser,
       iterationId: req.body.idIteration,
-      answer: opinion1,
+      answer: opinion,
       comparative: analisis.comparative,
       numhits: analisis.numHits,
       numwords: analisis.numWords,
       score: analisis.score,
-      vote: analisis.vote
+      vote: analisis.vote,
+      usersentiment: sentiment_user,
+      falsepositive: falsePositive,
     });
 
     const iterationState = await IterationState.findOne({
@@ -59,15 +73,18 @@ exports.create = async (req, res) => {
     iterationState.inCSUQ = false
     iterationState.inQuestion = false
     await iterationState.save()
+
     //lo que sigue, es para disminuir en 1 la cantidad de usuarios activos completando la iteracion
     //y aumentar en 1 la cantidad de usuarios que completaron la iteracion
     const iteration = await Iteration.findByPk(req.body.idIteration)
     iteration.users_qty -= 1
     iteration.users_qty_complete += 1
     await iteration.save()
+
     const responseData = {
       analisis_sentimiento: analisis,
-      keywords: keywords_no_neutral
+      keywords: keywords_no_neutral,
+      falso_positivo: falsePositive,
     };
     res.status(200).json(responseData);
   } catch (error) {

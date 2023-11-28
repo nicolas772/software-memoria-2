@@ -5,21 +5,21 @@ import UserService from '../../services/user.service';
 import AuthService from '../../services/auth.service';
 import { FaHome } from 'react-icons/fa'; // Importa el ícono de Home de Font Awesome
 import InfoModal from './InfoModal';
+import { MdOutlineSentimentNeutral, MdOutlineSentimentDissatisfied, MdOutlineSentimentSatisfied } from "react-icons/md";
 
 const enunciados = [
-  '1. Expresa tu opinión respecto a la interfaz del software.',
-  '2. Expresa tu opinión general respecto al software.'
+  '1. Expresa tu opinión general respecto al software.',
+  '2. Elije el sentimiento que mejor te representa en relación al software testeado.'
 ];
 
 
-const subtitulo = `Te invitamos a compartir tus opiniones sobre la interfaz probada 
-y tus impresiones generales del software. Tu aporte es esencial para nuestra mejora continua. 
+const subtitulo = `Te invitamos a compartir tus impresiones generales del software. Tu aporte es esencial para nuestra mejora continua. 
 Juntos, podemos perfeccionar la plataforma en base a tus comentarios.`
 
 function FormSentimentAnalisis() {
   const { iditeration } = useParams();
-  const [respuestas, setRespuestas] = useState(Array(enunciados.length).fill(''));
-  const [prefieroNoOpinar, setPrefieroNoOpinar] = useState(Array(enunciados.length).fill(false));
+  const [opinion, setOpinion] = useState("");
+  const [selectedSentiment, setSelectedSentiment] = useState(null);
   const [actualQuestion, setActualQuestion] = useState(0)
   const [showInfoModal, setShowInfoModal] = useState(false)
   const [lastQuestion, setLastQuestion] = useState(false)
@@ -31,21 +31,17 @@ function FormSentimentAnalisis() {
   const handleCloseInfoModal = () => setShowInfoModal(false)
 
   const handleChangeOpinion = (event) => {
-    const nuevasRespuestas = [...respuestas];
-    nuevasRespuestas[actualQuestion] = event.target.value;
-    setRespuestas(nuevasRespuestas);
+    setOpinion(event.target.value);
   };
 
-  const handleChangePrefieroNoOpinar = (event) => {
-    const nuevasPreferencias = [...prefieroNoOpinar];
-    nuevasPreferencias[actualQuestion] = event.target.checked;
-    setPrefieroNoOpinar(nuevasPreferencias);
+  const handleSentimentClick = (sentiment) => {
+    setSelectedSentiment(sentiment);
   };
 
   const handleNextQuestion = () => {
-    if (!prefieroNoOpinar[actualQuestion] && (respuestas[actualQuestion].trim().split(' ').length <= 1)) {
+    if (opinion.trim().split(' ').length <= 1) {
       setTitleModal('Información')
-      setBodyModal('Escribe una opinión más extensa, o selecciona la opción "Prefiero no opinar"')
+      setBodyModal('Escribe una opinión más extensa')
       handleShowInfoModal()
     } else {
       setActualQuestion(actualQuestion + 1)
@@ -59,23 +55,31 @@ function FormSentimentAnalisis() {
   }
 
   const handleSubmit = () => {
-    if (!prefieroNoOpinar[actualQuestion] && (respuestas[actualQuestion].trim().split(' ').length <= 1)) {
+    if (!selectedSentiment) {
       setTitleModal('Información')
-      setBodyModal('Escribe una opinión más extensa, o selecciona la opción "Prefiero no opinar"')
+      setBodyModal('Selecciona una opción de sentimiento')
       handleShowInfoModal()
     } else {
       const user = AuthService.getCurrentUser();
-      UserService.postOpenAnswer(iditeration, user.id, respuestas[0], respuestas[1], prefieroNoOpinar[0], prefieroNoOpinar[1]).then(
+      UserService.postOpenAnswer(iditeration, user.id, opinion, selectedSentiment).then(
         (response) => {
           //redireccionar a inicio
           navigate('/homeUser')
         },
         (error) => {
-          console.log(error)
+          const _content =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+          console.log(_content)
         }
       )
     }
   }
+
+
 
   return (
     <>
@@ -90,48 +94,64 @@ function FormSentimentAnalisis() {
         </div>
         <div className="box-csuq">
           <p>{enunciados[actualQuestion]}</p>
-          <Form.Group className="mb-3">
-            <Form.Control
-              as="textarea"
-              rows={3}
-              value={respuestas[actualQuestion]}
-              onChange={handleChangeOpinion}
-              disabled={prefieroNoOpinar[actualQuestion]}
-              className="disable-resize" // Agrega la clase aquí
-            />
-          </Form.Group>
-          <div className="buttons-div-sentiment">
-            <Form.Group className="mb-3">
-              <Form.Check
-                type="checkbox"
-                label="Prefiero no opinar"
-                checked={prefieroNoOpinar[actualQuestion]}
-                onChange={handleChangePrefieroNoOpinar}
-                className="custom-label-color"
-              />
-            </Form.Group>
-            {lastQuestion ? (
-              <>
+          {lastQuestion ? (
+            <>
+              <div className="sentiment-container">
+                <div
+                  onClick={() => handleSentimentClick('negative')}
+                  className={`sentiment-icon ${selectedSentiment === 'negative' ? 'selected' : ''}`}
+                >
+                  <MdOutlineSentimentDissatisfied className="h-12 w-12" />
+                  <h6>Negativo</h6>
+                </div>
+                <div
+                  onClick={() => handleSentimentClick('neutral')}
+                  className={`sentiment-icon ${selectedSentiment === 'neutral' ? 'selected' : ''}`}
+                >
+                  <MdOutlineSentimentNeutral className="h-12 w-12" />
+                  <h6>Neutro</h6>
+                </div>
+                <div
+                  onClick={() => handleSentimentClick('positive')}
+                  className={`sentiment-icon ${selectedSentiment === 'positive' ? 'selected' : ''}`}
+                >
+                  <MdOutlineSentimentSatisfied className="h-12 w-12" />
+                  <h6>Positivo</h6>
+                </div>
+              </div>
+              <div className="buttons-div-sentiment">
                 <button type="button" onClick={handlePrevQuestion}>
                   Atras
                 </button>
                 <button type="button" onClick={handleSubmit}>
                   Terminar Estudio
                 </button>
-              </>
-            ) : (
-              <button type="button" onClick={handleNextQuestion}>
-                Siguiente
-              </button>
-            )}
-
-
-          </div>
-        </div>
-        <div className="page-indicator">
-          {actualQuestion + 1} de 2
+              </div>
+            </>
+          ) : (
+            <>
+              <Form.Group className="mb-3">
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  value={opinion}
+                  onChange={handleChangeOpinion}
+                  className="disable-resize" // Agrega la clase aquí
+                />
+              </Form.Group>
+              <div className="buttons-div-sentiment">
+                <button type="button" onClick={handleNextQuestion}>
+                  Siguiente
+                </button>
+              </div>
+            </>
+          )}
         </div>
       </div>
+      <div className="page-indicator">
+        {actualQuestion + 1} de 2
+      </div>
+
       <InfoModal
         show={showInfoModal}
         handleClose={handleCloseInfoModal}
