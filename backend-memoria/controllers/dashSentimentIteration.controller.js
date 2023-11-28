@@ -36,11 +36,22 @@ exports.cards = async (req, res) => {
          }
       })
 
+      const allGeneralSentiment_with_falses = await GeneralSentiment.findAll({
+         where: {
+            iterationId: idIteration,
+         }
+      })
+
       if (!allGeneralSentiment || !iteration) {
          return res.status(404).json({ error: "Iteración No Encontrada." });
       }
-
+      //CARD 1: Sentimiento General Usuarios
       const allSentimentQty = allGeneralSentiment.length
+      const allSentimentWithFalsesQty = allGeneralSentiment_with_falses.length
+      let confident = 1
+      if (allSentimentWithFalsesQty > 0) {
+         confident = (allSentimentQty/allSentimentWithFalsesQty)*100
+      }
       let sum_score = 0
       let sum_words = 0
       let sum_hits = 0
@@ -57,7 +68,7 @@ exports.cards = async (req, res) => {
          avg_words = sum_words / allSentimentQty
          avg_hits = sum_hits / allSentimentQty
       }
-      //CARD 1: Sentimiento General Usuarios
+
       let sentiment = avg_score > 0 ? "Positivo" : avg_score < 0 ? "Negativo" : "Neutro";
 
       const generalSentiment = {
@@ -70,6 +81,11 @@ exports.cards = async (req, res) => {
                name: "Score Promedio",
                stat: avg_score.toFixed(2),
                icon: "score",
+            },
+            {
+               name: "Confianza",
+               stat: confident.toFixed(0) + "%",
+               icon: "activa",
             },
             {
                name: "Promedio Palabras por opinión",
@@ -192,7 +208,7 @@ exports.barChart = async (req, res) => {
 
       const users = allGeneralSentiment.map(opinion => "Usuario ID " + opinion.userId)
 
-      
+
 
       const responseData = {
          chartData: scores,
@@ -208,48 +224,48 @@ exports.barChart = async (req, res) => {
 
 exports.cloudWord = async (req, res) => {
    const idIteration = req.query.idIteration;
- 
+
    try {
-     const iteration = await Iteration.findOne({
-       where: {
-         id: idIteration,
-       },
-     });
- 
-     const allKeywords = await Keyword.findAll({
-       where: {
-         iterationId: idIteration,
-       },
-       attributes: ['keyword'], // Seleccionar solo la columna 'keyword'
-     });
- 
-     if (!allKeywords || !iteration) {
-       return res.status(404).json({ error: "Iteración No Encontrada." });
-     }
- 
-     // Obtener un array de las palabras
-     const keywordArray = allKeywords.map((keyword) => keyword.keyword);
- 
-     // Construir un objeto con la frecuencia de cada palabra
-     const wordFrequency = keywordArray.reduce((acc, word) => {
-       acc[word] = (acc[word] || 0) + 1;
-       return acc;
-     }, {});
- 
-     // Convertir el objeto a un array de objetos
-     const data = Object.entries(wordFrequency).map(([value, count]) => ({
-       value,
-       count,
-     }));
- 
-     const responseData = {
-       data: data,
-     };
- 
-     res.status(200).json(responseData);
+      const iteration = await Iteration.findOne({
+         where: {
+            id: idIteration,
+         },
+      });
+
+      const allKeywords = await Keyword.findAll({
+         where: {
+            iterationId: idIteration,
+         },
+         attributes: ['keyword'], // Seleccionar solo la columna 'keyword'
+      });
+
+      if (!allKeywords || !iteration) {
+         return res.status(404).json({ error: "Iteración No Encontrada." });
+      }
+
+      // Obtener un array de las palabras
+      const keywordArray = allKeywords.map((keyword) => keyword.keyword);
+
+      // Construir un objeto con la frecuencia de cada palabra
+      const wordFrequency = keywordArray.reduce((acc, word) => {
+         acc[word] = (acc[word] || 0) + 1;
+         return acc;
+      }, {});
+
+      // Convertir el objeto a un array de objetos
+      const data = Object.entries(wordFrequency).map(([value, count]) => ({
+         value,
+         count,
+      }));
+
+      const responseData = {
+         data: data,
+      };
+
+      res.status(200).json(responseData);
    } catch (error) {
-     console.error(error);
-     res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
+      console.error(error);
+      res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
    }
- };
- 
+};
+

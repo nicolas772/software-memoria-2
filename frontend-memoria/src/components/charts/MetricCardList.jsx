@@ -31,7 +31,7 @@ export default function MetricCardList(props) {
     hombre: "green",
     mujer: "purple",
     noIdentificado: "grey",
-    score: "green",
+    score: "#ffc107",
     palabras: "#3399FF",
     hits: "orange",
   };

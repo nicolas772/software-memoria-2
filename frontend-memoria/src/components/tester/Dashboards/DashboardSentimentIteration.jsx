@@ -104,7 +104,6 @@ export default function DashboardSentimentIteration(props) {
       (response) => {
         setCloudContent(response.data)
         setLoading5(false)
-        console.log(response.data)
       },
       (error) => {
         const _content =
