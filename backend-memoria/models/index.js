@@ -32,6 +32,7 @@ db.infotask = require("../models/infotask.model.js")(sequelize, Sequelize)
 db.csuqanswers = require("./csuqanswers.model.js")(sequelize, Sequelize)
 db.interfazsentiment = require("./interfazsentiment.model.js")(sequelize, Sequelize)
 db.generalsentiment = require("./generalsentiment.model.js")(sequelize, Sequelize)
+db.keyword = require("./keyword.model.js")(sequelize, Sequelize)
 
 db.role.belongsToMany(db.user, {
   through: "user_roles",
@@ -145,6 +146,17 @@ db.iteration.hasMany(db.generalsentiment, {
 
 db.generalsentiment.belongsTo(db.user);
 db.generalsentiment.belongsTo(db.iteration);
+
+db.user.hasMany(db.keyword, {
+  foreignKey: 'userId'
+});
+
+db.iteration.hasMany(db.keyword, {
+  foreignKey: 'iterationId'
+});
+
+db.keyword.belongsTo(db.user);
+db.keyword.belongsTo(db.iteration);
 
 
 db.ROLES = ["user", "tester"];

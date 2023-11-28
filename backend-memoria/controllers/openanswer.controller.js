@@ -5,6 +5,7 @@ const GeneralSentiment = db.generalsentiment;
 const InterfazSentiment = db.interfazsentiment;
 const IterationState = db.iterationstate;
 const Iteration = db.iteration
+const Keyword = db.keyword
 
 async function analizarSentimiento(texto) {
   const sentiment = new SentimentManager();
@@ -97,7 +98,7 @@ exports.prueba = async (req, res) => {
   try {
     const opinion = req.body.opinion;
     const analisis = await analizarSentimiento(opinion);
-    const extraction_result =
+    const keywords =
       keyword_extractor.extract(opinion, {
         language: "spanish",
         remove_digits: true,
@@ -105,16 +106,38 @@ exports.prueba = async (req, res) => {
         remove_duplicates: false
 
       });
-    const analisis_keywords = []
-    for (const keyword of extraction_result){
+    const keywords_no_neutral = []
+    for (const keyword of keywords) {
       const analisis_key = await analizarSentimiento(keyword);
-      analisis_key['keyword'] = keyword
-      analisis_keywords.push(analisis_key)
+      if (analisis_key.vote != "neutral") {
+        keywords_no_neutral.push(keyword)
+        await Keyword.create({
+          userId: 1,
+          iterationId: 1,
+          keyword: keyword,
+        });
+      }
     }
+
+    await GeneralSentiment.create({
+      userId: 1,
+      iterationId: 1,
+      answer: opinion,
+      comparative: analisis.comparative,
+      numhits: analisis.numHits,
+      numwords: analisis.numWords,
+      score: analisis.score,
+      vote: analisis.vote
+    });
+
+
+
+
+
 
     const responseData = {
       analisis_sentimiento: analisis,
-      keywords: analisis_keywords
+      keywords: keywords_no_neutral
     };
 
     res.status(200).json(responseData);

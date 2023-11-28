@@ -42,6 +42,9 @@ exports.cards = async (req, res) => {
       let sum_score = 0
       let sum_words = 0
       let sum_hits = 0
+      let avg_score = 0
+      let avg_words = 0
+      let avg_hits = 0
       for (const sentiment of allGeneralSentiment) {
          sum_score += sentiment.score
          sum_words += sentiment.numwords
