@@ -1,4 +1,5 @@
 const { SentimentManager } = require('node-nlp');
+const { NormalizerEs } = require('@nlpjs/lang-es');
 const keyword_extractor = require("keyword-extractor");
 const db = require("../models");
 const GeneralSentiment = db.generalsentiment;
@@ -16,7 +17,9 @@ async function analizarSentimiento(texto) {
 exports.create = async (req, res) => {
   try {
     const opinion1 = req.body.opinion1;
-    const analisis = await analizarSentimiento(opinion1);
+    const normalizer = new NormalizerEs();
+    const opinion_normalizada = normalizer.normalize(opinion1);
+    const analisis = await analizarSentimiento(opinion_normalizada);
     const keywords =
       keyword_extractor.extract(opinion1, {
         language: "spanish",
@@ -75,7 +78,12 @@ exports.create = async (req, res) => {
 exports.prueba = async (req, res) => {
   try {
     const opinion = req.body.opinion;
-    const analisis = await analizarSentimiento(opinion);
+
+    //Pre Procesamiento datos
+    const normalizer = new NormalizerEs();
+    const opinion_normalizada = normalizer.normalize(opinion);
+    const analisis_sentimiento = await analizarSentimiento(opinion_normalizada)
+
     const keywords =
       keyword_extractor.extract(opinion, {
         language: "spanish",
@@ -84,33 +92,17 @@ exports.prueba = async (req, res) => {
         remove_duplicates: false
 
       });
+
     const keywords_no_neutral = []
     for (const keyword of keywords) {
       const analisis_key = await analizarSentimiento(keyword);
       if (analisis_key.vote != "neutral") {
         keywords_no_neutral.push(keyword)
-        await Keyword.create({
-          userId: 1,
-          iterationId: 1,
-          keyword: keyword,
-        });
       }
     }
 
-    await GeneralSentiment.create({
-      userId: 1,
-      iterationId: 1,
-      answer: opinion,
-      comparative: analisis.comparative,
-      numhits: analisis.numHits,
-      numwords: analisis.numWords,
-      score: analisis.score,
-      vote: analisis.vote
-    });
-
     const responseData = {
-      analisis_sentimiento: analisis,
-      keywords: keywords_no_neutral
+      análisis_1: analisis_sentimiento,
     };
 
     res.status(200).json(responseData);
@@ -201,3 +193,29 @@ exports.create = async (req, res) => {
   }
 };
 */
+
+/*
+(nlp, natural) (natural solo tokenizado y normalizado)
+Me encanta este producto, es increíble. (ok, ok) (ok)
+La calidad del servicio al cliente es excelente. (ok, ok) (ok)
+No estoy seguro de si debería recomendar este producto. (ok, X) (ok)
+El rendimiento de esta aplicación es realmente malo. (ok, ok) (ok)
+No puedo vivir sin esta aplicación, es esencial para mi trabajo. (ok, X) (neutral)
+Aunque algunas características son útiles, en general no estoy satisfecho. (ok, X) (ok)
+Estoy completamente impresionado por la funcionalidad de esta herramienta. (ok, ok) (ok)
+La interfaz de usuario es complicada y difícil de usar. (ok, X) (neutral)
+A pesar de algunos problemas, el software cumple con su propósito. (X, X) (x, menos negativa que nlp lo cual es bueno)
+No hay nada positivo que pueda decir sobre esta experiencia. (X, X) (neutral)
+no me gustó el software, es pésimo y está mal diseñado (X, ok)
+
+No puedo soportar la publicidad constante en esta aplicación, arruina la experiencia. (ok, neutral)
+La atención al cliente dejó mucho que desear, tardaron demasiado en responder. (ok, X)
+
+*/
+
+/*
+
+(no procesado, no stopword)
+Me encanta este producto, es increíble. ()
+
+ */

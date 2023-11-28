@@ -19,7 +19,6 @@
     "jsonwebtoken": "^9.0.0",
     "keyword-extractor": "^0.0.28",
     "moment": "^2.29.4",
-    "natural": "^6.5.0",
     "node-nlp": "^4.27.0",
     "pg": "^8.10.0",
     "pg-hstore": "^2.3.4",
