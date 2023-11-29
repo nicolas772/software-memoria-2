@@ -240,18 +240,45 @@ exports.barChart = async (req, res) => {
          return res.status(404).json({ error: "Estudio no encontrado no encontrada." });
       }
 
+      const arrIteration = []
+      const arrScorePromedio = []
 
-      const scores = [
-         10.45, 5.42, 5.9, -20.42,
-      ]
+      for (const iteration of allIterations) {
+         const idIteration = iteration.id
+         const iterationNumber = iteration.iteration_number
+         const allGeneralSentiment = await GeneralSentiment.findAll({
+            where: {
+               iterationId: idIteration,
+               falsepositive: false
+            }
+         })
 
-      const iterations = [
-         'Iteracion 1', 'Iteracion 2', 'Iteracion 3', 'Iteracion 4',
-      ];
+         const allGeneralSentiment_with_falses = await GeneralSentiment.findAll({
+            where: {
+               iterationId: idIteration,
+            }
+         })
+
+         if (!allGeneralSentiment || !allGeneralSentiment_with_falses) {
+            return res.status(404).json({ error: "Iteración No Encontrada." });
+         }
+         const allSentimentQty = allGeneralSentiment.length
+         let sum_score = 0
+         let avg_score = 0
+
+         for (const sentiment of allGeneralSentiment) {
+            sum_score += sentiment.score
+         }
+         if (allSentimentQty > 0) {
+            avg_score = sum_score / allSentimentQty
+            arrScorePromedio.push(avg_score.toFixed(2))
+            arrIteration.push(`Iteración ${iterationNumber}`)
+         }
+      }
 
       const responseData = {
-         chartData: scores,
-         categories: iterations,
+         chartData: arrScorePromedio,
+         categories: arrIteration,
       };
 
       res.status(200).json(responseData);
