@@ -86,6 +86,7 @@ function ModalFormIteration(props) {
                 value={objetivo}
                 onChange={onChangeObjetivo}
                 style={{ width: "100%", textAlign: "left" }}
+                maxLength={250}
               />
             </Form.Group>
 

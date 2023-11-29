@@ -75,7 +75,7 @@ function ModalEditIteration(props) {
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formObjetivo">
-              <Form.Label style={{ color: '#344b60', fontFamily: "Poppins, sans-serif" }}>Objetivo de la nueva iteración</Form.Label>
+              <Form.Label style={{ color: '#344b60', fontFamily: "Poppins, sans-serif" }}>Objetivo de la iteración</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
@@ -83,6 +83,7 @@ function ModalEditIteration(props) {
                 name="objetivo"
                 value={objetivo}
                 onChange={onChangeObjetivo}
+                maxLength={250}
               />
             </Form.Group>
 

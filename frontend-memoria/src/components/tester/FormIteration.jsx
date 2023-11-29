@@ -172,6 +172,7 @@ const FormIteration = () => {
                   placeholder="Ingresa objetivo"
                   value={objetivo}
                   onChange={onChangeObjetivo}
+                  maxLength={250}
                 >
                 </textarea>
               </div>
