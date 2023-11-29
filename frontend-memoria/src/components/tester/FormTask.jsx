@@ -219,6 +219,7 @@ const FormTask = () => {
                   placeholder="Ingresa un título"
                   value={titulo}
                   onChange={onChangeTitulo}
+                  maxLength={85}
                 >
                 </input>
               </div>

@@ -97,6 +97,7 @@ function ModalEditTask(props) {
                 value={titulo}
                 onChange={onChangeTitulo}
                 style={{ width: "100%", textAlign: "left" }}
+                maxLength={85}
               />
             </Form.Group>
             <Form.Group controlId="formDescripcion">
