@@ -89,7 +89,7 @@ exports.cards = async (req, res) => {
       const avgScoreAll = calcularPromedio(arrScorePromedio)
       const avgWordsAll = calcularPromedio(arrWordsPromedio)
       const avgHitsAll = calcularPromedio(arrHitsPromedio)
-      
+
       let sentiment_all = avgScoreAll > 0 ? "Positivo" : avgScoreAll < 0 ? "Negativo" : "Neutro";
 
       const generalSentiment = {
@@ -146,7 +146,32 @@ exports.pieChart = async (req, res) => {
          return res.status(404).json({ error: "Estudio no encontrado no encontrada." });
       }
 
-      const series = [5, 10, 15]
+      let sumPositive = 0
+      let sumNegative = 0
+      let sumNeutral = 0
+
+      for (const iteration of allIterations) {
+         const idIteration = iteration.id
+         const allGeneralSentiment = await GeneralSentiment.findAll({
+            where: {
+               iterationId: idIteration,
+               falsepositive: false
+            }
+         })
+
+         if (!allGeneralSentiment || !iteration) {
+            return res.status(404).json({ error: "Iteración No Encontrada." });
+         }
+         const positiveOpinions = allGeneralSentiment.filter(opinion => opinion.vote === "positive").length;
+         const negativeOpinions = allGeneralSentiment.filter(opinion => opinion.vote === "negative").length;
+         const neutralOpinions = allGeneralSentiment.filter(opinion => opinion.vote === "neutral").length;
+
+         sumPositive += positiveOpinions
+         sumNeutral += neutralOpinions
+         sumNegative += negativeOpinions
+      }
+
+      const series = [sumPositive, sumNeutral, sumNegative]
       const colors = ['#28a745', '#ffc107', '#dc3545']
       const labels = ["Positivo", "Neutro", "Negativo"]
 
@@ -273,11 +298,11 @@ exports.cloudWord = async (req, res) => {
 
 function calcularPromedio(arr) {
    if (arr.length === 0) {
-     return 0; // Manejar el caso de un array vacío para evitar dividir por cero
+      return 0; // Manejar el caso de un array vacío para evitar dividir por cero
    }
- 
+
    const suma = arr.reduce((total, elemento) => total + elemento, 0);
    const promedio = suma / arr.length;
- 
+
    return promedio;
- }
+}
