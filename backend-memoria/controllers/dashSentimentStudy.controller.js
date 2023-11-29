@@ -52,7 +52,7 @@ exports.cards = async (req, res) => {
             }
          })
 
-         if (!allGeneralSentiment || !allGeneralSentiment_with_falses || !iteration) {
+         if (!allGeneralSentiment || !allGeneralSentiment_with_falses) {
             return res.status(404).json({ error: "Iteración No Encontrada." });
          }
 
@@ -159,7 +159,7 @@ exports.pieChart = async (req, res) => {
             }
          })
 
-         if (!allGeneralSentiment || !iteration) {
+         if (!allGeneralSentiment) {
             return res.status(404).json({ error: "Iteración No Encontrada." });
          }
          const positiveOpinions = allGeneralSentiment.filter(opinion => opinion.vote === "positive").length;
@@ -200,15 +200,25 @@ exports.carousel = async (req, res) => {
          return res.status(404).json({ error: "Estudio no encontrado no encontrada." });
       }
 
+      const allOpinions = []
 
-      const opinions = [
-         "Me parecio un excelente software.",
-         "No me gusto mucho, pienso que puede mejorar mucho la interfaz.",
-         "Expectacular, nada que decir. Los colores y las animaciones me parecieron impecables, el tamaño de la letra super bien."
-      ]
+      for (const iteration of allIterations) {
+         const idIteration = iteration.id
+         const allGeneralSentiment = await GeneralSentiment.findAll({
+            where: {
+               iterationId: idIteration,
+            }
+         })
+         if (!allGeneralSentiment) {
+            return res.status(404).json({ error: "Iteración No Encontrada." });
+         }
+
+         const opinions = allGeneralSentiment.map(opinion => opinion.answer);
+         allOpinions.push(...opinions)
+      }
 
       const responseData = {
-         opiniones: opinions
+         opiniones: allOpinions
       }
       res.status(200).json(responseData);
    } catch (error) {
