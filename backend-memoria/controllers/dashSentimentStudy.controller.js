@@ -5,6 +5,7 @@ const Task = db.task;
 const InfoTask = db.infotask
 const IterationState = db.iterationstate
 const GeneralSentiment = db.generalsentiment
+const Keyword = db.keyword
 const { Op } = require('sequelize'); // Necesitas importar Op desde sequelize
 
 const rangos = ["Niños", "Adolescentes", "Jovenes", "Adultos", "Adulto Mayores"]
@@ -298,29 +299,38 @@ exports.cloudWord = async (req, res) => {
       })
 
       if (!allIterations) {
-         return res.status(404).json({ error: "Estudio no encontrado no encontrada." });
+         return res.status(404).json({ error: "Estudio no encontrado." });
       }
 
-      const data = [
-         { value: 'jQuery', count: 200 },
-         { value: 'MongoDB', count: 18 },
-         { value: 'JavaScript', count: 38 },
-         { value: 'React', count: 30 },
-         { value: 'Nodejs', count: 28 },
-         { value: 'Express.js', count: 25 },
-         { value: 'HTML5', count: 33 },
-         { value: 'CSS3', count: 20 },
-         { value: 'Webpack', count: 22 },
-         { value: 'Babel.js', count: 7 },
-         { value: 'ECMAScript', count: 25 },
-         { value: 'Jest', count: 15 },
-         { value: 'Mocha', count: 17 },
-         { value: 'React Native', count: 27 },
-         { value: 'Angular.js', count: 30 },
-         { value: 'TypeScript', count: 15 },
-         { value: 'Flow', count: 30 },
-         { value: 'NPM', count: 11 },
-      ]
+      const keywordArrayAll = []
+
+      for (const iteration of allIterations) {
+         const idIteration = iteration.id
+         const allKeywords = await Keyword.findAll({
+            where: {
+               iterationId: idIteration,
+            },
+            attributes: ['keyword'], // Seleccionar solo la columna 'keyword'
+         });
+
+         if (!allKeywords) {
+            return res.status(404).json({ error: "Iteración No Encontrada." });
+         }
+         const keywordArray = allKeywords.map((keyword) => keyword.keyword);
+         keywordArrayAll.push(...keywordArray)
+      }
+
+      // Construir un objeto con la frecuencia de cada palabra
+      const wordFrequency = keywordArrayAll.reduce((acc, word) => {
+         acc[word] = (acc[word] || 0) + 1;
+         return acc;
+      }, {});
+
+      // Convertir el objeto a un array de objetos
+      const data = Object.entries(wordFrequency).map(([value, count]) => ({
+         value,
+         count,
+      }));
 
       const responseData = {
          data: data,
