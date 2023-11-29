@@ -42,7 +42,7 @@ exports.cards = async (req, res) => {
          }
       })
 
-      if (!allGeneralSentiment || !iteration) {
+      if (!allGeneralSentiment || !allGeneralSentiment_with_falses || !iteration) {
          return res.status(404).json({ error: "Iteración No Encontrada." });
       }
       //CARD 1: Sentimiento General Usuarios
