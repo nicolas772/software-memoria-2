@@ -137,6 +137,7 @@ function FormSentimentAnalisis() {
                   value={opinion}
                   onChange={handleChangeOpinion}
                   className="disable-resize" // Agrega la clase aquí
+                  maxLength={240}
                 />
               </Form.Group>
               <div className="buttons-div-sentiment">
