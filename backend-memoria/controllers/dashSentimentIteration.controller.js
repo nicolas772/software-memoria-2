@@ -16,7 +16,7 @@ const colorMapSentiment = {
 }
 const emojiMapSentiment = {
    Positivo: "😁",
-   Neutro: "😶",
+   Neutro: "😐",
    Negativo: "🙁",
 }
 
@@ -48,7 +48,7 @@ exports.cards = async (req, res) => {
       //CARD 1: Sentimiento General Usuarios
       const allSentimentQty = allGeneralSentiment.length
       const allSentimentWithFalsesQty = allGeneralSentiment_with_falses.length
-      let confident = 1
+      let confident = 0
       if (allSentimentWithFalsesQty > 0) {
          confident = (allSentimentQty/allSentimentWithFalsesQty)*100
       }

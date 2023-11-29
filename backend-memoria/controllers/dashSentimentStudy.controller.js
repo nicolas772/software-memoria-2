@@ -16,7 +16,7 @@ const colorMapSentiment = {
 }
 const emojiMapSentiment = {
    Positivo: "😁",
-   Neutro: "😶",
+   Neutro: "😐",
    Negativo: "🙁",
 }
 

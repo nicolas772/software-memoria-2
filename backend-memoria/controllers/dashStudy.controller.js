@@ -221,66 +221,75 @@ exports.barChart = async (req, res) => {
 exports.tableTime = async (req, res) => {
    const idUser = req.headers["id"];
    const idStudy = req.query.idStudy;
- 
+
    try {
-     const allIterations = await Iteration.findAll({
-       where: {
-         studyId: idStudy,
-       },
-     });
- 
-     if (!allIterations) {
-       return res.status(404).json({ error: "Estudio no encontrado." });
-     }
- 
-     const responseData = [];
- 
-     for (const iteration of allIterations) {
-       const iterationId = iteration.id;
-       const iterationNumber = iteration.iteration_number
-       // Buscar todas las tareas relacionadas con la iteración actual
-       const tasks = await InfoTask.findAll({
+      const allIterations = await Iteration.findAll({
          where: {
-           iterationId: iterationId,
+            studyId: idStudy,
          },
-       });
- 
-       // Crear un objeto para almacenar los tiempos por usuario
-       const userTimes = {};
- 
-       tasks.forEach(task => {
-         if (!userTimes[task.userId]) {
-           userTimes[task.userId] = 0;
+      });
+
+      if (!allIterations) {
+         return res.status(404).json({ error: "Estudio no encontrado." });
+      }
+
+      const responseData = [];
+
+      for (const iteration of allIterations) {
+         const iterationId = iteration.id;
+         const iterationNumber = iteration.iteration_number
+         // Buscar todas las tareas relacionadas con la iteración actual
+         const tasks = await InfoTask.findAll({
+            where: {
+               iterationId: iterationId,
+            },
+         });
+
+         // Crear un objeto para almacenar los tiempos por usuario
+         const userTimes = {};
+
+         tasks.forEach(task => {
+            if (!userTimes[task.userId]) {
+               userTimes[task.userId] = 0;
+            }
+            userTimes[task.userId] += task.duration;
+         });
+
+         // Encontrar al usuario con el tiempo máximo y al usuario con el tiempo mínimo
+         //const maxUserId = Object.keys(userTimes).reduce((a, b) => userTimes[a] > userTimes[b] ? a : b);
+         //const minUserId = Object.keys(userTimes).reduce((a, b) => userTimes[a] < userTimes[b] ? a : b);
+
+         // Encontrar al usuario con el tiempo máximo y al usuario con el tiempo mínimo
+         let maxUserId, minUserId, maxTiempo, minTiempo, roundedMaxTiempo, roundedMinTiempo, diferencia;
+
+         if (Object.keys(userTimes).length > 0) {
+            maxUserId = Object.keys(userTimes).reduce((a, b) => userTimes[a] > userTimes[b] ? a : b);
+            minUserId = Object.keys(userTimes).reduce((a, b) => userTimes[a] < userTimes[b] ? a : b);
+            maxTiempo = userTimes[maxUserId];
+            minTiempo = userTimes[minUserId];
+            roundedMaxTiempo = Math.round(maxTiempo / 1000) * 1000;
+            roundedMinTiempo = Math.round(minTiempo / 1000) * 1000;
+            diferencia = roundedMaxTiempo - roundedMinTiempo;
+         } else {
+            // Si userTimes está vacío, asigna algún valor predeterminado
+            roundedMinTiempo = 0
+            roundedMaxTiempo = 0
+            diferencia = 0
          }
-         userTimes[task.userId] += task.duration;
-       });
- 
-       // Encontrar al usuario con el tiempo máximo y al usuario con el tiempo mínimo
-       const maxUserId = Object.keys(userTimes).reduce((a, b) => userTimes[a] > userTimes[b] ? a : b);
-       const minUserId = Object.keys(userTimes).reduce((a, b) => userTimes[a] < userTimes[b] ? a : b);
- 
-       // Convertir los tiempos a un formato "m minutos s segundos"
-       const maxTiempo = userTimes[maxUserId];
-       const minTiempo = userTimes[minUserId];
-       const roundedMaxTiempo = Math.round(maxTiempo / 1000) * 1000;
-       const roundedMinTiempo = Math.round(minTiempo / 1000) * 1000;
- 
-       // Calcular la diferencia de tiempo
-       const diferencia = roundedMaxTiempo - roundedMinTiempo;
- 
-       responseData.push({
-         name: `Iteración ${iterationNumber}`,
-         minTime: roundedMinTiempo,
-         maxTime: roundedMaxTiempo,
-         diference: diferencia,
-       });
-     }
- 
-     res.status(200).json(responseData);
+
+         responseData.push({
+            name: `Iteración ${iterationNumber}`,
+            minTime: roundedMinTiempo,
+            maxTime: roundedMaxTiempo,
+            diference: diferencia,
+         });
+      }
+
+      res.status(200).json(responseData);
    } catch (error) {
-     console.error(error);
-     res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
+      console.error(error);
+      res.status(500).json({ error: "Ha ocurrido un error al obtener los datos" });
    }
- };
- 
+};
+
 

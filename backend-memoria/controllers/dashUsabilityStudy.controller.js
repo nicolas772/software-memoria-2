@@ -237,8 +237,13 @@ exports.boxPlot = async (req, res) => {
 };
 
 function calcularPromedio(arr) {
-   const suma = arr.reduce((total, valor) => total + valor, 0);
+   if (arr.length === 0) {
+      return 0; // Manejar el caso de un array vacío para evitar dividir por cero
+   }
+
+   const suma = arr.reduce((total, elemento) => total + elemento, 0);
    const promedio = suma / arr.length;
+
    return promedio.toFixed(1);
 }
 
