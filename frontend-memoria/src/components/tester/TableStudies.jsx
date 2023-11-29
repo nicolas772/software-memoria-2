@@ -12,7 +12,7 @@ import TableSortLabel from '@mui/material/TableSortLabel'; // Paso 1: Importar T
 import { styled } from '@mui/material/styles';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { esES } from '@mui/material/locale';
-import './css/table.css';
+
 
 const theme = createTheme(
   {

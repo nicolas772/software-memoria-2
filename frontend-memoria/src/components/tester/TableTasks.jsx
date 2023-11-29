@@ -11,7 +11,6 @@ import TableRow from '@mui/material/TableRow';
 import { styled } from '@mui/material/styles';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { esES } from '@mui/material/locale';
-import './css/table.css';
 import TableSortLabel from '@mui/material/TableSortLabel';
 
 const fechaConPalabras = (miFecha) => {
