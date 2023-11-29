@@ -3,25 +3,27 @@ import ReactApexChart from 'react-apexcharts';
 import { Card, Title } from "@tremor/react";
 
 const PieChart = (props) => {
-   const {title, color, content} = props
+   const { title, color, content, legendPosition = 'bottom', widthChart = '100%' } = props
    const [chartState] = useState({
       series: content.series,
       options: {
          chart: {
-            width: 350,
             type: 'pie',
          },
          labels: content.labels,
-         colors: content.colors, 
+         colors: content.colors,
+         legend: {
+            position: legendPosition,
+         },
          responsive: [
             {
                breakpoint: 480,
                options: {
                   chart: {
-                     width: 200,
+                     width: widthChart,
                   },
                   legend: {
-                     position: 'top',
+                     position: 'bottom',
                   },
                },
             },
@@ -31,10 +33,19 @@ const PieChart = (props) => {
 
    return (
       <Card
-      decoration="top"
-      decorationColor={color}>
+         decoration="top"
+         decorationColor={color}       
+      >
          <Title className='mb-2'>{title}</Title>
-         <ReactApexChart options={chartState.options} series={chartState.series} type="pie" width={350} />
+
+         <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center', // Centrar horizontalmente
+            
+         }}>
+            <ReactApexChart options={chartState.options} series={chartState.series} type="pie" width={widthChart} />
+         </div>
       </Card>
    );
 };

@@ -126,7 +126,7 @@ export default function DashboardSentimentIteration(props) {
     <div>
       <Grid numItemsSm={1} numItemsLg={3} className="gap-6">
         <MetricCardList content={cardsContent.sentimiento_general} color={cardsContent.color} />
-        <PieChart title="Porcentaje por Tipo de Opinión" color="blue" content={pieChartContent} />
+        <PieChart title="Porcentaje por Tipo de Opinión" color="blue" content={pieChartContent} widthChart='110%'/>
         <SimpleCarousel content={carouselContent.opiniones} title="Opiniones"></SimpleCarousel>
       </Grid>
       <div style={{margin:'2%'}}></div>

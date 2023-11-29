@@ -35,9 +35,10 @@ const GroupedStackedBar = (props) => {
       yaxis: {
          labels: {
             formatter: (val) => {
-               return val;
+               return Math.round(val); // Redondear valores a enteros
             },
          },
+         tickAmount: 1, // Mostrar solo valores enteros
       },
       legend: {
          position: 'top',

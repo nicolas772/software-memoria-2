@@ -83,7 +83,7 @@ const DashboardDemogrIteration = (props) => {
             <Col numColSpan={1} numColSpanLg={2}>
                <MetricCardList content={cardsContent.cantidad_usuarios} color="amber" />
                <div className="m-3"></div>
-               <PieChart title="Distribución Rango Etario" color="blue" content={pieChartContent} />
+               <PieChart title="Distribución Rango Etario" color="blue" content={pieChartContent} legendPosition='right' widthChart='120%'/>
             </Col>
             <Col numColSpan={2} numColSpanLg={3}>
                <BarChartGraphic

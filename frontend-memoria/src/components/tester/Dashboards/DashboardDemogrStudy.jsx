@@ -103,7 +103,12 @@ const DashboardDemogrStudy = (props) => {
       <div>
          <Grid numItemsSm={1} numItemsLg={2} className="gap-6">
             <MetricCardList content={cardsContent.cantidad_usuarios} color="amber" />
-            <PieChart title="Distribución Rango Etario" color="blue" content={pieChartContent} />
+            <PieChart
+               title="Distribución Rango Etario"
+               color="blue"
+               content={pieChartContent}
+               legendPosition='right'
+               widthChart='130%' />
             <BarChartGraphic
                content={barChartContent.chartData}
                valueFormatter={valueFormatter}
@@ -111,10 +116,10 @@ const DashboardDemogrStudy = (props) => {
                categories={barChartContent.categories}
                color={barChartContent.colors}
                stack={true} />
-            <GroupedStackedBar 
-            series={stackedChartContent.series}
-            colors={stackedChartContent.colors}
-            categories={stackedChartContent.categories}/>
+            <GroupedStackedBar
+               series={stackedChartContent.series}
+               colors={stackedChartContent.colors}
+               categories={stackedChartContent.categories} />
          </Grid>
       </div>
    )
