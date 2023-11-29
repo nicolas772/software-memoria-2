@@ -46,6 +46,11 @@ exports.cards = async (req, res) => {
                icon: "score",
             },
             {
+               name: "Confianza",
+               stat: 90 + "%",
+               icon: "activa",
+            },
+            {
                name: "Promedio Palabras por opinión",
                stat: 35,
                icon: "palabras",
