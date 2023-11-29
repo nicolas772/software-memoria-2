@@ -50,7 +50,7 @@ exports.cards = async (req, res) => {
       const allSentimentWithFalsesQty = allGeneralSentiment_with_falses.length
       let confident = 0
       if (allSentimentWithFalsesQty > 0) {
-         confident = (allSentimentQty/allSentimentWithFalsesQty)*100
+         confident = (allSentimentQty / allSentimentWithFalsesQty) * 100
       }
       let sum_score = 0
       let sum_words = 0
@@ -258,8 +258,11 @@ exports.cloudWord = async (req, res) => {
          count,
       }));
 
+      // Filtrar las palabras que tienen al menos 2 ocurrencias
+      const filteredData = data.filter(({ count }) => count >= 2);
+
       const responseData = {
-         data: data,
+         data: filteredData,
       };
 
       res.status(200).json(responseData);

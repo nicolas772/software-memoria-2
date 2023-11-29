@@ -332,8 +332,11 @@ exports.cloudWord = async (req, res) => {
          count,
       }));
 
+      // Filtrar las palabras que tienen al menos 2 ocurrencias
+      const filteredData = data.filter(({ count }) => count >= 2);
+
       const responseData = {
-         data: data,
+         data: filteredData,
       };
 
       res.status(200).json(responseData);

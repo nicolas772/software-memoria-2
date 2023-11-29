@@ -29,14 +29,14 @@ const customRenderer = (tag, size, color) => (
 const WordCloudChart = (props) => {
   const { content, title } = props
   return (
-    <Card>
-      <Title>{title}</Title>
-      <div style={{ margin: "4%" }}></div>
+    <Card className='pb-1'>
+      <Title style={{marginBottom: "2%"}}>{title}</Title>
       <TagCloud
         tags={content}
         minSize={2}
         maxSize={8}
-        renderer={customRenderer} />
+        renderer={customRenderer}
+        style={{ maxHeight: "320px", overflowY: "auto" }} />
     </Card>
   )
 }
