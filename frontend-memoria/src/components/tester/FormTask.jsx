@@ -20,6 +20,7 @@ const FormTask = () => {
   const [showInfoModal, setShowInfoModal] = useState(false)
   const [titleModal, setTitleModal] = useState('')
   const [bodyModal, setBodyModal] = useState('')
+  const [loading, setLoading] = useState(true)
 
   const handleShowInfoModal = () => setShowInfoModal(true)
   const handleCloseInfoModal = () => setShowInfoModal(false)
@@ -75,6 +76,7 @@ const FormTask = () => {
     UserService.getStudies().then(
       (response) => {
         setContent(response.data);
+        setLoading(false)
       },
       (error) => {
         const _content =
@@ -142,7 +144,10 @@ const FormTask = () => {
       }
     );
   }
-
+  
+  if (loading) {
+    return <div>Cargando...</div>
+  }
   return (
     <>
       <div className="background-image container-create-form">

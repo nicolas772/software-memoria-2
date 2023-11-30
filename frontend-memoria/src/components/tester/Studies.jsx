@@ -7,6 +7,7 @@ const Studies = ({ user }) => {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [content, setContent] = useState([]);
   const [reloadStudy, setReloadStudy] = useState(false); // Variable para forzar la recarga del componente
+  const [loading, setLoading] = useState(true)
   const handleShowCreateModal = () => setShowCreateModal(true);
   const handleCloseCreateModal = () => {
     setShowCreateModal(false)
@@ -16,6 +17,7 @@ const Studies = ({ user }) => {
     UserService.getStudies().then(
       (response) => {
         setContent(response.data);
+        setLoading(false)
       },
       (error) => {
         const _content =
@@ -30,6 +32,10 @@ const Studies = ({ user }) => {
     );
   }, [reloadStudy]);
 
+  
+  if (loading) {
+    return <div>Cargando...</div>
+  }
 
   return (
     <div style={{ margin: '20px' }}>

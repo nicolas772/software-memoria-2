@@ -20,6 +20,7 @@ const Study = () => {
   const { idstudy } = useParams();
   const [content, setContent] = useState({});
   const [loading, setLoading] = useState(true)
+  const [loading2, setLoading2] = useState(true)
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
@@ -98,6 +99,7 @@ const Study = () => {
     UserService.getIterations(idstudy).then(
       (response) => {
         setContentTable(response.data);
+        setLoading2(false)
       },
       (error) => {
         const _content =
@@ -112,7 +114,7 @@ const Study = () => {
     );
   }, [reloadStudy]);
 
-  if (loading) {
+  if (loading || loading2) {
     return <div>Cargando...</div>
   }
 

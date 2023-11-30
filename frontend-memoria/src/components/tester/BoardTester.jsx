@@ -3,11 +3,13 @@ import UserService from "../../services/user.service";
 
 const BoardTester = () => {
   const [content, setContent] = useState("");
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     UserService.getTesterBoard().then(
       (response) => {
         setContent(response.data);
+        setLoading(false)
       },
       (error) => {
         const _content =
@@ -21,7 +23,10 @@ const BoardTester = () => {
       }
     );
   }, []);
-
+  
+  if (loading) {
+    return <div>Cargando...</div>
+  }
   return (
     <>
     <div className="container">

@@ -6,10 +6,12 @@ import InfoModal from "./InfoModal";
 
 const BoardUser = () => {
   const [content, setContent] = useState("");
+  const [loading, setLoading] = useState(true)
   useEffect(() => {
     UserService.getUserBoard().then(
       (response) => {
         setContent(response.data);
+        setLoading(false)
       },
       (error) => {
         const _content =
@@ -23,7 +25,10 @@ const BoardUser = () => {
       }
     );
   }, []);
-
+  
+  if (loading) {
+    return <div>Cargando...</div>
+  }
   return (
     <>
       <div className="container">
