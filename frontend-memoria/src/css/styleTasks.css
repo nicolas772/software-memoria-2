@@ -12,7 +12,7 @@
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: center;
-	font-family: 'Roboto Condensed', sans-serif;
+	font-family: "Poppins", sans-serif;
 	/* Agrega la fuente Roboto Condensed */
 }
 
@@ -69,8 +69,8 @@
 	padding: 0;
 	color: #ffffff;
 	text-align: center;
-	font-size: 16px;
-	font-weight: 200;
+	font-size: 18px;
+	font-weight: 180;
 	transition: .5s;
 	animation: LabelOnLoad 1s forwards 0s ease;
 }

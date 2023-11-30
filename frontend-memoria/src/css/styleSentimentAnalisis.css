@@ -7,9 +7,9 @@
 }
 
 .component-subtitle-sentiment {
-	font-size: 17px;
-	margin-left: 200px;
-	margin-right: 200px;
+	font-size: 20px;
+	margin-left: 270px;
+	margin-right: 270px;
 	margin-top: 30px;
 }
 
@@ -28,22 +28,22 @@
 	text-align: center;
 }
 
-.box-csuq p {
+.box-sentiment p {
 	margin: 0px 0 30px;
 	padding: 0;
 	color: #ffffff;
 	text-align: center;
-	font-size: 16px;
+	font-size: 18px;
 	font-weight: 200;
 	transition: .5s;
 	animation: LabelOnLoad 1s forwards 0s ease;
 }
 
-.box-csuq .buttons-div-sentiment {
+.box-sentiment .buttons-div-sentiment {
 	margin-top: 20px;
 }
 
-.box-csuq button[type='button'] {
+.box-sentiment button[type='button'] {
 	background: transparent;
 	border: none;
 	outline: none;
@@ -59,11 +59,11 @@
 	/* Espacio entre botones */
 }
 
-.box-csuq button[type='button']:hover {
+.box-sentiment button[type='button']:hover {
 	background-color: #1b2833;
 }
 
-.box-csuq button[type='button']:disabled {
+.box-sentiment button[type='button']:disabled {
 	/* Estilos para botones con la propiedad disabled */
 	background-color: #4a6a87;
 }

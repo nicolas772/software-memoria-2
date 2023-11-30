@@ -248,24 +248,24 @@ p {
 .sentiment-container {
 	display: flex;
 	justify-content: space-between;
+	align-items: center; /* Añadido para centrar horizontalmente */
 	margin-left: 20%;
 	margin-right: 20%;
-	
-}
-
-.sentiment-icon {
+  }
+  
+  .sentiment-icon {
 	cursor: pointer;
 	transition: color 0.3s ease;
-	color: #21252974
+	color: #21252974;
 	/* Agrega una transición suave al cambio de color */
-}
-
-.sentiment-icon:hover {
-	color: #212529c0
+  }
+  
+  .sentiment-icon:hover {
+	color: #212529c0;
 	/* Aumenta la intensidad del color al pasar el mouse sobre el ícono */
-}
-
-.sentiment-icon.selected {
-	color: #212529
+  }
+  
+  .sentiment-icon.selected {
+	color: #212529;
 	/* Aumenta aún más la intensidad del color cuando está seleccionado */
-}
+  }

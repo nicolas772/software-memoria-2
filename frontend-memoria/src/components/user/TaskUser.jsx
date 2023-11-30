@@ -4,6 +4,8 @@ import UserService from "../../services/user.service";
 import TaskService from "../../services/task.service";
 import AuthService from "../../services/auth.service";
 import { FaHome } from 'react-icons/fa'; // Importa el ícono de Home de Font Awesome
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const TaskUser = () => {
   const { iditeration, idtask } = useParams();
@@ -21,6 +23,16 @@ const TaskUser = () => {
   const handleIniciarTarea = () => {
     setTareaIniciada(true);
     setTiempoInicio(new Date()); // Guardar el tiempo de inicio
+    toast.info('Tarea Iniciada.', {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   }
 
   const handleFinalizarTarea = () => {
@@ -30,6 +42,16 @@ const TaskUser = () => {
       const tiempoDiferencia = finalizacion.getTime() - tiempoInicio.getTime();
       setDuration(tiempoDiferencia)
       setMostrarBotones(false);
+      toast.info('Tarea Finalizada.', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   }
 
@@ -145,6 +167,18 @@ const TaskUser = () => {
       <div className="page-indicator">
         {taskForCont} de {taskQty}
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   )
 }

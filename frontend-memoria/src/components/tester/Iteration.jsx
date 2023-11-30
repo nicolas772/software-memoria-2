@@ -62,10 +62,10 @@ const Iteration = () => {
       .then(() => {
         setIsCopied(true); // Cambia el estado para indicar que se ha copiado el texto
         setTimeout(() => setIsCopied(false), 2000); // Reinicia el estado después de 1.5 segundos
-        toast.success('Código copiado al portapapeles.', {
+        toast.info('Código copiado al portapapeles.', {
           position: "top-right",
-          autoClose: 1500,
-          hideProgressBar: false,
+          autoClose: 2000,
+          hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
@@ -301,6 +301,18 @@ const Iteration = () => {
         position="top-center"
         autoClose={1000}
         hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar
         newestOnTop={false}
         closeOnClick
         rtl={false}
