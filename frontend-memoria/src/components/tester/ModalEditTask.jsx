@@ -98,6 +98,7 @@ function ModalEditTask(props) {
                 onChange={onChangeTitulo}
                 style={{ width: "100%", textAlign: "left" }}
                 maxLength={85}
+                disabled={content.iteration_state === "Creada" ? false : true}
               />
             </Form.Group>
             <Form.Group controlId="formDescripcion">
@@ -109,6 +110,7 @@ function ModalEditTask(props) {
                 name="descripcion"
                 value={descripcion}
                 onChange={onChangeDescripcion}
+                disabled={content.iteration_state === "Creada" ? false : true}
               />
             </Form.Group>
 

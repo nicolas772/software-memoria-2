@@ -66,12 +66,14 @@ exports.getTask = (req, res) => {
     .then(async (task) => {
       const iteration = await Iteration.findByPk(task.iterationId)
       const iteration_number = iteration.iteration_number
+      const iteration_state = iteration.state
       const study = await Study.findByPk(iteration.studyId)
       const software_name = study.software_name
       const response = {
         ...task.toJSON(),
         software_name: software_name,
-        iteration_number: iteration_number
+        iteration_number: iteration_number,
+        iteration_state: iteration_state,
       };
       res.status(200).json(response)
     })

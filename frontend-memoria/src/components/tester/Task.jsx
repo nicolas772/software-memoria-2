@@ -10,6 +10,7 @@ import Box from '@mui/material/Box';
 import { Button } from 'react-bootstrap';
 import CustomTabPanel from "./CustomTabPanel";
 import DashboardGeneralTask from "./Dashboards/DashboardGeneralTask"
+import InfoModal from '../user/InfoModal'
 
 function a11yProps(index) {
   return {
@@ -26,7 +27,13 @@ const Task = () => {
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [reloadTask, setReloadTask] = useState(false)
+  const [showInfoModal, setShowInfoModal] = useState(false)
+  const [titleModal, setTitleModal] = useState('Información')
+  const [bodyModal, setBodyModal] = useState('')
   const navigate = useNavigate()
+
+  const handleShowInfoModal = () => setShowInfoModal(true)
+  const handleCloseInfoModal = () => setShowInfoModal(false)
 
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => {
@@ -34,8 +41,13 @@ const Task = () => {
     setReloadTask(!reloadTask)
   }
 
-  const handleShowDeleteModal = () => {
-    setShowDeleteModal(true);
+  const handleShowDeleteModal = () => { //solo se puede eliminar en estado creada
+    if (content.iteration_state === "Creada") {
+      setShowDeleteModal(true);
+    } else {
+      setBodyModal('No es posible eliminar una Tarea cuando la Iteración está Activa o Finalizada')
+      handleShowInfoModal()
+    }
   };
 
   const handleCloseDeleteModal = () => {
@@ -157,6 +169,12 @@ const Task = () => {
         handleClose={handleCloseDeleteModal}
         handleDelete={handleDelete}
         element={title}
+      />
+      <InfoModal
+        show={showInfoModal}
+        handleClose={handleCloseInfoModal}
+        title={titleModal}
+        body={bodyModal}
       />
     </div>
   )

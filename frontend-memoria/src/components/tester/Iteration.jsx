@@ -226,7 +226,7 @@ const Iteration = () => {
         <div className="header-pages">
           <header>
             <h3>{content.software_name}: Iteración {content.iteration_number}</h3>
-            <p className='parrafo'>
+            <div className='parrafo'>
               Estado:&nbsp;<strong>{content.state}</strong>&nbsp;&nbsp;&nbsp;
               Código Iteración:&nbsp;
               {
@@ -242,7 +242,7 @@ const Iteration = () => {
                     <ClipboardIcon className="copy-icon" />
                   </div>
               }
-            </p>
+            </div>
             <p>
               Objetivo:&nbsp;<strong>{content.goal}</strong>&nbsp;&nbsp;&nbsp;
             </p>
