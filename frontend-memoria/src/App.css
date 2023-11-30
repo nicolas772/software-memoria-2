@@ -215,6 +215,12 @@ p {
 	/* Cambia el color del texto a blanco para mayor visibilidad */
 }
 
+.code-container.disabled {
+	background-color: #e0e0e0; /* Cambia a tu color más claro */
+	color: #808080; /* Cambia a tu color de texto más claro si es necesario */
+	cursor: not-allowed; /* Cambia a not-allowed para indicar que está desactivado */
+  }
+
 .copy-icon {
 	width: 20px;
 	/* Tamaño personalizado */

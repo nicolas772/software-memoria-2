@@ -20,6 +20,7 @@ import DashboardDemogrIteration from './Dashboards/DashboardDemogrIteration';
 import DashboardUsabilidadIteration from './Dashboards/DashboardUsabilidadIteration';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import InfoModal from '../user/InfoModal'
 
 function a11yProps(index) {
   return {
@@ -56,6 +57,12 @@ const Iteration = () => {
   const [contentTable, setContentTable] = useState([]);
   const navigate = useNavigate()
   const [isCopied, setIsCopied] = useState(false); // Estado para controlar si el texto se ha copiado
+  const [showInfoModal, setShowInfoModal] = useState(false)
+  const [titleModal, setTitleModal] = useState('Información')
+  const [bodyModal, setBodyModal] = useState('')
+
+  const handleShowInfoModal = () => setShowInfoModal(true)
+  const handleCloseInfoModal = () => setShowInfoModal(false)
 
   const handleCopyToClipboard = () => {
     navigator.clipboard.writeText(agregarCeros(iditeration))
@@ -78,7 +85,16 @@ const Iteration = () => {
       });
   };
 
-  const handleShowModal = () => setShowModal(true);
+  const handleShowModal = () => { //Crear nueva tarea: solo se puede crear cuando el estado de la iteracion es "Creada"
+
+    if (content.state === "Creada") {
+      setShowModal(true);
+    } else {
+      setBodyModal('No es posible crear una nueva Tarea cuando la Iteración ya fue Activada y/o Finalizada')
+      handleShowInfoModal()
+    }
+
+  }
   const handleCloseModal = () => {
     setShowModal(false)
     setReloadTask(!reloadTask)
@@ -91,7 +107,14 @@ const Iteration = () => {
 
   }
 
-  const handleShowDeleteModal = () => setShowDeleteModal(true)
+  const handleShowDeleteModal = () => {
+    if (content.state === "Activa") {
+      setBodyModal('No es posible eliminar una Iteración Activa')
+      handleShowInfoModal()
+    } else {
+      setShowDeleteModal(true)
+    }
+  }
   const handleCloseDeleteModal = () => setShowDeleteModal(false)
 
   const handleShowActivateModal = () => setShowActivateModal(true)
@@ -205,14 +228,20 @@ const Iteration = () => {
             <h3>{content.software_name}: Iteración {content.iteration_number}</h3>
             <p className='parrafo'>
               Estado:&nbsp;<strong>{content.state}</strong>&nbsp;&nbsp;&nbsp;
-              Código iteración:&nbsp;
-              <span
-                onClick={handleCopyToClipboard}
-                className={`code-container ${isCopied ? 'copied' : ''}`}
-              >
-                &nbsp;<strong>{agregarCeros(iditeration)}</strong>
-                <ClipboardIcon className="copy-icon" />
-              </span>
+              Código Iteración:&nbsp;
+              {
+                content.state === 'Creada' ?
+                  <strong>No Disponible</strong>
+                  :
+                  <div
+                    onClick={handleCopyToClipboard}
+                    className={`code-container ${isCopied ? 'copied' : ''} ${content.state === 'Finalizada' ? 'disabled' : ''}`}
+                    style={{ pointerEvents: content.state === 'Finalizada' ? 'none' : 'auto' }}
+                  >
+                    <strong>{agregarCeros(iditeration)}</strong>
+                    <ClipboardIcon className="copy-icon" />
+                  </div>
+              }
             </p>
             <p>
               Objetivo:&nbsp;<strong>{content.goal}</strong>&nbsp;&nbsp;&nbsp;
@@ -320,6 +349,12 @@ const Iteration = () => {
         draggable
         pauseOnHover
         theme="light"
+      />
+      <InfoModal
+        show={showInfoModal}
+        handleClose={handleCloseInfoModal}
+        title={titleModal}
+        body={bodyModal}
       />
     </div>
   )
