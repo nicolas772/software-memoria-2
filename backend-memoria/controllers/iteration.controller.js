@@ -37,42 +37,42 @@ exports.updateIteration = (req, res) => {
 };
 
 exports.getIterations = (req, res) => {
-  const studyId= req.query.idStudy;
+  const studyId = req.query.idStudy;
   Iteration.findAll({
-    where:{
+    where: {
       studyId: studyId,
     }
   })
-  .then(iterations => {
-    res.status(200).json(iterations); // Enviar una respuesta JSON con los estudios encontrados
-  })
-  .catch(err => {
-    console.error(err);
-    res.status(500).send('Error interno del servidor'); // Enviar una respuesta de error si ocurre algún problema en la consulta
-  });
+    .then(iterations => {
+      res.status(200).json(iterations); // Enviar una respuesta JSON con los estudios encontrados
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send('Error interno del servidor'); // Enviar una respuesta de error si ocurre algún problema en la consulta
+    });
 };
 
 exports.getIteration = (req, res) => {
-  const iterationId= req.query.idIteration; // Obtener el valor de la cabecera user-id
+  const iterationId = req.query.idIteration; // Obtener el valor de la cabecera user-id
   Iteration.findOne({
-    where:{
+    where: {
       id: iterationId
     }
   })
-  .then(async (iteration) => {
-    //aqui rescatar el titulo del estudio con iteration.studyId, y enviarlo en la response
-    const study = await Study.findByPk(iteration.studyId)
-    const software_name = study.software_name
-    const response = {
-      ...iteration.toJSON(),
-      software_name: software_name
-    };
-    res.status(200).json(response)
-  })
-  .catch(err => {
-    console.error(err);
-    res.status(500).send('Error interno del servidor'); // Enviar una respuesta de error si ocurre algún problema en la consulta
-  })
+    .then(async (iteration) => {
+      //aqui rescatar el titulo del estudio con iteration.studyId, y enviarlo en la response
+      const study = await Study.findByPk(iteration.studyId)
+      const software_name = study.software_name
+      const response = {
+        ...iteration.toJSON(),
+        software_name: software_name
+      };
+      res.status(200).json(response)
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send('Error interno del servidor'); // Enviar una respuesta de error si ocurre algún problema en la consulta
+    })
 };
 
 exports.getIterationWithDataStudy = async (req, res) => {
@@ -81,7 +81,7 @@ exports.getIterationWithDataStudy = async (req, res) => {
     const iteration = await Iteration.findOne({ where: { id: iterationId } });
     const studyId = iteration.studyId;
     const study = await Study.findByPk(studyId);
-    
+
     const responseData = {
       iteration: iteration,
       study: study
@@ -94,59 +94,6 @@ exports.getIterationWithDataStudy = async (req, res) => {
   }
 };
 
-//esta no se usa
-exports.deleteIteration2 = (req, res) => {
-  const studyId = req.query.idStudy
-  const iterationId = req.query.idIteration
-  //eliminar tareas de la iteracion
-  Task.destroy({
-    where: {
-      iterationId: iterationId
-    }
-  })
-    .then(async (iteration) => {
-      //disminuir iteration qty
-      const study = await Study.findByPk(studyId)
-      study.iteration_qty -= 1
-      await study.save()
-
-      //eliminar iteracion
-      await Iteration.destroy({
-        where: {
-          id: iterationId
-        }
-      })
-      res.status(200).json(iteration)
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).send('Error interno del servidor'); // Enviar una respuesta de error si ocurre algún problema en la consulta
-    })
-}
-
-/*exports.deleteIteration = (req, res) => {
-  const studyId = req.query.idStudy
-  const iterationId = req.query.idIteration
-  //eliminar tareas de la iteracion
-  Iteration.destroy({
-    where: {
-      id: iterationId
-    }
-  })
-    .then(async (iteration) => {
-      //disminuir iteration qty
-      const study = await Study.findByPk(studyId)
-      study.iteration_qty -= 1
-      study.active_iteration_qty -= 1; //solo si el estado de la iteracion que estoy eliminando es "Activa"
-      await study.save()
-      res.status(200).json(iteration)
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).send('Error interno del servidor'); // Enviar una respuesta de error si ocurre algún problema en la consulta
-    })
-}*/
-
 exports.deleteIteration = (req, res) => {
   const studyId = req.query.idStudy
   const iterationId = req.query.idIteration
@@ -158,6 +105,7 @@ exports.deleteIteration = (req, res) => {
       }
 
       const iterationState = iteration.state;
+      const iterationNumber = iteration.iteration_number
 
       iteration.destroy()
         .then(async () => {
@@ -167,6 +115,30 @@ exports.deleteIteration = (req, res) => {
             study.active_iteration_qty -= 1;
           }
           study.iteration_qty -= 1
+          const max_iteration_number = study.max_iteration_number
+
+          if (iterationNumber === max_iteration_number) {
+            const allIterations = await Iteration.findAll({
+              where: {
+                studyId: studyId,
+              },
+            });
+
+            if (!allIterations) {
+              return res.status(404).json({ error: "Estudio no encontrado." });
+            }
+
+            let new_max_iteration_number = 0;
+
+            for (const iteration of allIterations) { 
+              const iterationNumber_aux = iteration.iteration_number
+              if (iterationNumber_aux > new_max_iteration_number) {
+                new_max_iteration_number = iterationNumber_aux
+              }
+            }
+            study.max_iteration_number = new_max_iteration_number
+          }
+
           await study.save();
           res.send({ message: "La iteración ha sido eliminada con éxito!" });
         })
@@ -202,3 +174,34 @@ exports.setStateIteration = (req, res) => {
       res.status(500).send({ message: err.message });
     });
 };
+
+
+//esta no se usa
+exports.deleteIteration2 = (req, res) => {
+  const studyId = req.query.idStudy
+  const iterationId = req.query.idIteration
+  //eliminar tareas de la iteracion
+  Task.destroy({
+    where: {
+      iterationId: iterationId
+    }
+  })
+    .then(async (iteration) => {
+      //disminuir iteration qty
+      const study = await Study.findByPk(studyId)
+      study.iteration_qty -= 1
+      await study.save()
+
+      //eliminar iteracion
+      await Iteration.destroy({
+        where: {
+          id: iterationId
+        }
+      })
+      res.status(200).json(iteration)
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send('Error interno del servidor'); // Enviar una respuesta de error si ocurre algún problema en la consulta
+    })
+}

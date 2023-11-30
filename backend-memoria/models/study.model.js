@@ -19,6 +19,10 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.INTEGER,
       defaultValue: 0,
     },
+    max_iteration_number: {
+      type: Sequelize.INTEGER,
+      defaultValue: 0,
+    },
     active_iteration_qty: {
       type: Sequelize.INTEGER,
       defaultValue: 0,

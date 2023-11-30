@@ -62,7 +62,9 @@ db.iteration.belongsTo(db.study);
 db.iteration.afterCreate(async (iteration, options) => {
   const study = await db.study.findByPk(iteration.studyId)
   study.iteration_qty += 1
-  iteration.iteration_number = study.iteration_qty
+  const iteration_number_new = study.max_iteration_number + 1
+  iteration.iteration_number = iteration_number_new
+  study.max_iteration_number = iteration_number_new
   await iteration.save()
   await study.save()
 })

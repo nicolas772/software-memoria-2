@@ -12,14 +12,14 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import { ClipboardIcon } from '@heroicons/react/solid';
-import { ToastContainer, toast } from 'react-toastify';
 import { Button } from 'react-bootstrap';
-import 'react-toastify/dist/ReactToastify.css';
 import CustomTabPanel from "./CustomTabPanel";
 import DashboardGeneralIteration from "./Dashboards/DashboardGeneralIteration"
 import DashboardSentimentIteration from "./Dashboards/DashboardSentimentIteration"
 import DashboardDemogrIteration from './Dashboards/DashboardDemogrIteration';
 import DashboardUsabilidadIteration from './Dashboards/DashboardUsabilidadIteration';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function a11yProps(index) {
   return {
