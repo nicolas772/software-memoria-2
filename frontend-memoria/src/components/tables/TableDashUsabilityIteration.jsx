@@ -8,6 +8,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import { Title } from "@tremor/react";
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 
 // Función para formatear el tiempo en milisegundos a "x min y seg"
 const formatTime = (milliseconds) => {
@@ -69,6 +71,7 @@ export default function TableDashUsabilityIteration(props) {
                         <strong>Pregunta</strong>
                      </TableSortLabel>
                   </TableCell>
+
                   <TableCell align="center">
                      <TableSortLabel
                         active={orderBy === 'avg'}
@@ -113,9 +116,11 @@ export default function TableDashUsabilityIteration(props) {
                      key={row.name}
                   //sx={{ '&:last-child td, &:last-child th': { border: 0 }, backgroundColor: getRowColor(row.diference, maxDiference, minNegativeDiference) }}
                   >
-                     <TableCell component="th" scope="row" style={{ width: '30%' }}>
-                        {row.name}
-                     </TableCell>
+                     <OverlayTrigger overlay={<Tooltip id="tooltip-disabled">{row.enunciado} </Tooltip>}>
+                        <TableCell component="th" scope="row" style={{ width: '30%' }}>
+                           {row.name}
+                        </TableCell>
+                     </OverlayTrigger>
                      <TableCell align="center">{row.avg}</TableCell>
                      <TableCell align="center">{row.max}</TableCell>
                      <TableCell align="center">{row.min}</TableCell>

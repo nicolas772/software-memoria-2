@@ -75,6 +75,25 @@ exports.tableAvg = async (req, res) => {
       })
       const allAnswersQty = allAnswers.length
       const questions = ["Pregunta 1", "Pregunta 2", "Pregunta 3", "Pregunta 4", "Pregunta 5", "Pregunta 6", "Pregunta 7", "Pregunta 8", "Pregunta 9", "Pregunta 10", "Pregunta 11", "Pregunta 12", "Pregunta 13", "Pregunta 14", "Pregunta 15", "Pregunta 16"];
+      const preguntas = [
+         '1. En general, estoy satisfecho con lo facil que es utilizar este software.',
+         '2. Fue simple utilizar este software.',
+         '3. Soy capaz de completar mi trabajo rápidamente utilizando este software.',
+         '4. Me siento comodo utilizando este software.',
+         '5. Fue fácil aprender a utilizar este software.',
+         '6. Creo que me volví experto rapidamente utilizando este software.',
+         '7. El software muestra mensajes de error que me dicen claramente cómo resolver los problemas.',
+         '8. Cada vez que cometo un error utilizando el software, lo resuelvo fácil y rapidamente.',
+         '9. La información (como ayuda en linea, mensajes en pantalla y otra documentación) que provee el software es clara.',
+         '10. Es fácil encontrar en el software la información que necesito.',
+         '11. La información que proporciona el software fue efectiva ayudándome a completar las tareas.',
+         '12. La organización de la información del software en la pantalla fue clara.',
+         '13. La interfaz del software fue placentera.',
+         '14. Me gustó utilizar el software.',
+         '15. El software tuvo todas las herramientas que esperaba que tuviera.',
+         '16. En general, estuve satisfecho con el software.'
+       ];
+      
       const responseData = questions.map((question, index) => ({
          name: question,
          avg: 0,
@@ -82,7 +101,8 @@ exports.tableAvg = async (req, res) => {
          max: 0,
          diference: 0,
          column: `answer${index + 1}`,
-         index: index
+         index: index,
+         enunciado: preguntas[index]
       }));
 
       if (allAnswersQty > 0) {
