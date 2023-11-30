@@ -28,6 +28,7 @@ import sidebarBg from '../assets/bg1.jpg';
 import sidebarBgTester from '../assets/bg3.jpg'
 import sidebarBgUser from '../assets/bg5.jpg'
 import '../css/styles.scss'
+import LogoutModal from './LogoutModal';
 
 const Sidebar = ({ collapsed, toggled, handleToggleSidebar, handleCollapsedChange, user }) => {
   const [showTesterBoard, setShowTesterBoard] = useState(false);
@@ -35,7 +36,13 @@ const Sidebar = ({ collapsed, toggled, handleToggleSidebar, handleCollapsedChang
   let navigate = useNavigate()
   let username = user.username
 
+  const [showLogoutModal, setShowLogoutModal] = useState(false)
+  const handleShowLogoutModal = () => setShowLogoutModal(true)
+  const handleCloseLogoutModal = () => setShowLogoutModal(false)
+
+
   const logOut = () => {
+    setShowLogoutModal(false);
     AuthService.logout();
     navigate("/login")
   };
@@ -125,7 +132,7 @@ const Sidebar = ({ collapsed, toggled, handleToggleSidebar, handleCollapsedChang
               <MenuItem icon={<FaList />}>
                 Mis Estudios <Link to="/studies" />
               </MenuItem>
-              <MenuItem icon={<FaSignOutAlt />} onClick={logOut}>
+              <MenuItem icon={<FaSignOutAlt />} onClick={handleShowLogoutModal}>
                 Cerrar Sesión
               </MenuItem>
             </Menu>
@@ -149,7 +156,7 @@ const Sidebar = ({ collapsed, toggled, handleToggleSidebar, handleCollapsedChang
                 Invitaciones
                 <NavLink to="/boardUser" />
               </MenuItem>
-              <MenuItem icon={<FaSignOutAlt />} onClick={logOut}>
+              <MenuItem icon={<FaSignOutAlt />} onClick={handleShowLogoutModal}>
                 Cerrar Sesión
               </MenuItem>
             </Menu>
@@ -169,6 +176,11 @@ const Sidebar = ({ collapsed, toggled, handleToggleSidebar, handleCollapsedChang
           </div>
         </SidebarFooter>
       </ProSidebar>
+      <LogoutModal
+        show={showLogoutModal}
+        handleClose={handleCloseLogoutModal}
+        handleLogout={logOut}
+      />
     </>
   );
 };
