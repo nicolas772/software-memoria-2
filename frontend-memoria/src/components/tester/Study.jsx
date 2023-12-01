@@ -15,6 +15,7 @@ import DashboardGeneralStudy from "./Dashboards/DashboardGeneralStudy"
 import DashboardSentimentStudy from "./Dashboards/DashboardSentimentStudy"
 import DashboardDemogrStudy from "./Dashboards/DashboardDemogrStudy";
 import DashboardUsabilidadStudy from "./Dashboards/DashboardUsabilidadStudy";
+import InfoModal from '../user/InfoModal'
 
 const Study = () => {
   const { idstudy } = useParams();
@@ -26,7 +27,13 @@ const Study = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [title, setTitle] = useState("")
   const [reloadStudy, setReloadStudy] = useState(false); // Variable para forzar la recarga del componente
+  const [showInfoModal, setShowInfoModal] = useState(false)
+  const [titleModal, setTitleModal] = useState('Información')
+  const [bodyModal, setBodyModal] = useState('')
   const navigate = useNavigate()
+
+  const handleShowInfoModal = () => setShowInfoModal(true)
+  const handleCloseInfoModal = () => setShowInfoModal(false)
 
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => {
@@ -37,7 +44,16 @@ const Study = () => {
   const handleShowEditModal = () => setShowEditModal(true)
   const handleCloseEditModal = () => setShowEditModal(false)
 
-  const handleShowDeleteModal = () => setShowDeleteModal(true)
+  const handleShowDeleteModal = () => {
+    const existeIteracionActiva = contentTable.some(iteration => iteration.state === 'Activa');
+
+    if (existeIteracionActiva) {
+      setBodyModal('No es posible eliminar un Estudio que tiene Iteraciones activas')
+      handleShowInfoModal()
+    } else {
+      setShowDeleteModal(true)
+    }
+  }
   const handleCloseDeleteModal = () => setShowDeleteModal(false)
 
   const handleDelete = () => {
@@ -120,7 +136,7 @@ const Study = () => {
 
   return (
     <div>
-      <div style={{ padding: 20, paddingBottom:5, position: 'sticky', top: 0, zIndex: 1000, background: 'white' }}>
+      <div style={{ padding: 20, paddingBottom: 5, position: 'sticky', top: 0, zIndex: 1000, background: 'white' }}>
         <div className="header-pages">
           <header>
             <h3>{content.software_name}</h3>
@@ -131,7 +147,7 @@ const Study = () => {
             </p>
           </header>
         </div>
-        <div style={{ display: 'flex' , marginBottom: '2%', marginTop: '2%'}}>
+        <div style={{ display: 'flex', marginBottom: '2%', marginTop: '2%' }}>
           <button onClick={handleBack} type="button" className="btn button-primary" style={{ marginRight: '10px' }}>
             Volver a Estudios
           </button>
@@ -188,6 +204,12 @@ const Study = () => {
         handleClose={handleCloseDeleteModal}
         handleDelete={handleDelete}
         element={title}
+      />
+      <InfoModal
+        show={showInfoModal}
+        handleClose={handleCloseInfoModal}
+        title={titleModal}
+        body={bodyModal}
       />
     </div>
   )
