@@ -64,6 +64,13 @@ const FormTask = () => {
       setFaltaStudyIteration(true)
       return
     }
+    const iterationState = contentIterations.find(iterationAux => iterationAux.id === parseInt(iteration, 10))?.state;
+    if (iterationState === "Activa" || iterationState === "Finalizada") {
+      setTitleModal('Información')
+      setBodyModal("No es posible crea una Tarea en una Iteración Activa o Finalizada")
+      handleShowInfoModal()
+      return
+    }
     setFaltaStudyIteration(false)
     setInSelection(false)
   }
@@ -144,7 +151,7 @@ const FormTask = () => {
       }
     );
   }
-  
+
   if (loading) {
     return <div>Cargando...</div>
   }
