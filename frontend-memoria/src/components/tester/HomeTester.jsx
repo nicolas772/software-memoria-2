@@ -9,7 +9,7 @@ const HomeTesterContent = [
   {
     title: "Creación de Estudios",
     img: 'https://img.freepik.com/vector-gratis/ilustracion-concepto-abstracto-segmentacion-audiencia_335657-1854.jpg?w=996&t=st=1701448595~exp=1701449195~hmac=88719ab2dd00fe9b6ff576935e702054e3bd1e44521e791ffcb35c7b61edaff9',
-    text: "Podrás crear estudios e Iteraciones, y así evaluar la usabilidad de tus distintos softwares.",
+    text: "Podrás crear estudios e Iteraciones, y así evaluar la usabilidad de tus distintas aplicaciones.",
     color: "cyan",
   },
   {
