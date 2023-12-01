@@ -336,7 +336,7 @@ exports.cloudWord = async (req, res) => {
       const filteredData = data.filter(({ count }) => count >= 2);
 
       const responseData = {
-         data: filteredData,
+         data: data,
       };
 
       res.status(200).json(responseData);
